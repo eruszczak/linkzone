@@ -13,11 +13,11 @@ export const getPaginationFromResponse = response => {
 }
 export const PAGINATION = {
     page: 'page',
-    perPage: 'limit'
+    perPage: 'size'
 }
 export const buildPaginationQueryString = (page, perPage) => {
     page = page || 0
-    perPage = perPage || 20
+    perPage = perPage || 5
     return `?${PAGINATION.page}=${page}&${PAGINATION.perPage}=${perPage}`;
 }
 export const getRelativeUrl = url => {

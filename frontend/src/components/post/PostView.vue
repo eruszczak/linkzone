@@ -61,6 +61,7 @@
               <comment :item="item" :index="index"></comment>
             </v-flex>
           </v-layout>
+          <v-btn flat :disabled="commentMetadata.lastPage" @click="loadMoreComments()">load more</v-btn>
         </v-container>
 </div>
 </template>
@@ -86,6 +87,10 @@
                 POST_TYPES,
                 post: {},
                 comments: [],
+                commentMetadata: {
+                  lastPage: false,
+                  pageNumber: 0
+                },
                 group: null,
                 canModerate: false,
                 isOwner: false,
@@ -103,7 +108,14 @@
         },
         mounted () {
             console.log('mounted PostView', this.postID, this.name)
-            this.init()
+            this.toggleLoading(true)
+            this.$groupService.getGroupDetail(this.name, res => {
+                this.toggleLoading(false)
+                this.group = res.data
+                const isMod = this.$groupService.isMod(this.group.moderators)
+                const isAdmin = this.$groupService.isAdmin(this.group.administrators);
+                this.canModerate = isAdmin || isMod
+            })
             this.$postService.getPost(this.postID, res => {
                 this.post = res.data
                 this.postCopy = JSON.parse(JSON.stringify(this.post))
@@ -121,10 +133,7 @@
                         break;
                 }
             })
-            this.$commentService.list(this.postID, {}, {}, ({data}) => {
-                console.log('commenty', data)
-                this.comments = data.content.map(comment => this.prepareComment(comment))
-            })
+            this.loadMoreComments();
         },
         // watch: {
         //     post: {
@@ -176,15 +185,16 @@
         },
         methods: {
             ...mapMutations(['toggleLoading']),
-            init () {
-                this.toggleLoading(true)
-                this.$groupService.getGroupDetail(this.name, res => {
-                    this.toggleLoading(false)
-                    this.group = res.data
-                    const isMod = this.$groupService.isMod(this.group.moderators)
-                    const isAdmin = this.$groupService.isAdmin(this.group.administrators);
-                    this.canModerate = isAdmin || isMod
-                })
+            loadMoreComments() {
+              if (this.commentMetadata.lastPage) {
+                return;
+              }
+              this.$commentService.list(this.postID, {page: this.commentMetadata.pageNumber}, {}, ({data}) => {
+                  console.log('commenty', data)
+                  this.commentMetadata.lastPage = data.last;
+                  this.commentMetadata.pageNumber = data.number + 1;
+                  this.comments.push(...data.content.map(comment => this.prepareComment(comment)))
+              })
             },
             update() {
                 const data = {
