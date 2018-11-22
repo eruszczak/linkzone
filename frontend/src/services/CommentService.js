@@ -16,14 +16,13 @@ export default class CommentService {
         });
     }
 
-    update(groupName, data, cb) {
-        const url = ENDPOINTS.comments.detail.replace('{id}', id)
-        axios.put(url, data).then(cb, function (error) {
-        });
+    update(commentId, data, cb) {
+        const url = `/comments/${commentId}`
+        axios.put(url, data).then(cb);
     }
 
-    delete(id, cb) {
-        const url = ENDPOINTS.comments.detail.replace('{id}', id)
+    delete(commentId, cb) {
+      const url = `/comments/${commentId}`
         axios.delete(url).then(() => {
             cb && cb();
         });

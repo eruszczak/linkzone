@@ -1,5 +1,7 @@
 package com.example.reddit.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -11,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
 public class Comment extends DateAudit {
 
@@ -30,7 +34,6 @@ public class Comment extends DateAudit {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Comment parent;
 
-//    @JsonIgnore
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> replies = new ArrayList<>();
 
@@ -45,62 +48,6 @@ public class Comment extends DateAudit {
         this.post = post;
         this.account = account;
         this.content = content;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Post getPost() {
-        return post;
-    }
-
-    public void setPost(Post post) {
-        this.post = post;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Comment getParent() {
-        return parent;
-    }
-
-    public void setParent(Comment parent) {
-        this.parent = parent;
-    }
-
-    public boolean isUpdated() {
-        return isUpdated;
-    }
-
-    public void setUpdated(boolean updated) {
-        isUpdated = updated;
-    }
-
-    public List<Comment> getReplies() {
-        return replies;
-    }
-
-    public void setReplies(List<Comment> replies) {
-        this.replies = replies;
     }
 
     @Override

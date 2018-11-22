@@ -89,11 +89,11 @@ public class CommentService {
     }
 
     public List<Comment> findByPostId(Long id) {
-        return commentRepository.findByPostIdAndParentIsNull(id);
+        return commentRepository.findByPostIdAndParentIsNullOrderByCreatedAtDesc(id);
     }
 
     public Page<Comment> findByPostId(Long id, Pageable pageable) {
-        return commentRepository.findByPostIdAndParentIsNull(id, pageable);
+        return commentRepository.findByPostIdAndParentIsNullOrderByCreatedAtDesc(id, pageable);
     }
 
     private Comment mapToComment(CommentCreate commentCreate, Account account, Post post) {

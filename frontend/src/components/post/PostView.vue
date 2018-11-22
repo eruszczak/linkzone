@@ -44,6 +44,7 @@
         </v-alert>
 
         <v-container grid-list-sm fluid>
+          <h2>{{commentMetadata.total}} comments</h2>
           <v-layout row wrap>
             <v-flex>
               <v-form v-model="comment.valid" lazy-validation ref="commentForm">
@@ -58,7 +59,7 @@
               <v-btn @click="addComment()" :disabled="!comment.valid">Add comment</v-btn>
             </v-flex>
             <v-flex xs12 v-for="(item, index) in comments" :key="item.id">
-              <comment :item="item" :index="index"></comment>
+              <comment :item="item" :index="index" @removed="handleRemovedComment($event)"></comment>
             </v-flex>
           </v-layout>
           <v-btn flat :disabled="commentMetadata.lastPage" @click="loadMoreComments()">load more</v-btn>
@@ -89,7 +90,8 @@
                 comments: [],
                 commentMetadata: {
                   lastPage: false,
-                  pageNumber: 0
+                  pageNumber: 0,
+                  total: 0
                 },
                 group: null,
                 canModerate: false,
@@ -185,6 +187,14 @@
         },
         methods: {
             ...mapMutations(['toggleLoading']),
+            handleRemovedComment($event) {
+              if ($event.innerIndex === null) {
+                this.comments.splice($event.outerIndex, 1);
+              } else {
+                this.comments[$event.outerIndex].replies.splice($event.innerIndex, 1);
+              }
+              this.commentMetadata.total = Math.max(this.commentMetadata.total - 1, 0);
+            },
             loadMoreComments() {
               if (this.commentMetadata.lastPage) {
                 return;
@@ -193,6 +203,13 @@
                   console.log('commenty', data)
                   this.commentMetadata.lastPage = data.last;
                   this.commentMetadata.pageNumber = data.number + 1;
+                  console.log(data.content)
+                  let sumReplies = 0;
+                  // TODO
+                  // data.content.forEach((el) => {
+                  //   sumReplies += el.replies.length;
+                  // });
+                  this.commentMetadata.total = data.totalElements + sumReplies;
                   this.comments.push(...data.content.map(comment => this.prepareComment(comment)))
               })
             },

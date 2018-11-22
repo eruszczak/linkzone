@@ -14,8 +14,8 @@
        <span class="ml-4">dasads</span>
       </v-card-text>
       <v-card-actions>
-        <v-btn flat color="orange">Share</v-btn>
-        <v-btn flat color="orange">Explore</v-btn>
+        <v-btn @click="updateComment()" flat color="orange">Update</v-btn>
+        <v-btn @click="deleteComment()" flat color="orange">Delete</v-btn>
         <v-btn v-if="item.reply" flat color="orange" @click="item.showReplies = !item.showReplies">Reply / Show replies ({{item.replies.length}})</v-btn>
       </v-card-actions>
       <div v-if="item.reply && item.showReplies" class="ml-5">
@@ -37,8 +37,8 @@
         >
             <p>Be first to comment</p>
         </v-alert>
-        <v-flex xs12 v-for="(item, outerIndex) in item.replies" :key="item.id">
-          <comment :item="item" :index="outerIndex"></comment>
+        <v-flex xs12 v-for="(item, index) in item.replies" :key="item.id">
+          <comment :item="item" :index="index" @removed="emitRemoveEvent(index)"></comment>
         </v-flex>
       </div>
     </v-card>
@@ -87,6 +87,20 @@
                         this.$refs['commentForm'].reset()
                     })
                 }
+            },
+            deleteComment() {
+              this.$commentService.delete(this.item.id, () => {
+                this.emitRemoveEvent(null);
+              })
+            },
+            emitRemoveEvent(innerIndex) {
+              console.log('emit remove event')
+              this.$emit('removed', {outerIndex: this.index, innerIndex: innerIndex})
+            },
+            updateComment() {
+              this.$commentService.update(this.item.id, {}, ({data}) => {
+                  this.item = data;
+              })
             }
         }
     }
