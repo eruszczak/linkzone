@@ -1,0 +1,42 @@
+package com.example.reddit.controller.group;
+
+import com.example.reddit.controller.account.AccountRestController;
+import com.example.reddit.dto.GroupResponse;
+import com.example.reddit.model.Group;
+import com.example.reddit.model.GroupMembership;
+import com.example.reddit.service.AccountService;
+import com.example.reddit.service.GroupMembershipService;
+import com.example.reddit.service.GroupService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@RestController
+@RequestMapping(value = "/api/users/{username}/groups")
+public class AccountGroupRestController {
+
+    private final AccountService accountService;
+    private final GroupMembershipService groupMembershipService;
+    private final GroupService groupService;
+
+    @Autowired
+    public AccountGroupRestController(AccountService accountService,
+                                      GroupMembershipService groupMembershipService,
+                                      GroupService groupService) {
+        this.accountService = accountService;
+        this.groupMembershipService = groupMembershipService;
+        this.groupService = groupService;
+    }
+
+    @GetMapping(value = "/")
+    public ResponseEntity<?> listGroupsSubscribedByUser(@PathVariable String username) {
+        List<GroupMembership> groupMemberships = groupMembershipService
+                .findByAccountUsername(username);
+        List<GroupResponse> response = groupMemberships.stream().map(gm -> new GroupResponse(gm.getGroup())).collect(Collectors.toList());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+}
