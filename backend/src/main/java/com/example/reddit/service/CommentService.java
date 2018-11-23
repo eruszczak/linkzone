@@ -79,9 +79,9 @@ public class CommentService {
     }
 
     @PreAuthorize("hasPermission(#comment, '" + Permissions.UPDATE + "')")
-    public void update(Comment comment, CommentCreate updated) {
+    public Comment update(Comment comment, CommentCreate updated) {
         comment.setContent(updated.getContent());
-        save(comment);
+        return save(comment);
     }
 
     public Page<Comment> findByAccountUsername(String username, Pageable pageable) {

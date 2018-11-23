@@ -11,13 +11,23 @@
        >
          <img :src="`https://api.adorable.io/avatar/50/${item.author}`" alt="avatar">
        </v-avatar>
-       <span class="ml-4">dasads</span>
+       <span class="ml-4">{{item.content}}</span>
       </v-card-text>
       <v-card-actions>
-        <v-btn @click="updateComment()" flat color="orange">Update</v-btn>
+        <v-btn @click="updating = !updating" flat color="orange">Update</v-btn>
         <v-btn @click="deleteComment()" flat color="orange">Delete</v-btn>
         <v-btn v-if="item.reply" flat color="orange" @click="item.showReplies = !item.showReplies">Reply / Show replies ({{item.replies.length}})</v-btn>
       </v-card-actions>
+      <div v-if="updating">
+        <v-btn @click="updateComment()" :disabled="item.body === updatedBody || !updatedBody" flat color="red">Update</v-btn>
+        <v-text-field
+                box
+                name="input-7-4"
+                label="Update"
+                :rules="[ruleIsNotEmpty]"
+                v-model="updatedBody"
+        ></v-text-field>
+      </div>
       <div v-if="item.reply && item.showReplies" class="ml-5">
           <v-form v-model="item.reply.valid" lazy-validation ref="commentForm">
               <v-text-field
@@ -69,11 +79,12 @@
         mixins: [validation],
         data () {
             return {
-
+              updating: false,
+              updatedBody: this.item.content
             }
         },
         mounted () {
-
+          console.warn('body', this.item)
         },
         computed: {
 
@@ -98,8 +109,9 @@
               this.$emit('removed', {outerIndex: this.index, innerIndex: innerIndex})
             },
             updateComment() {
-              this.$commentService.update(this.item.id, {}, ({data}) => {
+              this.$commentService.update(this.item.id, {content: this.updatedBody}, ({data}) => {
                   this.item = data;
+                  this.updating = false
               })
             }
         }

@@ -64,8 +64,8 @@ public class CommentRestController {
         if (errors.hasErrors()) {
             throw new ValidationErrorException(errors);
         }
-        commentService.update(comment, updated);
-        return new ResponseEntity<>(updated, HttpStatus.OK);
+        comment = commentService.update(comment, updated);
+        return new ResponseEntity<>(new CommentResponse(comment), HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")
