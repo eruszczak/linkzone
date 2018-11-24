@@ -22,13 +22,10 @@ export default class PostService {
     }
 
     addPost = (data, groupName, type, cb) => {
-        let url = ENDPOINTS.posts.group.replace('{groupName}', groupName)
+        let url = `/groups/${groupName}/posts/`
         switch (type) {
-            case POST_TYPES.POST:
-                url = `${url}`
-                break
             case POST_TYPES.MEDIA:
-                url = `${url}`
+                url = `${url}media/`
                 break
             case POST_TYPES.LINK:
                 url = `${url}link/`

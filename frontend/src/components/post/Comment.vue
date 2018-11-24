@@ -114,7 +114,7 @@
             },
             updateComment() {
               this.$commentService.update(this.item.id, {content: this.updatedBody}, ({data}) => {
-                  this.item = data;
+                  this.item.content = data.content;
                   this.updating = false
               })
             }

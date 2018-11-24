@@ -9,9 +9,9 @@ module.exports = {
         },
         '/static': {
           target: 'http://localhost:8080',
-          pathRewrite: {
-            '^/static': ''
-          },
+          // pathRewrite: {
+          //   '^/static': ''
+          // },
           changeOrigin: true
       }
       },

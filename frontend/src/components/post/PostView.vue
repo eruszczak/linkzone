@@ -15,6 +15,9 @@
                     <vue-markdown :source="post.content" :anchorAttributes="{target: '_blank', rel: 'nofollow'}"></vue-markdown>
                 </v-card-text>
             </v-card>
+            <v-card v-if="post.type === POST_TYPES.MEDIA">
+              <img :src="`/static/${post.content}`">
+            </v-card>
             <p v-else>{{post.content}}</p>
         </div>
 
@@ -105,7 +108,10 @@
                 comment: {
                     body: '',
                     valid: true
-                }
+                },
+                form: {},
+                formLink: {},
+                formMedia: {}
             }
         },
         mounted () {
@@ -134,6 +140,23 @@
                     case POST_TYPES.MEDIA:
                         break;
                 }
+
+                this.form = {
+                        title: this.post.title,
+                        content: this.post.content,
+                        titleError: false,
+                        contentError: false,
+                        valid: true
+                }
+                this.formLink = {
+                        title: this.post.title,
+                        link: this.post.content,
+                        valid: true
+                }
+                this.formMedia = {
+                        fileList: [],
+                        valid: true
+                }
             })
             this.loadMoreComments();
         },
@@ -161,29 +184,7 @@
                     default:
                         return false;
                 }
-            },
-            form () {
-                return {
-                    title: this.post.title,
-                    content: this.post.content,
-                    titleError: false,
-                    contentError: false,
-                    valid: true
-                }
-            },
-            formLink () {
-                return {
-                    title: this.post.title,
-                    link: this.post.content,
-                    valid: true
-                }
-            },
-            formMedia () {
-                return {
-                    fileList: [],
-                    valid: true
-                }
-            },
+            }
         },
         methods: {
             ...mapMutations(['toggleLoading']),

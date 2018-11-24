@@ -1,5 +1,6 @@
 <template>
     <div>
+      {{getCurrentForm()}}
         <v-autocomplete
                 v-model="selectedGroup"
                 :search-input.sync="search"
@@ -77,19 +78,19 @@
             <v-tab-item
                     :id="`${POST_TYPES.POST}`"
             >
-                <form-post-text :title="form.title" :content="form.content" :valid="form.valid" @change="formUpdated = $event"></form-post-text>
+                <form-post-text :form="form" @change="formUpdated = $event"></form-post-text>
             </v-tab-item>
 
             <v-tab-item
                     :id="`${POST_TYPES.MEDIA}`"
             >
-                <form-post-media @change="formMediaUpdated = $event"></form-post-media>
+                <form-post-media :form="formMedia" @change="formMediaUpdated = $event"></form-post-media>
             </v-tab-item>
 
             <v-tab-item
                     :id="`${POST_TYPES.LINK}`"
             >
-                <form-post-link :title="formLink.title" :link="formLink.link" :valid="formLink.valid"  @change="formLinkUpdated = $event"></form-post-link>
+                <form-post-link :form="formLink"  @change="formLinkUpdated = $event"></form-post-link>
             </v-tab-item>
         </v-tabs>
         <v-btn @click="submit()" :disabled="!isSubmitEnabled()" color="success">Success</v-btn>
@@ -135,8 +136,9 @@
                     valid: true
                 },
                 formMedia: {
-                    fileList: [],
-                    valid: true
+                    filename: '',
+                    valid: true,
+                    formData: null
                 },
                 selectedGroup: null,
                 loading: false,
@@ -219,7 +221,11 @@
                             content: this.formUpdated.content
                         }
                     case POST_TYPES.MEDIA:
-                        return this.formMediaUpdated
+                        let form = this.formMediaUpdated.uploadResult.value[0]
+                        form.append('title', this.formMediaUpdated.title)
+                        console.log('media', form)
+                        // form.title = this.formMediaUpdated.title
+                        return form;
                     case POST_TYPES.LINK:
                         return {
                             title: this.formLinkUpdated.title,
@@ -257,6 +263,10 @@
                 })
             },
             isSubmitEnabled() {
+                // let isFormValid = this.getCurrentForm().valid;
+                // if (this.selectedForm === POST_TYPES.MEDIA) {
+                //   isFormValid = this.formU
+                // }
                 return this.getCurrentForm().valid && this.selectedGroup
             },
             getCurrentForm() {
