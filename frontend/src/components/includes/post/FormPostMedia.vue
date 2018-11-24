@@ -16,7 +16,7 @@
                 box
                 v-model="formCopy.title"
         ></v-text-field>
-        <file-input v-model="formCopy.filename" @formData="handleFormData" :is-image="true" :current-image-url="form.filename ? '/static/' + form.filename : ''"></file-input>
+        <file-input v-model="formCopy.filename" @formData="handleFormData" :is-image="true" :current-image-url="form.filename ? '/static/' + form.filename : ''" show-picked-image></file-input>
     </v-card-text>
 </template>
 
