@@ -14,7 +14,7 @@
        <span class="ml-4">{{item.content}}</span>
       </v-card-text>
       <v-card-actions>
-        <v-btn @click="updating = !updating" flat color="orange">Update</v-btn>
+        <v-btn v-if="!readOnly" @click="updating = !updating" flat color="orange">Update</v-btn>
         <v-btn @click="deleteComment()" flat color="orange">Delete</v-btn>
         <v-btn v-if="item.reply" flat color="orange" @click="item.showReplies = !item.showReplies">Reply / Show replies ({{item.replies.length}})</v-btn>
       </v-card-actions>
@@ -74,6 +74,10 @@
           index: {
             required: false,
             type: Number
+          },
+          readOnly: {
+            type: Boolean,
+            default: false
           }
         },
         mixins: [validation],

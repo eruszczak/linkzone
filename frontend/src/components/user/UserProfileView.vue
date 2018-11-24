@@ -36,6 +36,7 @@
                 <v-card flat>
                     posts
                     <!--TODO how to handle group - two routes for post detail?? 1 with groupName-->
+                    {{posts}}
                     <post-list :posts="posts"></post-list>
                 </v-card>
             </v-tab-item>
@@ -44,7 +45,11 @@
                     id="comments"
             >
                 <v-card flat>
-                    <v-card-text>comments</v-card-text>
+                    <v-card-text>
+                      <v-flex xs12 v-for="(item, index) in comments" :key="item.id">
+                        <comment :item="item" :index="index" @removed="handleRemovedComment($event)" read-only></comment>
+                      </v-flex>
+                    </v-card-text>
                 </v-card>
             </v-tab-item>
 
@@ -70,10 +75,11 @@
 <script>
     import {mapGetters} from 'vuex'
     import PostList from '../includes/post/PostList'
+    import Comment from '../post/Comment'
 
     export default {
         name: "UserProfileView",
-        components: {PostList},
+        components: {PostList, Comment},
         props: {
             username: {
                 type: String,
@@ -85,7 +91,8 @@
                 active: null,
                 text: 'Lorem ipsum dolor',
                 posts: [],
-                groups: {}
+                groups: {},
+                comments: []
             }
         },
         computed: {
@@ -93,8 +100,12 @@
         },
         mounted() {
             console.log('mounted')
-            this.$userService.getUserPosts(this.username, ({data}) => {
+            this.$userService.getPosts(this.username, ({data}) => {
                 this.posts = data.content
+            })
+
+            this.$userService.getComments(this.username, ({data}) => {
+                this.comments = data.content
             })
 
             this.$userService.getGroupInfo(this.username, ({data}) => {

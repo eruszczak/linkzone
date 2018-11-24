@@ -92,12 +92,20 @@ export default class UserService {
         axios.get(url).then(cb);
     }
 
-    getUserPosts = (username, cb, cbError) => {
+    getPosts = (username, cb, cbError) => {
         if (!username) {
             return
         }
-        const url = ENDPOINTS.users.posts.replace('{username}', username)
-        axios.get(url).then(cb).catch(cbError)
+        const url = `/users/${username}/posts/`
+        axios.get(url).then(cb);
+    }
+
+    getComments = (username, cb, cbError) => {
+        if (!username) {
+            return
+        }
+        const url = `/users/${username}/comments/`
+        axios.get(url).then(cb);
     }
 
     isOwner(username) {

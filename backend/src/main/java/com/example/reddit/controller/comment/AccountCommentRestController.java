@@ -1,6 +1,7 @@
 package com.example.reddit.controller.comment;
 
 import com.example.reddit.controller.account.AccountRestController;
+import com.example.reddit.dto.CommentResponse;
 import com.example.reddit.model.Comment;
 import com.example.reddit.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/api" + "/users" + "/{username}" + "/comments")
+@RequestMapping(value = "/api/users/{username}/comments")
 public class AccountCommentRestController {
 
     private CommentService commentService;
@@ -25,8 +26,9 @@ public class AccountCommentRestController {
     }
 
     @GetMapping(value = "/")
-    public ResponseEntity<Page<Comment>> list(@PathVariable String username, Pageable pageable) {
+    public ResponseEntity<?> list(@PathVariable String username, Pageable pageable) {
         Page<Comment> comments = commentService.findByAccountUsername(username, pageable);
-        return new ResponseEntity<>(comments, HttpStatus.OK);
+        Page<CommentResponse> commentResponses = comments.map(CommentResponse::new);
+        return new ResponseEntity<>(commentResponses, HttpStatus.OK);
     }
 }
