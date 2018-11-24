@@ -52,7 +52,7 @@
                     id="moderatedGroups"
             >
                 <v-card flat>
-                    <v-card-text>moderatedGroups</v-card-text>
+                    <v-card-text>{{groups.moderatedGroups}}</v-card-text>
                 </v-card>
             </v-tab-item>
 
@@ -60,7 +60,7 @@
                     id="administratedGroups"
             >
                 <v-card flat>
-                    <v-card-text>administratedGroups</v-card-text>
+                    <v-card-text>{{groups.administratedGroups}}</v-card-text>
                 </v-card>
             </v-tab-item>
         </v-tabs>
@@ -84,7 +84,8 @@
             return {
                 active: null,
                 text: 'Lorem ipsum dolor',
-                posts: []
+                posts: [],
+                groups: {}
             }
         },
         computed: {
@@ -94,6 +95,10 @@
             console.log('mounted')
             this.$userService.getUserPosts(this.username, ({data}) => {
                 this.posts = data.content
+            })
+
+            this.$userService.getGroupInfo(this.username, ({data}) => {
+              this.groups = data
             })
         },
         methods: {

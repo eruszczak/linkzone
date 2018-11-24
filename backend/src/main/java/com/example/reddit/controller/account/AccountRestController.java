@@ -113,6 +113,12 @@ public class AccountRestController {
         return new ResponseEntity<>(json, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/groupInfo/{username}")
+    public ResponseEntity<?> getExtras(@PathVariable String username) {
+        Account account = accountService.findByUsernameEager(username);
+        return new ResponseEntity<>(new AccountGroupInfo(account), HttpStatus.OK);
+    }
+
     @GetMapping(value = "/{username}")
     public ResponseEntity<?> detail(@PathVariable String username) {
         AccountSummary accountSummary = ModelMapper.mapAccountToSummary(

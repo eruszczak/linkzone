@@ -1,5 +1,7 @@
 package com.example.reddit.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -12,6 +14,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "accounts")
 public class Account extends DateAudit {
 
@@ -47,10 +51,10 @@ public class Account extends DateAudit {
     private Set<Role> roles = new HashSet<>();
 
     @ManyToMany(mappedBy = "administrators")
-    private Set<Group> administratedGroups = new HashSet<>();
+    private List<Group> administratedGroups = new ArrayList<>();
 
     @ManyToMany(mappedBy = "moderators")
-    private Set<Group> moderatedGroups = new HashSet<>();
+    private List<Group> moderatedGroups = new ArrayList<>();
 
     @OneToMany(mappedBy = "account")
     private List<Comment> comments = new ArrayList<>();
@@ -70,82 +74,10 @@ public class Account extends DateAudit {
 
     public Account() { } // JPA only
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
     public List<GrantedAuthority> getAuthorities() {
         return getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName().name()))
                 .collect(Collectors.toList());
-    }
-
-    public String getTagline() {
-        return tagline;
-    }
-
-    public void setTagline(String tagline) {
-        this.tagline = tagline;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public Set<Group> getAdministratedGroups() {
-        return administratedGroups;
-    }
-
-    public Set<Group> getModeratedGroups() {
-        return moderatedGroups;
     }
 
     @Override

@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -93,6 +94,16 @@ public class AccountService {
     public Account findByUsername(String username) {
         return accountRepository.findByUsernameIgnoreCase(username)
                 .orElseThrow(() -> new UserNotFoundException(username));
+    }
+
+    @Transactional
+    public Account findByUsernameEager(String username) {
+        Account account = accountRepository.findByUsernameIgnoreCase(username)
+                .orElseThrow(() -> new UserNotFoundException(username));
+
+        account.getModeratedGroups().size();
+        account.getAdministratedGroups().size();
+        return account;
     }
 
     public Account findByEmail(String email) {

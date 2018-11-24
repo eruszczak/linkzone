@@ -84,6 +84,14 @@ export default class UserService {
         });
     }
 
+    getGroupInfo = (username, cb, cbError) => {
+        if (!username) {
+            return
+        }
+        const url = `/users/groupInfo/${username}`
+        axios.get(url).then(cb);
+    }
+
     getUserPosts = (username, cb, cbError) => {
         if (!username) {
             return
