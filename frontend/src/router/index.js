@@ -10,6 +10,7 @@ import PostCreateView from '@/components/post/PostCreateView'
 import PostView from '@/components/post/PostView'
 import UserProfileView from '@/components/user/UserProfileView'
 import UserEditView from '@/components/user/UserEditView'
+import PostUpdateView from '@/components/post/PostUpdateView'
 import { store } from '../store'
 
 Vue.use(Router)
@@ -59,6 +60,12 @@ const router =  new Router({
             name: 'postView',
             path: '/groups/:name/:postID',
             component: PostView,
+            props: true
+        },
+        {
+            name: 'postUpdateView',
+            path: '/groups/:name/:id/update',
+            component: PostUpdateView,
             props: true
         },
         {

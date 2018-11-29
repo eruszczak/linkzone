@@ -1,10 +1,5 @@
 <template>
     <div>
-        <p>
-            <!--Current: {{currentImageUrl}}; {{pickedImageUrl}}-->
-            <!--<img v-if="pickedImageUrl" :src="pickedImageUrl" style="max-width:100px">-->
-            <!--<img v-if="showPickedImage" :src="pickedImageUrl" style="max-width:100px">-->
-        </p>
         <v-text-field prepend-icon="attach_file" single-line
                       v-model="filename" :label="$t(label).toUpperCase()" :required="required"
                       @click.native="onFocus"

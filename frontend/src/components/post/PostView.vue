@@ -1,12 +1,11 @@
 <template>
     <div v-if="post">
         {{post}}
+        <v-btn :to="{name: 'postUpdateView', params: {id: post.id}}">update</v-btn>
+
         <p>can moderate: {{canModerate}}; isOwner: {{isOwner}}</p>
         <p>author: {{post.author}}</p>
         <p>group: {{post.groupName}}</p>
-        <p>updated form is valid: {{isValid}}</p>
-        <p>post is changed: {{postChanged}}</p>
-        <p>post copy: {{postCopy}}</p>
         <h1>{{post.title}}; {{post.type}}; <v-btn v-if="isOwner || canModerate" @click="updating = !updating">update</v-btn></h1>
 
         <div>

@@ -117,23 +117,29 @@ export default class UserService {
         axios.get(url).then(cb, function (error) {
             console.log('catch error.response', error.response)
         });
+    };
+
+    uploadFile(data, cb) {
+        axios.post(`/files/upload`, data).then(res => {
+            cb(res);
+        })
     }
 
     updateAccount = (username, data, cb, cbError) => {
         const url = ENDPOINTS.users.getUser.replace('{username}', username)
         axios.put(url, data).then(cb).catch(cbError);
-    }
+    };
 
     uploadAvatar = (username, form, cb, cbError) => {
         const url = ENDPOINTS.users.uploadAvatar.replace('{username}', username)
         axios.post(url, form).then(cb, function (error) {
         });
-    }
+    };
 
     findExact = (username, cb, cbError) => {
         const url = ENDPOINTS.users.findExact.replace('{username}', username);
         axios.get(url).then(cb).catch(cbError)
-    }
+    };
 
     autoLogin = (cb, cbError) => {
         const isAuthenticated = this.isTokenValid(this.getToken())
@@ -145,7 +151,7 @@ export default class UserService {
         } else {
             cbError && cbError()
         }
-    }
+    };
 
     getUsername = () => {
         const token = this.decodeToken(this.getToken())

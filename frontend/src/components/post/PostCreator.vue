@@ -1,6 +1,6 @@
 <template>
     <div>
-    <v-tabs
+        <v-tabs
             tabs
             grow
             icons-and-text
@@ -8,17 +8,17 @@
     >
         <v-tabs-slider color="yellow"></v-tabs-slider>
 
-        <v-tab :href="`#${POST_TYPES.POST}`" :disabled="true">
+        <v-tab :href="`#${POST_TYPES.POST}`" :disabled="isTabDisabled(POST_TYPES.POST)">
             Post
             <v-icon>phone</v-icon>
         </v-tab>
 
-        <v-tab :href="`#${POST_TYPES.MEDIA}`">
+        <v-tab :href="`#${POST_TYPES.MEDIA}`" :disabled="isTabDisabled(POST_TYPES.MEDIA)">
             Image
             <v-icon>favorite</v-icon>
         </v-tab>
 
-        <v-tab :href="`#${POST_TYPES.LINK}`">
+        <v-tab :href="`#${POST_TYPES.LINK}`" :disabled="isTabDisabled(POST_TYPES.LINK)">
             Link
             <v-icon>account_box</v-icon>
         </v-tab>
@@ -27,7 +27,7 @@
         >
             <v-card flat>
                 <v-card-text>
-                    <v-form v-model="form.valid">
+                    <v-form v-model="form.valid"  lazy-validation :ref="`form-${POST_TYPES.POST}`">
                         <v-text-field
                                 label="Title"
                                 :rules="[ruleIsNotEmpty]"
@@ -66,19 +66,22 @@
         <v-tab-item
                 :id="`${POST_TYPES.MEDIA}`"
         >
-            <v-text-field
-                    label="Title"
-                    :rules="[ruleIsNotEmpty]"
-                    box
-                    v-model="formMedia.title"
-            ></v-text-field>
-            <file-input v-model="formMedia.content" @formData="handleFormData" is-image></file-input>
+            <v-form v-model="formMedia.valid" lazy-validation :ref="`form-${POST_TYPES.MEDIA}`">
+                <v-text-field
+                        label="Title"
+                        :rules="[ruleIsNotEmpty]"
+                        box
+                        v-model="formMedia.title"
+                ></v-text-field>
+                <img v-if="filename" :src="`/static/${filename}`" style="max-width:300px">
+                <file-input v-model="formMedia.content" @formData="handleImageUpload" is-image></file-input>
+            </v-form>
         </v-tab-item>
 
         <v-tab-item
                 :id="`${POST_TYPES.LINK}`"
         >
-            <v-form v-model="formLink.valid">
+            <v-form v-model="formLink.valid" lazy-validation :ref="`form-${POST_TYPES.LINK}`">
                 <v-text-field
                         label="Title"
                         :rules="[ruleIsNotEmpty]"
@@ -96,7 +99,7 @@
         </v-tab-item>
     </v-tabs>
 
-    <v-btn @click="submit()" :disabled="!isSubmitEnabled()" color="success">Success</v-btn>
+    <v-btn @click="submit()" color="success">Success</v-btn>
     </div>
 </template>
 
@@ -112,10 +115,17 @@
         components: {
             VueMarkdown, FileInput
         },
+        props: {
+            post: {
+                type: Object,
+                required: false
+            }
+        },
         data() {
             return {
                 POST_TYPES,
                 selectedForm: POST_TYPES.POST,
+                filename: null,
                 form: {
                     title: '',
                     content: '',
@@ -134,17 +144,29 @@
                 }
             }
         },
+        mounted() {
+            if (this.post) {
+                this.selectedForm = this.post.type;
+                const form = this.getCurrentForm();
+                form.title = this.post.title;
+                form.content = this.post.content;
+            }
+        },
         methods: {
             submit () {
-                this.$postService.addPost(this.getCurrentForm(), this.selectedGroup, this.selectedForm, (res) => {
-                    this.$router.push({
-                        name: 'postView',
-                        params: {
-                            name: this.selectedGroup,
-                            postID: res.data.id
-                        }
-                    })
-                })
+                if (this.$refs[`form-${this.selectedForm}`].validate()) {
+                    const form = this.getCurrentForm();
+                    this.$emit('submit', {
+                        form: {
+                            title: form.title,
+                            content: form.content
+                        },
+                        selectedForm: this.selectedForm
+                    });
+                }
+            },
+            isTabDisabled(type) {
+                return this.post && this.post.type !== type;
             },
             // getFormData () {
             //     switch (this.selectedForm) {
@@ -185,8 +207,11 @@
                         return this.formLink
                 }
             },
-            handleFormData(val) {
-                console.log(val)
+            handleImageUpload(val) {
+                this.$userService.uploadFile(val.value[0], ({data}) => {
+                    this.filename = data.fileName;
+                    this.$emit('upload', this.filename);
+                });
             }
         }
     }

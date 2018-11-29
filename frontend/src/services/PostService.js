@@ -34,24 +34,24 @@ export default class PostService {
         axios.post(url, data).then(cb, error => {
             console.log('catch error.response', error.response)
         })
-    }
+    };
 
     getPost = (id, cb) => {
-        const url = ENDPOINTS.posts.detail.replace('{postID}', id)
+        const url = ENDPOINTS.posts.detail.replace('{postID}', id);
         axios.get(url). then(cb, function() {
 
         })
-    }
+    };
 
-    update (post, data, cb) {
-        const url = ENDPOINTS.posts.detail.replace('{postID}', post.id)
+    update (id, data, cb) {
+        const url = ENDPOINTS.posts.detail.replace('{postID}', id);
         axios.put(url, data). then(({data}) => {
             cb(data)
         })
     }
 
     delete (post, cb) {
-        const url = ENDPOINTS.posts.detail.replace('{postID}', post.id)
+        const url = ENDPOINTS.posts.detail.replace('{postID}', post.id);
         axios.delete(url). then(cb)
     }
 }

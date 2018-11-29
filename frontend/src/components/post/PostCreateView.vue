@@ -52,7 +52,7 @@
             </template>
         </v-autocomplete>
 
-        <post-creator></post-creator>
+        <post-creator @submit="createPost" @upload="filename = $event"></post-creator>
     </div>
 </template>
 
@@ -74,7 +74,8 @@
                 loading: false,
                 search: null,
                 isUpdating: false,
-                items: []
+                items: [],
+                filename: null
             }
         },
         watch: {
@@ -159,8 +160,20 @@
                     // this.loading = false
                 })
             },
-            remove (item) {
-                this.friends = ''
+            createPost(value) {
+                console.log('craete post', value, this.selectedGroup, this.filename)
+                if (!this.selectedGroup || !this.filename) {
+                    return;
+                }
+                this.$postService.addPost(value.form, this.selectedGroup, value.selectedForm, ({data}) => {
+                    this.$router.push({
+                        name: 'postView',
+                        params: {
+                            name: this.selectedGroup,
+                            postID: data.id
+                        }
+                    })
+                })
             }
         }
     }
