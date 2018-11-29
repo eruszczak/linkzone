@@ -1,10 +1,15 @@
 package com.example.reddit.controller.post;
 
-import com.example.reddit.dto.PostCreate;
+import com.example.reddit.dto.PostCreateMedia;
 import com.example.reddit.dto.PostResponse;
 import com.example.reddit.dto.PostUpdate;
+import com.example.reddit.dto.UploadFileResponse;
 import com.example.reddit.exception.ValidationErrorException;
+import com.example.reddit.model.Group;
 import com.example.reddit.model.Post;
+import com.example.reddit.security.CurrentUser;
+import com.example.reddit.security.UserPrincipal;
+import com.example.reddit.service.FileStorageService;
 import com.example.reddit.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,18 +18,23 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 
 @RestController
 @RequestMapping(value = "/api/posts")
 public class PostRestController {
 
-    private PostService postService;
+    private final PostService postService;
+
+    private final FileStorageService fileStorageService;
 
     @Autowired
-    PostRestController(PostService postService) {
+    public PostRestController(PostService postService, FileStorageService fileStorageService) {
         this.postService = postService;
+        this.fileStorageService = fileStorageService;
     }
 
     @GetMapping(value = "/")

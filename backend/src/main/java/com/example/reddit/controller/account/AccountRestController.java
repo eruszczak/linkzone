@@ -148,7 +148,7 @@ public class AccountRestController {
     }
 
     @PostMapping(value = "/{username}/upload-avatar")
-    public UploadFileResponse uploadBanner(@RequestParam("data") MultipartFile file,
+    public UploadFileResponse uploadAvatar(@RequestParam("data") MultipartFile file,
                                            @PathVariable("username") String username,
                                            @CurrentUser UserPrincipal currentUser) {
         Utils.checkIfOwner(currentUser, username);

@@ -45,31 +45,11 @@ public class PostService {
         return postRepository.findAll(pageable);
     }
 
-    public Post create(PostCreate dto, Group group, Account account) {
+    public Post create(PostCreate dto, Group group, Account account, PostType postType) {
         Post post = new Post();
         post.setTitle(dto.getTitle());
         post.setContent(dto.getContent());
-        post.setPostType(PostType.POST);
-        return create(post, group, account);
-    }
-
-    public Post create(PostCreateLink dto, Group group, Account account) {
-        Post post = new Post();
-        post.setTitle(dto.getTitle());
-        post.setContent(dto.getLink());
-        post.setPostType(PostType.LINK);
-        return create(post, group, account);
-    }
-
-    public Post create(PostCreateMedia dto, String filename, Group group, Account account) {
-        Post post = new Post();
-        post.setTitle(dto.getTitle());
-        post.setContent(filename);
-        post.setPostType(PostType.MEDIA);
-        return create(post, group, account);
-    }
-
-    public Post create(Post post, Group group, Account account) {
+        post.setPostType(postType);
         post.setAccount(account);
         post.setGroup(group);
         return save(post);

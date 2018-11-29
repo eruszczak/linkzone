@@ -6,6 +6,7 @@ import com.example.reddit.dto.PostCreateLink;
 import com.example.reddit.dto.PostCreateMedia;
 import com.example.reddit.dto.PostResponse;
 import com.example.reddit.exception.ValidationErrorException;
+import com.example.reddit.model.Account;
 import com.example.reddit.model.Group;
 import com.example.reddit.model.Post;
 import com.example.reddit.security.CurrentUser;
@@ -55,12 +56,7 @@ public class GroupPostRestController {
             @Valid @RequestBody PostCreate dto,
             Errors errors,
             @CurrentUser UserPrincipal currentUser) {
-        if (errors.hasErrors()) {
-            throw new ValidationErrorException(errors);
-        }
-        Group group = groupService.findByName(groupName);
-        Post post = postService.create(dto, group, currentUser.getAccount());
-        return new ResponseEntity<>(new PostResponse(post), HttpStatus.CREATED);
+        return createPost(groupName, currentUser.getAccount(), errors, dto.getTitle(), dto.getContent(), PostType.POST);
     }
 
     @PostMapping(value = "/link/")
@@ -69,25 +65,27 @@ public class GroupPostRestController {
             @Valid @RequestBody PostCreateLink dto,
             Errors errors,
             @CurrentUser UserPrincipal currentUser) {
-        if (errors.hasErrors()) {
-            throw new ValidationErrorException(errors);
-        }
-        Group group = groupService.findByName(groupName);
-        Post post = postService.create(dto, group, currentUser.getAccount());
-        return new ResponseEntity<>(new PostResponse(post), HttpStatus.CREATED);
+        return createPost(groupName, currentUser.getAccount(), errors, dto.getTitle(), dto.getLink(), PostType.LINK);
     }
 
     @PostMapping(value = "/media/")
     public ResponseEntity<?> createPostMedia(
-            @RequestParam("data") MultipartFile file,
-            @RequestParam("title") @NotBlank String title,
             @PathVariable String groupName,
+            @Valid @RequestBody PostCreate dto,
+            Errors errors,
             @CurrentUser UserPrincipal currentUser) {
-        String fileName = fileStorageService.storeFile(file);
-        Group group = groupService.findByName(groupName);
-        PostCreateMedia dto = new PostCreateMedia();
+        return createPost(groupName, currentUser.getAccount(), errors, dto.getTitle(), dto.getContent(), PostType.MEDIA);
+    }
+
+    private ResponseEntity<?> createPost(String groupName, Account account, Errors errors, String title, String content, PostType postType) {
+        if (errors.hasErrors()) {
+            throw new ValidationErrorException(errors);
+        }
+        PostCreate dto = new PostCreate();
         dto.setTitle(title);
-        Post post = postService.create(dto, fileName, group, currentUser.getAccount());
+        dto.setContent(content);
+        Group group = groupService.findByName(groupName);
+        Post post = postService.create(dto, group, account, postType);
         return new ResponseEntity<>(new PostResponse(post), HttpStatus.CREATED);
     }
 }

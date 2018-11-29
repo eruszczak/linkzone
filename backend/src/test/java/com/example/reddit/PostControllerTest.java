@@ -132,7 +132,7 @@ public class PostControllerTest extends Base {
         String postTitle = "wewqdsadsa";
         postCreate.setTitle(postTitle);
         postCreate.setContent("dasqweq");
-        Post post = postService.create(postCreate, group, account);
+//        Post post = postService.create(postCreate, group, account);
         Assert.assertEquals(post.getSlug(), Utils.getSlug(postTitle));
         // see if slug is updated when title is changed
         String newPostTitle = "hey this if what i found :)";

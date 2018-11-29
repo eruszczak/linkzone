@@ -1,5 +1,6 @@
 package com.example.reddit.controller;
 
+import com.example.reddit.dto.UploadFileResponse;
 import com.example.reddit.service.FileStorageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +9,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
@@ -45,5 +48,11 @@ public class FileController {
                 .contentType(MediaType.parseMediaType(contentType))
 //                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                 .body(resource);
+    }
+
+    @PostMapping(value = "/upload")
+    public UploadFileResponse uploadMedia(@RequestParam("data") MultipartFile file) {
+        String filename = fileStorageService.storeFile(file);
+        return new UploadFileResponse(filename);
     }
 }

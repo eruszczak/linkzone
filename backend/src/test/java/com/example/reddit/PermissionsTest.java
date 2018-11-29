@@ -169,7 +169,7 @@ public class PermissionsTest extends Base {
         PostCreate postCreate = new PostCreate();
         postCreate.setTitle("weqeqw");
         postCreate.setContent("dasqweq");
-        Post post = postService.create(postCreate, group, postOwner);
+//        Post post = postService.create(postCreate, group, postOwner);
         CommentCreate commentCreate = new CommentCreate();
         commentCreate.setContent("dseqwewq");
         Comment comment = commentService.create(commentCreate, post, commentOwner);
@@ -204,7 +204,7 @@ public class PermissionsTest extends Base {
         // create post in a group
         PostCreate postCreate = new PostCreate();
         postCreate.setTitle("weqeqw");
-        Post post = postService.create(postCreate, group, postOwner);
+//        Post post = postService.create(postCreate, group, postOwner);
         // create comment in a post
         CommentCreate commentCreate = new CommentCreate();
         commentCreate.setContent("dseqwewq");

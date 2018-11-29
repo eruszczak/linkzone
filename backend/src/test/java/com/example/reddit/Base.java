@@ -120,7 +120,7 @@ public class Base {
         PostCreate postCreate = new PostCreate();
         postCreate.setTitle("weqeqw");
         postCreate.setContent("dasqweq");
-        post = postService.create(postCreate, group, account);
+//        post = postService.create(postCreate, group, account);
 
         CommentCreate commentCreate = new CommentCreate();
         commentCreate.setContent("dseqwewq");
