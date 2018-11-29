@@ -99,7 +99,7 @@
         </v-tab-item>
     </v-tabs>
 
-    <v-btn @click="submit()" color="success">Success</v-btn>
+    <v-btn @click="submit()" color="orange" flat>{{post ? 'Update' : 'Create'}}</v-btn>
     </div>
 </template>
 
@@ -150,6 +150,7 @@
                 const form = this.getCurrentForm();
                 form.title = this.post.title;
                 form.content = this.post.content;
+                this.filename = this.post.content;
             }
         },
         methods: {

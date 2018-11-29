@@ -37,21 +37,21 @@ export default class PostService {
     };
 
     getPost = (id, cb) => {
-        const url = ENDPOINTS.posts.detail.replace('{postID}', id);
+        const url = `/posts/${id}`;
         axios.get(url). then(cb, function() {
 
         })
     };
 
     update (id, data, cb) {
-        const url = ENDPOINTS.posts.detail.replace('{postID}', id);
-        axios.put(url, data). then(({data}) => {
-            cb(data)
+        const url = `/posts/${id}`;
+        axios.put(url, data). then((res) => {
+            cb(res)
         })
     }
 
-    delete (post, cb) {
-        const url = ENDPOINTS.posts.detail.replace('{postID}', post.id);
+    delete (id, cb) {
+        const url = `/posts/${id}`;
         axios.delete(url). then(cb)
     }
 }
