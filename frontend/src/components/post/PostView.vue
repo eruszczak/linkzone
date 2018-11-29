@@ -9,7 +9,7 @@
         <p>post copy: {{postCopy}}</p>
         <h1>{{post.title}}; {{post.type}}; <v-btn v-if="isOwner || canModerate" @click="updating = !updating">update</v-btn></h1>
 
-        <div v-show="!updating">
+        <div>
             <v-card v-if="post.type === POST_TYPES.POST">
                 <v-card-text>
                     <vue-markdown :source="post.content" :anchorAttributes="{target: '_blank', rel: 'nofollow'}"></vue-markdown>
@@ -19,24 +19,6 @@
               <img :src="`/static/${post.content}`">
             </v-card>
             <p v-else>{{post.content}}</p>
-        </div>
-
-        <div v-show="updating">
-                <div v-if="post.type === POST_TYPES.POST">
-                <form-post-text :form="form" @change="formUpdated = $event"></form-post-text>
-            </div>
-            <div v-if="post.type === POST_TYPES.LINK">
-                <form-post-link :form="formLink" @change="formLink = $event"></form-post-link>
-            </div>
-            <div v-if="post.type === POST_TYPES.MEDIA" @change="formMediaUpdated = $event">
-                <form-post-media></form-post-media>
-            </div>
-            <v-checkbox v-if="canModerate"
-                    label="Locked??"
-                    v-model="post.locked"
-            ></v-checkbox>
-            <v-btn color="success" :disabled="!isValid && !postChanged" @click="update()">Update</v-btn>
-            <v-btn color="red">Remove</v-btn>
         </div>
 
         <v-alert
@@ -72,12 +54,10 @@
 
 <script>
     import {mapMutations, mapGetters} from 'vuex'
-    import FormPostText from '../includes/post/FormPostText'
-    import FormPostLink from '../includes/post/FormPostLink'
-    import FormPostMedia from '../includes/post/FormPostMedia'
-    import VueMarkdown from 'vue-markdown'
     import {POST_TYPES} from "../../services/PostService";
     import _ from 'lodash';
+    import VueMarkdown from 'vue-markdown'
+
     import validation from '../../mixins/validation';
     import Comment from './Comment'
 
@@ -85,7 +65,7 @@
         name: 'PostView',
         props: ['postID', 'name'],
         mixins: [validation],
-        components: {FormPostText, FormPostLink, FormPostMedia, VueMarkdown, Comment},
+        components: {Comment, VueMarkdown},
         data () {
             return {
                 POST_TYPES,
@@ -99,19 +79,11 @@
                 group: null,
                 canModerate: false,
                 isOwner: false,
-                updating: false,
                 user: null,
-                formUpdated: {},
-                formLinkUpdated: {},
-                formMediaUpdated: {},
-                postCopy: null,
                 comment: {
                     body: '',
                     valid: true
                 },
-                form: {},
-                formLink: {},
-                formMedia: {}
             }
         },
         mounted () {
@@ -126,37 +98,23 @@
             })
             this.$postService.getPost(this.postID, res => {
                 this.post = res.data
-                this.postCopy = JSON.parse(JSON.stringify(this.post))
-                this.isOwner = this.$userService.isOwner(this.post.author)
-                switch (this.post.type) {
-                    case POST_TYPES.POST:
-                        this.form.title = this.post.title;
-                        this.form.content = this.post.content;
-                        break;
-                    case POST_TYPES.LINK:
-                        this.formLink.title = this.post.title;
-                        this.formLink.link = this.post.content;
-                        break;
-                    case POST_TYPES.MEDIA:
-                        break;
-                }
-
-                this.form = {
-                        title: this.post.title,
-                        content: this.post.content,
-                        titleError: false,
-                        contentError: false,
-                        valid: true
-                }
-                this.formLink = {
-                        title: this.post.title,
-                        link: this.post.content,
-                        valid: true
-                }
-                this.formMedia = {
-                        fileList: [],
-                        valid: true
-                }
+                // this.postCopy = JSON.parse(JSON.stringify(this.post))
+                // this.isOwner = this.$userService.isOwner(this.post.author)
+                // switch (this.post.type) {
+                //     case POST_TYPES.POST:
+                //         this.form.title = this.post.title;
+                //         this.form.content = this.post.content;
+                //         break;
+                //     case POST_TYPES.LINK:
+                //         this.formLink.title = this.post.title;
+                //         this.formLink.content = this.post.content;
+                //         break;
+                //     case POST_TYPES.MEDIA:
+                //         this.formMedia.title = this.post.title;
+                //         this.formMedia.content = this.post.content;
+                //         console.log('formMedia', this.formMedia)
+                //         break;
+                // }
             })
             this.loadMoreComments();
         },
@@ -169,22 +127,19 @@
         //     }
         // },
         computed: {
-            postChanged () {
-              return this.postCopy && !_.isEqual(this.post, this.postCopy)
-            },
-            isValid () {
-                switch (this.post.type) {
-                    case POST_TYPES.POST:
-                        return this.formUpdated.valid && !_.isEqual(this.formUpdated, this.form);
-                    case POST_TYPES.LINK:
-                        return this.formLinkUpdated.valid && !_.isEqual(this.formLinkUpdated, this.formLink);
-                        break;
-                    case POST_TYPES.MEDIA:
-                        return this.formMediaUpdated.valid && !_.isEqual(this.formMediaUpdated, this.formMedia);
-                    default:
-                        return false;
-                }
-            }
+            // postChanged () {
+            //   return this.postCopy && !_.isEqual(this.post, this.postCopy)
+            // },
+            // isValid () {
+            //     switch (this.post.type) {
+            //         case POST_TYPES.POST:
+            //             return this.formUpdated.valid && !_.isEqual(this.formUpdated, this.form);
+            //         case POST_TYPES.LINK:
+            //             return this.formLinkUpdated.valid && !_.isEqual(this.formLinkUpdated, this.formLink);
+            //         case POST_TYPES.MEDIA:
+            //             return this.formMediaUpdated.valid && !_.isEqual(this.formMediaUpdated, this.formMedia);
+            //     }
+            // }
         },
         methods: {
             ...mapMutations(['toggleLoading']),
@@ -214,33 +169,34 @@
                   this.comments.push(...data.content.map(comment => this.prepareComment(comment)))
               })
             },
-            update() {
-                const data = {
-                    locked: this.post.locked
-                };
-                switch (this.post.type) {
-                    case POST_TYPES.POST:
-                        data.title = this.formUpdated.title;
-                        data.content = this.formUpdated.content;
-                        break;
-                    case POST_TYPES.LINK:
-                        data.title = this.formLinkUpdated.title;
-                        data.content = this.formLinkUpdated.content;
-                        break;
-                    case POST_TYPES.MEDIA:
-                        break;
-                }
-                console.log('updating post with', data)
-                this.$postService.update(this.post, data, (data) => {
-                    this.post = data
-                    this.postCopy = JSON.parse(JSON.stringify(data))
-                    this.updating = false
-                    this.$message({
-                        message: 'updated',
-                        type: this.$toastColors.INFO
-                    })
-                })
-            },
+            // update() {
+            //     const data = {
+            //         locked: this.post.locked
+            //     };
+            //     switch (this.post.type) {
+            //         case POST_TYPES.POST:
+            //             data.title = this.formUpdated.title;
+            //             data.content = this.formUpdated.content;
+            //             break;
+            //         case POST_TYPES.LINK:
+            //             data.title = this.formLinkUpdated.title;
+            //             data.content = this.formLinkUpdated.content;
+            //             break;
+            //         case POST_TYPES.MEDIA:
+            //             data.title = this.formMediaUpdated.title
+            //             break;
+            //     }
+            //     console.log('updating post with', data)
+            //     this.$postService.update(this.post, data, (data) => {
+            //         this.post = data
+            //         this.postCopy = JSON.parse(JSON.stringify(data))
+            //         this.updating = false
+            //         this.$message({
+            //             message: 'updated',
+            //             type: this.$toastColors.INFO
+            //         })
+            //     })
+            // },
             addComment () {
                 if (this.$refs.commentForm.validate()) {
                     this.$commentService.create(this.postID, {content: this.comment.body}, ({data}) => {

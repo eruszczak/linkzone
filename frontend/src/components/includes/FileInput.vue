@@ -1,10 +1,9 @@
 <template>
     <div>
         <p>
-            Current: {{currentImageUrl}}; {{showPickedImage}}
-            <img v-if="currentImageUrl" :src="currentImageUrl" style="max-width:100%">
-            <span>here {{pickedImageUrl}}</span>
-            <img :src="pickedImageUrl" style="max-width:100%">
+            <!--Current: {{currentImageUrl}}; {{pickedImageUrl}}-->
+            <!--<img v-if="pickedImageUrl" :src="pickedImageUrl" style="max-width:100px">-->
+            <!--<img v-if="showPickedImage" :src="pickedImageUrl" style="max-width:100px">-->
         </p>
         <v-text-field prepend-icon="attach_file" single-line
                       v-model="filename" :label="$t(label).toUpperCase()" :required="required"
@@ -48,14 +47,6 @@
             isImage: {
                 type: Boolean,
                 default: false
-            },
-            currentImageUrl: {
-                type: String,
-                default: ''
-            },
-            showPickedImage: {
-              type: Boolean,
-              default: false
             }
         },
         data () {
@@ -81,6 +72,7 @@
                     console.log('fileInput', file)
                     if (file.size > this.maxSizeInKB * 1000) {
                         this.errors.push(`${file.name} is bigger than ${this.maxSizeInKB} KB`);
+                        this.filename = ''
                         this.pickedImageUrl = ''
                         continue;
                     }
@@ -88,26 +80,9 @@
                     form.append('data', file, file.name)
                     console.log('picked image', this.pickedImageUrl)
 
-                    if (this.showPickedImage && !this.pickedImageUrl) {
-                      this.pickedImageUrl = window.URL.createObjectURL(file);
-                    //   const reader = new FileReader();
-                    //   reader.onload = (function(theFile) {
-                    //     return function(e) {
-                    //       // Render thumbnail.
-                    //       // console.log('here', reader.result)
-                    //
-                    //       this.pickedImageUrl = e.target.result
-                    //       console.warn('show picked image', this.pickedImageUrl)
-                    //
-                    //     };
-                    //   })(file);
-                    //   // reader.addEventListener("load", function () {
-                    //   //   console.log('load', reader)
-                    //   //   this.currentImageUrl = reader.result;
-                    //   // }, false);
-                    //   reader.readAsDataURL(file);
-                    }
-
+                    // if (this.showPickedImage) {
+                    //   this.pickedImageUrl = window.URL.createObjectURL(file);
+                    // }
 
                     forms.push(form)
                 }

@@ -59,7 +59,7 @@
 <script>
     import {mapMutations, mapGetters} from 'vuex'
     import Pagination from '../includes/Pagination'
-    import PostList from '../includes/post/PostList'
+    import PostList from '../post/PostList'
     import {getPaginationFromResponse} from '../../utils/utils';
 
     const POST_TYPES = {

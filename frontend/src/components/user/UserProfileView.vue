@@ -74,7 +74,7 @@
 
 <script>
     import {mapGetters} from 'vuex'
-    import PostList from '../includes/post/PostList'
+    import PostList from '../post/PostList'
     import Comment from '../post/Comment'
 
     export default {

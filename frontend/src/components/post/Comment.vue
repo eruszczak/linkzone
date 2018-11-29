@@ -55,13 +55,6 @@
 </template>
 
 <script>
-    import {mapMutations, mapGetters} from 'vuex'
-    import FormPostText from '../includes/post/FormPostText'
-    import FormPostLink from '../includes/post/FormPostLink'
-    import FormPostMedia from '../includes/post/FormPostMedia'
-    import VueMarkdown from 'vue-markdown'
-    import {POST_TYPES} from "../../services/PostService";
-    import _ from 'lodash';
     import validation from '../../mixins/validation';
 
     export default {

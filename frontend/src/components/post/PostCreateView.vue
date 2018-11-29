@@ -1,6 +1,5 @@
 <template>
     <div>
-      {{getCurrentForm()}}
         <v-autocomplete
                 v-model="selectedGroup"
                 :search-input.sync="search"
@@ -53,96 +52,26 @@
             </template>
         </v-autocomplete>
 
-        <v-tabs
-                tabs
-                grow
-                icons-and-text
-                v-model="selectedForm"
-        >
-            <v-tabs-slider color="yellow"></v-tabs-slider>
-
-            <v-tab :href="`#${POST_TYPES.POST}`">
-                Post
-                <v-icon>phone</v-icon>
-            </v-tab>
-
-            <v-tab :href="`#${POST_TYPES.MEDIA}`">
-                Image
-                <v-icon>favorite</v-icon>
-            </v-tab>
-
-            <v-tab :href="`#${POST_TYPES.LINK}`">
-                Link
-                <v-icon>account_box</v-icon>
-            </v-tab>
-            <v-tab-item
-                    :id="`${POST_TYPES.POST}`"
-            >
-                <form-post-text :form="form" @change="formUpdated = $event"></form-post-text>
-            </v-tab-item>
-
-            <v-tab-item
-                    :id="`${POST_TYPES.MEDIA}`"
-            >
-                <form-post-media :form="formMedia" @change="formMediaUpdated = $event"></form-post-media>
-            </v-tab-item>
-
-            <v-tab-item
-                    :id="`${POST_TYPES.LINK}`"
-            >
-                <form-post-link :form="formLink"  @change="formLinkUpdated = $event"></form-post-link>
-            </v-tab-item>
-        </v-tabs>
-        <v-btn @click="submit()" :disabled="!isSubmitEnabled()" color="success">Success</v-btn>
+        <post-creator></post-creator>
     </div>
 </template>
 
 <script>
     import {mapMutations, mapGetters} from 'vuex'
-    import validation from "../../mixins/validation";
-    import FormPostText from '../includes/post/FormPostText'
-    import FormPostLink from '../includes/post/FormPostLink'
-    import FormPostMedia from '../includes/post/FormPostMedia'
-    import {POST_TYPES} from "../../services/PostService";
+    import PostCreator from './PostCreator'
 
     export default {
         name: 'PostCreateView',
+        components: {PostCreator},
         props: ['groupName'],
-        mixins: [validation],
-        components: {
-            FormPostText, FormPostLink, FormPostMedia
-        },
         created () {
             this.initSubbedGroups(true)
             console.log('post create view, created()')
         },
         data () {
             return {
-                POST_TYPES,
-                selectedForm: POST_TYPES.POST,
-                form: {
-                    title: '',
-                    content: '',
-                    titleError: false,
-                    contentError: false,
-                    valid: true
-                },
-                formUpdated: {},
-                formLinkUpdated: {},
-                formMediaUpdated: {},
-                formLink: {
-                    title: '',
-                    link: '',
-                    valid: true
-                },
-                formMedia: {
-                    filename: '',
-                    valid: true,
-                    formData: null
-                },
                 selectedGroup: null,
                 loading: false,
-
                 search: null,
                 isUpdating: false,
                 items: []
@@ -198,40 +127,8 @@
                     this.selectedGroup = this.groupName
                 }
 
-
                 this.items.map(i => i.avatar = 'https://cdn.vuetifyjs.com/images/lists/1.jpg')
                 this.items.map(i => i.group = i.description)
-            },
-            submit () {
-                this.$postService.addPost(this.getFormData(), this.selectedGroup, this.selectedForm, (res) => {
-                    this.$router.push({
-                        name: 'postView',
-                        params: {
-                            name: this.selectedGroup,
-                            postID: res.data.id
-                        }
-                    })
-                })
-            },
-            getFormData () {
-                switch (this.selectedForm) {
-                    case POST_TYPES.POST:
-                        return {
-                            title: this.formUpdated.title,
-                            content: this.formUpdated.content
-                        }
-                    case POST_TYPES.MEDIA:
-                        let form = this.formMediaUpdated.uploadResult.value[0]
-                        form.append('title', this.formMediaUpdated.title)
-                        console.log('media', form)
-                        // form.title = this.formMediaUpdated.title
-                        return form;
-                    case POST_TYPES.LINK:
-                        return {
-                            title: this.formLinkUpdated.title,
-                            link: this.formLinkUpdated.link
-                        }
-                }
             },
             getGroupOptions(query) {
                 query = query ? query : ''
@@ -261,23 +158,6 @@
                 }, () => {
                     // this.loading = false
                 })
-            },
-            isSubmitEnabled() {
-                // let isFormValid = this.getCurrentForm().valid;
-                // if (this.selectedForm === POST_TYPES.MEDIA) {
-                //   isFormValid = this.formU
-                // }
-                return this.getCurrentForm().valid && this.selectedGroup
-            },
-            getCurrentForm() {
-                switch (this.selectedForm) {
-                    case POST_TYPES.POST:
-                        return this.formUpdated
-                    case POST_TYPES.MEDIA:
-                        return this.formMediaUpdated
-                    case POST_TYPES.LINK:
-                        return this.formLinkUpdated
-                }
             },
             remove (item) {
                 this.friends = ''
