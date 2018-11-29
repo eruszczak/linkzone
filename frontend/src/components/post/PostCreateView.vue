@@ -59,6 +59,7 @@
 <script>
     import {mapMutations, mapGetters} from 'vuex'
     import PostCreator from './PostCreator'
+    import {POST_TYPES} from "../../services/PostService";
 
     export default {
         name: 'PostCreateView',
@@ -161,9 +162,16 @@
                 })
             },
             createPost(value) {
-                console.log('craete post', value, this.selectedGroup, this.filename)
-                if (!this.selectedGroup || !this.filename) {
+                console.log('craete post', value, this.selectedGroup, this.filename, value.selectedForm === POST_TYPES.MEDIA)
+                if (!this.selectedGroup) {
                     return;
+                }
+
+                if (value.selectedForm === POST_TYPES.MEDIA) {
+                    if (!this.filename) {
+                        return;
+                    }
+                    value.form.content = this.filename;
                 }
                 this.$postService.addPost(value.form, this.selectedGroup, value.selectedForm, ({data}) => {
                     this.$router.push({
