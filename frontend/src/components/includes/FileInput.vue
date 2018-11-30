@@ -101,6 +101,9 @@
                     this.filename = $event.target.value.split('\\').pop()
                 }
                 console.error('form', form)
+                if (form.length === 0) {
+                    return;
+                }
                 this.$emit('input', this.filename)
                 this.$emit('formData', {
                     value: form,

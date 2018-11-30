@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/posts")
@@ -57,6 +58,9 @@ public class PostRestController {
             throw new ValidationErrorException(errors);
         }
         Post post = postService.findById(id);
+        if (post.getPostType().equals(PostType.MEDIA) && !Optional.ofNullable(post.getContent()).orElse("").equals(updated.getContent())) {
+            fileStorageService.removeFile(post.getContent());
+        }
         postService.update(post, updated);
         return new ResponseEntity<>(new PostResponse(post), HttpStatus.OK);
     }

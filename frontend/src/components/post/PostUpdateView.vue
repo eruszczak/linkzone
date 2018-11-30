@@ -46,7 +46,7 @@
                     this.$router.push({
                         name: 'postView',
                         params: {
-                            name: this.selectedGroup,
+                            name: data.groupName,
                             postID: data.id
                         }
                     })

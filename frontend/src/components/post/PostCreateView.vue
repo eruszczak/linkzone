@@ -174,6 +174,7 @@
                     value.form.content = this.filename;
                 }
                 this.$postService.addPost(value.form, this.selectedGroup, value.selectedForm, ({data}) => {
+                    console.log(data.id)
                     this.$router.push({
                         name: 'postView',
                         params: {
