@@ -12,4 +12,8 @@ public class PostUpdate extends PostCreate {
     public void setLocked(boolean locked) {
         this.locked = locked;
     }
+
+    public boolean isLocked() {
+        return locked;
+    }
 }

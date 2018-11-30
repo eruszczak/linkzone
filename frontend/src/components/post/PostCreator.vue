@@ -99,6 +99,11 @@
         </v-tab-item>
     </v-tabs>
 
+    <v-checkbox v-if="post"
+            label="Lock post"
+            v-model="postLocked"
+    ></v-checkbox>
+
     <v-btn @click="submit()" color="orange" flat>{{post ? 'Update' : 'Create'}}</v-btn>
     </div>
 </template>
@@ -126,6 +131,7 @@
                 POST_TYPES,
                 selectedForm: POST_TYPES.POST,
                 filename: null,
+                postLocked: false,
                 form: {
                     title: '',
                     content: '',
@@ -151,6 +157,7 @@
                 form.title = this.post.title;
                 form.content = this.post.content;
                 this.filename = this.post.content;
+                this.postLocked = this.post.locked;
             }
         },
         methods: {
@@ -162,39 +169,14 @@
                             title: form.title,
                             content: form.content
                         },
-                        selectedForm: this.selectedForm
+                        selectedForm: this.selectedForm,
+                        postLocked: this.postLocked
                     });
                 }
             },
             isTabDisabled(type) {
                 return this.post && this.post.type !== type;
             },
-            // getFormData () {
-            //     switch (this.selectedForm) {
-            //         case POST_TYPES.POST:
-            //             return this.form;
-            //             // const formData = new FormData();
-            //             // formData.append("title", this.formUpdated.title)
-            //             // formData.append("title", this.formUpdated.content)
-            //             // return {
-            //             //     title: this.formUpdated.title,
-            //             //     content: this.formUpdated.content
-            //             // }
-            //         case POST_TYPES.MEDIA:
-            //             return this.formMedia;
-            //             // let form = this.formMediaUpdated.uploadResult.value[0]
-            //             // form.append('title', this.formMediaUpdated.title)
-            //             // console.log('media', form)
-            //             // // form.title = this.formMediaUpdated.title
-            //             // return form;
-            //         case POST_TYPES.LINK:
-            //             return this.formLink;
-            //             // return {
-            //             //     title: this.formLinkUpdated.title,
-            //             //     content: this.formLinkUpdated.content
-            //             // }
-            //     }
-            // },
             isSubmitEnabled() {
                 return this.getCurrentForm().valid && this.selectedGroup
             },

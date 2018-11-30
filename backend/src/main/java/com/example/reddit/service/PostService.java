@@ -94,6 +94,7 @@ public class PostService {
     }
 
     private Post updatePost(Post post, PostUpdate updated) {
+        post.setLocked(updated.isLocked());
         post.setContent(updated.getContent());
         post.setTitle(updated.getTitle());
         try {

@@ -16,7 +16,7 @@
       <v-card-actions>
         <v-btn v-if="!readOnly" @click="updating = !updating" flat color="orange">Update</v-btn>
         <v-btn @click="deleteComment()" flat color="orange">Delete</v-btn>
-        <v-btn v-if="item.reply" flat color="orange" @click="item.showReplies = !item.showReplies">Reply / Show replies ({{item.replies.length}})</v-btn>
+        <v-btn v-if="item.reply && canReply" flat color="orange" @click="item.showReplies = !item.showReplies">Reply / Show replies ({{item.replies.length}})</v-btn>
       </v-card-actions>
       <div v-if="updating">
         <v-btn @click="updateComment()" :disabled="item.body === updatedBody || !updatedBody" flat color="red">Update</v-btn>
@@ -71,7 +71,11 @@
           readOnly: {
             type: Boolean,
             default: false
-          }
+          },
+            canReply: {
+              type: Boolean,
+                default: true
+            }
         },
         mixins: [validation],
         data () {

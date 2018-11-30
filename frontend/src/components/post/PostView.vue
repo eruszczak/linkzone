@@ -24,26 +24,28 @@
                 :value="post.locked"
                 type="error"
         >
-            <p>This thread has been locked by the moderators of /g/{{name}} New comments cannot be posted</p>
+            <p>This thread has been locked. New comments cannot be posted.</p>
         </v-alert>
 
         <v-container grid-list-sm fluid>
           <h2>{{commentMetadata.total}} comments</h2>
           <v-layout row wrap>
             <v-flex>
-              <v-form v-model="comment.valid" lazy-validation ref="commentForm">
-                  <v-text-field
-                          box
-                          name="input-7-4"
-                          label="New comment"
-                          :rules="[ruleIsNotEmpty]"
-                          v-model="comment.body"
-                  ></v-text-field>
-              </v-form>
-              <v-btn @click="addComment()" :disabled="!comment.valid">Add comment</v-btn>
+                <div v-if="!post.locked">
+                    <v-form v-model="comment.valid" lazy-validation ref="commentForm">
+                        <v-text-field
+                                box
+                                name="input-7-4"
+                                label="New comment"
+                                :rules="[ruleIsNotEmpty]"
+                                v-model="comment.body"
+                        ></v-text-field>
+                    </v-form>
+                    <v-btn @click="addComment()" :disabled="!comment.valid">Add comment</v-btn>
+                </div>
             </v-flex>
             <v-flex xs12 v-for="(item, index) in comments" :key="item.id">
-              <comment :item="item" :index="index" @removed="handleRemovedComment($event)"></comment>
+              <comment :item="item" :index="index" @removed="handleRemovedComment" :can-reply="!post.locked"></comment>
             </v-flex>
           </v-layout>
           <v-btn flat :disabled="commentMetadata.lastPage" @click="loadMoreComments()">load more</v-btn>

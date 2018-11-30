@@ -42,6 +42,8 @@
                     value.form.content = this.filename;
                 }
 
+                value.form.locked = value.postLocked;
+
                 this.$postService.update(this.post.id, value.form, ({data}) => {
                     this.$router.push({
                         name: 'postView',

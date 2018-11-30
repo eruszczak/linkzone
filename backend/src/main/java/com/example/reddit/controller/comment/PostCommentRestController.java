@@ -3,6 +3,7 @@ package com.example.reddit.controller.comment;
 import com.example.reddit.controller.post.PostRestController;
 import com.example.reddit.dto.CommentCreate;
 import com.example.reddit.dto.CommentResponse;
+import com.example.reddit.exception.ResourceLockedException;
 import com.example.reddit.exception.ValidationErrorException;
 import com.example.reddit.model.Comment;
 import com.example.reddit.model.Post;
@@ -50,7 +51,10 @@ public class PostCommentRestController {
             throw new ValidationErrorException(errors);
         }
         Post post = postService.findById(postId);
-        Comment comment = commentService.create(dto, post, currentUser.getAccount());
-        return new ResponseEntity<>(new CommentResponse(comment), HttpStatus.CREATED);
+        if (!post.locked()) {
+            Comment comment = commentService.create(dto, post, currentUser.getAccount());
+            return new ResponseEntity<>(new CommentResponse(comment), HttpStatus.CREATED);
+        }
+        throw new ResourceLockedException("Post is locked");
     }
 }
