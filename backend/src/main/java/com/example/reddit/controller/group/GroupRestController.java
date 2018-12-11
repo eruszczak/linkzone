@@ -12,6 +12,7 @@ import com.example.reddit.service.AccountService;
 import com.example.reddit.service.FileStorageService;
 import com.example.reddit.service.GroupMembershipService;
 import com.example.reddit.service.GroupService;
+import com.example.reddit.utils.MultipartFileValidator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -113,6 +114,10 @@ public class GroupRestController {
     @PostMapping(value = "/{name}/upload-banner")
     public UploadFileResponse uploadBanner(@RequestParam("data") MultipartFile file,
                                            @PathVariable("name") String groupName) {
+        MultipartFileValidator.validate(file);
+        MultipartFileValidator.validateImageDimensions(file, 200, 1000);
+        MultipartFileValidator.validateImageSize(file, 1000);
+
         String fileName = fileStorageService.storeFile(file);
         Group group = groupService.findByName(groupName);
         groupService.updateGroupBannerUrl(fileName, group);

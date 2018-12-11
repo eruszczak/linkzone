@@ -26,7 +26,8 @@ public class Advice {
             EmailTakenException.class,
             NoPermissionsException.class,
             ResourceLockedException.class,
-            FileUploadException.class
+            FileUploadException.class,
+            ImageUploadException.class
     };
 
     @ExceptionHandler({
@@ -39,7 +40,8 @@ public class Advice {
             ResourceLockedException.class,
             FileStorageException.class,
             MyFileNotFoundException.class,
-            FileUploadException.class})
+            FileUploadException.class,
+            ImageUploadException.class})
     public ResponseEntity<ErrorResponse> handleRegularExceptions(final Exception e)
             throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         return createErrorResponse(e);

@@ -20,10 +20,16 @@
         </v-breadcrumbs>
         <v-divider class="my-3"></v-divider>
 
-        <p>{{bannerErrors}}</p>
-        <!--group.bannerUrl ? '/static/' + group.bannerUrl : '' TODO img src-->
-        <file-input :is-image="true" @formData="handleFormData" v-model="bannerFilename"></file-input>
-        <v-btn :disabled="bannerFormData.length === 0" @click.native="uploadLogo">Upload banner</v-btn>
+        <v-alert
+                :value="bannerErrors.length > 0"
+                type="error"
+        >
+            {{bannerErrors[0]}}
+        </v-alert>
+
+        <img v-if="group.bannerUrl" :src="'/static/' + group.bannerUrl">
+        <file-input :is-image="true" @formData="handleFormData" v-model="bannerFilename" :max-size-in-k-b="1000"></file-input>
+        <v-btn :disabled="bannerFormData.length === 0" @click.native="uploadBanner">Upload banner</v-btn>
 
         <v-divider class="my-3"></v-divider>
         <v-text-field
@@ -305,11 +311,9 @@
         },
         data() {
             return {
-                // logo upload
                 bannerFormData: [],
                 bannerFilename: '',
                 bannerErrors: [],
-
                 group: {},
                 isAdmin: false,
                 selectedAdmins: [],
@@ -518,14 +522,19 @@
                 })
             },
             handleFormData(val) {
-                this.bannerFormData = val.value;
+                if (val.value) {
+                    this.bannerFormData = val.value;
+                }
                 this.bannerErrors = val.errors
             },
-            uploadLogo() {
+            uploadBanner() {
                 console.log(this.bannerFormData);
                 this.$groupService.uploadBanner(this.group.name, this.bannerFormData[0], ({data}) => {
                     this.group.bannerUrl = data.fileName;
                     this.bannerFormData = []
+                }, ({data}) => {
+                    console.error('GroupEditView.uploadBanner', data);
+                    this.bannerErrors = data.errors
                 })
             }
         }

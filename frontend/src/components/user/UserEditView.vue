@@ -89,6 +89,7 @@
 
 <script>
     import validation from "../../mixins/validation";
+
     import FileInput from '../includes/FileInput';
 
     export default {
@@ -156,7 +157,8 @@
                     this.avatarFilename = data.fileName;
                     this.avatarFormData = []
                 }, ({data}) => {
-                    this.errorList = [data.message];
+                    console.error('UserEditView.uploadAvatar', data);
+                    this.errorList = data.errors;
                 })
             }
         }

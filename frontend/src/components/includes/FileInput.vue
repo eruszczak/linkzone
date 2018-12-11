@@ -40,14 +40,14 @@
                 type: Number,
                 default: 500
             },
-            maxWidth: {
-                type: Number,
-                default: 100
-            },
-            maxHeight: {
-                type: Number,
-                default: 100
-            },
+            // maxWidth: {
+            //     type: Number,
+            //     default: 100
+            // },
+            // maxHeight: {
+            //     type: Number,
+            //     default: 100
+            // },
             isImage: {
                 type: Boolean,
                 default: false
