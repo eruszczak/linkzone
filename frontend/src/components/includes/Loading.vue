@@ -1,9 +1,9 @@
 <template>
-    <v-layout row justify-center>
-        <v-dialog v-model="loading" persistent fullscreen content-class="loading-dialog" :transition="null">
+    <v-layout justify-center row>
+        <v-dialog :transition="null" content-class="loading-dialog" fullscreen persistent v-model="loading">
             <v-container fill-height>
-                <v-layout row justify-center align-center>
-                    <v-progress-circular indeterminate :size="70" :width="7" color="purple"></v-progress-circular>
+                <v-layout align-center justify-center row>
+                    <v-progress-circular :size="70" :width="7" color="purple" indeterminate></v-progress-circular>
                 </v-layout>
             </v-container>
         </v-dialog>

@@ -1,11 +1,10 @@
 <template>
     <div>
-        <post-creator v-if="post" @submit="updatePost" @upload="filename = $event" :post="post"></post-creator>
+        <post-creator :post="post" @submit="updatePost" @upload="filename = $event" v-if="post"></post-creator>
     </div>
 </template>
 
 <script>
-    import {mapMutations, mapGetters} from 'vuex'
     import PostCreator from './PostCreator'
     import {POST_TYPES} from "../../services/PostService";
 
@@ -18,23 +17,22 @@
                 required: true
             }
         },
-        mounted () {
+        mounted() {
             this.$postService.getPost(this.id, ({data}) => {
-               this.post = data;
-               this.filename = this.post.content;
+                this.post = data;
+                this.filename = this.post.content;
             });
         },
-        data () {
+        data() {
             return {
                 post: null,
                 filename: null
             }
         },
-        computed: {
-        },
+        computed: {},
         methods: {
             updatePost(value) {
-                console.log('updated post', value)
+                console.log('updated post', value);
                 if (this.post.type === POST_TYPES.MEDIA) {
                     if (this.filename == null) {
                         return;

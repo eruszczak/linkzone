@@ -26,4 +26,4 @@ const isUrlValid = (string) => {
     } catch (_) {
         return false;
     }
-}
+};

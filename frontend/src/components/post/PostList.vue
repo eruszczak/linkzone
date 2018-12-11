@@ -8,17 +8,20 @@
             <!--&gt;</v-divider>-->
             <v-list-tile
                     :key="post.id"
-                    avatar
                     :to="{name: 'postView', params: {name: groupName || post.groupName, postID: post.id}}"
+                    avatar
             >
                 <!--<v-list-tile-avatar>-->
                 <!--<img :src="item.avatar">-->
                 <!--</v-list-tile-avatar>-->
 
                 <v-list-tile-content>
-                    <v-list-tile-title>{{post.title}}; type: {{post.type}}; author: u/{{post.author}}</v-list-tile-title>
+                    <v-list-tile-title>{{post.title}}; type: {{post.type}}; author: u/{{post.author}}
+                    </v-list-tile-title>
                     <v-list-tile-sub-title>{{post.content}}</v-list-tile-sub-title>
-                    <v-list-tile-sub-title v-if="isAdmin || isModerator || post.author === $userService.getUsername()">edit; delete</v-list-tile-sub-title>
+                    <v-list-tile-sub-title v-if="isAdmin || isModerator || post.author === $userService.getUsername()">
+                        edit; delete
+                    </v-list-tile-sub-title>
                     <!--<v-list-tile-sub-title v-html="post.content"></v-list-tile-sub-title>-->
                 </v-list-tile-content>
             </v-list-tile>

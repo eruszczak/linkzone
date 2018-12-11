@@ -2,30 +2,29 @@
     <div>
         <v-form v-model="form.valid">
             <v-text-field
-                    label="Name"
                     :rules="[ruleIsNotEmpty]"
                     box
+                    label="Name"
                     v-model="form.name"
             ></v-text-field>
             <v-text-field
-                    label="Description"
                     :rules="[]"
                     box
+                    label="Description"
                     v-model="form.description"
             ></v-text-field>
         </v-form>
-        <v-btn @click="submit()" :disabled="!form.valid" color="success">Create</v-btn>
+        <v-btn :disabled="!form.valid" @click="submit()" color="success">Create</v-btn>
     </div>
 </template>
 
 <script>
-    import {mapMutations, mapGetters} from 'vuex'
     import validation from "../../mixins/validation";
 
     export default {
         name: 'GroupCreateView',
         mixins: [validation],
-        data () {
+        data() {
             return {
                 form: {
                     name: '',
@@ -40,8 +39,7 @@
                 }
             }
         },
-        computed: {
-        },
+        computed: {},
         methods: {
             submit() {
                 if (!this.form.valid) {
@@ -51,10 +49,10 @@
                     name: this.form.name,
                     description: this.form.description
                 }, (res) => {
-                    console.log(res)
+                    console.log(res);
                     this.$router.push({name: 'groupDetailView', params: {name: res.data.name}})
                 }, err => {
-                    console.log(err)
+                    console.log(err);
                     this.$message({
                         message: err.data.errors[0],
                         color: this.$toastColors.ERROR

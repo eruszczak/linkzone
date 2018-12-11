@@ -41,9 +41,9 @@ export default {
             state.filteredGroups = state.groups.filter(g => g.name.toLowerCase().indexOf(value.toLowerCase()) > -1)
         },
         filterGroups2: (state, value) => {
-            console.log('filterGroups2', value)
+            console.log('filterGroups2', value);
             if (!value) {
-                console.log('returning all groups')
+                console.log('returning all groups');
                 state.filteredGroups2 = state.groups.slice()
             }
             state.filteredGroups2 = state.groups.filter(g => g.name.toLowerCase().indexOf(value.toLowerCase()) > -1)
@@ -52,7 +52,7 @@ export default {
     },
     actions: {
         deleteGroup: ({commit, getters}, groupName) => {
-            commit('setFilterGroups', getters.filteredGroups.filter(g => g.name.toLowerCase().indexOf(groupName.toLowerCase()) === -1))
+            commit('setFilterGroups', getters.filteredGroups.filter(g => g.name.toLowerCase().indexOf(groupName.toLowerCase()) === -1));
             commit('setGroups', getters.groups.filter(g => g.name.toLowerCase().indexOf(groupName.toLowerCase()) === -1))
         }
     }

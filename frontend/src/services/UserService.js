@@ -1,10 +1,10 @@
-import { store } from '../store'
+import {store} from '../store'
 import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 import EventEmitter from 'eventemitter3'
 import router from '../router';
 
-const LOCAL_STORAGE_ACCESS_TOKEN_KEY = 'ACCESS_TOKEN'
+const LOCAL_STORAGE_ACCESS_TOKEN_KEY = 'ACCESS_TOKEN';
 
 export default class UserService {
     authNotifier = new EventEmitter();
@@ -12,7 +12,7 @@ export default class UserService {
     user;
 
     isTokenValid(token) {
-        const decodedToken = this.decodeToken(token)
+        const decodedToken = this.decodeToken(token);
         if (decodedToken) {
             const time = Date.now() / 1000;
             if (token.exp < time) {
@@ -40,11 +40,11 @@ export default class UserService {
             usernameOrEmail: username,
             password: password
         }).then(res => {
-            store.commit('toggleLoading', false)
-            store.commit('setIsAuthenticated', true)
-            store.commit('setAccessToken', res.data.accessToken)
-            localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_KEY, res.data.accessToken)
-            this.authNotifier.emit('authChange')
+            store.commit('toggleLoading', false);
+            store.commit('setIsAuthenticated', true);
+            store.commit('setAccessToken', res.data.accessToken);
+            localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_KEY, res.data.accessToken);
+            this.authNotifier.emit('authChange');
             cb && cb();
             if (store.getters.next) {
                 console.warn(store.getters.next);
@@ -80,7 +80,7 @@ export default class UserService {
         if (!username) {
             return
         }
-        const url = `/users/groupInfo/${username}`
+        const url = `/users/groupInfo/${username}`;
         axios.get(url).then(cb);
     };
 
@@ -88,7 +88,7 @@ export default class UserService {
         if (!username) {
             return
         }
-        const url = `/users/${username}/posts/`
+        const url = `/users/${username}/posts/`;
         axios.get(url).then(cb);
     };
 
@@ -96,7 +96,7 @@ export default class UserService {
         if (!username) {
             return
         }
-        const url = `/users/${username}/comments/`
+        const url = `/users/${username}/comments/`;
         axios.get(url).then(cb);
     };
 
@@ -117,6 +117,7 @@ export default class UserService {
     }
 
     updateAccount = (username, data, cb, cbError) => {
+        // update this.user with new data
         axios.put(`/users/${username}`, data).then(cb).catch(cbError);
     };
 
@@ -135,6 +136,9 @@ export default class UserService {
         store.commit('setAccessToken', this.getToken());
         if (isAuthenticated) {
             cb && cb();
+            this.getUserDetails(this.getUsername(), ({data}) => {
+                this.user = data;
+            });
         } else {
             cbError && cbError();
         }
@@ -170,7 +174,7 @@ export default class UserService {
         // this.authNotifier.emit('authChange')
         if (router.currentRoute.meta.requiresAuth) {
             console.log('redirecting from protected route');
-            router.push({ path: '/' })
+            router.push({path: '/'})
         }
         store.commit('setGroups', []);
         cb && cb()

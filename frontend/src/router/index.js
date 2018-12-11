@@ -11,13 +11,13 @@ import PostView from '@/components/post/PostView'
 import UserProfileView from '@/components/user/UserProfileView'
 import UserEditView from '@/components/user/UserEditView'
 import PostUpdateView from '@/components/post/PostUpdateView'
-import { store } from '../store'
+import {store} from '../store'
 
-Vue.use(Router)
+Vue.use(Router);
 
-export const LOGIN_VIEW_ROUTE_NAME = 'loginView'
+export const LOGIN_VIEW_ROUTE_NAME = 'loginView';
 
-const router =  new Router({
+const router = new Router({
     mode: process.env.NODE_ENV === 'production' ? 'history' : 'hash',
     // linkActiveClass: 'is-active',
     linkExactActiveClass: 'is-active',
@@ -53,7 +53,7 @@ const router =  new Router({
             name: 'postCreateView',
             path: '/add/post/:groupName?',
             component: PostCreateView,
-            meta: { requiresAuth: true },
+            meta: {requiresAuth: true},
             props: true
         },
         {
@@ -71,7 +71,7 @@ const router =  new Router({
         {
             name: 'groupCreateView',
             path: '/add/group',
-            meta: { requiresAuth: true },
+            meta: {requiresAuth: true},
             component: GroupCreateView
         },
         {
@@ -86,25 +86,25 @@ const router =  new Router({
             component: UserEditView
         },
     ]
-})
+});
 
 router.beforeEach((to, from, next) => {
-    console.log('to', to)
-    console.log('from', from)
+    console.log('to', to);
+    console.log('from', from);
     if (to.matched.some(record => record.meta.requiresAuth)) {
-        console.log('requires Auth', store.getters.isAuthenticated)
+        console.log('requires Auth', store.getters.isAuthenticated);
         if (!store.getters.isAuthenticated) {
             if (from.fullPath === '/') {
-                console.log('replacing')
-                router.replace({ 'path': '/'})
+                console.log('replacing');
+                router.replace({'path': '/'})
             }
-            console.log('not logged', store.getters.loginModalActive)
+            console.log('not logged', store.getters.loginModalActive);
             // store.commit('setLoginModalState', false)
-            const timeout = from.name ? 0 : 500 // if user directly navigates to protected route, we must give some time to let login modal component to initialize
-            console.log('timeout', timeout)
+            const timeout = from.name ? 0 : 500; // if user directly navigates to protected route, we must give some time to let login modal component to initialize
+            console.log('timeout', timeout);
             setTimeout(() => {
-                store.commit('setLoginModalState', true)
-                store.commit('setNextRoute', { name: to.name, params: to.params })
+                store.commit('setLoginModalState', true);
+                store.commit('setNextRoute', {name: to.name, params: to.params})
             }, timeout)
         } else {
             next()

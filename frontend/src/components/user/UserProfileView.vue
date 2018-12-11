@@ -1,32 +1,32 @@
 <template>
     <div>
         <v-tabs
-                v-model="active"
                 color="cyan"
                 dark
                 slider-color="yellow"
+                v-model="active"
         >
             <v-tab
-                    ripple
                     href="#posts"
+                    ripple
             >
                 posts
             </v-tab>
             <v-tab
-                    ripple
                     href="#comments"
+                    ripple
             >
                 comments
             </v-tab>
             <v-tab
-                    ripple
                     href="#moderatedGroups"
+                    ripple
             >
                 moderated groups
             </v-tab>
             <v-tab
-                    ripple
                     href="#administratedGroups"
+                    ripple
             >
                 administrated groups
             </v-tab>
@@ -46,9 +46,10 @@
             >
                 <v-card flat>
                     <v-card-text>
-                      <v-flex xs12 v-for="(item, index) in comments" :key="item.id">
-                        <comment :item="item" :index="index" @removed="handleRemovedComment($event)" read-only></comment>
-                      </v-flex>
+                        <v-flex :key="item.id" v-for="(item, index) in comments" xs12>
+                            <comment :index="index" :item="item" @removed="handleRemovedComment($event)"
+                                     read-only></comment>
+                        </v-flex>
                     </v-card-text>
                 </v-card>
             </v-tab-item>
@@ -86,7 +87,7 @@
                 required: true
             }
         },
-        data () {
+        data() {
             return {
                 active: null,
                 text: 'Lorem ipsum dolor',
@@ -96,25 +97,25 @@
             }
         },
         computed: {
-          ...mapGetters([])
+            ...mapGetters([])
         },
         mounted() {
-            console.log('mounted')
+            console.log('mounted');
             this.$userService.getPosts(this.username, ({data}) => {
                 this.posts = data.content
-            })
+            });
 
             this.$userService.getComments(this.username, ({data}) => {
                 this.comments = data.content
-            })
+            });
 
             this.$userService.getGroupInfo(this.username, ({data}) => {
-              this.groups = data
+                this.groups = data
             })
         },
         methods: {
-            next () {
-                const active = parseInt(this.active)
+            next() {
+                const active = parseInt(this.active);
                 this.active = (active < 2 ? active + 1 : 0)
             }
         }

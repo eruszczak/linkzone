@@ -1,7 +1,7 @@
 <template>
-    <v-dialog v-model="dialog" max-width="500px">
+    <v-dialog max-width="500px" v-model="dialog">
         <v-card class="elevation-12">
-            <v-toolbar dark color="primary">
+            <v-toolbar color="primary" dark>
                 <v-toolbar-title>Login</v-toolbar-title>
             </v-toolbar>
             <v-card-text>
@@ -12,24 +12,24 @@
                     {{errors[0]}}
                 </v-alert>
                 <v-form v-model="form.valid">
-                    <v-text-field prepend-icon="person" name="login" label="Username/Email" type="text"
-                                  v-model="form.usernameOrEmail" :rules="[ruleIsNotEmpty]"></v-text-field>
-                    <v-text-field id="password" prepend-icon="lock" name="password" label="Password" type="password"
-                                  v-model="form.password" :rules="[ruleIsNotEmpty]"></v-text-field>
+                    <v-text-field :rules="[ruleIsNotEmpty]" label="Username/Email" name="login" prepend-icon="person"
+                                  type="text" v-model="form.usernameOrEmail"></v-text-field>
+                    <v-text-field :rules="[ruleIsNotEmpty]" id="password" label="Password" name="password" prepend-icon="lock"
+                                  type="password" v-model="form.password"></v-text-field>
                 </v-form>
             </v-card-text>
             <v-card-actions>
-                <p>Not a memeber? <span style="color: blue" @click="signUp()">Sign up</span></p>
+                <p>Not a memeber? <span @click="signUp()" style="color: blue">Sign up</span></p>
                 <v-spacer></v-spacer>
-                <v-btn color="default" @click="dialog = false">Cancel</v-btn>
-                <v-btn color="success" @click="login()" :disabled="!form.valid">Login</v-btn>
+                <v-btn @click="dialog = false" color="default">Cancel</v-btn>
+                <v-btn :disabled="!form.valid" @click="login()" color="success">Login</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
 </template>
 
 <script>
-    import {mapMutations, mapGetters} from 'vuex'
+    import {mapGetters, mapMutations} from 'vuex'
     import validation from "../../mixins/validation";
 
     export default {
@@ -48,7 +48,7 @@
         },
         watch: {
             loginModalActive(val) {
-                console.log('watch loginModalActive', val)
+                console.log('watch loginModalActive', val);
                 this.dialog = val
             },
             dialog(val) {
@@ -61,11 +61,11 @@
         methods: {
             ...mapMutations(['setAccessToken', 'setLoginModalState', 'toggleLoading', 'setRegisterModalState']),
             login() {
-                this.error = false
-                this.toggleLoading(true)
+                this.error = false;
+                this.toggleLoading(true);
                 this.$userService.authenticate(this.form.usernameOrEmail, this.form.password, () => {
-                    this.dialog = false
-                    this.toggleLoading(false)
+                    this.dialog = false;
+                    this.toggleLoading(false);
                     this.$message({
                         message: "Hello " + this.form.usernameOrEmail
                     })
@@ -75,8 +75,8 @@
                 })
             },
             signUp() {
-                console.log('signup instead')
-                this.setLoginModalState(false)
+                console.log('signup instead');
+                this.setLoginModalState(false);
                 this.setRegisterModalState(true)
             }
         }

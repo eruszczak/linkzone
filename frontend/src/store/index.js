@@ -4,7 +4,7 @@ import search from './modules/search'
 import auth from './modules/auth'
 import groups from './modules/groups'
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export const store = new Vuex.Store({
     strict: process.env.NODE_ENV !== 'production',
@@ -41,7 +41,7 @@ export const store = new Vuex.Store({
             state.isLoading = isLoading
         },
         setAPIError: (state, message) => {
-            state.apiError.isError = true
+            state.apiError.isError = true;
             state.apiError.message = message
         },
         disableAPIError: (state) => {
@@ -55,8 +55,8 @@ export const store = new Vuex.Store({
             state.registerModalActive = value
         },
         setShowToast: (state, config) => {
-            state.showToast = true
-            state.toastOptions = config
+            state.showToast = true;
+            state.toastOptions = config;
             console.log(state.showToast, state.toastOptions)
         },
         hideToast: state => {
@@ -72,4 +72,4 @@ export const store = new Vuex.Store({
         auth,
         groups
     }
-})
+});

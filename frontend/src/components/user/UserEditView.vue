@@ -8,7 +8,7 @@
                 :value="errorList.length > 0"
                 type="error"
         >
-            <p v-for="error in errorList" :key="error">* {{error}}</p>
+            <p :key="error" v-for="error in errorList">* {{error}}</p>
         </v-alert>
         <v-toolbar
                 card
@@ -18,10 +18,10 @@
             <v-toolbar-title class="font-weight-light">User Profile</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn
+                    @click="isEditing = !isEditing"
                     color="purple darken-3"
                     fab
                     small
-                    @click="isEditing = !isEditing"
             >
                 <v-icon v-if="isEditing">mdi-close</v-icon>
                 <v-icon v-else>mdi-pencil</v-icon>
@@ -30,16 +30,16 @@
         <v-card-text>
             <v-text-field
                     :disabled="!isEditing"
+                    :rules="[ruleIsNotEmpty]"
                     color="white"
                     label="Username"
-                    :rules="[ruleIsNotEmpty]"
                     v-model="form.username"
             ></v-text-field>
             <v-text-field
                     :disabled="!isEditing"
+                    :rules="[ruleEmail]"
                     color="white"
                     label="Email"
-                    :rules="[ruleEmail]"
                     v-model="form.email"
             ></v-text-field>
             <v-text-field
@@ -48,15 +48,19 @@
                     label="Tagline"
                     v-model="form.tagline"
             ></v-text-field>
-            <v-text-field prepend-icon="lock" name="password" label="Password" type="password" :disabled="!isEditing"
-                          v-model="form.password" :rules="[]"></v-text-field>
-            <v-text-field prepend-icon="lock" name="password" label="Password confirm" type="password" :disabled="!isEditing"
-                          v-model="form.passwordConfirm" :rules="[]"></v-text-field>
+            <v-text-field :disabled="!isEditing" :rules="[]" label="Password" name="password" prepend-icon="lock"
+                          type="password" v-model="form.password"></v-text-field>
+            <v-text-field :disabled="!isEditing" :rules="[]" label="Password confirm" name="password"
+                          prepend-icon="lock"
+                          type="password" v-model="form.passwordConfirm"></v-text-field>
 
             <div>
                 <p>{{avatarErrors}}</p>
-                <file-input v-model="avatarFilename" @formData="handleFormData" :is-image="true" :disabled="!isEditing" :current-image-url="avatarFilename ? '/static/' + avatarFilename : ''"></file-input>
-                <v-btn v-if="isEditing" @click.native="uploadAvatar" :disabled="avatarFormData.length === 0">Upload avatar</v-btn>
+                <file-input :current-image-url="avatarFilename ? '/static/' + avatarFilename : ''" :disabled="!isEditing" :is-image="true" @formData="handleFormData"
+                            v-model="avatarFilename"></file-input>
+                <v-btn :disabled="avatarFormData.length === 0" @click.native="uploadAvatar" v-if="isEditing">Upload
+                    avatar
+                </v-btn>
             </div>
         </v-card-text>
         <v-divider></v-divider>
@@ -64,18 +68,18 @@
             <v-spacer></v-spacer>
             <v-btn
                     :disabled="!isEditing"
-                    color="success"
                     @click="save"
+                    color="success"
             >
                 Save
             </v-btn>
         </v-card-actions>
         <v-snackbar
-                v-model="hasSaved"
                 :timeout="2000"
                 absolute
                 bottom
                 left
+                v-model="hasSaved"
         >
             Your profile has been updated
         </v-snackbar>
@@ -92,17 +96,17 @@
             FileInput
         },
         mixins: [validation],
-        mounted () {
-          this.$userService.getUpdateInfo(({data}) => {
-              console.log(data)
-                this.username = data.username
-                this.form.username = data.username
-                this.form.email = data.email
-                this.form.tagline = data.tagline
+        mounted() {
+            this.$userService.getUpdateInfo(({data}) => {
+                console.log(data);
+                this.username = data.username;
+                this.form.username = data.username;
+                this.form.email = data.email;
+                this.form.tagline = data.tagline;
                 this.avatarFilename = data.avatar;
-          })
+            })
         },
-        data () {
+        data() {
             return {
                 avatarFilename: '',
                 avatarErrors: [],
@@ -122,16 +126,16 @@
             }
         },
         methods: {
-            customFilter (item, queryText, itemText) {
-                const textOne = item.name.toLowerCase()
-                const textTwo = item.abbr.toLowerCase()
-                const searchText = queryText.toLowerCase()
+            customFilter(item, queryText, itemText) {
+                const textOne = item.name.toLowerCase();
+                const textTwo = item.abbr.toLowerCase();
+                const searchText = queryText.toLowerCase();
 
                 return textOne.indexOf(searchText) > -1 ||
                     textTwo.indexOf(searchText) > -1
             },
-            save () {
-                this.errorList = []
+            save() {
+                this.errorList = [];
                 this.$userService.updateAccount(this.username, {
                     username: this.form.username,
                     email: this.form.email,
@@ -139,21 +143,21 @@
                     password: this.form.password,
                     passwordConfirm: this.form.passwordConfirm
                 }, () => {
-                    this.hasSaved = true
+                    this.hasSaved = true;
                     this.isEditing = !this.isEditing
                 }, ({data}) => {
-                    console.error(data)
+                    console.error(data);
                     this.errorList = data.errors
                 })
             },
             handleFormData(val) {
-                this.avatarFormData = val.value
+                this.avatarFormData = val.value;
                 this.avatarErrors = val.errors
             },
             // todo after changing username, I won't be able to update avatar? not only avatar I think
             uploadAvatar() {
                 this.$userService.uploadAvatar(this.username, this.avatarFormData[0], ({data}) => {
-                    this.avatarFilename = data.fileName
+                    this.avatarFilename = data.fileName;
                     this.avatarFormData = []
                 })
             }

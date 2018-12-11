@@ -1,19 +1,19 @@
 <template>
-    <v-dialog v-model="dialog" max-width="500px">
+    <v-dialog max-width="500px" v-model="dialog">
         <v-card class="elevation-12">
-            <v-toolbar dark color="primary">
+            <v-toolbar color="primary" dark>
                 <v-toolbar-title>Sign up</v-toolbar-title>
             </v-toolbar>
             <v-card-text>
                 <v-form v-model="form.valid">
-                    <v-text-field prepend-icon="person" label="Username" type="text"
-                                  v-model="form.username" :rules="[ruleIsNotEmpty]"></v-text-field>
-                    <v-text-field prepend-icon="email" label="Email" type="text"
-                                  v-model="form.email" :rules="[ruleIsNotEmpty, ruleEmail]"></v-text-field>
-                    <v-text-field prepend-icon="lock" label="Password" type="password"
-                                  v-model="form.password" :rules="[ruleIsNotEmpty]"></v-text-field>
-                    <v-text-field prepend-icon="lock" label="Password confirm" type="password"
-                                  v-model="form.passwordConfirm" :rules="[ruleIsNotEmpty]"></v-text-field>
+                    <v-text-field :rules="[ruleIsNotEmpty]" label="Username" prepend-icon="person"
+                                  type="text" v-model="form.username"></v-text-field>
+                    <v-text-field :rules="[ruleIsNotEmpty, ruleEmail]" label="Email" prepend-icon="email"
+                                  type="text" v-model="form.email"></v-text-field>
+                    <v-text-field :rules="[ruleIsNotEmpty]" label="Password" prepend-icon="lock"
+                                  type="password" v-model="form.password"></v-text-field>
+                    <v-text-field :rules="[ruleIsNotEmpty]" label="Password confirm" prepend-icon="lock"
+                                  type="password" v-model="form.passwordConfirm"></v-text-field>
                     <v-checkbox
                             label="Log me in"
                             v-model="form.loginOnSuccess"
@@ -21,24 +21,23 @@
                 </v-form>
             </v-card-text>
             <v-card-actions>
-                <p>Already a memeber? <span style="color: blue" @click="signIn()">Sign in</span></p>
+                <p>Already a memeber? <span @click="signIn()" style="color: blue">Sign in</span></p>
                 <v-spacer></v-spacer>
-                <v-btn color="default" @click="dialog = false">Cancel</v-btn>
-                <v-btn color="success" @click="registerAccount()" :disabled="!form.valid">Sign up</v-btn>
+                <v-btn @click="dialog = false" color="default">Cancel</v-btn>
+                <v-btn :disabled="!form.valid" @click="registerAccount()" color="success">Sign up</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
 </template>
 
 <script>
-    import {mapMutations, mapGetters} from 'vuex'
-    import debounce from 'lodash/debounce'
+    import {mapGetters, mapMutations} from 'vuex'
     import validation from "../../mixins/validation";
 
     export default {
         name: "RegisterView",
         mixins: [validation],
-        data () {
+        data() {
             return {
                 form: {
                     username: 'user3',
@@ -57,7 +56,7 @@
         },
         watch: {
             registerModalActive(val) {
-                console.log('watch registerModalActive', val)
+                console.log('watch registerModalActive', val);
                 this.dialog = val
             },
             dialog(val) {
@@ -66,16 +65,16 @@
         },
         methods: {
             ...mapMutations(['setAccessToken', 'setRegisterModalState', 'toggleLoading', 'setLoginModalState']),
-            registerAccount () {
-                this.error = false
+            registerAccount() {
+                this.error = false;
                 const vm = this;
-                this.toggleLoading(true)
+                this.toggleLoading(true);
                 this.$userService.register(vm.form, res => {
-                    let msg = "Account created"
+                    let msg = "Account created";
                     if (vm.form.loginOnSuccess) {
                         this.$userService.authenticate(vm.form.email, vm.form.password, () => {
-                            this.dialog = false
-                            this.toggleLoading(false)
+                            this.dialog = false;
+                            this.toggleLoading(false);
                             vm.$message({
                                 message: "Hello " + vm.form.username
                             })
@@ -88,8 +87,8 @@
                 })
             },
             signIn() {
-                console.log('signIn instead')
-                this.setLoginModalState(true)
+                console.log('signIn instead');
+                this.setLoginModalState(true);
                 this.setRegisterModalState(false)
             }
         }

@@ -1,4 +1,4 @@
-import { store } from '../store'
+import {store} from '../store'
 import axios from 'axios'
 import {buildPaginationQueryString} from '../utils/utils';
 
@@ -12,18 +12,20 @@ export default class GroupService {
             store.commit('addGroup', group)
         });
     }
+
     unsubscribe(group, cb, cbError) {
         axios.delete(`/groups/${group.name}/membership/`).then(cb, cbError).then(() => {
             store.commit('unsubGroup', group)
         });
     }
+
     getSubbedGroups = (username, cb, cbError) => {
         axios.get(`/users/${username}/groups/`).then(cb, cbError)
     };
 
     getGroupList = (pageable, query, cb, cbError) => {
         pageable = pageable || {};
-        const url = '/groups/' + buildPaginationQueryString(pageable.page, pageable.perPage)
+        const url = '/groups/' + buildPaginationQueryString(pageable.page, pageable.perPage);
         const qs = query ? `&name=${query}` : '';
         axios.get(url + qs).then(res => {
             cb(res)
@@ -61,12 +63,12 @@ export default class GroupService {
     addGroup = (data, cb, cbError) => {
         axios.post(`/groups/`, data).then(cb, cbError)
     };
-    
+
     getPosts = (group, pageable, cb, cbError) => {
         const url = `/groups/${group.name}/posts/` + buildPaginationQueryString(pageable.page, pageable.perPage);
         axios.get(url).then(cb);
     };
-    
+
     checkGroupName = (name, cb, cbError) => {
         axios.get(`/groups/checkName/${name}`).then(cb);
     };

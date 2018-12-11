@@ -12,7 +12,7 @@ export const AVAILABLE_LANGUAGES = [
         'icon': 'flags/poland.png',
         'locale': 'pl'
     }
-]
+];
 
 export default {
     pl: pl,

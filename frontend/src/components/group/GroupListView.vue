@@ -1,36 +1,38 @@
 <template>
     <div>
-        <h2><router-link :to="{name: 'groupCreateView'}">Add group</router-link></h2>
-        <p v-for="group in groups" :key="group.name">
+        <h2>
+            <router-link :to="{name: 'groupCreateView'}">Add group</router-link>
+        </h2>
+        <p :key="group.name" v-for="group in groups">
             <router-link :to="{name: 'groupDetailView', params: {name: group.name}}">
                 {{group.name}}
             </router-link>
             {{group.description}}
         </p>
-        <pagination @change="handleChange" :pagination="pagination"/>
+        <pagination :pagination="pagination" @change="handleChange"/>
 
-        <v-flex xs12 sm12>
+        <v-flex sm12 xs12>
             <v-card>
                 <v-list two-line>
                     <template v-for="(item, index) in items">
                         <v-subheader
-                                v-if="item.header"
                                 :key="item.header"
+                                v-if="item.header"
                         >
                             {{ item.header }}
                         </v-subheader>
 
                         <v-divider
-                                v-else-if="item.divider"
                                 :inset="item.inset"
                                 :key="index"
+                                v-else-if="item.divider"
                         ></v-divider>
 
                         <v-list-tile
-                                v-else
                                 :key="item.title"
-                                avatar
                                 @click=""
+                                avatar
+                                v-else
                         >
                             <v-list-tile-avatar>
                                 <img :src="item.avatar">
@@ -50,7 +52,6 @@
 
 <script>
     import {getPaginationFromResponse} from "../../utils/utils"
-    import {mapMutations, mapGetters} from 'vuex'
     import Pagination from '../includes/Pagination'
 
     export default {
@@ -58,27 +59,27 @@
         components: {
             Pagination
         },
-        mounted () {
+        mounted() {
             this.getGroups();
         },
-        data () {
+        data() {
             return {
                 groups: [],
                 pagination: {},
                 items: [
-                    { header: 'Today' },
+                    {header: 'Today'},
                     {
                         avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg',
                         title: 'Brunch this weekend?',
                         subtitle: "<span class='text--primary'>Ali Connors</span> &mdash; I'll be in your neighborhood doing errands this weekend. Do you want to hang out?"
                     },
-                    { divider: true, inset: true },
+                    {divider: true, inset: true},
                     {
                         avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg',
                         title: 'Summer BBQ <span class="grey--text text--lighten-1">4</span>',
                         subtitle: "<span class='text--primary'>to Alex, Scott, Jennifer</span> &mdash; Wish I could come, but I'm out of town this weekend."
                     },
-                    { divider: true, inset: true },
+                    {divider: true, inset: true},
                     {
                         avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg',
                         title: 'Oui oui',
@@ -87,15 +88,14 @@
                 ]
             }
         },
-        computed: {
-        },
+        computed: {},
         methods: {
             handleChange(pageNumber) {
                 this.getGroups({page: pageNumber});
             },
-            getGroups (pageable = {}) {
+            getGroups(pageable = {}) {
                 this.$groupService.getGroupList(pageable, null, res => {
-                    this.groups = res.data.content
+                    this.groups = res.data.content;
                     this.pagination = getPaginationFromResponse(res.data)
                 })
             }

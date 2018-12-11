@@ -6,13 +6,13 @@ export const toast = (config, cb) => {
         timeout: config.seconds ? config.seconds * 1000 : 1000,
         message: config.message,
         color: config.color || TOAST_COLORS.INFO
-    }
-    console.log('toast options', options)
+    };
+    console.log('toast options', options);
     if (options.message) {
-        store.commit('setShowToast', options)
+        store.commit('setShowToast', options);
         setTimeout(() => {
-            store.commit('hideToast')
+            store.commit('hideToast');
             cb && cb()
         }, options.timeout - 500)
     }
-}
+};
