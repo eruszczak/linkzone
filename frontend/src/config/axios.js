@@ -16,7 +16,7 @@ axios.interceptors.request.use((config) => {
 axios.interceptors.response.use((response) => {
     return response
 }, function (error) {
-    console.error(error);
+    console.error('axios', error);
     if (error.response.status === 401) {
         console.log('unauthorized, logging out ...');
         Vue.prototype.$userService.logout()
@@ -28,8 +28,9 @@ axios.interceptors.response.use((response) => {
             message: 'Forbidden',
             type: Vue.prototype.$toastColors.ERROR
         });
+
+        store.commit('setAPIError', error.response.data);
+        store.commit('toggleLoading', false);
     }
-    store.commit('setAPIError', error.response.data);
-    store.commit('toggleLoading', false);
     return Promise.reject(error.response)
 });

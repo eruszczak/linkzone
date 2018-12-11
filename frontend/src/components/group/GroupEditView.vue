@@ -21,8 +21,8 @@
         <v-divider class="my-3"></v-divider>
 
         <p>{{bannerErrors}}</p>
-        <file-input :current-image-url="group.bannerUrl ? '/static/' + group.bannerUrl : ''" :is-image="true" @formData="handleFormData"
-                    v-model="bannerFilename"></file-input>
+        <!--group.bannerUrl ? '/static/' + group.bannerUrl : '' TODO img src-->
+        <file-input :is-image="true" @formData="handleFormData" v-model="bannerFilename"></file-input>
         <v-btn :disabled="bannerFormData.length === 0" @click.native="uploadLogo">Upload banner</v-btn>
 
         <v-divider class="my-3"></v-divider>

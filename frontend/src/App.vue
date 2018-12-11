@@ -228,6 +228,7 @@
         watch: {
             'apiError.isError'(isError) {
                 if (isError) {
+                    console.log('isError. App.vue')
                     this.$message({
                         message: this.apiError.message.message,
                         color: this.$toastColors.ERROR

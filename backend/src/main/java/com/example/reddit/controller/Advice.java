@@ -3,6 +3,7 @@ package com.example.reddit.controller;
 import com.example.reddit.exception.*;
 import com.example.reddit.validation.ErrorResponse;
 import com.example.reddit.validation.ValidationErrorBuilder;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -24,7 +25,8 @@ public class Advice {
             UsernameTakenException.class,
             EmailTakenException.class,
             NoPermissionsException.class,
-            ResourceLockedException.class
+            ResourceLockedException.class,
+            FileUploadException.class
     };
 
     @ExceptionHandler({
@@ -36,7 +38,8 @@ public class Advice {
             NoPermissionsException.class,
             ResourceLockedException.class,
             FileStorageException.class,
-            MyFileNotFoundException.class})
+            MyFileNotFoundException.class,
+            FileUploadException.class})
     public ResponseEntity<ErrorResponse> handleRegularExceptions(final Exception e)
             throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
         return createErrorResponse(e);

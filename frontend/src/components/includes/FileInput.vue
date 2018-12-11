@@ -40,6 +40,14 @@
                 type: Number,
                 default: 500
             },
+            maxWidth: {
+                type: Number,
+                default: 100
+            },
+            maxHeight: {
+                type: Number,
+                default: 100
+            },
             isImage: {
                 type: Boolean,
                 default: false
@@ -48,8 +56,7 @@
         data() {
             return {
                 filename: '',
-                errors: [],
-                pickedImageUrl: ''
+                errors: []
             }
         },
         watch: {
@@ -67,18 +74,13 @@
                 for (const file of files) {
                     console.log('fileInput', file);
                     if (file.size > this.maxSizeInKB * 1000) {
-                        this.errors.push(`${file.name} is bigger than ${this.maxSizeInKB} KB`);
+                        this.errors.push(`File is igger than ${this.maxSizeInKB} KB`);
                         this.filename = '';
-                        this.pickedImageUrl = '';
                         continue;
                     }
+                    console.log(file.width, file.height)
                     const form = new FormData();
                     form.append('data', file, file.name);
-                    console.log('picked image', this.pickedImageUrl);
-
-                    // if (this.showPickedImage) {
-                    //   this.pickedImageUrl = window.URL.createObjectURL(file);
-                    // }
 
                     forms.push(form)
                 }
@@ -102,10 +104,8 @@
                     this.filename = $event.target.value.split('\\').pop()
                 }
                 console.error('form', form);
-                if (form.length === 0) {
-                    return;
-                }
-                this.$emit('input', this.filename);
+
+                // this.$emit('input', this.filename);
                 this.$emit('formData', {
                     value: form,
                     errors: this.errors

@@ -14,6 +14,7 @@ import com.example.reddit.security.UserPrincipal;
 import com.example.reddit.service.AccountService;
 import com.example.reddit.service.FileStorageService;
 import com.example.reddit.utils.ModelMapper;
+import com.example.reddit.utils.MultipartFileValidator;
 import com.example.reddit.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -145,6 +146,9 @@ public class AccountRestController {
                                            @PathVariable("username") String username,
                                            @CurrentUser UserPrincipal currentUser) {
         Utils.checkIfOwner(currentUser, username);
+        MultipartFileValidator.validate(file);
+        MultipartFileValidator.validateImageDimensions(file, 200, 200);
+        MultipartFileValidator.validateImageSize(file, 500);
         String fileName = fileStorageService.storeFile(file);
         accountService.updateAvatar(fileName, currentUser.getId());
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()

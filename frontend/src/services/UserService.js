@@ -126,7 +126,7 @@ export default class UserService {
     };
 
     uploadAvatar = (username, form, cb, cbError) => {
-        axios.post(`/users/${username}/upload-avatar/`, form).then(cb);
+        axios.post(`/users/${username}/upload-avatar/`, form).then(cb).catch(cbError);
     };
 
     findExact = (username, cb, cbError) => {
