@@ -56,6 +56,7 @@
 
             <div>
                 <p>{{avatarErrors}}</p>
+                <img :src="`/static/${avatarFilename}`"/>
                 <file-input :current-image-url="avatarFilename ? '/static/' + avatarFilename : ''" :disabled="!isEditing" :is-image="true" @formData="handleFormData"
                             v-model="avatarFilename"></file-input>
                 <v-btn :disabled="avatarFormData.length === 0" @click.native="uploadAvatar" v-if="isEditing">Upload
@@ -126,14 +127,6 @@
             }
         },
         methods: {
-            customFilter(item, queryText, itemText) {
-                const textOne = item.name.toLowerCase();
-                const textTwo = item.abbr.toLowerCase();
-                const searchText = queryText.toLowerCase();
-
-                return textOne.indexOf(searchText) > -1 ||
-                    textTwo.indexOf(searchText) > -1
-            },
             save() {
                 this.errorList = [];
                 this.$userService.updateAccount(this.username, {

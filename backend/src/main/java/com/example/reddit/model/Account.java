@@ -82,13 +82,6 @@ public class Account extends DateAudit {
                 .collect(Collectors.toList());
     }
 
-    public String getAvatar() {
-        if (StringUtils.isNotBlank(avatar)) {
-            return avatar;
-        }
-        return "https://api.adorable.io/avatar/100/" + username;
-    }
-
     @Override
     public String toString() {
         return "Account{" +

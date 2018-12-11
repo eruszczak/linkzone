@@ -92,6 +92,10 @@ export default class UserService {
         axios.get(url).then(cb);
     };
 
+    getDefaultAvatar(username) {
+        return `https://api.adorable.io/avatar/100/${username}`;
+    }
+
     getComments = (username, cb, cbError) => {
         if (!username) {
             return

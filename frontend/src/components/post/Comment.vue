@@ -9,7 +9,7 @@
                     :tile="false"
                     color="grey lighten-4"
             >
-                <img :src="item.author" alt="avatar">
+                <img :src="!item.author.avatar ? $userService.getDefaultAvatar(item.author.username) : `/static/${item.author.avatar}`" alt="avatar">
             </v-avatar>
             <span class="ml-4">{{item.content}}</span>
         </v-card-text>

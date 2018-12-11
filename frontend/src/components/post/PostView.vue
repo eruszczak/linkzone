@@ -102,48 +102,10 @@
             });
             this.$postService.getPost(this.postID, res => {
                 this.post = res.data
-                // this.postCopy = JSON.parse(JSON.stringify(this.post))
-                // this.isOwner = this.$userService.isOwner(this.post.author)
-                // switch (this.post.type) {
-                //     case POST_TYPES.POST:
-                //         this.form.title = this.post.title;
-                //         this.form.content = this.post.content;
-                //         break;
-                //     case POST_TYPES.LINK:
-                //         this.formLink.title = this.post.title;
-                //         this.formLink.content = this.post.content;
-                //         break;
-                //     case POST_TYPES.MEDIA:
-                //         this.formMedia.title = this.post.title;
-                //         this.formMedia.content = this.post.content;
-                //         console.log('formMedia', this.formMedia)
-                //         break;
-                // }
             });
             this.loadMoreComments();
         },
-        // watch: {
-        //     post: {
-        //         handler(val) {
-        //             this.postCopy = JSON.parse(JSON.stringify(val))
-        //         },
-        //         deep: true
-        //     }
-        // },
         computed: {
-            // postChanged () {
-            //   return this.postCopy && !_.isEqual(this.post, this.postCopy)
-            // },
-            // isValid () {
-            //     switch (this.post.type) {
-            //         case POST_TYPES.POST:
-            //             return this.formUpdated.valid && !_.isEqual(this.formUpdated, this.form);
-            //         case POST_TYPES.LINK:
-            //             return this.formLinkUpdated.valid && !_.isEqual(this.formLinkUpdated, this.formLink);
-            //         case POST_TYPES.MEDIA:
-            //             return this.formMediaUpdated.valid && !_.isEqual(this.formMediaUpdated, this.formMedia);
-            //     }
-            // }
         },
         methods: {
             ...mapMutations(['toggleLoading']),
@@ -165,42 +127,11 @@
                     this.commentMetadata.pageNumber = data.number + 1;
                     console.log(data.content);
                     let sumReplies = 0;
-                    // TODO
-                    // data.content.forEach((el) => {
-                    //   sumReplies += el.replies.length;
-                    // });
+                    // TODO count on the backend
                     this.commentMetadata.total = data.totalElements + sumReplies;
                     this.comments.push(...data.content.map(comment => this.prepareComment(comment)))
                 })
             },
-            // update() {
-            //     const data = {
-            //         locked: this.post.locked
-            //     };
-            //     switch (this.post.type) {
-            //         case POST_TYPES.POST:
-            //             data.title = this.formUpdated.title;
-            //             data.content = this.formUpdated.content;
-            //             break;
-            //         case POST_TYPES.LINK:
-            //             data.title = this.formLinkUpdated.title;
-            //             data.content = this.formLinkUpdated.content;
-            //             break;
-            //         case POST_TYPES.MEDIA:
-            //             data.title = this.formMediaUpdated.title
-            //             break;
-            //     }
-            //     console.log('updating post with', data)
-            //     this.$postService.update(this.post, data, (data) => {
-            //         this.post = data
-            //         this.postCopy = JSON.parse(JSON.stringify(data))
-            //         this.updating = false
-            //         this.$message({
-            //             message: 'updated',
-            //             type: this.$toastColors.INFO
-            //         })
-            //     })
-            // },
             addComment() {
                 if (this.$refs.commentForm.validate()) {
                     this.$commentService.create(this.postID, {content: this.comment.body}, ({data}) => {
