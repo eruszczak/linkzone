@@ -3,7 +3,6 @@ package com.example.reddit.dto;
 import com.example.reddit.model.Account;
 
 import java.time.Instant;
-import java.util.Date;
 
 public class AccountSummary {
 

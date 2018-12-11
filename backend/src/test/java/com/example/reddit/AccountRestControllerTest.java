@@ -1,6 +1,5 @@
 package com.example.reddit;
 
-import com.example.reddit.controller.account.AccountRestController;
 import com.example.reddit.dto.AccountCreate;
 import com.example.reddit.exception.EmailTakenException;
 import com.example.reddit.exception.NoPermissionsException;

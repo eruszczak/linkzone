@@ -1,15 +1,10 @@
 package com.example.reddit;
 
-import com.example.reddit.controller.account.AccountRestController;
-import com.example.reddit.controller.comment.CommentRestController;
-import com.example.reddit.controller.group.GroupRestController;
-import com.example.reddit.controller.post.PostRestController;
 import com.example.reddit.dto.CommentCreate;
 import com.example.reddit.dto.PostCreate;
 import com.example.reddit.model.Account;
 import com.example.reddit.model.Comment;
 import com.example.reddit.model.Group;
-import com.example.reddit.model.Post;
 import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,10 +13,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.ResultMatcher;
 
-import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)

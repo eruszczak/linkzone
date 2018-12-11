@@ -1,9 +1,5 @@
 package com.example.reddit.dto;
 
-import com.example.reddit.model.Comment;
-import com.example.reddit.model.Post;
-import org.modelmapper.ModelMapper;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 

@@ -1,10 +1,6 @@
 package com.example.reddit.permissions.checker;
 
 import com.example.reddit.model.Account;
-import com.example.reddit.permissions.RoleName;
-import org.springframework.security.core.GrantedAuthority;
-
-import java.util.Optional;
 
 public class AccountPermissionChecker extends PermissionChecker {
 

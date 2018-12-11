@@ -1,12 +1,8 @@
 package com.example.reddit;
 
-import com.example.reddit.controller.account.AccountRestController;
-import com.example.reddit.controller.group.GroupRestController;
-import com.example.reddit.dto.AccountCreate;
 import com.example.reddit.dto.GroupCreate;
 import com.example.reddit.exception.AlreadyExistsException;
 import com.example.reddit.exception.NotFoundException;
-import com.example.reddit.exception.UsernameTakenException;
 import com.example.reddit.model.Group;
 import com.example.reddit.validation.annotation.NoSpacesConstraint;
 import org.json.JSONObject;
@@ -199,9 +195,9 @@ public class GroupControllerTest extends Base {
     public void deleteGroup() throws Exception {
         // TODO check if posts are removed
         mockMvc.perform(delete("/groups" + "/" + group.getName())
-            .contentType(contentType)
-            .headers(getAuthHeader(token)))
-            .andExpect(status().isOk());
+                .contentType(contentType)
+                .headers(getAuthHeader(token)))
+                .andExpect(status().isOk());
         // try to delete once again
         mockMvc.perform(delete("/groups" + "/" + group.getName())
                 .contentType(contentType)

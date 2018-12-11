@@ -11,7 +11,7 @@ public class AccountDetails {
     private String tagline;
 
     private String avatar;
-    
+
     public AccountDetails(Account account) {
         setEmail(account.getEmail());
         setUsername(account.getUsername());

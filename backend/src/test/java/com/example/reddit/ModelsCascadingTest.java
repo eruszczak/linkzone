@@ -16,9 +16,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = RedditApplication.class)
@@ -108,7 +106,7 @@ public class ModelsCascadingTest {
             thrown = true;
         }
         Assert.assertTrue(thrown);
-        for (Comment comment: comments) {
+        for (Comment comment : comments) {
             System.out.println("removed:" + comment);
             thrown = false;
             try {
@@ -124,7 +122,7 @@ public class ModelsCascadingTest {
     public void groupRemoved_removeItsPosts() throws Exception {
         List<Post> posts = postService.findByGroupName(group.getName());
         groupService.deleteNoPerm(group);
-        for (Post post: posts) {
+        for (Post post : posts) {
             System.out.println("removed: " + post);
             boolean thrown = false;
             try {

@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findByGroupName(String name);
+
     Page<Post> findByGroupName(String name, Pageable pageable);
+
     Page<Post> findByAccountUsername(String username, Pageable pageable);
 }

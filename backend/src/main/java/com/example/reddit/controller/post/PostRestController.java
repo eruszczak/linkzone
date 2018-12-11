@@ -1,14 +1,9 @@
 package com.example.reddit.controller.post;
 
-import com.example.reddit.dto.PostCreateMedia;
 import com.example.reddit.dto.PostResponse;
 import com.example.reddit.dto.PostUpdate;
-import com.example.reddit.dto.UploadFileResponse;
 import com.example.reddit.exception.ValidationErrorException;
-import com.example.reddit.model.Group;
 import com.example.reddit.model.Post;
-import com.example.reddit.security.CurrentUser;
-import com.example.reddit.security.UserPrincipal;
 import com.example.reddit.service.FileStorageService;
 import com.example.reddit.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import java.util.Optional;
 
 @RestController
@@ -69,6 +62,6 @@ public class PostRestController {
     public ResponseEntity<Post> delete(@PathVariable Long id) {
         Post post = postService.findById(id);
         postService.delete(post);
-        return new ResponseEntity<> (HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

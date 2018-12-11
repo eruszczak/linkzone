@@ -11,7 +11,9 @@ import java.util.Optional;
 
 public interface AccountRepository extends JpaRepository<Account, Long> {
     Optional<Account> findByUsernameIgnoreCase(String username);
+
     Optional<Account> findByEmailIgnoreCase(String email);
+
     Optional<Account> findByUsernameIgnoreCaseOrEmailIgnoreCase(String username, String email);
 
 //    @Query("SELECT COUNT(a.id) FROM Account a")

@@ -1,6 +1,5 @@
 package com.example.reddit.controller.post;
 
-import com.example.reddit.controller.account.AccountRestController;
 import com.example.reddit.dto.PostResponse;
 import com.example.reddit.model.Post;
 import com.example.reddit.service.PostService;

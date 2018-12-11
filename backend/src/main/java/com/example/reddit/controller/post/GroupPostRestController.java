@@ -1,9 +1,7 @@
 package com.example.reddit.controller.post;
 
-import com.example.reddit.controller.group.GroupRestController;
 import com.example.reddit.dto.PostCreate;
 import com.example.reddit.dto.PostCreateLink;
-import com.example.reddit.dto.PostCreateMedia;
 import com.example.reddit.dto.PostResponse;
 import com.example.reddit.exception.ValidationErrorException;
 import com.example.reddit.model.Account;
@@ -14,8 +12,6 @@ import com.example.reddit.security.UserPrincipal;
 import com.example.reddit.service.FileStorageService;
 import com.example.reddit.service.GroupService;
 import com.example.reddit.service.PostService;
-import com.example.reddit.validation.ValidationErrorBuilder;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,10 +19,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 
 @RestController
 @RequestMapping(value = "/api/groups/{groupName}/posts")

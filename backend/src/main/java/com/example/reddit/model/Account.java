@@ -63,6 +63,9 @@ public class Account extends DateAudit {
     @OneToMany(mappedBy = "account")
     private List<Post> posts = new ArrayList<>();
 
+    public Account() {
+    } // JPA only
+
     @PreRemove
     public void onDeleteSetCommentAccountAndPostAccountToNull() {
         for (Comment comment : comments) {
@@ -72,8 +75,6 @@ public class Account extends DateAudit {
             post.setAccount(null);
         }
     }
-
-    public Account() { } // JPA only
 
     public List<GrantedAuthority> getAuthorities() {
         return getRoles().stream()

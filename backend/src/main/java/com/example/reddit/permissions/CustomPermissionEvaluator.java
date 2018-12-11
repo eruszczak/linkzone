@@ -2,13 +2,12 @@ package com.example.reddit.permissions;
 
 import com.example.reddit.model.Account;
 import com.example.reddit.model.Comment;
-import com.example.reddit.model.Post;
 import com.example.reddit.model.Group;
+import com.example.reddit.model.Post;
 import com.example.reddit.permissions.checker.*;
 import com.example.reddit.security.UserPrincipal;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.Serializable;

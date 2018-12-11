@@ -1,12 +1,8 @@
 package com.example.reddit.dto;
 
-import com.example.reddit.controller.post.PostType;
 import com.example.reddit.model.Group;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter

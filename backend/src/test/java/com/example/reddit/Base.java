@@ -1,6 +1,5 @@
 package com.example.reddit;
 
-import com.example.reddit.controller.account.AccountRestController;
 import com.example.reddit.dto.AccountCreate;
 import com.example.reddit.dto.CommentCreate;
 import com.example.reddit.dto.PostCreate;
@@ -26,10 +25,8 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Random;
 
-import static org.junit.Assert.assertNotNull;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
@@ -40,10 +37,10 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 //@WebAppConfiguration
 public class Base {
 
+    protected static boolean setUpIsDone = false;
     protected final String userName = "admin11";
     protected final String groupName = "nameGroup";
-
-    protected final String fieldEmail= "email";
+    protected final String fieldEmail = "email";
     protected final String fieldUsername = "username";
     protected final String fieldPassword = "password";
     protected final String fieldPasswordConfirm = "passwordConfirm";
@@ -53,50 +50,35 @@ public class Base {
     protected final String fieldPostTitle = "title";
     protected final String fieldPostContent = "content";
     protected final String fieldCommentContent = "content";
-
-    protected static boolean setUpIsDone = false;
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
     @Autowired
     protected WebApplicationContext webApplicationContext;
     protected Account account;
-
     protected String password = "123456";
     protected String email = "test@gmail.com";
-
     protected MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),
             Charset.forName("utf8"));
-
     protected MockMvc mockMvc;
-
     protected String token;
-
     @Autowired
     protected AccountService accountService;
-
     @Autowired
     protected PostService postService;
-
     @Autowired
     protected GroupService groupService;
-
     @Autowired
     protected CommentService commentService;
-
     @Autowired
     protected GroupMembershipService groupMembershipService;
-
     @Autowired
     protected JwtTokenProvider jwtTokenProvider;
-
     protected Group group;
     protected Post post;
     protected Comment comment;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
-//    @Before
+    //    @Before
     public void runOnlyOnce() {
         if (setUpIsDone) {
             return;

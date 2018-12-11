@@ -1,7 +1,5 @@
 package com.example.reddit;
 
-import com.example.reddit.controller.comment.CommentRestController;
-import com.example.reddit.controller.post.PostRestController;
 import com.example.reddit.dto.CommentCreate;
 import com.example.reddit.exception.NotFoundException;
 import com.example.reddit.model.Comment;
@@ -59,7 +57,7 @@ public class CommentControllerTest extends Base {
                 .andExpect(jsonPath("$.content", is("  some reply ".trim())));
 //        System.out.println(accountService.find);
         // get id and check if account/post is assigned
-        for (Comment reply: commentService.findReplies(comment.getId(), null).getContent()) {
+        for (Comment reply : commentService.findReplies(comment.getId(), null).getContent()) {
             Assert.assertNotNull(reply.getParent());
             Assert.assertEquals(comment.getId(), reply.getParent().getId());
         }

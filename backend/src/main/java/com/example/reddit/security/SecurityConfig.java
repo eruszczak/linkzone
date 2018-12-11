@@ -1,7 +1,6 @@
 package com.example.reddit.security;
 
 
-import com.example.reddit.controller.account.AccountRestController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -63,15 +62,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //            .anyRequest().authenticated();
         http
                 .cors()
-                    .and()
+                .and()
                 .csrf()
-                    .disable()
+                .disable()
                 .exceptionHandling()
-                    .authenticationEntryPoint(unauthorizedHandler)
-                    .and()
+                .authenticationEntryPoint(unauthorizedHandler)
+                .and()
                 .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                    .and()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .authorizeRequests()
 //                    .antMatchers("/",
 //                            "/favicon.ico",
@@ -83,16 +82,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                            "/**/*.css",
 //                            "/**/*.js")
 //                        .permitAll()
-                    .antMatchers(HttpMethod.POST,
-                            "/api/users/login/",
-                            "/api/users/")
-                        .permitAll()
+                .antMatchers(HttpMethod.POST,
+                        "/api/users/login/",
+                        "/api/users/")
+                .permitAll()
 //                    .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability")
 //                        .permitAll()
-                    .antMatchers(HttpMethod.GET)
-                        .permitAll()
-                    .anyRequest()
-                        .authenticated();
+                .antMatchers(HttpMethod.GET)
+                .permitAll()
+                .anyRequest()
+                .authenticated();
 
         // Add our custom JWT security filter
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

@@ -1,13 +1,12 @@
 package com.example.reddit.controller;
 
-import com.example.reddit.dto.UploadFileResponse;
 import com.example.reddit.exception.*;
 import com.example.reddit.validation.ErrorResponse;
 import com.example.reddit.validation.ValidationErrorBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.lang.annotation.Annotation;
@@ -54,7 +53,7 @@ public class Advice {
         ErrorResponse errorResponse = new ErrorResponse(exception.getClass().getSimpleName());
         errorResponse.addError(exception.getMessage());
         // to get httpStatus from annotation, we need to know subclass of this exception
-        for (Class klass: exceptionClasses) {
+        for (Class klass : exceptionClasses) {
             if (klass.isInstance(exception)) {
                 HttpStatus httpStatus = getResponseStatusAnnotationValue(klass);
                 return new ResponseEntity<>(errorResponse, httpStatus);

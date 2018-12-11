@@ -1,6 +1,5 @@
 package com.example.reddit.controller.group;
 
-import com.example.reddit.controller.FileController;
 import com.example.reddit.dto.*;
 import com.example.reddit.exception.AlreadyExistsException;
 import com.example.reddit.exception.NotFoundException;
@@ -13,8 +12,6 @@ import com.example.reddit.service.AccountService;
 import com.example.reddit.service.FileStorageService;
 import com.example.reddit.service.GroupMembershipService;
 import com.example.reddit.service.GroupService;
-
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -24,15 +21,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 @RestController
 @RequestMapping(value = "/api/groups")
@@ -120,7 +112,7 @@ public class GroupRestController {
 
     @PostMapping(value = "/{name}/upload-banner")
     public UploadFileResponse uploadBanner(@RequestParam("data") MultipartFile file,
-                                          @PathVariable("name") String groupName) {
+                                           @PathVariable("name") String groupName) {
         String fileName = fileStorageService.storeFile(file);
         Group group = groupService.findByName(groupName);
         groupService.updateGroupBannerUrl(fileName, group);

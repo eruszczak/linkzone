@@ -12,7 +12,10 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NoSpacesConstraint {
     String MESSAGE = "Field cannot contain spaces";
+
     String message() default MESSAGE;
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }

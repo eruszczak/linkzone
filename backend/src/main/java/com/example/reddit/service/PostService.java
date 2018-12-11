@@ -2,8 +2,6 @@ package com.example.reddit.service;
 
 import com.example.reddit.controller.post.PostType;
 import com.example.reddit.dto.PostCreate;
-import com.example.reddit.dto.PostCreateLink;
-import com.example.reddit.dto.PostCreateMedia;
 import com.example.reddit.dto.PostUpdate;
 import com.example.reddit.exception.NotFoundException;
 import com.example.reddit.model.Account;

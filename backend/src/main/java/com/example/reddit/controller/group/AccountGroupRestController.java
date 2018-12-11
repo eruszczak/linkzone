@@ -1,8 +1,6 @@
 package com.example.reddit.controller.group;
 
-import com.example.reddit.controller.account.AccountRestController;
 import com.example.reddit.dto.GroupResponse;
-import com.example.reddit.model.Group;
 import com.example.reddit.model.GroupMembership;
 import com.example.reddit.service.AccountService;
 import com.example.reddit.service.GroupMembershipService;
@@ -10,7 +8,10 @@ import com.example.reddit.service.GroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;

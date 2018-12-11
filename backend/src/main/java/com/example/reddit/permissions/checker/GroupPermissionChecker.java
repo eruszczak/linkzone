@@ -25,7 +25,6 @@ public class GroupPermissionChecker extends PermissionChecker {
     }
 
     /**
-     *
      * @return true if account has rights to the group - is its creator/admin/mod or global admin/mod
      */
     public boolean canModerate() {

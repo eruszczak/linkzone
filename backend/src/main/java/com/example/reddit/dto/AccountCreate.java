@@ -1,10 +1,8 @@
 package com.example.reddit.dto;
 
 import com.example.reddit.config.AccountConstants;
-import com.example.reddit.model.Account;
 import com.example.reddit.validation.annotation.NoSpacesConstraint;
 import com.example.reddit.validation.annotation.PasswordMatches;
-import org.modelmapper.ModelMapper;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

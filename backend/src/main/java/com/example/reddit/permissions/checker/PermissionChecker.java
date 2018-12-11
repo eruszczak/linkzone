@@ -18,7 +18,9 @@ public abstract class PermissionChecker {
     }
 
     abstract public boolean canUpdate();
+
     abstract public boolean canDelete();
+
     abstract public boolean canManage();
 
     boolean isGlobalModOrAdmin() {

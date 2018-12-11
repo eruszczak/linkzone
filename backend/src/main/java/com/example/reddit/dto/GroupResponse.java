@@ -1,11 +1,9 @@
 package com.example.reddit.dto;
 
 import com.example.reddit.controller.post.PostType;
-import com.example.reddit.model.Account;
 import com.example.reddit.model.Group;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class GroupResponse {

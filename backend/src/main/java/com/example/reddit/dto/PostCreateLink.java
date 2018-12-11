@@ -1,18 +1,8 @@
 package com.example.reddit.dto;
 
-import com.example.reddit.config.GroupConstants;
-import com.example.reddit.model.Account;
-import com.example.reddit.model.Group;
-import com.example.reddit.model.Post;
-import com.example.reddit.validation.annotation.NoSpacesConstraint;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.URL;
-import org.modelmapper.ModelMapper;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.Optional;
 
 public class PostCreateLink {
 
@@ -38,6 +28,7 @@ public class PostCreateLink {
                 "http://" + link :
                 link;
     }
+
     public void setLink(String content) {
         this.link = content;
     }

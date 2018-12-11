@@ -4,8 +4,10 @@ import com.example.reddit.config.FileStorageProperties;
 import com.example.reddit.controller.post.PostType;
 import com.example.reddit.dto.AccountCreate;
 import com.example.reddit.dto.CommentCreate;
-import com.example.reddit.model.*;
-import com.example.reddit.permissions.RoleName;
+import com.example.reddit.model.Account;
+import com.example.reddit.model.Comment;
+import com.example.reddit.model.Group;
+import com.example.reddit.model.Post;
 import com.example.reddit.repository.AccountRepository;
 import com.example.reddit.security.JwtTokenProvider;
 import com.example.reddit.service.*;
@@ -14,74 +16,67 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
-
 @SpringBootApplication
 @EnableConfigurationProperties({
-		FileStorageProperties.class
+        FileStorageProperties.class
 })
 public class RedditApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(RedditApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(RedditApplication.class, args);
+    }
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-	@Bean
-	CommandLineRunner init(GroupService groupService,
-						   AccountService accountService,
-						   GroupMembershipService groupMembershipService,
-						   PostService postService,
-						   CommentService commentService,
-						   JwtTokenProvider jwtTokenProvider,
-						   AccountRepository accountRepository) {
-		return (evt) -> {
-			if (true) {
-				Account group1admin = accountService.create(getAccountDto("group1admin"));
-				Account group1mod = accountService.create(getAccountDto("group1mod"));
-				Account group1creator = accountService.create(getAccountDto("group1creator"));
-				Account group1postcreator = accountService.create(getAccountDto("group1postcreator"));
-				Account postcommenter = accountService.create(getAccountDto("postcommenter"));
-				Account reply = accountService.create(getAccountDto("reply"));
-				Account user1 = accountService.create(getAccountDto("user1"));
+    @Bean
+    CommandLineRunner init(GroupService groupService,
+                           AccountService accountService,
+                           GroupMembershipService groupMembershipService,
+                           PostService postService,
+                           CommentService commentService,
+                           JwtTokenProvider jwtTokenProvider,
+                           AccountRepository accountRepository) {
+        return (evt) -> {
+            if (true) {
+                Account group1admin = accountService.create(getAccountDto("group1admin"));
+                Account group1mod = accountService.create(getAccountDto("group1mod"));
+                Account group1creator = accountService.create(getAccountDto("group1creator"));
+                Account group1postcreator = accountService.create(getAccountDto("group1postcreator"));
+                Account postcommenter = accountService.create(getAccountDto("postcommenter"));
+                Account reply = accountService.create(getAccountDto("reply"));
+                Account user1 = accountService.create(getAccountDto("user1"));
 
-				Group g = new Group("group1", "group description");
-				g.setCreator(group1creator);
-				g.addAdministrator(group1admin);
-				g.addModerator(group1mod);
-				g.setCreator(group1creator);
+                Group g = new Group("group1", "group description");
+                g.setCreator(group1creator);
+                g.addAdministrator(group1admin);
+                g.addModerator(group1mod);
+                g.setCreator(group1creator);
 
-				groupService.save(g);
+                groupService.save(g);
 
-				Post p = new Post();
-				p.setTitle("postTitle ");
-				p.setContent("description ");
-				p.setGroup(g);
-				p.setPostType(PostType.POST);
-				p.setAccount(group1postcreator);
+                Post p = new Post();
+                p.setTitle("postTitle ");
+                p.setContent("description ");
+                p.setGroup(g);
+                p.setPostType(PostType.POST);
+                p.setAccount(group1postcreator);
 
-				Post newPost = postService.save(p);
+                Post newPost = postService.save(p);
 
-				for (int x = 0; x < 10; x += 1) {
-					CommentCreate comment = new CommentCreate();
-					comment.setContent("postcommenter" + x);
-					Comment comment1 = commentService.create(comment, newPost, postcommenter);
-					CommentCreate commentCreate = new CommentCreate();
-					commentCreate.setContent("reply");
-					commentService.createReply(comment1, commentCreate, reply);
-				}
+                for (int x = 0; x < 10; x += 1) {
+                    CommentCreate comment = new CommentCreate();
+                    comment.setContent("postcommenter" + x);
+                    Comment comment1 = commentService.create(comment, newPost, postcommenter);
+                    CommentCreate commentCreate = new CommentCreate();
+                    commentCreate.setContent("reply");
+                    commentService.createReply(comment1, commentCreate, reply);
+                }
 
 
 //				Account user1 = accountService.create(getAccountDto("admin1"));
@@ -144,17 +139,17 @@ public class RedditApplication {
 //					groupMembershipService.save(gm);
 //				}
 
-			}
-		};
-	}
+            }
+        };
+    }
 
-	private AccountCreate getAccountDto(String username) {
-		String password = "password";
-		AccountCreate dto = new AccountCreate();
-		dto.setUsername(username);
-		dto.setPassword(password);
-		dto.setPasswordConfirm(password);
-		dto.setEmail(username + "@gmail.com");
-		return dto;
-	}
+    private AccountCreate getAccountDto(String username) {
+        String password = "password";
+        AccountCreate dto = new AccountCreate();
+        dto.setUsername(username);
+        dto.setPassword(password);
+        dto.setPasswordConfirm(password);
+        dto.setEmail(username + "@gmail.com");
+        return dto;
+    }
 }

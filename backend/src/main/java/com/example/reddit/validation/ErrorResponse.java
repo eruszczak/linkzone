@@ -7,10 +7,9 @@ import java.util.List;
 
 public class ErrorResponse {
 
+    private final String title;
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<String> errors = new ArrayList<>();
-
-    private final String title;
 
     public ErrorResponse(String title) {
         this.title = title;

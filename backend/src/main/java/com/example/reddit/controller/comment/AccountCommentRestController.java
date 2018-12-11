@@ -1,6 +1,5 @@
 package com.example.reddit.controller.comment;
 
-import com.example.reddit.controller.account.AccountRestController;
 import com.example.reddit.dto.CommentResponse;
 import com.example.reddit.model.Comment;
 import com.example.reddit.service.CommentService;

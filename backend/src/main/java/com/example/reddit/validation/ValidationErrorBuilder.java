@@ -19,7 +19,7 @@ public class ValidationErrorBuilder {
 
     public static ErrorResponse fromStrings(String name, String... errorMessages) {
         ErrorResponse errorResponse = new ErrorResponse(name);
-        for (String err: errorMessages) {
+        for (String err : errorMessages) {
             if (err != null) {
                 errorResponse.addError(err);
             }

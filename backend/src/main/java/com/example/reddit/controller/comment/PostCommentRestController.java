@@ -1,6 +1,5 @@
 package com.example.reddit.controller.comment;
 
-import com.example.reddit.controller.post.PostRestController;
 import com.example.reddit.dto.CommentCreate;
 import com.example.reddit.dto.CommentResponse;
 import com.example.reddit.exception.ResourceLockedException;
@@ -11,7 +10,6 @@ import com.example.reddit.security.CurrentUser;
 import com.example.reddit.security.UserPrincipal;
 import com.example.reddit.service.CommentService;
 import com.example.reddit.service.PostService;
-import com.example.reddit.validation.ValidationErrorBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

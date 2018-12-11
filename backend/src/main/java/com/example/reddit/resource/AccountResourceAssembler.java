@@ -1,7 +1,6 @@
 package com.example.reddit.resource;
 
 import com.example.reddit.controller.account.AccountRestController;
-import com.example.reddit.dto.AccountSummary;
 import com.example.reddit.model.Account;
 import com.example.reddit.utils.ModelMapper;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;

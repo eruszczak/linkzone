@@ -1,7 +1,6 @@
 package com.example.reddit.utils;
 
 import com.example.reddit.exception.NoPermissionsException;
-import com.example.reddit.model.Account;
 import com.github.slugify.Slugify;
 import org.springframework.security.core.userdetails.UserDetails;
 
