@@ -104,13 +104,8 @@ public class AccountRestController {
     }
 
     @GetMapping(value = "/details")
-    public ResponseEntity<?> getCurrentUserInfo(@CurrentUser UserPrincipal currentUser) {
-        AccountDetails json = new AccountDetails();
-        json.setEmail(currentUser.getAccount().getEmail());
-        json.setUsername(currentUser.getAccount().getUsername());
-        json.setTagline(currentUser.getAccount().getTagline());
-        json.setAvatar(currentUser.getAccount().getAvatar());
-        return new ResponseEntity<>(json, HttpStatus.OK);
+    public AccountDetails getCurrentUserInfo(@CurrentUser UserPrincipal currentUser) {
+        return new AccountDetails(currentUser.getAccount());
     }
 
     @GetMapping(value = "/groupInfo/{username}")
@@ -120,10 +115,9 @@ public class AccountRestController {
     }
 
     @GetMapping(value = "/{username}")
-    public ResponseEntity<?> detail(@PathVariable String username) {
-        AccountSummary accountSummary = ModelMapper.mapAccountToSummary(
-                accountService.findByUsername(username));
-        return new ResponseEntity<>(new AccountResource(accountSummary), HttpStatus.OK);
+    public AccountDetails detail(@PathVariable String username) {
+        // TODO do not expose an email
+        return new AccountDetails(accountService.findByUsername(username));
     }
 
     @PutMapping(value = "/{username}")

@@ -1,5 +1,7 @@
 package com.example.reddit.dto;
 
+import com.example.reddit.model.Account;
+
 public class AccountDetails {
 
     private String username;
@@ -9,6 +11,13 @@ public class AccountDetails {
     private String tagline;
 
     private String avatar;
+    
+    public AccountDetails(Account account) {
+        setEmail(account.getEmail());
+        setUsername(account.getUsername());
+        setTagline(account.getTagline());
+        setAvatar(account.getAvatar());
+    }
 
     public String getAvatar() {
         return avatar;

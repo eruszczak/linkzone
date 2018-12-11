@@ -1,6 +1,5 @@
 import {store} from '../store/index'
 import axios from 'axios'
-import {API_PREFIX} from "../api/endpoints"
 import Vue from 'vue'
 
 // add headers before each request
@@ -8,8 +7,8 @@ axios.interceptors.request.use((config) => {
     config.headers.common = {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${store.getters.accessToken}`
-    }
-    config.url = `${API_PREFIX}${config.url.startsWith('/') ? '' : '/'}${config.url}`
+    };
+    config.url = `/api${config.url.startsWith('/') ? '' : '/'}${config.url}`;
     return config
 });
 

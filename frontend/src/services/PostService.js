@@ -1,6 +1,5 @@
 import { store } from '../store'
 import axios from 'axios'
-import {ENDPOINTS} from '../api/endpoints';
 import {buildPaginationQueryString} from '../utils/utils';
 
 const POST = 'POST'

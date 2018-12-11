@@ -2,6 +2,7 @@ package com.example.reddit.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -78,6 +79,13 @@ public class Account extends DateAudit {
         return getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getName().name()))
                 .collect(Collectors.toList());
+    }
+
+    public String getAvatar() {
+        if (StringUtils.isNotBlank(avatar)) {
+            return avatar;
+        }
+        return "https://api.adorable.io/avatar/100/" + username;
     }
 
     @Override

@@ -9,7 +9,7 @@
          :size="40"
          color="grey lighten-4"
        >
-         <img :src="`https://api.adorable.io/avatar/50/${item.author}`" alt="avatar">
+         <img :src="item.author" alt="avatar">
        </v-avatar>
        <span class="ml-4">{{item.content}}</span>
       </v-card-text>

@@ -5,6 +5,12 @@
                 <v-toolbar-title>Login</v-toolbar-title>
             </v-toolbar>
             <v-card-text>
+                <v-alert
+                        :value="errors.length > 0"
+                        type="error"
+                >
+                    {{errors[0]}}
+                </v-alert>
                 <v-form v-model="form.valid">
                     <v-text-field prepend-icon="person" name="login" label="Username/Email" type="text"
                                   v-model="form.usernameOrEmail" :rules="[ruleIsNotEmpty]"></v-text-field>
@@ -32,7 +38,7 @@
         data() {
             return {
                 dialog: false,
-                error: false,
+                errors: [],
                 form: {
                     usernameOrEmail: 'admin1',
                     password: 'password',
@@ -63,8 +69,9 @@
                     this.$message({
                         message: "Hello " + this.form.usernameOrEmail
                     })
-                }, () => {
-                    this.error = true
+                }, ({data}) => {
+                    // console.log(data.ero)
+                    this.errors = data.errors
                 })
             },
             signUp() {
