@@ -1,46 +1,27 @@
 <template>
     <div>
-        <h2>
+        <h2 class="mb-4">
             <router-link :to="{name: 'groupCreateView'}">Add group</router-link>
         </h2>
-        <p :key="group.name" v-for="group in groups">
-            <router-link :to="{name: 'groupDetailView', params: {name: group.name}}">
-                {{group.name}}
-            </router-link>
-            {{group.description}}
-        </p>
+
         <pagination :pagination="pagination" @change="handleChange"/>
 
         <v-flex sm12 xs12>
             <v-card>
                 <v-list two-line>
-                    <template v-for="(item, index) in items">
-                        <v-subheader
-                                :key="item.header"
-                                v-if="item.header"
-                        >
-                            {{ item.header }}
-                        </v-subheader>
-
-                        <v-divider
-                                :inset="item.inset"
-                                :key="index"
-                                v-else-if="item.divider"
-                        ></v-divider>
-
+                    <template v-for="(group, index) in groups">
                         <v-list-tile
-                                :key="item.title"
-                                @click=""
+                                :key="group.name"
+                                :to="{name: 'groupDetailView', params: {name: group.name}}"
                                 avatar
-                                v-else
                         >
                             <v-list-tile-avatar>
-                                <img :src="item.avatar">
+                                <img src="https://cdn.vuetifyjs.com/images/lists/1.jpg">
                             </v-list-tile-avatar>
 
                             <v-list-tile-content>
-                                <v-list-tile-title v-html="item.title"></v-list-tile-title>
-                                <v-list-tile-sub-title v-html="item.subtitle"></v-list-tile-sub-title>
+                                <v-list-tile-title v-html="group.name"></v-list-tile-title>
+                                <v-list-tile-sub-title v-html="group.description"></v-list-tile-sub-title>
                             </v-list-tile-content>
                         </v-list-tile>
                     </template>
