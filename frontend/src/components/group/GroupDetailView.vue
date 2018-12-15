@@ -11,16 +11,9 @@
         <h2>{{group.name}}</h2>
         <v-layout row wrap>
             <v-flex sm8 xs12>
-                <v-card v-if="posts.length">
-                    <post-list :group-name="group.name" :is-admin="isAdmin" :is-moderator="isModerator"
-                               :posts="posts"></post-list>
-                </v-card>
-                <v-alert :value="true"
-                         type="info"
-                         v-if="!posts.length"
-                >
-                    No posts
-                </v-alert>
+                <post-list :group-name="group.name" :is-admin="isAdmin" :is-moderator="isModerator"
+                           :posts="posts"></post-list>
+
             </v-flex>
             <v-flex class="ml-2" sm3 xs12>
                 <v-layout row>

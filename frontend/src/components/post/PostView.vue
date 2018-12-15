@@ -10,23 +10,7 @@
             <v-btn @click="updating = !updating" v-if="isOwner || canModerate">update</v-btn>
         </h1>
 
-        <div>
-            <v-card v-if="post.type === POST_TYPES.POST">
-                <h2>{{post.title}}</h2>
-                <v-card-text>
-                    <vue-markdown :anchorAttributes="{target: '_blank', rel: 'nofollow'}"
-                                  :source="post.content"></vue-markdown>
-                </v-card-text>
-            </v-card>
-            <v-card v-else-if="post.type === POST_TYPES.MEDIA">
-                <h2>{{post.title}}</h2>
-                <img :src="`/static/${post.content}`">
-            </v-card>
-            <v-card v-else-if="post.type === POST_TYPES.LINK">
-                <h2>{{post.title}}</h2>
-                <post-content :content="post.content"></post-content>
-            </v-card>
-        </div>
+        <post :post="post"></post>
 
         <v-alert
                 :value="post.locked"
@@ -65,9 +49,7 @@
 <script>
     import {mapMutations} from 'vuex'
     import {POST_TYPES} from "../../services/PostService";
-    import VueMarkdown from 'vue-markdown'
-    import PostContent from '../includes/PostContent'
-
+    import Post from './Post'
     import validation from '../../mixins/validation';
     import Comment from './Comment'
     import {checkIfImageUrl, getYoutubeId} from "../../utils/utils";
@@ -76,7 +58,7 @@
         name: 'PostView',
         props: ['postID', 'name'],
         mixins: [validation],
-        components: {Comment, VueMarkdown, PostContent},
+        components: {Comment, Post},
         data() {
             return {
                 POST_TYPES,
