@@ -42,3 +42,14 @@ export const getUrlParts = url => {
 export function checkIfImageUrl(url) {
     return url && url.match(/\.(jpeg|jpg|gif|png)$/) != null;
 }
+
+export function getYoutubeId(url) {
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = url.match(regExp);
+
+    if (match && match[2].length == 11) {
+        return match[2];
+    }
+
+    return null;
+}

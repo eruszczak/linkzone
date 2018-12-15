@@ -24,8 +24,7 @@
             </v-card>
             <v-card v-else-if="post.type === POST_TYPES.LINK">
                 <h2>{{post.title}}</h2>
-                {{post.content}}
-                <img v-if="checkIfImageUrl(post.content)" :src="post.content">
+                <post-content :content="post.content"></post-content>
             </v-card>
         </div>
 
@@ -67,16 +66,17 @@
     import {mapMutations} from 'vuex'
     import {POST_TYPES} from "../../services/PostService";
     import VueMarkdown from 'vue-markdown'
+    import PostContent from '../includes/PostContent'
 
     import validation from '../../mixins/validation';
     import Comment from './Comment'
-    import {checkIfImageUrl} from "../../utils/utils";
+    import {checkIfImageUrl, getYoutubeId} from "../../utils/utils";
 
     export default {
         name: 'PostView',
         props: ['postID', 'name'],
         mixins: [validation],
-        components: {Comment, VueMarkdown},
+        components: {Comment, VueMarkdown, PostContent},
         data() {
             return {
                 POST_TYPES,
@@ -116,6 +116,7 @@
         },
         methods: {
             checkIfImageUrl: checkIfImageUrl,
+            getYoutubeId: getYoutubeId,
             ...mapMutations(['toggleLoading']),
             handleRemovedComment($event) {
                 if ($event.innerIndex === null) {
