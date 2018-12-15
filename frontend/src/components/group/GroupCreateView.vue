@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-form v-model="form.valid">
+        <v-form ref="form" v-model="form.valid" lazy-validation>
             <v-text-field
                     :rules="[ruleIsNotEmpty]"
                     box
@@ -14,7 +14,7 @@
                     v-model="form.description"
             ></v-text-field>
         </v-form>
-        <v-btn :disabled="!form.valid" @click="submit()" color="success">Create</v-btn>
+        <v-btn @click="submit()" color="success">Create</v-btn>
     </div>
 </template>
 
@@ -29,35 +29,27 @@
                 form: {
                     name: '',
                     description: '',
-                    region: '',
-                    date1: '',
-                    date2: '',
-                    delivery: false,
-                    type: [],
-                    resource: '',
                     valid: false
                 }
             }
         },
-        computed: {},
         methods: {
             submit() {
-                if (!this.form.valid) {
-                    return;
-                }
-                this.$groupService.addGroup({
-                    name: this.form.name,
-                    description: this.form.description
-                }, (res) => {
-                    console.log(res);
-                    this.$router.push({name: 'groupDetailView', params: {name: res.data.name}})
-                }, err => {
-                    console.log(err);
-                    this.$message({
-                        message: err.data.errors[0],
-                        color: this.$toastColors.ERROR
+                if (this.$refs['form'].validate()) {
+                    this.$groupService.addGroup({
+                        name: this.form.name,
+                        description: this.form.description
+                    }, (res) => {
+                        console.log(res);
+                        this.$router.push({name: 'groupDetailView', params: {name: res.data.name}})
+                    }, err => {
+                        console.log(err);
+                        this.$message({
+                            message: err.data.errors[0],
+                            color: this.$toastColors.ERROR
+                        })
                     })
-                })
+                }
             }
         }
     }
