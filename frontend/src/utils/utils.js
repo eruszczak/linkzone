@@ -38,3 +38,7 @@ export const getUrlParts = url => {
         search: a.search
     }
 };
+
+export function checkIfImageUrl(url) {
+    return url && url.match(/\.(jpeg|jpg|gif|png)$/) != null;
+}

@@ -178,9 +178,6 @@
             isTabDisabled(type) {
                 return this.post && this.post.type !== type;
             },
-            isSubmitEnabled() {
-                return this.getCurrentForm().valid && this.selectedGroup
-            },
             getCurrentForm() {
                 switch (this.selectedForm) {
                     case POST_TYPES.POST:

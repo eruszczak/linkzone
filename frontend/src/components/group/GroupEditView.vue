@@ -525,7 +525,7 @@
                 if (val.value) {
                     this.bannerFormData = val.value;
                 }
-                this.bannerErrors = val.errors
+                this.bannerErrors = val.errors;
             },
             uploadBanner() {
                 console.log(this.bannerFormData);
@@ -534,8 +534,8 @@
                     this.bannerFormData = []
                 }, ({data}) => {
                     console.error('GroupEditView.uploadBanner', data);
-                    this.bannerErrors = data.errors
-                })
+                    this.bannerErrors = data.errors;
+                });
             }
         }
     }

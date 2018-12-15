@@ -33,7 +33,7 @@ public class AccountResource extends ResourceSupport {
     }
 
     private void addLinks(String username) {
-        Pageable pageable = PageRequest.of(0, 25); // it doesn't change a link
+        Pageable pageable = PageRequest.of(0, 25);
         add(linkTo(methodOn(AccountRestController.class).detail(
                 username)).withSelfRel());
         add(linkTo(methodOn(AccountCommentRestController.class).list(

@@ -12,15 +12,21 @@
 
         <div>
             <v-card v-if="post.type === POST_TYPES.POST">
+                <h2>{{post.title}}</h2>
                 <v-card-text>
                     <vue-markdown :anchorAttributes="{target: '_blank', rel: 'nofollow'}"
                                   :source="post.content"></vue-markdown>
                 </v-card-text>
             </v-card>
-            <v-card v-if="post.type === POST_TYPES.MEDIA">
+            <v-card v-else-if="post.type === POST_TYPES.MEDIA">
+                <h2>{{post.title}}</h2>
                 <img :src="`/static/${post.content}`">
             </v-card>
-            <p v-else>{{post.content}}</p>
+            <v-card v-else-if="post.type === POST_TYPES.LINK">
+                <h2>{{post.title}}</h2>
+                {{post.content}}
+                <img v-if="checkIfImageUrl(post.content)" :src="post.content">
+            </v-card>
         </div>
 
         <v-alert
@@ -64,6 +70,7 @@
 
     import validation from '../../mixins/validation';
     import Comment from './Comment'
+    import {checkIfImageUrl} from "../../utils/utils";
 
     export default {
         name: 'PostView',
@@ -108,6 +115,7 @@
         computed: {
         },
         methods: {
+            checkIfImageUrl: checkIfImageUrl,
             ...mapMutations(['toggleLoading']),
             handleRemovedComment($event) {
                 if ($event.innerIndex === null) {

@@ -59,7 +59,7 @@ public class GroupPostRestController {
             @Valid @RequestBody PostCreateLink dto,
             Errors errors,
             @CurrentUser UserPrincipal currentUser) {
-        return createPost(groupName, currentUser.getAccount(), errors, dto.getTitle(), dto.getLink(), PostType.LINK);
+        return createPost(groupName, currentUser.getAccount(), errors, dto.getTitle(), dto.getContent(), PostType.LINK);
     }
 
     @PostMapping(value = "/media/")
