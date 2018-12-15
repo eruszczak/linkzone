@@ -52,31 +52,40 @@ public class RedditApplication {
                 Account reply = accountService.create(getAccountDto("reply"));
                 Account user1 = accountService.create(getAccountDto("user1"));
 
-                Group g = new Group("group1", "group description");
-                g.setCreator(group1creator);
-                g.addAdministrator(group1admin);
-                g.addModerator(group1mod);
-                g.setCreator(group1creator);
+                for (int i = 0; i < 30; i++) {
+                    Group g = new Group("group1" + i, "group description");
+                    g.setCreator(group1creator);
+                    g.addAdministrator(group1admin);
+                    g.addModerator(group1mod);
+                    g.setCreator(group1creator);
+                    groupService.save(g);
 
-                groupService.save(g);
+                    for (int j = 0; j < 30; j++) {
+                        Post p = new Post();
+                        p.setTitle("postTitle " + g.getName());
+                        p.setContent("description ");
+                        p.setGroup(g);
+                        p.setPostType(PostType.POST);
+                        p.setAccount(group1postcreator);
 
-                Post p = new Post();
-                p.setTitle("postTitle ");
-                p.setContent("description ");
-                p.setGroup(g);
-                p.setPostType(PostType.POST);
-                p.setAccount(group1postcreator);
+                        Post newPost = postService.save(p);
 
-                Post newPost = postService.save(p);
-
-                for (int x = 0; x < 10; x += 1) {
-                    CommentCreate comment = new CommentCreate();
-                    comment.setContent("postcommenter" + x);
-                    Comment comment1 = commentService.create(comment, newPost, postcommenter);
-                    CommentCreate commentCreate = new CommentCreate();
-                    commentCreate.setContent("reply");
-                    commentService.createReply(comment1, commentCreate, reply);
+                        for (int x = 0; x < 10; x += 1) {
+                            CommentCreate comment = new CommentCreate();
+                            comment.setContent("postcommenter" + x);
+                            Comment comment1 = commentService.create(comment, newPost, postcommenter);
+                            CommentCreate commentCreate = new CommentCreate();
+                            commentCreate.setContent("reply");
+                            commentService.createReply(comment1, commentCreate, reply);
+                        }
+                    }
                 }
+
+
+
+
+
+
 
 
 //				Account user1 = accountService.create(getAccountDto("admin1"));
