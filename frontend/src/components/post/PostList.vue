@@ -3,40 +3,11 @@
         <v-flex>
             <post :post="post" v-for="post in posts"></post>
         </v-flex>
-        <v-alert :value="true"
+        <v-alert :value="posts.length === 0"
                  type="info"
-                 v-if="!posts.length"
         >
             No posts
         </v-alert>
-        <!--<v-list two-line>-->
-            <!--<template v-for="(post, index) in posts">-->
-                <!--&lt;!&ndash;<v-divider&ndash;&gt;-->
-                <!--&lt;!&ndash;v-else-if="item.divider"&ndash;&gt;-->
-                <!--&lt;!&ndash;:inset="item.inset"&ndash;&gt;-->
-                <!--&lt;!&ndash;:key="index"&ndash;&gt;-->
-                <!--&lt;!&ndash;&gt;</v-divider>&ndash;&gt;-->
-                <!--<v-list-tile-->
-                        <!--:key="post.id"-->
-                        <!--:to="{name: 'postView', params: {name: groupName || post.groupName, postID: post.id}}"-->
-                        <!--avatar-->
-                <!--&gt;-->
-                    <!--&lt;!&ndash;<v-list-tile-avatar>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<img :src="item.avatar">&ndash;&gt;-->
-                    <!--&lt;!&ndash;</v-list-tile-avatar>&ndash;&gt;-->
-
-                    <!--<v-list-tile-content>-->
-                        <!--<v-list-tile-title>{{post.title}}; type: {{post.type}}; author: u/{{post.author}}-->
-                        <!--</v-list-tile-title>-->
-                        <!--<v-list-tile-sub-title>{{post.content}}</v-list-tile-sub-title>-->
-                        <!--<v-list-tile-sub-title v-if="isAdmin || isModerator || post.author === $userService.getUsername()">-->
-                            <!--edit; delete-->
-                        <!--</v-list-tile-sub-title>-->
-                        <!--&lt;!&ndash;<v-list-tile-sub-title v-html="post.content"></v-list-tile-sub-title>&ndash;&gt;-->
-                    <!--</v-list-tile-content>-->
-                <!--</v-list-tile>-->
-            <!--</template>-->
-        <!--</v-list>-->
     </section>
 
 </template>

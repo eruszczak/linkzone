@@ -57,17 +57,13 @@
             <v-tab-item
                     id="moderatedGroups"
             >
-                <v-card flat>
-                    <v-card-text>{{groups.moderatedGroups}}</v-card-text>
-                </v-card>
+                <group-list v-if="groups.moderatedGroups != undefined" :groups="groups.moderatedGroups"></group-list>
             </v-tab-item>
 
             <v-tab-item
                     id="administratedGroups"
             >
-                <v-card flat>
-                    <v-card-text>{{groups.administratedGroups}}</v-card-text>
-                </v-card>
+                <group-list v-if="groups.administratedGroups != undefined" :groups="groups.administratedGroups"></group-list>
             </v-tab-item>
         </v-tabs>
     </div>
@@ -77,10 +73,11 @@
     import {mapGetters} from 'vuex'
     import PostList from '../post/PostList'
     import Comment from '../post/Comment'
+    import GroupList from '../group/GroupList'
 
     export default {
         name: "UserProfileView",
-        components: {PostList, Comment},
+        components: {PostList, Comment, GroupList},
         props: {
             username: {
                 type: String,

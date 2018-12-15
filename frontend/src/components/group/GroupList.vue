@@ -1,7 +1,7 @@
 <template>
     <v-flex sm12 xs12>
-        <pagination :pagination="pagination" @change="handleChange"/>
-        <v-card>
+        <pagination v-if="pagination" :pagination="pagination" @change="handleChange"/>
+        <v-card v-if="groups">
             <v-list two-line>
                 <template v-for="(group, index) in groups">
                     <v-list-tile
@@ -21,6 +21,11 @@
                 </template>
             </v-list>
         </v-card>
+        <v-alert :value="groups.length === 0"
+                 type="info"
+        >
+            No groups
+        </v-alert>
     </v-flex>
 </template>
 
@@ -37,7 +42,7 @@
             },
             pagination: {
                 type: Object,
-                required: true
+                required: false
             }
         },
         methods: {
