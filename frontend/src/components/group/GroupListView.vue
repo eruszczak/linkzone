@@ -26,15 +26,27 @@
                 pagination: {}
             }
         },
+        watch: {
+            '$route' (to, from) {
+                this.getGroups();
+            }
+        },
         computed: {},
         methods: {
             handleChange(pageNumber) {
-                this.getGroups({page: pageNumber});
+                this.$router.push({
+                    name: 'groupListView',
+                    query: {
+                        page: pageNumber
+                    }
+                });
+                // this.getGroups({page: pageNumber});
             },
-            getGroups(pageable = {}) {
-                this.$groupService.getGroupList(pageable, null, res => {
+            getGroups() {
+                console.log('getting page', this.$route.query.page)
+                this.$groupService.getGroupList(this.$route.query.page, '', res => {
                     this.groups = res.data.content;
-                    this.pagination = getPaginationFromResponse(res.data)
+                    this.pagination = getPaginationFromResponse(res.data);
                 })
             }
         }

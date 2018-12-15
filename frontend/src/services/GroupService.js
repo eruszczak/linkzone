@@ -23,9 +23,8 @@ export default class GroupService {
         axios.get(`/users/${username}/groups/`).then(cb, cbError)
     };
 
-    getGroupList = (pageable, query, cb, cbError) => {
-        pageable = pageable || {};
-        const url = '/groups/' + buildPaginationQueryString(pageable.page, pageable.perPage);
+    getGroupList = (page, query, cb, cbError) => {
+        const url = '/groups/' + buildPaginationQueryString(page);
         const qs = query ? `&name=${query}` : '';
         axios.get(url + qs).then(res => {
             cb(res)
