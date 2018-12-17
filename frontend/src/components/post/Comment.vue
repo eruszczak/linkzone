@@ -15,8 +15,8 @@
         </v-card-text>
         <v-card-actions>
             <v-btn @click="updating = !updating" color="orange" flat v-if="!readOnly">Update</v-btn>
-            <v-btn @click="deleteComment()" color="orange" flat>Delete</v-btn>
-            <v-btn @click="item.showReplies = !item.showReplies" color="orange" flat v-if="item.reply && canReply">Reply
+            <v-btn @click="deleteComment()" color="orange" flat v-if="!readOnly">Delete</v-btn>
+            <v-btn @click="item.showReplies = !item.showReplies" color="orange" flat v-if="item.reply && canReply && !readOnly">Reply
                 / Show replies ({{item.replies.length}})
             </v-btn>
         </v-card-actions>

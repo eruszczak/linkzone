@@ -18,6 +18,7 @@ public class CommentResponse {
     private List<CommentResponse> replies;
     private Instant createdAt;
     private CommentCreator author;
+    private String groupName;
 
     public CommentResponse(Comment comment) {
         id = comment.getId();
@@ -25,6 +26,7 @@ public class CommentResponse {
         author = new CommentCreator(comment.getAccount());
         createdAt = comment.getCreatedAt();
         replies = comment.getReplies().stream().map(CommentResponse::new).collect(Collectors.toList());
+        groupName = comment.getPost().getGroup().getName();
     }
 
     @Getter
