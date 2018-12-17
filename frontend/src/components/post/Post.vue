@@ -2,7 +2,7 @@
     <v-card class="mb-4">
         <v-card-title primary-title>
             <div>
-                <h3 class="headline mb-0">{{post.title}}</h3>
+                <h3 class="headline mb-0"><router-link :to="{name: 'postView', params: {name: post.groupName, postID: post.id}}">{{post.title}}</router-link></h3>
             </div>
         </v-card-title>
 

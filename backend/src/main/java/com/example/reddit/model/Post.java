@@ -16,6 +16,7 @@ public class Post extends DateAudit {
     private Long id;
 
     @ManyToOne
+    @NotNull
     private Account account;
 
     @ManyToOne

@@ -34,15 +34,19 @@ public class Group extends DateAudit {
     private String description;
 
     private String bannerUrl;
+
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Account> administrators = new ArrayList<>();
+
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Account> moderators = new ArrayList<>();
+
     @ElementCollection(targetClass = PostType.class)
     @JoinTable(name = "tblPostType", joinColumns = @JoinColumn(name = "group_id"))
     @Column(name = "post_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private List<PostType> postTypes = new ArrayList<>(Arrays.asList(PostType.POST, PostType.LINK, PostType.MEDIA));
+
     @ElementCollection
     private List<String> tags = new ArrayList<>();
 

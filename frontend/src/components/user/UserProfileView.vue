@@ -34,9 +34,6 @@
                     id="posts"
             >
                 <v-card flat>
-                    posts
-                    <!--TODO how to handle group - two routes for post detail?? 1 with groupName-->
-                    {{posts}}
                     <post-list :posts="posts"></post-list>
                 </v-card>
             </v-tab-item>

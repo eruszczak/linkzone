@@ -52,11 +52,26 @@ public class RedditApplication {
                 Account reply = accountService.create(getAccountDto("reply"));
                 Account user1 = accountService.create(getAccountDto("user1"));
 
+                Group g2 = new Group("groupxxx", "group description");
+                g2.setCreator(group1admin);
+                groupService.save(g2);
+                Post p2 = new Post();
+                p2.setAccount(group1admin);
+                p2.setPostType(PostType.POST);
+                p2.setTitle("postTitle " + g2.getName());
+                p2.setContent("description ");
+                p2.setGroup(g2);
+                p2 = postService.save(p2);
+                CommentCreate xd = new CommentCreate();
+                xd.setContent("comment");
+                commentService.create(xd, p2, group1admin);
+
                 for (int i = 0; i < 30; i++) {
                     Group g = new Group("group1" + i, "group description");
                     g.setCreator(group1creator);
                     g.addAdministrator(group1admin);
                     g.addModerator(group1mod);
+                    g.addModerator(group1admin);
                     g.setCreator(group1creator);
                     groupService.save(g);
 
@@ -69,6 +84,7 @@ public class RedditApplication {
                         p.setAccount(group1postcreator);
 
                         Post newPost = postService.save(p);
+
 
                         for (int x = 0; x < 10; x += 1) {
                             CommentCreate comment = new CommentCreate();

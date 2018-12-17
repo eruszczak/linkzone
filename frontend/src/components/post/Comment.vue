@@ -1,7 +1,7 @@
 <template>
     <v-card :color='index % 2 === 0 ? "grey lighten-4" : "grey lighten-3"' light>
         <v-card-title>
-            {{ item.author }}; {{item.createdAt | shortDate}}
+            <router-link :to="{name: 'groupDetailView', params: {name: item.groupName}}">{{ item.groupName }}</router-link>; {{item.createdAt | shortDate}}
         </v-card-title>
         <v-card-text>
             <v-avatar
@@ -79,7 +79,7 @@
             canReply: {
                 type: Boolean,
                 default: true
-            }
+            },
         },
         mixins: [validation],
         data() {
