@@ -23,10 +23,6 @@
                 type: Array,
                 required: true
             },
-            groupName: {
-                type: String,
-                default: null
-            },
             isAdmin: {
                 type: Boolean,
                 default: false
@@ -39,7 +35,7 @@
         methods: {
             goToPost(post) {
                 // const params = this.groupName ? {name: this.groupName, postID: post.id} : {postID: post.id};
-                this.$router.push({name: 'postView', params: {name: this.groupName, postID: post.id}})
+                this.$router.push({name: 'postView', params: {name: post.groupName, postID: post.id}})
             }
         }
     }

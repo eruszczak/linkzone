@@ -11,8 +11,7 @@
         <h2>{{group.name}}</h2>
         <v-layout row wrap>
             <v-flex sm8 xs12>
-                <post-list :group-name="group.name" :is-admin="isAdmin" :is-moderator="isModerator"
-                           :posts="posts"></post-list>
+                <post-list :is-admin="isAdmin" :is-moderator="isModerator" :posts="posts"></post-list>
 
             </v-flex>
             <v-flex class="ml-2" sm3 xs12>

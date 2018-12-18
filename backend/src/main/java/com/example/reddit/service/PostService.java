@@ -111,4 +111,13 @@ public class PostService {
     public Page<Post> findByAccountUsername(String username, Pageable pageable) {
         return postRepository.findByAccountUsername(username, pageable);
     }
+
+    // todo check permission if owner
+    public Page<Post> findTop(String username, Pageable pageable) {
+        return postRepository.findTop(username, pageable);
+    }
+
+//    public Page<Post> findTop(Pageable pageable) {
+//
+//    }
 }

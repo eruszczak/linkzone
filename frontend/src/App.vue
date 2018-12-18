@@ -78,7 +78,7 @@
             </v-navigation-drawer>
             <v-toolbar absolute app clipped-left color="amber">
                 <v-toolbar-side-icon @click.native="drawer = !drawer"></v-toolbar-side-icon>
-                <span class="title ml-3 mr-5">Reddit&nbsp;<span class="font-weight-light">App</span></span>
+                <span class="title ml-3 mr-5"><router-link to="/">Reddit&nbsp;<span class="font-weight-light">App</span></router-link></span>
                 <v-text-field
                         flat
                         hide-details

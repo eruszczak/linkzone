@@ -11,6 +11,7 @@ import PostView from '@/components/post/PostView'
 import UserProfileView from '@/components/user/UserProfileView'
 import UserEditView from '@/components/user/UserEditView'
 import PostUpdateView from '@/components/post/PostUpdateView'
+import MainView from '@/components/MainView'
 import {store} from '../store'
 
 Vue.use(Router);
@@ -22,6 +23,11 @@ const router = new Router({
     // linkActiveClass: 'is-active',
     linkExactActiveClass: 'is-active',
     routes: [
+        {
+            name: "mainView",
+            path: "/",
+            component: MainView
+        },
         {
             name: LOGIN_VIEW_ROUTE_NAME,
             path: '/login',

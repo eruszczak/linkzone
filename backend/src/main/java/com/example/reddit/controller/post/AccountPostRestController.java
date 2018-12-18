@@ -30,4 +30,11 @@ public class AccountPostRestController {
         Page<PostResponse> response = posts.map(PostResponse::new);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @GetMapping("/top/")
+    public ResponseEntity<?> top(@PathVariable String username, Pageable pageable) {
+        Page<Post> posts = postService.findTop(username, pageable);
+        Page<PostResponse> response = posts.map(PostResponse::new);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }
