@@ -22,6 +22,7 @@
         </div>
 
         <v-card-actions>
+            <v-btn>{{post.upvotedCount || 0}}</v-btn>
             <v-btn flat :color="getUpvoteColor(true)" @click="upvote">Upvote</v-btn>
             <v-btn flat :color="getUpvoteColor(false)" @click="downvote">Downvote</v-btn>
             <v-btn flat color="orange">Share</v-btn>
@@ -61,32 +62,36 @@
                     return INACTIVE_COLOR;
                 }
                 if (forUpvote) {
-                    return this.post.upvoted ? 'orange' : INACTIVE_COLOR;
+                    return this.post.upvoted === 1 ? 'orange' : INACTIVE_COLOR;
                 }
-                return !this.post.upvoted ? 'orange' : INACTIVE_COLOR;
+                return this.post.upvoted === -1 ? 'orange' : INACTIVE_COLOR;
             },
             upvote() {
-                if (this.post.upvoted === true) {
+                if (this.post.upvoted === 1) {
+                    this.post.upvotedCount -= 1;
                     this.clear();
                     return;
                 }
                 this.$postService.upvote(this.post.id, () => {
-                    this.post.upvoted = true;
-                })
+                    this.post.upvoted = 1;
+                    this.post.upvotedCount += 1;
+                });
             },
             downvote() {
-                if (this.post.upvoted === false) {
+                if (this.post.upvoted === -1) {
+                    this.post.upvotedCount += 1;
                     this.clear();
                     return;
                 }
                 this.$postService.downvote(this.post.id, () => {
-                    this.post.upvoted = false;
-                })
+                    this.post.upvoted = -1;
+                    this.post.upvotedCount -= 1;
+                });
             },
             clear() {
                 this.$postService.clearVote(this.post.id, () => {
                     this.post.upvoted = null;
-                })
+                });
             }
         }
     }
