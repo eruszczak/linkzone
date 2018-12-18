@@ -19,7 +19,9 @@ axios.interceptors.response.use((response) => {
     console.error('axios', error);
     if (error.response.status === 401) {
         console.log('unauthorized, logging out ...');
-        Vue.prototype.$userService.logout()
+        Vue.prototype.$userService.logout();
+        store.commit('setLoginModalState', true);
+
         // auth.logout();
         // router.replace('/auth/login');
     } else if (error.response.status === 403) {

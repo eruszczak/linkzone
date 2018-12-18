@@ -190,6 +190,7 @@ export default class UserService {
         // store.commit('setAccessToken', '')
         localStorage.removeItem(LOCAL_STORAGE_ACCESS_TOKEN_KEY);
         store.commit('setIsAuthenticated', false);
+        store.commit('setAccessToken', null);
         console.log('logging out');
         // this.authNotifier.emit('authChange')
         if (router.currentRoute.meta.requiresAuth) {
