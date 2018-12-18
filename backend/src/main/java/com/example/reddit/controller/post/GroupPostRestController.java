@@ -41,12 +41,8 @@ public class GroupPostRestController {
 
     @GetMapping(value = "/")
     public ResponseEntity<?> list(@PathVariable String groupName, Pageable pageable, @CurrentUser UserPrincipal currentUser) {
-        if (currentUser != null) {
-            Page<IPostResponseDto> response = postService.findByGroupName(groupName, pageable, currentUser.getAccount());
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        }
-        Page<Post> posts = postService.findByGroupName(groupName, pageable);
-        Page<PostResponse> response = posts.map(PostResponse::new);
+        Long userId = currentUser != null ? currentUser.getAccount().getId() : - 1;
+        Page<IPostResponseDto> response = postService.findByGroupName(groupName, pageable, userId);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

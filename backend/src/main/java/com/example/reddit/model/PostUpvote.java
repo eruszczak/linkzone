@@ -28,5 +28,5 @@ public class PostUpvote extends DateAudit {
 
     @NotNull
     @Column(name = "is_upvote")
-    private Boolean isUpvote;
+    private int isUpvote;
 }

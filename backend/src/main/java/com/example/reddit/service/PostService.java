@@ -42,8 +42,8 @@ public class PostService {
         return postRepository.findByGroupName(groupName, pageable);
     }
 
-    public Page<IPostResponseDto> findByGroupName(String groupName, Pageable pageable, Account account) {
-        return postRepository.findByGroupName(groupName, pageable, account.getId());
+    public Page<IPostResponseDto> findByGroupName(String groupName, Pageable pageable, Long accountId) {
+        return postRepository.findByGroupName(groupName, pageable, accountId);
     }
 
     public Page<IPostResponseDto> findUpvoted(Account account, Pageable pageable) {
@@ -143,13 +143,13 @@ public class PostService {
 
     public void upvote(Account account, Post post) {
         PostUpvote postUpvote = getOrCreatePostUpvote(account, post);
-        postUpvote.setIsUpvote(true);
+        postUpvote.setIsUpvote(1);
         postUpvoteRepository.save(postUpvote);
     }
 
     public void downvote(Account account, Post post) {
         PostUpvote postUpvote = getOrCreatePostUpvote(account, post);
-        postUpvote.setIsUpvote(false);
+        postUpvote.setIsUpvote(-1);
         postUpvoteRepository.save(postUpvote);
     }
 

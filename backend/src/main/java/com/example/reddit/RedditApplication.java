@@ -11,6 +11,7 @@ import com.example.reddit.model.Post;
 import com.example.reddit.repository.AccountRepository;
 import com.example.reddit.security.JwtTokenProvider;
 import com.example.reddit.service.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -41,9 +42,11 @@ public class RedditApplication {
                            PostService postService,
                            CommentService commentService,
                            JwtTokenProvider jwtTokenProvider,
-                           AccountRepository accountRepository) {
+                           AccountRepository accountRepository,
+                           @Value("${spring.jpa.hibernate.ddl-auto}") String update) {
         return (evt) -> {
-            if (false) {
+            boolean runInit = !update.equals("update");
+            if (runInit) {
                 Account group1admin = accountService.create(getAccountDto("group1admin"));
                 Account group1mod = accountService.create(getAccountDto("group1mod"));
                 Account group1creator = accountService.create(getAccountDto("group1creator"));
