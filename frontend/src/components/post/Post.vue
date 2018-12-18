@@ -3,6 +3,7 @@
         <v-card-title primary-title>
             <div>
                 <h3 class="headline mb-0"><router-link :to="{name: 'postView', params: {name: post.groupName, postID: post.id}}">{{post.title}}</router-link></h3>
+                {{post.upvoted}}
             </div>
         </v-card-title>
 
@@ -21,8 +22,8 @@
         </div>
 
         <v-card-actions>
-            <v-btn flat color="orange" @click="upvote">Upvote</v-btn>
-            <v-btn flat color="orange" @click="downvote">Downvote</v-btn>
+            <v-btn flat :color="getUpvoteColor(true)" @click="upvote">Upvote</v-btn>
+            <v-btn flat :color="getUpvoteColor(false)" @click="downvote">Downvote</v-btn>
             <v-btn flat color="orange">Share</v-btn>
             <v-btn flat color="orange">Explore</v-btn>
         </v-card-actions>
@@ -43,6 +44,9 @@
                 required: true
             }
         },
+        computed: {
+
+        },
         data() {
             return {
                 POST_TYPES
@@ -51,11 +55,38 @@
         methods: {
             getYoutubeId: getYoutubeId,
             checkIfImageUrl: checkIfImageUrl,
+            getUpvoteColor(forUpvote) {
+                const INACTIVE_COLOR = 'grey';
+                if (this.post.upvoted === null) {
+                    return INACTIVE_COLOR;
+                }
+                if (forUpvote) {
+                    return this.post.upvoted ? 'orange' : INACTIVE_COLOR;
+                }
+                return !this.post.upvoted ? 'orange' : INACTIVE_COLOR;
+            },
             upvote() {
-                console.log('up')
+                if (this.post.upvoted === true) {
+                    this.clear();
+                    return;
+                }
+                this.$postService.upvote(this.post.id, () => {
+                    this.post.upvoted = true;
+                })
             },
             downvote() {
-                console.log('down')
+                if (this.post.upvoted === false) {
+                    this.clear();
+                    return;
+                }
+                this.$postService.downvote(this.post.id, () => {
+                    this.post.upvoted = false;
+                })
+            },
+            clear() {
+                this.$postService.clearVote(this.post.id, () => {
+                    this.post.upvoted = null;
+                })
             }
         }
     }

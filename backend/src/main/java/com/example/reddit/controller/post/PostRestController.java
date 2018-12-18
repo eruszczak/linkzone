@@ -67,6 +67,12 @@ public class PostRestController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping(value = "/{id}/clear-vote/")
+    public ResponseEntity<?> clearVote(@PathVariable Long id, @CurrentUser UserPrincipal currentUser) {
+        postService.clearVote(currentUser.getAccount(), postService.findById(id));
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping(value = "/{id}/upvote/")
     public ResponseEntity<?> upvote(@PathVariable Long id, @CurrentUser UserPrincipal currentUser) {
         postService.upvote(currentUser.getAccount(), postService.findById(id));

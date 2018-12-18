@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "posts")
 public class Post extends DateAudit {
 
     @Id
@@ -22,6 +23,7 @@ public class Post extends DateAudit {
     @ManyToOne
     @NotNull
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "group_id", nullable = false)
     private Group group;
 
 //    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)

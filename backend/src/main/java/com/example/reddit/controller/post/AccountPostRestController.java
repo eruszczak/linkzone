@@ -30,7 +30,7 @@ public class AccountPostRestController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "/upvoted/")
     public ResponseEntity<?> listUpvoted(@PathVariable String username, Pageable pageable) {
         Page<Post> posts = postService.findByAccountUsername(username, pageable);
         Page<PostResponse> response = posts.map(PostResponse::new);

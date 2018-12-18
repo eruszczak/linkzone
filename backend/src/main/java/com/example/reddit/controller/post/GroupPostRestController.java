@@ -1,8 +1,6 @@
 package com.example.reddit.controller.post;
 
-import com.example.reddit.dto.PostCreate;
-import com.example.reddit.dto.PostCreateLink;
-import com.example.reddit.dto.PostResponse;
+import com.example.reddit.dto.*;
 import com.example.reddit.exception.ValidationErrorException;
 import com.example.reddit.model.Account;
 import com.example.reddit.model.Group;
@@ -39,9 +37,9 @@ public class GroupPostRestController {
 
     @GetMapping(value = "/")
     public ResponseEntity<?> list(@PathVariable String groupName, Pageable pageable) {
-        Page<Post> posts = postService.findByGroupName(groupName, pageable);
-        Page<PostResponse> response = posts.map(PostResponse::new);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        Page<IPostResponseDto> posts = postService.findByGroupName(groupName, pageable);
+//        Page<PostResponse> response = posts.map(PostResponse::new);
+        return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
     @PostMapping(value = "/")

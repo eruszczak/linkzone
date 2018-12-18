@@ -1,6 +1,7 @@
 package com.example.reddit.service;
 
 import com.example.reddit.controller.post.PostType;
+import com.example.reddit.dto.IPostResponseDto;
 import com.example.reddit.dto.PostCreate;
 import com.example.reddit.dto.PostUpdate;
 import com.example.reddit.exception.NotFoundException;
@@ -18,6 +19,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostService {
@@ -36,7 +38,7 @@ public class PostService {
         return postRepository.findByGroupName(name);
     }
 
-    public Page<Post> findByGroupName(String groupName, Pageable pageable) {
+    public Page<IPostResponseDto> findByGroupName(String groupName, Pageable pageable) {
         return postRepository.findByGroupName(groupName, pageable);
     }
 
@@ -130,17 +132,35 @@ public class PostService {
 //
 //    }
 
+    public void clearVote(Account account, Post post) {
+        postUpvoteRepository.deleteByAccountIdAndPostId(account.getId(), post.getId());
+    }
+
     public void upvote(Account account, Post post) {
-        PostUpvote postUpvote = new PostUpvote();
-        postUpvote.setAccount(account);
-        postUpvote.setPost(post);
+        Optional<PostUpvote> obj = postUpvoteRepository.findByAccountIdAndPostId(account.getId(), post.getId());
+        PostUpvote postUpvote;
+        if (obj.isPresent()) {
+            postUpvote = obj.get();
+        } else {
+            postUpvote = new PostUpvote();
+            postUpvote.setAccount(account);
+            postUpvote.setPost(post);
+        }
+        postUpvote.setUpvote(true);
         postUpvoteRepository.save(postUpvote);
     }
 
     public void downvote(Account account, Post post) {
-        PostUpvote postUpvote = new PostUpvote();
-        postUpvote.setAccount(account);
-        postUpvote.setPost(post);
-        postUpvoteRepository.delete(postUpvote);
+        Optional<PostUpvote> obj = postUpvoteRepository.findByAccountIdAndPostId(account.getId(), post.getId());
+        PostUpvote postUpvote;
+        if (obj.isPresent()) {
+            postUpvote = obj.get();
+        } else {
+            postUpvote = new PostUpvote();
+            postUpvote.setAccount(account);
+            postUpvote.setPost(post);
+        }
+        postUpvote.setUpvote(false);
+        postUpvoteRepository.save(postUpvote);
     }
 }

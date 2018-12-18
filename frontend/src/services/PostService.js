@@ -40,12 +40,16 @@ export default class PostService {
         })
     };
 
+    clearVote(id, cb) {
+        axios.post(`/posts/${id}/clear-vote/`).then(cb);
+    }
+
     upvote(id, cb) {
-        axios.post(``, cb);
+        axios.post(`/posts/${id}/upvote/`).then(cb);
     }
 
     downvote(id, cb) {
-        axios.post(``, cb);
+        axios.post(`/posts/${id}/downvote/`).then(cb);
     }
 
     update(id, data, cb) {

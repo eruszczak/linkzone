@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "groups")
+@Table(name = "`group`")
 public class Group extends DateAudit {
 
     @Id
@@ -33,6 +33,7 @@ public class Group extends DateAudit {
 
     private String description;
 
+    @Column(name = "banner_url")
     private String bannerUrl;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -42,7 +43,7 @@ public class Group extends DateAudit {
     private List<Account> moderators = new ArrayList<>();
 
     @ElementCollection(targetClass = PostType.class)
-    @JoinTable(name = "tblPostType", joinColumns = @JoinColumn(name = "group_id"))
+    @JoinTable(name = "tbl_post_type", joinColumns = @JoinColumn(name = "group_id"))
     @Column(name = "post_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private List<PostType> postTypes = new ArrayList<>(Arrays.asList(PostType.POST, PostType.LINK, PostType.MEDIA));
