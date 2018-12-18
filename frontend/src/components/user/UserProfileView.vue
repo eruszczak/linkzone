@@ -7,6 +7,12 @@
                 v-model="active"
         >
             <v-tab
+                    href="#upvoted"
+                    ripple
+            >
+                upvoted posts
+            </v-tab>
+            <v-tab
                     href="#posts"
                     ripple
             >
@@ -30,6 +36,16 @@
             >
                 administrated groups
             </v-tab>
+
+            <v-tab-item
+                    id="upvoted"
+            >
+                <v-card flat>
+                    upvoted posts
+                    <!--<post-list :posts="posts"></post-list>-->
+                </v-card>
+            </v-tab-item>
+
             <v-tab-item
                     id="posts"
             >

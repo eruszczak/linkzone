@@ -4,6 +4,8 @@ import com.example.reddit.dto.PostResponse;
 import com.example.reddit.dto.PostUpdate;
 import com.example.reddit.exception.ValidationErrorException;
 import com.example.reddit.model.Post;
+import com.example.reddit.security.CurrentUser;
+import com.example.reddit.security.UserPrincipal;
 import com.example.reddit.service.FileStorageService;
 import com.example.reddit.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +64,18 @@ public class PostRestController {
     public ResponseEntity<Post> delete(@PathVariable Long id) {
         Post post = postService.findById(id);
         postService.delete(post);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/{id}/upvote/")
+    public ResponseEntity<?> upvote(@PathVariable Long id, @CurrentUser UserPrincipal currentUser) {
+        postService.upvote(currentUser.getAccount(), postService.findById(id));
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/{id}/downvote/")
+    public ResponseEntity<?> downvote(@PathVariable Long id, @CurrentUser UserPrincipal currentUser) {
+        postService.downvote(currentUser.getAccount(), postService.findById(id));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

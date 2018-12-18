@@ -40,6 +40,14 @@ export default class PostService {
         })
     };
 
+    upvote(id, cb) {
+        axios.post(``, cb);
+    }
+
+    downvote(id, cb) {
+        axios.post(``, cb);
+    }
+
     update(id, data, cb) {
         const url = `/posts/${id}`;
         axios.put(url, data).then((res) => {

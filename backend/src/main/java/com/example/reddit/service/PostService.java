@@ -7,8 +7,10 @@ import com.example.reddit.exception.NotFoundException;
 import com.example.reddit.model.Account;
 import com.example.reddit.model.Group;
 import com.example.reddit.model.Post;
+import com.example.reddit.model.PostUpvote;
 import com.example.reddit.permissions.Permissions;
 import com.example.reddit.repository.PostRepository;
+import com.example.reddit.repository.PostUpvoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,9 +24,12 @@ public class PostService {
 
     private final PostRepository postRepository;
 
+    private final PostUpvoteRepository postUpvoteRepository;
+
     @Autowired
-    public PostService(PostRepository postRepository) {
+    public PostService(PostRepository postRepository, PostUpvoteRepository postUpvoteRepository) {
         this.postRepository = postRepository;
+        this.postUpvoteRepository = postUpvoteRepository;
     }
 
     public List<Post> findByGroupName(String name) {
@@ -33,6 +38,10 @@ public class PostService {
 
     public Page<Post> findByGroupName(String groupName, Pageable pageable) {
         return postRepository.findByGroupName(groupName, pageable);
+    }
+
+    public Page<Post> findUpvoted(Account account, Pageable pageable) {
+        return null;
     }
 
     public List<Post> findAll() {
@@ -120,4 +129,18 @@ public class PostService {
 //    public Page<Post> findTop(Pageable pageable) {
 //
 //    }
+
+    public void upvote(Account account, Post post) {
+        PostUpvote postUpvote = new PostUpvote();
+        postUpvote.setAccount(account);
+        postUpvote.setPost(post);
+        postUpvoteRepository.save(postUpvote);
+    }
+
+    public void downvote(Account account, Post post) {
+        PostUpvote postUpvote = new PostUpvote();
+        postUpvote.setAccount(account);
+        postUpvote.setPost(post);
+        postUpvoteRepository.delete(postUpvote);
+    }
 }
