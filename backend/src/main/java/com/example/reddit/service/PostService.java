@@ -38,12 +38,16 @@ public class PostService {
         return postRepository.findByGroupName(name);
     }
 
-    public Page<IPostResponseDto> findByGroupName(String groupName, Pageable pageable) {
+    public Page<Post> findByGroupName(String groupName, Pageable pageable) {
         return postRepository.findByGroupName(groupName, pageable);
     }
 
-    public Page<Post> findUpvoted(Account account, Pageable pageable) {
-        return null;
+    public Page<IPostResponseDto> findByGroupName(String groupName, Pageable pageable, Account account) {
+        return postRepository.findByGroupName(groupName, pageable, account.getId());
+    }
+
+    public Page<IPostResponseDto> findUpvoted(Account account, Pageable pageable) {
+        return postRepository.findUpvoted(account.getId(), pageable);
     }
 
     public List<Post> findAll() {
@@ -133,24 +137,23 @@ public class PostService {
 //    }
 
     public void clearVote(Account account, Post post) {
+        // TODO set to null or remove?
         postUpvoteRepository.deleteByAccountIdAndPostId(account.getId(), post.getId());
     }
 
     public void upvote(Account account, Post post) {
-        Optional<PostUpvote> obj = postUpvoteRepository.findByAccountIdAndPostId(account.getId(), post.getId());
-        PostUpvote postUpvote;
-        if (obj.isPresent()) {
-            postUpvote = obj.get();
-        } else {
-            postUpvote = new PostUpvote();
-            postUpvote.setAccount(account);
-            postUpvote.setPost(post);
-        }
-        postUpvote.setUpvote(true);
+        PostUpvote postUpvote = getOrCreatePostUpvote(account, post);
+        postUpvote.setIsUpvote(true);
         postUpvoteRepository.save(postUpvote);
     }
 
     public void downvote(Account account, Post post) {
+        PostUpvote postUpvote = getOrCreatePostUpvote(account, post);
+        postUpvote.setIsUpvote(false);
+        postUpvoteRepository.save(postUpvote);
+    }
+
+    private PostUpvote getOrCreatePostUpvote(Account account, Post post) {
         Optional<PostUpvote> obj = postUpvoteRepository.findByAccountIdAndPostId(account.getId(), post.getId());
         PostUpvote postUpvote;
         if (obj.isPresent()) {
@@ -160,7 +163,6 @@ public class PostService {
             postUpvote.setAccount(account);
             postUpvote.setPost(post);
         }
-        postUpvote.setUpvote(false);
-        postUpvoteRepository.save(postUpvote);
+        return postUpvote;
     }
 }

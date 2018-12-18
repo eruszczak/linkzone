@@ -1,5 +1,6 @@
 package com.example.reddit.controller.post;
 
+import com.example.reddit.dto.IPostResponseDto;
 import com.example.reddit.dto.PostResponse;
 import com.example.reddit.model.Post;
 import com.example.reddit.security.CurrentUser;
@@ -31,10 +32,10 @@ public class AccountPostRestController {
     }
 
     @GetMapping(value = "/upvoted/")
-    public ResponseEntity<?> listUpvoted(@PathVariable String username, Pageable pageable) {
-        Page<Post> posts = postService.findByAccountUsername(username, pageable);
-        Page<PostResponse> response = posts.map(PostResponse::new);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<?> listUpvoted(@PathVariable String username, @CurrentUser UserPrincipal currentUser, Pageable pageable) {
+        Page<IPostResponseDto> posts = postService.findUpvoted(currentUser.getAccount(), pageable);
+//        Page<PostResponse> response = posts.map(PostResponse::new);
+        return new ResponseEntity<>(posts, HttpStatus.OK);
     }
 
     @GetMapping("/top/")

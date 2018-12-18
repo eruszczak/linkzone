@@ -92,6 +92,14 @@ export default class UserService {
         axios.get(url).then(cb);
     };
 
+    getUpvotedPosts = (username, cb, cbError) => {
+        if (!username) {
+            return
+        }
+        const url = `/users/${username}/posts/upvoted/`;
+        axios.get(url).then(cb);
+    };
+
     getTopPosts = (username, cb, cbError) => {
         if (!username) {
             return

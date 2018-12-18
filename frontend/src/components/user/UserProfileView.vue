@@ -41,8 +41,7 @@
                     id="upvoted"
             >
                 <v-card flat>
-                    upvoted posts
-                    <!--<post-list :posts="posts"></post-list>-->
+                    <post-list :posts="upvotedPosts"></post-list>
                 </v-card>
             </v-tab-item>
 
@@ -103,7 +102,8 @@
                 text: 'Lorem ipsum dolor',
                 posts: [],
                 groups: {},
-                comments: []
+                comments: [],
+                upvotedPosts: []
             }
         },
         computed: {
@@ -121,7 +121,11 @@
 
             this.$userService.getGroupInfo(this.username, ({data}) => {
                 this.groups = data
-            })
+            });
+
+            this.$userService.getUpvotedPosts(this.username, ({data}) => {
+                this.upvotedPosts = data.content;
+            });
         },
         methods: {
             next() {

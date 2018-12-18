@@ -43,7 +43,7 @@ public class RedditApplication {
                            JwtTokenProvider jwtTokenProvider,
                            AccountRepository accountRepository) {
         return (evt) -> {
-            if (true) {
+            if (false) {
                 Account group1admin = accountService.create(getAccountDto("group1admin"));
                 Account group1mod = accountService.create(getAccountDto("group1mod"));
                 Account group1creator = accountService.create(getAccountDto("group1creator"));

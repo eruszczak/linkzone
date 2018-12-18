@@ -1,6 +1,7 @@
 package com.example.reddit.utils;
 
 import com.example.reddit.exception.NoPermissionsException;
+import com.example.reddit.exception.UnauthorizedException;
 import com.github.slugify.Slugify;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -8,7 +9,13 @@ public class Utils {
 
     public static void checkIfOwner(UserDetails principal, String username) {
         if (principal == null || !principal.getUsername().equals(username)) {
-            throw new NoPermissionsException();
+            throw new UnauthorizedException();
+        }
+    }
+
+    public static void checkIfAuthenticated(UserDetails principal) {
+        if (principal == null) {
+            throw new UnauthorizedException();
         }
     }
 

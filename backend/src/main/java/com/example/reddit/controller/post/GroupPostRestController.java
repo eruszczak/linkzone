@@ -10,6 +10,7 @@ import com.example.reddit.security.UserPrincipal;
 import com.example.reddit.service.FileStorageService;
 import com.example.reddit.service.GroupService;
 import com.example.reddit.service.PostService;
+import com.example.reddit.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,9 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/groups/{groupName}/posts")
@@ -36,10 +40,14 @@ public class GroupPostRestController {
     }
 
     @GetMapping(value = "/")
-    public ResponseEntity<?> list(@PathVariable String groupName, Pageable pageable) {
-        Page<IPostResponseDto> posts = postService.findByGroupName(groupName, pageable);
-//        Page<PostResponse> response = posts.map(PostResponse::new);
-        return new ResponseEntity<>(posts, HttpStatus.OK);
+    public ResponseEntity<?> list(@PathVariable String groupName, Pageable pageable, @CurrentUser UserPrincipal currentUser) {
+        if (currentUser != null) {
+            Page<IPostResponseDto> response = postService.findByGroupName(groupName, pageable, currentUser.getAccount());
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        Page<Post> posts = postService.findByGroupName(groupName, pageable);
+        Page<PostResponse> response = posts.map(PostResponse::new);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping(value = "/")
