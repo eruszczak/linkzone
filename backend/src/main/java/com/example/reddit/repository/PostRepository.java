@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
@@ -15,8 +16,10 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     Page<Post> findByGroupName(String name, Pageable pageable);
 
-    @Query(value = "SELECT p.id as id, (SELECT pu.is_upvote FROM post_upvote pu WHERE pu.post_id = p.id AND pu.account_id = :accountId) as upvoted FROM posts p LEFT JOIN `group` g ON g.id = p.group_id WHERE g.name = :name", nativeQuery = true)
-    Page<IPostResponseDto> findByGroupName(@PathParam("name") String name, Pageable pageable, Long accountId);
+    @Query(value = "SELECT p.id as id, (SELECT pu.is_upvote FROM post_upvote pu WHERE pu.post_id = p.id AND pu.account_id = :accountId) as upvoted FROM posts p LEFT JOIN `group` g ON g.id = p.group_id WHERE g.name = :name ORDER BY ?#{#pageable}",
+            countQuery = "SELECT count(*) FROM posts p LEFT JOIN `group` g ON g.id = p.group_id WHERE g.name = :name",
+            nativeQuery = true)
+    Page<IPostResponseDto> findByGroupName(@Param("name") String name, @Param("pageable") Pageable pageable, @Param("accountId") Long accountId);
 
     Page<Post> findByAccountUsername(String username, Pageable pageable);
 
