@@ -16,7 +16,8 @@ public class PostResponse {
     private String author;
     private String groupName;
     private boolean locked;
-    private boolean isUpvoted;
+    private int isUpvoted;
+    private int upvotedCount;
 
     public PostResponse(Post post) {
         id = post.getId();
@@ -29,8 +30,16 @@ public class PostResponse {
         locked = post.locked();
     }
 
-    public PostResponse(PostUpvoteDb postUpvoteDb) {
-        this(postUpvoteDb.getPost());
-        isUpvoted = postUpvoteDb.isUpvoted();
+    public PostResponse(IPostResponseDto dto) {
+        id = dto.getId();
+        title = dto.getTitle();
+        content = dto.getContent();
+        slug = dto.getSlug();
+        type = dto.getType();
+        author = dto.getAuthor();
+        groupName = dto.getGroupName();
+        locked = dto.getLocked();
+        isUpvoted = dto.getUpvoted();
+        upvotedCount = dto.getUpvotedCount();
     }
 }

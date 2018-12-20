@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "`group`")
+@Table(name = "group_tbl")
 public class Group extends DateAudit {
 
     @Id

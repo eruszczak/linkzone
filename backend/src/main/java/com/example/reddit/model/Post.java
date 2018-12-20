@@ -18,6 +18,7 @@ public class Post extends DateAudit {
 
     @ManyToOne
     @NotNull
+    @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
     @ManyToOne
