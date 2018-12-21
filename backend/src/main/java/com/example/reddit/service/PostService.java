@@ -129,6 +129,9 @@ public class PostService {
 
     // todo check permission if owner
     public Page<IPostResponseDto> findTop(Long accountId, Pageable pageable) {
+        if (accountId == null) {
+            return postRepository.findTop(pageable);
+        }
         return postRepository.findTop(accountId, pageable);
     }
 

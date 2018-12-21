@@ -6,6 +6,7 @@ import com.example.reddit.dto.AccountCreate;
 import com.example.reddit.dto.CommentCreate;
 import com.example.reddit.model.*;
 import com.example.reddit.repository.AccountRepository;
+import com.example.reddit.repository.PostUpvoteRepository;
 import com.example.reddit.security.JwtTokenProvider;
 import com.example.reddit.service.*;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,13 +41,14 @@ public class RedditApplication {
                            CommentService commentService,
                            JwtTokenProvider jwtTokenProvider,
                            AccountRepository accountRepository,
+                           PostUpvoteRepository postUpvoteRepository,
                            @Value("${spring.jpa.hibernate.ddl-auto}") String update) {
         return (evt) -> {
             boolean runInit = !update.equals("update");
             if (runInit) {
                 Account group1admin = accountService.create(getAccountDto("group1admin"));
-//                Account group1mod = accountService.create(getAccountDto("group1mod"));
-//                Account group1creator = accountService.create(getAccountDto("group1creator"));
+                Account group1mod = accountService.create(getAccountDto("group1mod"));
+                Account group1creator = accountService.create(getAccountDto("group1creator"));
 //                Account group1postcreator = accountService.create(getAccountDto("group1postcreator"));
 //                Account postcommenter = accountService.create(getAccountDto("postcommenter"));
 //                Account reply = accountService.create(getAccountDto("reply"));
@@ -54,10 +56,14 @@ public class RedditApplication {
 
                 Group g2 = new Group("groupxxx", "group description");
                 Group g3 = new Group("group3", "group description");
+                Group g4 = new Group("random", "group description");
                 g2.setCreator(group1admin);
                 g3.setCreator(group1admin);
+                g4.setCreator(group1admin);
+                g3.setDefault(true);
                 groupService.save(g2);
                 groupService.save(g3);
+                groupService.save(g4);
 
                 Post p2 = new Post();
                 p2.setAccount(group1admin);
@@ -74,6 +80,34 @@ public class RedditApplication {
                 p3.setContent("yyyyy ");
                 p3.setGroup(g3);
                 p3 = postService.save(p3);
+
+                Post p4 = new Post();
+                p4.setAccount(group1admin);
+                p4.setPostType(PostType.POST);
+                p4.setTitle("321 " + g2.getName());
+                p4.setContent("321213 ");
+                p4.setGroup(g2);
+                p4 = postService.save(p4);
+
+                Post random = new Post();
+                random.setAccount(group1admin);
+                random.setPostType(PostType.POST);
+                random.setTitle("random " + g2.getName());
+                random.setContent("321213 ");
+                random.setGroup(g4);
+                random = postService.save(random);
+
+                PostUpvote postUpvote = new PostUpvote();
+                postUpvote.setPost(p2);
+                postUpvote.setIsUpvote(1);
+                postUpvote.setAccount(group1admin);
+                postUpvoteRepository.save(postUpvote);
+
+                PostUpvote x = new PostUpvote();
+                x.setPost(p2);
+                x.setIsUpvote(1);
+                x.setAccount(group1creator);
+                postUpvoteRepository.save(x);
 
                 CommentCreate xd = new CommentCreate();
                 xd.setContent("comment");

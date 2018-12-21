@@ -51,6 +51,9 @@ public class Group extends DateAudit {
     @ElementCollection
     private List<String> tags = new ArrayList<>();
 
+    @Column(name = "is_default")
+    private boolean isDefault;
+
     public Group() {
     }
 
@@ -89,6 +92,15 @@ public class Group extends DateAudit {
 //        this.posts.remove(post);
 //        post.setGroup(null); // why, it will be deleted anyway
 //    }
+
+
+    public boolean isDefault() {
+        return isDefault;
+    }
+
+    public void setDefault(boolean aDefault) {
+        isDefault = aDefault;
+    }
 
     public Long getId() {
         return id;

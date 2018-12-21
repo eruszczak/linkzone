@@ -1,5 +1,6 @@
 package com.example.reddit.controller.post;
 
+import com.example.reddit.dto.IPostResponseDto;
 import com.example.reddit.dto.PostResponse;
 import com.example.reddit.dto.PostUpdate;
 import com.example.reddit.exception.ValidationErrorException;
@@ -37,6 +38,17 @@ public class PostRestController {
     public ResponseEntity<Page<Post>> list(Pageable pageable) {
         Page<Post> posts = postService.findAll(pageable);
         return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
+
+    @GetMapping("/top/")
+    public ResponseEntity<?> top(@CurrentUser UserPrincipal currentUser, Pageable pageable) {
+        Long id = null;
+        if (currentUser != null) {
+            id = currentUser.getId();
+        }
+        Page<IPostResponseDto> posts = postService.findTop(id, pageable);
+        Page<PostResponse> response = posts.map(PostResponse::new);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{id}")
