@@ -42,8 +42,8 @@ public class PostService {
         return postRepository.findByGroupName(groupName, pageable, accountId);
     }
 
-    public Page<IPostResponseDto> findUpvoted(Account account, Pageable pageable) {
-        return postRepository.findUpvoted(account.getId(), pageable);
+    public Page<IPostResponseDto> findUpvoted(Long userId, Long accountId, Pageable pageable) {
+        return postRepository.findUpvoted(userId, accountId, pageable);
     }
 
     public List<Post> findAll() {
@@ -123,8 +123,8 @@ public class PostService {
         post.setLocked(update.locked());
     }
 
-    public Page<Post> findByAccountUsername(String username, Pageable pageable) {
-        return postRepository.findByAccountUsername(username, pageable);
+    public Page<IPostResponseDto> findByAccountUsername(String username, Long accountId, Pageable pageable) {
+        return postRepository.findByAccountUsername(username, accountId, pageable);
     }
 
     // todo check permission if owner

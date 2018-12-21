@@ -41,8 +41,8 @@ public class AccountResource extends ResourceSupport {
                 pageable)).withRel("comments"));
         add(linkTo(methodOn(AccountGroupRestController.class).listGroupsSubscribedByUser(
                 username)).withRel("groups"));
-        add(linkTo(methodOn(AccountPostRestController.class).list(
-                username, pageable)).withRel("posts"));
+//        add(linkTo(methodOn(AccountPostRestController.class).list(
+//                username, pageable)).withRel("posts"));
     }
 
     public AccountProfile getAccountProfile() {

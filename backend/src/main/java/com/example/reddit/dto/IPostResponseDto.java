@@ -12,6 +12,7 @@ public interface IPostResponseDto {
     String getGroupName();
     boolean getLocked();
     Integer getUpvoted();
+    Integer getUpvotedUser();
     Integer getUpvotedCount();
 
 }
