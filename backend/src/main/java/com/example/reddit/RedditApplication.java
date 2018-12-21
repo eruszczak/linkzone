@@ -4,10 +4,7 @@ import com.example.reddit.config.FileStorageProperties;
 import com.example.reddit.controller.post.PostType;
 import com.example.reddit.dto.AccountCreate;
 import com.example.reddit.dto.CommentCreate;
-import com.example.reddit.model.Account;
-import com.example.reddit.model.Comment;
-import com.example.reddit.model.Group;
-import com.example.reddit.model.Post;
+import com.example.reddit.model.*;
 import com.example.reddit.repository.AccountRepository;
 import com.example.reddit.security.JwtTokenProvider;
 import com.example.reddit.service.*;
@@ -48,16 +45,20 @@ public class RedditApplication {
             boolean runInit = !update.equals("update");
             if (runInit) {
                 Account group1admin = accountService.create(getAccountDto("group1admin"));
-                Account group1mod = accountService.create(getAccountDto("group1mod"));
-                Account group1creator = accountService.create(getAccountDto("group1creator"));
-                Account group1postcreator = accountService.create(getAccountDto("group1postcreator"));
-                Account postcommenter = accountService.create(getAccountDto("postcommenter"));
-                Account reply = accountService.create(getAccountDto("reply"));
-                Account user1 = accountService.create(getAccountDto("user1"));
+//                Account group1mod = accountService.create(getAccountDto("group1mod"));
+//                Account group1creator = accountService.create(getAccountDto("group1creator"));
+//                Account group1postcreator = accountService.create(getAccountDto("group1postcreator"));
+//                Account postcommenter = accountService.create(getAccountDto("postcommenter"));
+//                Account reply = accountService.create(getAccountDto("reply"));
+//                Account user1 = accountService.create(getAccountDto("user1"));
 
                 Group g2 = new Group("groupxxx", "group description");
+                Group g3 = new Group("group3", "group description");
                 g2.setCreator(group1admin);
+                g3.setCreator(group1admin);
                 groupService.save(g2);
+                groupService.save(g3);
+
                 Post p2 = new Post();
                 p2.setAccount(group1admin);
                 p2.setPostType(PostType.POST);
@@ -65,40 +66,52 @@ public class RedditApplication {
                 p2.setContent("description ");
                 p2.setGroup(g2);
                 p2 = postService.save(p2);
+
+                Post p3 = new Post();
+                p3.setAccount(group1admin);
+                p3.setPostType(PostType.POST);
+                p3.setTitle("xxxxxxx " + g2.getName());
+                p3.setContent("yyyyy ");
+                p3.setGroup(g3);
+                p3 = postService.save(p3);
+
                 CommentCreate xd = new CommentCreate();
                 xd.setContent("comment");
                 commentService.create(xd, p2, group1admin);
 
-                for (int i = 0; i < 30; i++) {
-                    Group g = new Group("group1" + i, "group description");
-                    g.setCreator(group1creator);
-                    g.addAdministrator(group1admin);
-                    g.addModerator(group1mod);
-                    g.addModerator(group1admin);
-                    g.setCreator(group1creator);
-                    groupService.save(g);
+                GroupMembership gm = new GroupMembership(g2, group1admin);
+                groupMembershipService.save(gm);
 
-                    for (int j = 0; j < 30; j++) {
-                        Post p = new Post();
-                        p.setTitle("postTitle " + g.getName());
-                        p.setContent("description ");
-                        p.setGroup(g);
-                        p.setPostType(PostType.POST);
-                        p.setAccount(group1postcreator);
-
-                        Post newPost = postService.save(p);
-
-
-                        for (int x = 0; x < 10; x += 1) {
-                            CommentCreate comment = new CommentCreate();
-                            comment.setContent("postcommenter" + x);
-                            Comment comment1 = commentService.create(comment, newPost, postcommenter);
-                            CommentCreate commentCreate = new CommentCreate();
-                            commentCreate.setContent("reply");
-                            commentService.createReply(comment1, commentCreate, reply);
-                        }
-                    }
-                }
+//                for (int i = 0; i < 30; i++) {
+//                    Group g = new Group("group1" + i, "group description");
+//                    g.setCreator(group1creator);
+//                    g.addAdministrator(group1admin);
+//                    g.addModerator(group1mod);
+//                    g.addModerator(group1admin);
+//                    g.setCreator(group1creator);
+//                    groupService.save(g);
+//
+//                    for (int j = 0; j < 30; j++) {
+//                        Post p = new Post();
+//                        p.setTitle("postTitle " + g.getName());
+//                        p.setContent("description ");
+//                        p.setGroup(g);
+//                        p.setPostType(PostType.POST);
+//                        p.setAccount(group1postcreator);
+//
+//                        Post newPost = postService.save(p);
+//
+//
+//                        for (int x = 0; x < 10; x += 1) {
+//                            CommentCreate comment = new CommentCreate();
+//                            comment.setContent("postcommenter" + x);
+//                            Comment comment1 = commentService.create(comment, newPost, postcommenter);
+//                            CommentCreate commentCreate = new CommentCreate();
+//                            commentCreate.setContent("reply");
+//                            commentService.createReply(comment1, commentCreate, reply);
+//                        }
+//                    }
+//                }
 
 
 

@@ -16,8 +16,8 @@ public class PostResponse {
     private String author;
     private String groupName;
     private boolean locked;
-    private int isUpvoted;
-    private int upvotedCount;
+    private Integer isUpvoted;
+    private Integer upvotedCount;
 
     public PostResponse(Post post) {
         id = post.getId();
