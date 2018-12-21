@@ -28,14 +28,15 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     Page<Post> findByAccountUsername(String username, Pageable pageable);
 
-    @Query("SELECT p.id as id, p.title as title, p.content as content, p.slug as slug, p.postType as type, a.username as author, g.name as groupName, p.locked as locked, " +
+    @Query(value = "SELECT p.id as id, p.title as title, p.content as content, p.slug as slug, p.type as type, a.username as author, g.name as groupName, p.locked as locked, " +
             " (SELECT pu.is_upvote FROM post_upvote pu WHERE pu.post_id = p.id AND pu.account_id = :accountId) as upvoted," +
             " (SELECT SUM(pu.is_upvote) FROM post_upvote pu WHERE pu.post_id = p.id) as upvotedCount" +
-            " FROM Post p" +
-            " INNER JOIN GroupMembership gm ON gm.group.id = p.group.id AND gm.user_id = :accountId" +
+            " FROM posts p" +
+            " INNER JOIN group_membership gm ON gm.group_id = p.group_id AND gm.user_id = :accountId" +
             " LEFT JOIN accounts a ON a.id = p.account_id" +
             " LEFT JOIN group_tbl g ON g.id = p.group_id" +
-            " ORDER BY ?#{#pageable}")
+            " ORDER BY ?#{#pageable}",
+            nativeQuery = true)
     Page<IPostResponseDto> findTop(@Param("accountId") Long accountId, @Param("pageable") Pageable pageable);
 
     @Query(value = "SELECT p.id as id FROM posts p" +

@@ -42,6 +42,7 @@ public class Post extends DateAudit {
 
     @Enumerated(EnumType.ORDINAL)
     @NotNull
+    @Column(name = "type")
     private PostType postType;
 
     private boolean locked;
