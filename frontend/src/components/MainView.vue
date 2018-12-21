@@ -17,7 +17,7 @@
             }
         },
         mounted() {
-            this.$userService.getTopPosts(this.$userService.getUsername(), ({data}) => {
+            this.$postService.getTopPosts(({data}) => {
                 console.log(data);
                 this.posts = data.content;
             })

@@ -100,14 +100,6 @@ export default class UserService {
         axios.get(url).then(cb);
     };
 
-    getTopPosts = (username, cb, cbError) => {
-        if (!username) {
-            return
-        }
-        const url = `/users/${username}/posts/top/`;
-        axios.get(url).then(cb);
-    };
-
     getDefaultAvatar(username) {
         return `https://api.adorable.io/avatar/100/${username}`;
     }

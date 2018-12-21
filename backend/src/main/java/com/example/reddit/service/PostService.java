@@ -38,10 +38,6 @@ public class PostService {
         return postRepository.findByGroupName(name);
     }
 
-    public Page<Post> findByGroupName(String groupName, Pageable pageable) {
-        return postRepository.findByGroupName(groupName, pageable);
-    }
-
     public Page<IPostResponseDto> findByGroupName(String groupName, Pageable pageable, Long accountId) {
         return postRepository.findByGroupName(groupName, pageable, accountId);
     }

@@ -33,6 +33,11 @@ export default class PostService {
         })
     };
 
+    getTopPosts = (cb, cbError) => {
+        const url = `/posts/top/`;
+        axios.get(url).then(cb);
+    };
+
     getPost = (id, cb) => {
         const url = `/posts/${id}`;
         axios.get(url).then(cb, function () {
