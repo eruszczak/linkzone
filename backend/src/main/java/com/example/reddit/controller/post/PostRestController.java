@@ -52,8 +52,12 @@ public class PostRestController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<?> detail(@PathVariable Long id) {
-        Post post = postService.findById(id);
+    public ResponseEntity<?> detail(@PathVariable Long id, @CurrentUser UserPrincipal currentUser) {
+        Long userId = null;
+        if (currentUser != null) {
+            userId = currentUser.getId();
+        }
+        IPostResponseDto post = postService.findById(id, userId);
         return new ResponseEntity<>(new PostResponse(post), HttpStatus.OK);
     }
 

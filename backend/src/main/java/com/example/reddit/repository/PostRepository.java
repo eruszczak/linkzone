@@ -10,8 +10,20 @@ import org.springframework.data.repository.query.Param;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
+import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
+
+    @Query(value = "SELECT p.id as id, p.title as title, p.content as content, p.slug as slug, p.type as type, a.username as author, g.name as groupName, p.locked as locked, " +
+            " (SELECT pu.is_upvote FROM post_upvote pu WHERE pu.post_id = p.id AND pu.account_id = :accountId) as upvoted," +
+            " (SELECT SUM(pu.is_upvote) FROM post_upvote pu WHERE pu.post_id = p.id) as upvotedCount" +
+            " FROM posts p" +
+            " JOIN accounts a ON a.id = p.account_id" +
+            " JOIN group_tbl g ON g.id = p.group_id" +
+            " WHERE p.id = :id",
+            nativeQuery = true)
+    Optional<IPostResponseDto> find(Long id, Long accountId);
+
     List<Post> findByGroupName(String name);
 
     @Query(value = "SELECT p.id as id, p.title as title, p.content as content, p.slug as slug, p.type as type, a.username as author, g.name as groupName, p.locked as locked, " +

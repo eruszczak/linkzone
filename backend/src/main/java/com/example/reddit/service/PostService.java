@@ -72,6 +72,10 @@ public class PostService {
         return postRepository.findById(id).orElseThrow(() -> new NotFoundException(Post.class, id.toString()));
     }
 
+    public IPostResponseDto findById(Long idPost, Long accountId) {
+        return postRepository.find(idPost, accountId).orElseThrow(() -> new NotFoundException(Post.class, idPost.toString()));
+    }
+
     public boolean existsById(Long aLong) {
         return postRepository.existsById(aLong);
     }
