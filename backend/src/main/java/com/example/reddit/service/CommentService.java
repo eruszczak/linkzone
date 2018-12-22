@@ -1,13 +1,13 @@
 package com.example.reddit.service;
 
 import com.example.reddit.dto.CommentCreate;
+import com.example.reddit.dto.ICommentResponseDto;
 import com.example.reddit.exception.NotFoundException;
 import com.example.reddit.exception.ResourceLockedException;
-import com.example.reddit.model.Account;
-import com.example.reddit.model.Comment;
-import com.example.reddit.model.Post;
+import com.example.reddit.model.*;
 import com.example.reddit.permissions.Permissions;
 import com.example.reddit.repository.CommentRepository;
+import com.example.reddit.repository.CommentUpvoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,15 +15,19 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CommentService {
 
     private final CommentRepository commentRepository;
 
+    private final CommentUpvoteRepository commentUpvoteRepository;
+
     @Autowired
-    public CommentService(CommentRepository commentRepository) {
+    public CommentService(CommentRepository commentRepository, CommentUpvoteRepository commentUpvoteRepository) {
         this.commentRepository = commentRepository;
+        this.commentUpvoteRepository = commentUpvoteRepository;
     }
 
     public List<Comment> findAll() {
@@ -94,6 +98,40 @@ public class CommentService {
 
     public Page<Comment> findByPostId(Long id, Pageable pageable) {
         return commentRepository.findByPostIdAndParentIsNullOrderByCreatedAtDesc(id, pageable);
+    }
+
+    public Page<ICommentResponseDto> findByPostId(Long id, Long accountId, Pageable pageable) {
+        return commentRepository.findByPostIdAndParentIsNullOrderByCreatedAtDesc2(id, accountId, pageable);
+    }
+
+    public void clearVote(Account account, Comment comment) {
+        // TODO set to null or remove?
+        commentUpvoteRepository.deleteByAccountIdAndCommentId(account.getId(), comment.getId());
+    }
+
+    public void upvote(Account account, Comment comment) {
+        CommentUpvote commentUpvote = getOrCreateCommentUpvote(account, comment);
+        commentUpvote.setIsUpvote(1);
+        commentUpvoteRepository.save(commentUpvote);
+    }
+
+    public void downvote(Account account, Comment comment) {
+        CommentUpvote commentUpvote = getOrCreateCommentUpvote(account, comment);
+        commentUpvote.setIsUpvote(-1);
+        commentUpvoteRepository.save(commentUpvote);
+    }
+
+    private CommentUpvote getOrCreateCommentUpvote(Account account, Comment comment) {
+        Optional<CommentUpvote> obj = commentUpvoteRepository.findByAccountIdAndCommentId(account.getId(), comment.getId());
+        CommentUpvote commentUpvote;
+        if (obj.isPresent()) {
+            commentUpvote = obj.get();
+        } else {
+            commentUpvote = new CommentUpvote();
+            commentUpvote.setAccount(account);
+            commentUpvote.setComment(comment);
+        }
+        return commentUpvote;
     }
 
     private Comment mapToComment(CommentCreate commentCreate, Account account, Post post) {

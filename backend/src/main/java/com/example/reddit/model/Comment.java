@@ -12,7 +12,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@Entity
+@Entity(name = "comments")
 public class Comment extends DateAudit {
 
     @Id
@@ -21,14 +21,17 @@ public class Comment extends DateAudit {
 
     @ManyToOne
     @NotNull
+    @JoinColumn(name = "post_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Post post;
 
     @ManyToOne
+    @JoinColumn(name = "account_id")
     private Account account;
 
     @ManyToOne
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "parent_id")
     private Comment parent;
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)

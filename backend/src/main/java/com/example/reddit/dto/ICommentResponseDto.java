@@ -1,22 +1,17 @@
 package com.example.reddit.dto;
 
-import com.example.reddit.controller.post.PostType;
-
 import java.time.Instant;
 
-public interface IPostResponseDto {
+public interface ICommentResponseDto {
     Long getId();
-    String getTitle();
     String getContent();
-    String getSlug();
+    Long getPostId();
     Instant getCreatedAt();
-    PostType getType();
-    String getAuthor();
-    String getAuthorAvatar();
+    String getPostTitle();
     String getGroupName();
-    boolean getLocked();
+    String getUsername();
+    String getAvatar();
     Integer getUpvoted();
     Integer getUpvotedUser();
     Integer getUpvotedCount();
-
 }

@@ -29,6 +29,15 @@ public class CommentResponse {
         groupName = comment.getPost().getGroup().getName();
     }
 
+    public CommentResponse(ICommentResponseDto dto) {
+        id = dto.getId();
+        content = dto.getContent();
+
+        createdAt = dto.getCreatedAt();
+        author = new CommentCreator(dto.getUsername(), dto.getAvatar());
+        groupName = dto.getGroupName();
+    }
+
     @Getter
     @Setter
     private class CommentCreator {
@@ -38,6 +47,11 @@ public class CommentResponse {
         private CommentCreator(Account account) {
             username = account.getUsername();
             avatar = account.getAvatar();
+        }
+
+        private CommentCreator(String username, String avatar) {
+            this.username = username;
+            this.avatar = avatar;
         }
     }
 }

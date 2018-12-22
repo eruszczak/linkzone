@@ -6,6 +6,7 @@ import com.example.reddit.dto.AccountCreate;
 import com.example.reddit.dto.CommentCreate;
 import com.example.reddit.model.*;
 import com.example.reddit.repository.AccountRepository;
+import com.example.reddit.repository.CommentUpvoteRepository;
 import com.example.reddit.repository.PostUpvoteRepository;
 import com.example.reddit.security.JwtTokenProvider;
 import com.example.reddit.service.*;
@@ -42,6 +43,7 @@ public class RedditApplication {
                            JwtTokenProvider jwtTokenProvider,
                            AccountRepository accountRepository,
                            PostUpvoteRepository postUpvoteRepository,
+                           CommentUpvoteRepository commentUpvoteRepository,
                            @Value("${spring.jpa.hibernate.ddl-auto}") String update) {
         return (evt) -> {
             boolean runInit = !update.equals("update");
@@ -52,7 +54,7 @@ public class RedditApplication {
 //                Account group1postcreator = accountService.create(getAccountDto("group1postcreator"));
 //                Account postcommenter = accountService.create(getAccountDto("postcommenter"));
 //                Account reply = accountService.create(getAccountDto("reply"));
-//                Account user1 = accountService.create(getAccountDto("user1"));
+                Account user1 = accountService.create(getAccountDto("user1"));
 
                 Group g2 = new Group("groupxxx", "group description");
                 Group g3 = new Group("group3", "group description");
@@ -111,7 +113,13 @@ public class RedditApplication {
 
                 CommentCreate xd = new CommentCreate();
                 xd.setContent("comment");
-                commentService.create(xd, p2, group1admin);
+                Comment c = commentService.create(xd, p2, group1admin);
+
+                CommentUpvote cm = new CommentUpvote();
+                cm.setAccount(user1);
+                cm.setComment(c);
+                cm.setIsUpvote(1);
+                commentUpvoteRepository.save(cm);
 
                 GroupMembership gm = new GroupMembership(g2, group1admin);
                 groupMembershipService.save(gm);

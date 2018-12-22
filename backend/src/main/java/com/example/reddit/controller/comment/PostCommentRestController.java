@@ -2,6 +2,7 @@ package com.example.reddit.controller.comment;
 
 import com.example.reddit.dto.CommentCreate;
 import com.example.reddit.dto.CommentResponse;
+import com.example.reddit.dto.ICommentResponseDto;
 import com.example.reddit.exception.ResourceLockedException;
 import com.example.reddit.exception.ValidationErrorException;
 import com.example.reddit.model.Comment;
@@ -34,8 +35,9 @@ public class PostCommentRestController {
     }
 
     @GetMapping(value = "/")
-    public ResponseEntity<?> list(@PathVariable Long postId, Pageable pageable) {
-        Page<Comment> comments = commentService.findByPostId(postId, pageable);
+    public ResponseEntity<?> list(@PathVariable Long postId, Pageable pageable, @CurrentUser UserPrincipal currentUser) {
+        Long userId = currentUser != null ? currentUser.getAccount().getId() : - 1;
+        Page<ICommentResponseDto> comments = commentService.findByPostId(postId, userId, pageable);
         Page<CommentResponse> responses = comments.map(CommentResponse::new);
         return new ResponseEntity<>(responses, HttpStatus.OK);
     }
