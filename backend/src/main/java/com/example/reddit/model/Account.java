@@ -42,7 +42,7 @@ public class Account extends DateAudit {
     private String avatar;
 
     @NotNull
-    @Size(min = 60, max = 60)
+    @Size(min = 5, max = 60)
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)

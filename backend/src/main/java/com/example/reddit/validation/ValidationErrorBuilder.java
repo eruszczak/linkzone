@@ -9,7 +9,7 @@ public class ValidationErrorBuilder {
     public static ErrorResponse fromBindingErrors(Errors errors) {
         ErrorResponse errorResponse = new ErrorResponse("Validation failed - " + errors.getErrorCount() + " error(s)");
         for (final FieldError err : errors.getFieldErrors()) {
-            errorResponse.addError(err.getField() + ": " + err.getDefaultMessage());
+            errorResponse.addFieldError(err.getField(), err.getDefaultMessage());
         }
         for (final ObjectError err : errors.getGlobalErrors()) {
             errorResponse.addError(err.getObjectName() + ": " + err.getDefaultMessage());

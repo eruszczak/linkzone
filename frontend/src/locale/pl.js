@@ -21,6 +21,12 @@ export default {
         "password": "Hasło",
         "password-confirm": "Potwierdź hasło",
         "register": "Zarejestruj się",
-        "login": "Masz już konto? Zaloguj się"
+        "login": "Masz już konto? Zaloguj się",
+        "log-me-in": "Zaloguj automatycznie",
+    },
+    "errors": {
+        "username_taken": "Nazwa użytkownika jest zajęta",
+        "email_taken": "Adres email jest zajęty",
+        "value_required": "Wartość jest wymagana"
     }
 }

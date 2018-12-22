@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class UsernameTakenException extends RuntimeException {
     public UsernameTakenException(String value) {
-        super("account with this username already exists: " + value);
+        super("username_taken");
     }
 }

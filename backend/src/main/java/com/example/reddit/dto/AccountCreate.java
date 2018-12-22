@@ -24,7 +24,7 @@ public class AccountCreate implements Password {
     private String email;
 
     @NotNull
-    @Size(min = AccountConstants.PASSWORD_MIN_LENGTH, max = AccountConstants.PASSWORD_MAX_LENGTH)
+    @Size(min = AccountConstants.PASSWORD_MIN_LENGTH, max = AccountConstants.PASSWORD_MAX_LENGTH, message = "value_required")
     private String password;
 
     @NotNull

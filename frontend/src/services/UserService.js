@@ -58,7 +58,7 @@ export default class UserService {
     };
 
     register = (data, cb, cbError) => {
-        axios.post('/users/', data).then(cb);
+        axios.post('/users/', data).then(cb).catch(cbError);
     };
 
     checkUsername = (username, cb, cbError) => {
