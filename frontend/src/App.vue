@@ -1,71 +1,11 @@
 <template>
-    <!--<nav id="navbar" class="navbar has-shadow is-spaced">-->
-        <!--<div class="container">-->
-            <!--<div class="notification">-->
-                <!--This container is <strong>centered</strong> on desktop.-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</nav>-->
-    <nav class="navbar has-shadow is-spaced" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-            <a class="navbar-item" href="https://bulma.io">
-                <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
-            </a>
+    <div>
+        <navbar></navbar>
+        <main class="container">
+            <router-view></router-view>
+        </main>
+    </div>
 
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </a>
-        </div>
-
-        <div id="navbarBasicExample" class="navbar-menu">
-            <div class="navbar-start">
-                <a class="navbar-item">
-                    Home
-                </a>
-
-                <a class="navbar-item">
-                    Documentation
-                </a>
-
-                <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link">
-                        More
-                    </a>
-
-                    <div class="navbar-dropdown">
-                        <a class="navbar-item">
-                            About
-                        </a>
-                        <a class="navbar-item">
-                            Jobs
-                        </a>
-                        <a class="navbar-item">
-                            Contact
-                        </a>
-                        <hr class="navbar-divider">
-                        <a class="navbar-item">
-                            Report an issue
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <div class="buttons">
-                        <a class="button is-primary">
-                            <strong>Sign up</strong>
-                        </a>
-                        <a class="button is-light">
-                            Log in
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
     <!--<v-fade-transition appear>-->
         <!--<v-app>-->
             <!--<v-navigation-drawer-->
@@ -255,13 +195,14 @@
     import RegisterView from './components/auth/RegisterView'
     import Loading from './components/includes/Loading'
     import {AVAILABLE_LANGUAGES} from "./locale";
+    import Navbar from './components/Navbar';
 
     const LOCAL_STORAGE_LOCALE_KEY = 'locale';
 
     export default {
         name: 'app',
         components: {
-            LoginView, RegisterView, Loading
+            LoginView, RegisterView, Loading, Navbar
         },
         mounted() {
             if (this.isAuthenticated) {

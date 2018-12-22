@@ -1,31 +1,33 @@
 <template>
-    <v-dialog max-width="500px" v-model="dialog">
-        <v-card class="elevation-12">
-            <v-toolbar color="primary" dark>
-                <v-toolbar-title>Login</v-toolbar-title>
-            </v-toolbar>
-            <v-card-text>
-                <v-alert
-                        :value="errors.length > 0"
-                        type="error"
-                >
-                    {{errors[0]}}
-                </v-alert>
-                <v-form v-model="form.valid">
-                    <v-text-field :rules="[ruleIsNotEmpty]" label="Username/Email" name="login" prepend-icon="person"
-                                  type="text" v-model="form.usernameOrEmail"></v-text-field>
-                    <v-text-field :rules="[ruleIsNotEmpty]" id="password" label="Password" name="password" prepend-icon="lock"
-                                  type="password" v-model="form.password"></v-text-field>
-                </v-form>
-            </v-card-text>
-            <v-card-actions>
-                <p>Not a memeber? <span @click="signUp()" style="color: blue">Sign up</span></p>
-                <v-spacer></v-spacer>
-                <v-btn @click="dialog = false" color="default">Cancel</v-btn>
-                <v-btn :disabled="!form.valid" @click="login()" color="success">Login</v-btn>
-            </v-card-actions>
-        </v-card>
-    </v-dialog>
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <div class="column is-4 is-offset-4">
+                    <h3 class="title has-text-grey">{{'loginView.header' | t}}</h3>
+                    <p class="subtitle has-text-grey">{{'loginView.hint' | t}}</p>
+                    <div class="box">
+                        <b-field type="is-success">
+                            <b-input v-model="form.usernameOrEmail" :placeholder="$t('loginView.name')"></b-input>
+                        </b-field>
+                        <b-field>
+                            <b-input type="password" v-model="form.password" :placeholder="$t('loginView.password')"></b-input>
+                        </b-field>
+                        <button class="button is-block is-info is-fullwidth" @click="login()">{{'loginView.login' | t}}</button>
+                    </div>
+                    <p class="has-text-grey">
+                        <router-link :to="{name: 'registerView'}">{{'loginView.register' | t}}</router-link>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!--<v-alert-->
+        <!--:value="errors.length > 0"-->
+        <!--type="error"-->
+        <!--&gt;-->
+        <!--{{errors[0]}}-->
+        <!--</v-alert>-->
+    </section>
 </template>
 
 <script>
@@ -37,7 +39,6 @@
         mixins: [validation],
         data() {
             return {
-                dialog: false,
                 errors: [],
                 form: {
                     usernameOrEmail: 'admin1',
@@ -46,25 +47,12 @@
                 }
             }
         },
-        watch: {
-            loginModalActive(val) {
-                console.log('watch loginModalActive', val);
-                this.dialog = val
-            },
-            dialog(val) {
-                this.setLoginModalState(val)
-            }
-        },
-        computed: {
-            ...mapGetters(['loginModalActive'])
-        },
         methods: {
-            ...mapMutations(['setAccessToken', 'setLoginModalState', 'toggleLoading', 'setRegisterModalState']),
+            ...mapMutations(['setAccessToken', 'toggleLoading']),
             login() {
                 this.error = false;
                 this.toggleLoading(true);
                 this.$userService.authenticate(this.form.usernameOrEmail, this.form.password, () => {
-                    this.dialog = false;
                     this.toggleLoading(false);
                     this.$message({
                         message: "Hello " + this.form.usernameOrEmail
@@ -73,11 +61,6 @@
                     // console.log(data.ero)
                     this.errors = data.errors
                 })
-            },
-            signUp() {
-                console.log('signup instead');
-                this.setLoginModalState(false);
-                this.setRegisterModalState(true)
             }
         }
     }
