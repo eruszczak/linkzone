@@ -6,13 +6,14 @@
                     <h3 class="title has-text-grey">{{'loginView.header' | t}}</h3>
                     <p class="subtitle has-text-grey">{{'loginView.hint' | t}}</p>
                     <div class="box">
+                        {{errors}}
                         <b-field type="is-success">
-                            <b-input v-model="form.usernameOrEmail" :placeholder="$t('loginView.name')"></b-input>
+                            <b-input icon="account" v-model="form.usernameOrEmail" :placeholder="$t('loginView.name')"></b-input>
                         </b-field>
                         <b-field>
-                            <b-input type="password" v-model="form.password" :placeholder="$t('loginView.password')"></b-input>
+                            <b-input icon="lock" type="password" v-model="form.password" :placeholder="$t('loginView.password')"></b-input>
                         </b-field>
-                        <button class="button is-block is-info is-fullwidth" @click="login()">{{'loginView.login' | t}}</button>
+                        <button class="button is-block is-info is-fullwidth" @click="login">{{'loginView.login' | t}}</button>
                     </div>
                     <p class="has-text-grey">
                         <router-link :to="{name: 'registerView'}">{{'loginView.register' | t}}</router-link>
@@ -20,13 +21,6 @@
                 </div>
             </div>
         </div>
-
-        <!--<v-alert-->
-        <!--:value="errors.length > 0"-->
-        <!--type="error"-->
-        <!--&gt;-->
-        <!--{{errors[0]}}-->
-        <!--</v-alert>-->
     </section>
 </template>
 
