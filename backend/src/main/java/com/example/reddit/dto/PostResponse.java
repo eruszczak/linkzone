@@ -1,6 +1,8 @@
 package com.example.reddit.dto;
 
 import com.example.reddit.controller.post.PostType;
+import com.example.reddit.model.Account;
+import com.example.reddit.model.Group;
 import com.example.reddit.model.Post;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +20,7 @@ public class PostResponse {
     private boolean locked;
     private Integer isUpvoted;
     private Integer upvotedCount;
+    private boolean isCreator;
 
     public PostResponse(Post post) {
         id = post.getId();
@@ -41,5 +44,10 @@ public class PostResponse {
         locked = dto.getLocked();
         isUpvoted = dto.getUpvoted();
         upvotedCount = dto.getUpvotedCount();
+    }
+
+    public PostResponse(IPostResponseDto dto, Account account) {
+        this(dto);
+        isCreator = account != null && author.equals(account.getUsername());
     }
 }

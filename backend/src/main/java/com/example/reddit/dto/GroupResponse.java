@@ -1,6 +1,7 @@
 package com.example.reddit.dto;
 
 import com.example.reddit.controller.post.PostType;
+import com.example.reddit.model.Account;
 import com.example.reddit.model.Group;
 
 import java.util.List;
@@ -19,6 +20,8 @@ public class GroupResponse {
     public List<PostType> postTypes;
     public List<String> tags;
     public String bannerUrl;
+    public boolean isModerator;
+    public boolean isAdministrator;
 
     public GroupResponse(Group group) {
         this.name = group.getName();
@@ -37,5 +40,11 @@ public class GroupResponse {
     public GroupResponse(Group group, boolean isSubbed) {
         this(group);
         this.isSubbed = isSubbed;
+    }
+
+    public GroupResponse(Group group, boolean isSubbed, Account account) {
+        this(group, isSubbed);
+        isAdministrator = account != null && (group.getCreator().equals(account) || group.getAdministrators().contains(account));
+        isModerator = account != null && (group.getModerators().contains(account) || isAdministrator);
     }
 }

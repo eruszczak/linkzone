@@ -4,6 +4,7 @@ import com.example.reddit.dto.*;
 import com.example.reddit.exception.AlreadyExistsException;
 import com.example.reddit.exception.NotFoundException;
 import com.example.reddit.exception.ValidationErrorException;
+import com.example.reddit.model.Account;
 import com.example.reddit.model.Group;
 import com.example.reddit.model.GroupMembership;
 import com.example.reddit.security.CurrentUser;
@@ -26,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/groups")
@@ -80,7 +82,8 @@ public class GroupRestController {
         if (currentUser != null) {
             isSubbed = groupMembershipService.isUserSubbedToGroup(currentUser.getAccount().getUsername(), name);
         }
-        return new ResponseEntity<>(new GroupResponse(group, isSubbed), HttpStatus.OK);
+        Account account = currentUser == null ? null : currentUser.getAccount();
+        return new ResponseEntity<>(new GroupResponse(group, isSubbed, account), HttpStatus.OK);
     }
 
     @GetMapping(value = "/checkName/{name}")

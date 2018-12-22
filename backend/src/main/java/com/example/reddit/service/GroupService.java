@@ -42,7 +42,8 @@ public class GroupService {
         group.setName(groupCreate.getName());
         group.setDescription(groupCreate.getDescription());
         group.setCreator(account);
-        group.addAdministrator(account);
+//        group = save(group);
+//        group.addAdministrator(account);
         return save(group);
     }
 

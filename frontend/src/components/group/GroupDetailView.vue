@@ -4,14 +4,14 @@
         <p>moderators: {{group.moderators}}</p>
         <p>Am I a mod? {{isModerator}}</p>
         <p>Am I an admin? {{isAdmin}}</p> -->
-        <p v-if="isAdmin">
+        <p v-if="group.isAdministrator">
             <v-btn :to="{name: 'groupEditView', params: {name: group.name}}">update</v-btn>
         </p>
         <img :src="'/static/' + group.bannerUrl" v-if="group.bannerUrl">
         <h2>{{group.name}}</h2>
         <v-layout row wrap>
             <v-flex sm8 xs12>
-                <post-list :is-admin="isAdmin" :is-moderator="isModerator" :posts="posts"></post-list>
+                <post-list :is-moderator="group.isModerator" :posts="posts"></post-list>
 
             </v-flex>
             <v-flex class="ml-2" sm3 xs12>
@@ -86,13 +86,7 @@
             }
         },
         computed: {
-            ...mapGetters(['isLoading']),
-            isModerator() {
-                return this.group && this.$groupService.isMod(this.group.moderators, this.$userService.getUserId())
-            },
-            isAdmin() {
-                return this.group && this.$groupService.isAdmin(this.group.administrators, this.$userService.getUserId())
-            }
+            ...mapGetters(['isLoading'])
         },
         watch: {
             '$route'(to, from) {
