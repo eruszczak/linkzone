@@ -1,185 +1,252 @@
 <template>
-    <v-fade-transition appear>
-        <v-app>
-            <v-navigation-drawer
-                    app
-                    class="grey lighten-4"
-                    clipped
-                    fixed
-                    v-model="drawer"
-            >
-                <v-list
-                        class="grey lighten-4 mt-3"
-                        dense
-                >
-                    <v-list-tile
-                            @click="goToGroupList()"
-                    >
-                        <v-list-tile-action>
-                            <v-icon>archive</v-icon>
-                        </v-list-tile-action>
-                        <v-list-tile-content>
-                            <v-list-tile-title class="grey--text">
-                                Explore groups
-                            </v-list-tile-title>
-                        </v-list-tile-content>
-                    </v-list-tile>
-                    <v-list-tile
-                    >
-                        <v-list-tile-action>
-                            <v-icon>archive</v-icon>
-                        </v-list-tile-action>
-                        <v-list-tile-content>
-                            <v-list-tile-title class="grey--text">
-                                {{ 'saved-posts' | t }}
-                            </v-list-tile-title>
-                        </v-list-tile-content>
-                    </v-list-tile>
-                    <v-divider
-                            class="my-3"
-                            dark
-                    ></v-divider>
-                    <v-layout
-                            align-center
-                            row
-                    >
-                        <v-flex xs6>
-                            <v-subheader>
-                                Subscribed groups
-                            </v-subheader>
-                        </v-flex>
-                        <v-flex class="text-xs-right" xs6>
-                            <v-btn flat small>edit</v-btn>
-                        </v-flex>
-                    </v-layout>
-                    <v-list-tile>
-                        <v-text-field
-                                @input="filter"
-                                label="Filter"
-                                v-model="filterValue"
-                        ></v-text-field>
-                    </v-list-tile>
+    <!--<nav id="navbar" class="navbar has-shadow is-spaced">-->
+        <!--<div class="container">-->
+            <!--<div class="notification">-->
+                <!--This container is <strong>centered</strong> on desktop.-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</nav>-->
+    <nav class="navbar has-shadow is-spaced" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="https://bulma.io">
+                <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
+            </a>
 
-                    <v-list-tile
-                            :key="group.id"
-                            @click="goToGroupDetail(group)"
-                            v-for="group in filteredGroups"
-                    >
-                        <v-list-tile-action>
-                            <v-icon>chat_bubble</v-icon>
-                        </v-list-tile-action>
-                        <v-list-tile-content>
-                            <v-list-tile-title class="grey--text">
-                                /g/{{group.name}}
-                            </v-list-tile-title>
-                        </v-list-tile-content>
-                    </v-list-tile>
-                </v-list>
-            </v-navigation-drawer>
-            <v-toolbar absolute app clipped-left color="amber">
-                <v-toolbar-side-icon @click.native="drawer = !drawer"></v-toolbar-side-icon>
-                <span class="title ml-3 mr-5"><router-link to="/">Reddit&nbsp;<span class="font-weight-light">App</span></router-link></span>
-                <v-text-field
-                        flat
-                        hide-details
-                        label="Search"
-                        prepend-inner-icon="search"
-                        solo-inverted
-                ></v-text-field>
-                <v-spacer></v-spacer>
-                <v-menu attach="attach" bottom="bottom" left="left" offset-y="offset-y" v-if="selectedLanguage">
-                    <v-btn flat="flat" slot="activator" style="min-width: 48px;"><img :src="`/${selectedLanguage.icon}`"
-                                                                                      width="26px"/></v-btn>
-                    <v-list light="light">
-                        <v-list-tile :key="language.locale" @click="setLocale(language)" active-class="active"
-                                     avatar="avatar" v-for="language in languages" v-model="language.active">
-                            <v-list-tile-avatar size="24px" tile="tile"><img :src="`/${language.icon}`" width="24px"/>
-                            </v-list-tile-avatar>
-                            <v-list-tile-title>{{language.name}}</v-list-tile-title>
-                        </v-list-tile>
-                    </v-list>
-                </v-menu>
-                <v-menu attach="attach" bottom="bottom" left="left" max-height="500" offset-y="offset-y"
-                        v-if="isAuthenticated">
-                    <v-btn flat="flat" slot="activator" style="min-width: 48px;">
-                        <span>{{username}}</span>
-                        <i class="material-icons">keyboard_arrow_down</i>
-                    </v-btn>
-                    <v-list light="light">
-                        <v-subheader light="light">Quick links</v-subheader>
-                        <v-list-tile :to="{name: 'userProfileView', params: {username: username}}" v-if="username">
-                            <v-list-tile-action>
-                                <v-icon>mdi-account</v-icon>
-                            </v-list-tile-action>
-                            <v-list-tile-content>
-                                <v-list-tile-title>My profile</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
-                        <v-list-tile :to="{name: 'userEditView'}">
-                            <v-list-tile-action>
-                                <i class="material-icons">settings</i>
-                            </v-list-tile-action>
-                            <v-list-tile-content>
-                                <v-list-tile-title>User settings</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
-                        <v-divider class="my-3" light="light"></v-divider>
-                        <!--<v-subheader light="light">xxx</v-subheader>-->
-                        <v-list-tile @click="logout()" rel="noopener" target="_blank">
-                            <v-list-tile-action>
-                                <i class="material-icons">power_settings_new</i>
-                            </v-list-tile-action>
-                            <v-list-tile-content>
-                                <v-list-tile-title>{{'logout' | t}}</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
-                    </v-list>
-                </v-menu>
-                <v-btn @click="toggleLoginModal()" flat v-if="!isAuthenticated">{{'login' | t}}</v-btn>
-                <v-btn @click="toggleRegisterModal()" flat v-if="!isAuthenticated">{{'sign-up' | t}}</v-btn>
-                <!--TODO active class if modal is active-->
-            </v-toolbar>
-            <v-content>
-                <v-container class="grey lighten-4" fluid>
-                    <!-- <div style="padding: 30px"> -->
-                    <router-view/>
-                    <v-btn
-                            @click="goToCreatePost()"
-                            absolute
-                            bottom
-                            color="pink"
-                            dark
-                            fab
-                            left
-                    >
-                        <v-icon>add</v-icon>
-                    </v-btn>
-                    <!-- </div> -->
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item">
+                    Home
+                </a>
+
+                <a class="navbar-item">
+                    Documentation
+                </a>
+
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        More
+                    </a>
+
+                    <div class="navbar-dropdown">
+                        <a class="navbar-item">
+                            About
+                        </a>
+                        <a class="navbar-item">
+                            Jobs
+                        </a>
+                        <a class="navbar-item">
+                            Contact
+                        </a>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item">
+                            Report an issue
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <a class="button is-primary">
+                            <strong>Sign up</strong>
+                        </a>
+                        <a class="button is-light">
+                            Log in
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!--<v-fade-transition appear>-->
+        <!--<v-app>-->
+            <!--<v-navigation-drawer-->
+                    <!--app-->
+                    <!--class="grey lighten-4"-->
+                    <!--clipped-->
+                    <!--fixed-->
+                    <!--v-model="drawer"-->
+            <!--&gt;-->
+                <!--<v-list-->
+                        <!--class="grey lighten-4 mt-3"-->
+                        <!--dense-->
+                <!--&gt;-->
+                    <!--<v-list-tile-->
+                            <!--@click="goToGroupList()"-->
+                    <!--&gt;-->
+                        <!--<v-list-tile-action>-->
+                            <!--<v-icon>archive</v-icon>-->
+                        <!--</v-list-tile-action>-->
+                        <!--<v-list-tile-content>-->
+                            <!--<v-list-tile-title class="grey&#45;&#45;text">-->
+                                <!--Explore groups-->
+                            <!--</v-list-tile-title>-->
+                        <!--</v-list-tile-content>-->
+                    <!--</v-list-tile>-->
+                    <!--<v-list-tile-->
+                    <!--&gt;-->
+                        <!--<v-list-tile-action>-->
+                            <!--<v-icon>archive</v-icon>-->
+                        <!--</v-list-tile-action>-->
+                        <!--<v-list-tile-content>-->
+                            <!--<v-list-tile-title class="grey&#45;&#45;text">-->
+                                <!--{{ 'saved-posts' | t }}-->
+                            <!--</v-list-tile-title>-->
+                        <!--</v-list-tile-content>-->
+                    <!--</v-list-tile>-->
+                    <!--<v-divider-->
+                            <!--class="my-3"-->
+                            <!--dark-->
+                    <!--&gt;</v-divider>-->
+                    <!--<v-layout-->
+                            <!--align-center-->
+                            <!--row-->
+                    <!--&gt;-->
+                        <!--<v-flex xs6>-->
+                            <!--<v-subheader>-->
+                                <!--Subscribed groups-->
+                            <!--</v-subheader>-->
+                        <!--</v-flex>-->
+                        <!--<v-flex class="text-xs-right" xs6>-->
+                            <!--<v-btn flat small>edit</v-btn>-->
+                        <!--</v-flex>-->
                     <!--</v-layout>-->
-                </v-container>
-                <v-footer class="pa-3">
-                    <v-spacer></v-spacer>
-                    <div>&copy; {{ new Date().getFullYear() }}</div>
-                </v-footer>
-            </v-content>
-            <v-snackbar
-                    :bottom="false"
-                    :color="toastOptions.color"
-                    :left="false"
-                    :multi-line="false"
-                    :right="true"
-                    :timeout="toastOptions.timeout"
-                    :top="true"
-                    :value="showToast"
-                    :vertical="false"
-            >
-                {{toastOptions.message}}
-            </v-snackbar>
-            <login-view/>
-            <register-view/>
-            <loading :loading="isLoading"/>
-        </v-app>
-    </v-fade-transition>
+                    <!--<v-list-tile>-->
+                        <!--<v-text-field-->
+                                <!--@input="filter"-->
+                                <!--label="Filter"-->
+                                <!--v-model="filterValue"-->
+                        <!--&gt;</v-text-field>-->
+                    <!--</v-list-tile>-->
+
+                    <!--<v-list-tile-->
+                            <!--:key="group.id"-->
+                            <!--@click="goToGroupDetail(group)"-->
+                            <!--v-for="group in filteredGroups"-->
+                    <!--&gt;-->
+                        <!--<v-list-tile-action>-->
+                            <!--<v-icon>chat_bubble</v-icon>-->
+                        <!--</v-list-tile-action>-->
+                        <!--<v-list-tile-content>-->
+                            <!--<v-list-tile-title class="grey&#45;&#45;text">-->
+                                <!--/g/{{group.name}}-->
+                            <!--</v-list-tile-title>-->
+                        <!--</v-list-tile-content>-->
+                    <!--</v-list-tile>-->
+                <!--</v-list>-->
+            <!--</v-navigation-drawer>-->
+            <!--<v-toolbar absolute app clipped-left color="amber">-->
+                <!--<v-toolbar-side-icon @click.native="drawer = !drawer"></v-toolbar-side-icon>-->
+                <!--<span class="title ml-3 mr-5"><router-link to="/">Reddit&nbsp;<span class="font-weight-light">App</span></router-link></span>-->
+                <!--<v-text-field-->
+                        <!--flat-->
+                        <!--hide-details-->
+                        <!--label="Search"-->
+                        <!--prepend-inner-icon="search"-->
+                        <!--solo-inverted-->
+                <!--&gt;</v-text-field>-->
+                <!--<v-spacer></v-spacer>-->
+                <!--<v-menu attach="attach" bottom="bottom" left="left" offset-y="offset-y" v-if="selectedLanguage">-->
+                    <!--<v-btn flat="flat" slot="activator" style="min-width: 48px;"><img :src="`/${selectedLanguage.icon}`"-->
+                                                                                      <!--width="26px"/></v-btn>-->
+                    <!--<v-list light="light">-->
+                        <!--<v-list-tile :key="language.locale" @click="setLocale(language)" active-class="active"-->
+                                     <!--avatar="avatar" v-for="language in languages" v-model="language.active">-->
+                            <!--<v-list-tile-avatar size="24px" tile="tile"><img :src="`/${language.icon}`" width="24px"/>-->
+                            <!--</v-list-tile-avatar>-->
+                            <!--<v-list-tile-title>{{language.name}}</v-list-tile-title>-->
+                        <!--</v-list-tile>-->
+                    <!--</v-list>-->
+                <!--</v-menu>-->
+                <!--<v-menu attach="attach" bottom="bottom" left="left" max-height="500" offset-y="offset-y"-->
+                        <!--v-if="isAuthenticated">-->
+                    <!--<v-btn flat="flat" slot="activator" style="min-width: 48px;">-->
+                        <!--<span>{{username}}</span>-->
+                        <!--<i class="material-icons">keyboard_arrow_down</i>-->
+                    <!--</v-btn>-->
+                    <!--<v-list light="light">-->
+                        <!--<v-subheader light="light">Quick links</v-subheader>-->
+                        <!--<v-list-tile :to="{name: 'userProfileView', params: {username: username}}" v-if="username">-->
+                            <!--<v-list-tile-action>-->
+                                <!--<v-icon>mdi-account</v-icon>-->
+                            <!--</v-list-tile-action>-->
+                            <!--<v-list-tile-content>-->
+                                <!--<v-list-tile-title>My profile</v-list-tile-title>-->
+                            <!--</v-list-tile-content>-->
+                        <!--</v-list-tile>-->
+                        <!--<v-list-tile :to="{name: 'userEditView'}">-->
+                            <!--<v-list-tile-action>-->
+                                <!--<i class="material-icons">settings</i>-->
+                            <!--</v-list-tile-action>-->
+                            <!--<v-list-tile-content>-->
+                                <!--<v-list-tile-title>User settings</v-list-tile-title>-->
+                            <!--</v-list-tile-content>-->
+                        <!--</v-list-tile>-->
+                        <!--<v-divider class="my-3" light="light"></v-divider>-->
+                        <!--&lt;!&ndash;<v-subheader light="light">xxx</v-subheader>&ndash;&gt;-->
+                        <!--<v-list-tile @click="logout()" rel="noopener" target="_blank">-->
+                            <!--<v-list-tile-action>-->
+                                <!--<i class="material-icons">power_settings_new</i>-->
+                            <!--</v-list-tile-action>-->
+                            <!--<v-list-tile-content>-->
+                                <!--<v-list-tile-title>{{'logout' | t}}</v-list-tile-title>-->
+                            <!--</v-list-tile-content>-->
+                        <!--</v-list-tile>-->
+                    <!--</v-list>-->
+                <!--</v-menu>-->
+                <!--<v-btn @click="toggleLoginModal()" flat v-if="!isAuthenticated">{{'login' | t}}</v-btn>-->
+                <!--<v-btn @click="toggleRegisterModal()" flat v-if="!isAuthenticated">{{'sign-up' | t}}</v-btn>-->
+                <!--&lt;!&ndash;TODO active class if modal is active&ndash;&gt;-->
+            <!--</v-toolbar>-->
+            <!--<v-content>-->
+                <!--<v-container class="grey lighten-4" fluid>-->
+                    <!--&lt;!&ndash; <div style="padding: 30px"> &ndash;&gt;-->
+                    <!--<router-view/>-->
+                    <!--<v-btn-->
+                            <!--@click="goToCreatePost()"-->
+                            <!--absolute-->
+                            <!--bottom-->
+                            <!--color="pink"-->
+                            <!--dark-->
+                            <!--fab-->
+                            <!--left-->
+                    <!--&gt;-->
+                        <!--<v-icon>add</v-icon>-->
+                    <!--</v-btn>-->
+                    <!--&lt;!&ndash; </div> &ndash;&gt;-->
+                    <!--&lt;!&ndash;</v-layout>&ndash;&gt;-->
+                <!--</v-container>-->
+                <!--<v-footer class="pa-3">-->
+                    <!--<v-spacer></v-spacer>-->
+                    <!--<div>&copy; {{ new Date().getFullYear() }}</div>-->
+                <!--</v-footer>-->
+            <!--</v-content>-->
+            <!--<v-snackbar-->
+                    <!--:bottom="false"-->
+                    <!--:color="toastOptions.color"-->
+                    <!--:left="false"-->
+                    <!--:multi-line="false"-->
+                    <!--:right="true"-->
+                    <!--:timeout="toastOptions.timeout"-->
+                    <!--:top="true"-->
+                    <!--:value="showToast"-->
+                    <!--:vertical="false"-->
+            <!--&gt;-->
+                <!--{{toastOptions.message}}-->
+            <!--</v-snackbar>-->
+            <!--<login-view/>-->
+            <!--<register-view/>-->
+            <!--<loading :loading="isLoading"/>-->
+        <!--</v-app>-->
+    <!--</v-fade-transition>-->
 </template>
 
 <script>
@@ -286,18 +353,36 @@
     }
 </script>
 
-<style>
-    .el-header {
-        background-color: #B3C0D1;
-        color: #333;
-        line-height: 60px;
-    }
+<style lang="scss">
+    // Import Bulma's core
+    @import "~bulma/sass/utilities/_all";
+/*
+    // Set your colors
+    $primary: #63ef5c;
+    $primary-invert: findColorInvert($primary);
+    $twitter: #4099FF;
+    $twitter-invert: findColorInvert($twitter);
 
-    .el-aside {
-        color: #333;
-    }
+    // Setup $colors to use as bulma classes (e.g. 'is-twitter')
+    $colors: (
+            "white": ($white, $black),
+            "black": ($black, $white),
+            "light": ($light, $light-invert),
+            "dark": ($dark, $dark-invert),
+            "primary": ($primary, $primary-invert),
+            "info": ($info, $info-invert),
+            "success": ($success, $success-invert),
+            "warning": ($warning, $warning-invert),
+            "danger": ($danger, $danger-invert),
+            "twitter": ($twitter, $twitter-invert)
+    );
 
-    .v-list__tile.active {
-        background-color: rgba(0, 0, 0, .04);
-    }
+    // Links
+    $link: $primary;
+    $link-invert: $primary-invert;
+    $link-focus-border: $primary;
+*/
+    // Import Bulma and Buefy styles
+    @import "~bulma";
+    @import "~buefy/src/scss/buefy";
 </style>

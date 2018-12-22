@@ -10,7 +10,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "babel-runtime": "^6.26.0",
-    "bourbon": "^5.1.0",
+    "buefy": "^0.7.1",
     "eventemitter3": "^3.1.0",
     "jwt-decode": "^2.2.0",
     "lodash": "^4.17.10",
@@ -19,16 +19,13 @@
     "vue-i18n": "^8.1.0",
     "vue-markdown": "^2.2.4",
     "vue-router": "^3.0.1",
-    "vuetify": "^1.2.5",
     "vuex": "^3.0.1",
     "vuex-persistedstate": "^2.5.4"
   },
   "devDependencies": {
-    "@mdi/font": "^2.8.94",
     "@vue/cli-plugin-babel": "^3.0.0-beta.15",
     "@vue/cli-plugin-eslint": "^3.0.0-beta.15",
     "@vue/cli-service": "^3.0.0-beta.15",
-    "material-design-icons-iconfont": "^3.0.3",
     "node-sass": "^4.10.0",
     "sass-loader": "^7.1.0",
     "vue-template-compiler": "^2.5.16",
