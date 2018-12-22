@@ -115,6 +115,10 @@ public class RedditApplication {
                 xd.setContent("comment");
                 Comment c = commentService.create(xd, p2, group1admin);
 
+                CommentCreate commentCreate = new CommentCreate();
+                commentCreate.setContent("reply");
+                commentService.createReply(c, commentCreate, group1admin);
+
                 CommentUpvote cm = new CommentUpvote();
                 cm.setAccount(user1);
                 cm.setComment(c);

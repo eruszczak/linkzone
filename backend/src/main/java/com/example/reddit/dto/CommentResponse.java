@@ -16,7 +16,7 @@ public class CommentResponse {
 
     private Long id;
     private String content;
-    private List<CommentResponse> replies;
+    private List<CommentResponse> replies = new ArrayList<>();
     private Instant createdAt;
     private CommentCreator author;
     private String groupName;
@@ -41,6 +41,10 @@ public class CommentResponse {
         groupName = dto.getGroupName();
         isUpvoted = dto.getUpvoted();
         upvotedCount = dto.getUpvotedCount();
+    }
+
+    public void addReply(CommentResponse commentResponse) {
+        replies.add(commentResponse);
     }
 
     @Getter

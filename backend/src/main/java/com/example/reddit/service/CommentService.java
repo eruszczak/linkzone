@@ -101,7 +101,7 @@ public class CommentService {
     }
 
     public Page<ICommentResponseDto> findByPostId(Long id, Long accountId, Pageable pageable) {
-        return commentRepository.findByPostIdAndParentIsNullOrderByCreatedAtDesc2(id, accountId, pageable);
+        return commentRepository.findByPostIdWithReplies(id, accountId, pageable);
     }
 
     public void clearVote(Account account, Comment comment) {

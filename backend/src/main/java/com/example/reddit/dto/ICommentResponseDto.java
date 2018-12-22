@@ -6,6 +6,7 @@ public interface ICommentResponseDto {
     Long getId();
     String getContent();
     Long getPostId();
+    Long getParentId();
     Instant getCreatedAt();
     String getPostTitle();
     String getGroupName();

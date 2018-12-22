@@ -14,17 +14,17 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     Page<Comment> findByPostIdAndParentIsNullOrderByCreatedAtDesc(Long id, Pageable pageable);
 
-    @Query(value = "SELECT c.id, c.content, p.id as postId, p.title as postTitle, g.name as groupName, c.created_at as createdAt, a.username, a.avatar," +
+    @Query(value = "SELECT c.id, c.content, c.parent_id as parentId, p.id as postId, p.title as postTitle, g.name as groupName, c.created_at as createdAt, a.username, a.avatar," +
             " (SELECT cu.is_upvote FROM comment_upvote cu WHERE cu.comment_id = c.id AND cu.account_id = :accountId) as upvoted," +
             " (SELECT SUM(cu.is_upvote) FROM comment_upvote cu WHERE cu.comment_id = c.id) as upvotedCount" +
             " FROM comments c" +
             " JOIN posts p ON p.id=c.post_id" +
             " JOIN group_tbl g ON g.id=p.group_id" +
             " JOIN accounts a ON a.id=c.account_id" +
-            " WHERE p.id = :id AND c.parent_id IS NULL" +
-            " ORDER BY c.created_at ASC, ?#{#pageable}",
+            " WHERE p.id = :id" +
+            " ORDER BY IF(c.parent_id IS NULL, c.id, c.parent_id), c.id, c.created_at ASC, ?#{#pageable}",
             nativeQuery = true)
-    Page<ICommentResponseDto> findByPostIdAndParentIsNullOrderByCreatedAtDesc2(Long id, Long accountId, Pageable pageable);
+    Page<ICommentResponseDto> findByPostIdWithReplies(Long id, Long accountId, Pageable pageable);
 
     List<Comment> findByPostIdAndParentIsNullOrderByCreatedAtDesc(Long id);
 
