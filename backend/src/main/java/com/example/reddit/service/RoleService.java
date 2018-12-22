@@ -7,6 +7,8 @@ import com.example.reddit.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class RoleService {
 
@@ -18,7 +20,12 @@ public class RoleService {
     }
 
     public Role findByName(RoleName roleName) {
-        return roleRepository.findByName(roleName)
-                .orElseThrow(() -> new NotFoundException(Role.class, roleName.toString()));
+        Optional<Role> role = roleRepository.findByName(roleName);
+        if (!role.isPresent()) {
+            Role newRole = new Role();
+            newRole.setName(roleName);
+            return roleRepository.save(newRole);
+        }
+        return role.get();
     }
 }

@@ -60,10 +60,10 @@
                 <div class="navbar-item">
                     <div class="buttons">
                         <router-link :to="{name: 'registerView'}" class="button is-primary">
-                            <strong>Sign up</strong>
+                            <strong>{{'navbar.register' | t}}</strong>
                         </router-link>
                         <router-link :to="{name: 'loginView'}" class="button is-light">
-                            Log in
+                            {{'navbar.login' | t}}
                         </router-link>
                     </div>
                 </div>

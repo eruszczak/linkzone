@@ -1,7 +1,9 @@
 export default {
     "navbar": {
         "pl": "polski",
-        "en": "angielski"
+        "en": "angielski",
+        "login": "Logowanie",
+        "register": "Rejestracja"
     },
     "loginView": {
         "header": "Logowanie",
