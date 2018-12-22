@@ -295,6 +295,9 @@
 </script>
 
 <style lang="scss">
+    .mr-2 {
+        margin-right: 2em;
+    }
     // Import Bulma's core
     @import "~bulma/sass/utilities/_all";
 /*
