@@ -36,4 +36,16 @@ export default class CommentService {
         const url = `/comments/${commentId}`;
         axios.post(url, data).then(cb, cbError)
     }
+
+    clearVote(id, cb) {
+        axios.post(`/comments/${id}/clear-vote/`).then(cb);
+    }
+
+    upvote(id, cb) {
+        axios.post(`/comments/${id}/upvote/`).then(cb);
+    }
+
+    downvote(id, cb) {
+        axios.post(`/comments/${id}/downvote/`).then(cb);
+    }
 }

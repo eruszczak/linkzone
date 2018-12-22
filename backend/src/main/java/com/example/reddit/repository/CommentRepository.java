@@ -14,7 +14,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     Page<Comment> findByPostIdAndParentIsNullOrderByCreatedAtDesc(Long id, Pageable pageable);
 
-    @Query(value = "SELECT c.id, c.content, p.id as postId, p.title as postTitle, g.name as groupName, c.created_at as createdAt," +
+    @Query(value = "SELECT c.id, c.content, p.id as postId, p.title as postTitle, g.name as groupName, c.created_at as createdAt, a.username, a.avatar," +
             " (SELECT cu.is_upvote FROM comment_upvote cu WHERE cu.comment_id = c.id AND cu.account_id = :accountId) as upvoted," +
             " (SELECT SUM(cu.is_upvote) FROM comment_upvote cu WHERE cu.comment_id = c.id) as upvotedCount" +
             " FROM comments c" +

@@ -23,8 +23,8 @@
 
         <v-card-actions>
             <v-btn>{{post.upvotedCount || 0}}; upvoted? {{post.isUpvoted}}</v-btn>
-            <v-btn flat :color="getUpvoteColor(true)" @click="upvote">Upvote</v-btn>
-            <v-btn flat :color="getUpvoteColor(false)" @click="downvote">Downvote</v-btn>
+            <v-btn flat :color="getUpvoteColor(post, true)" @click="upvote">Upvote</v-btn>
+            <v-btn flat :color="getUpvoteColor(post, false)" @click="downvote">Downvote</v-btn>
             <v-btn flat color="orange">Share</v-btn>
             <v-btn flat color="orange">Explore</v-btn>
         </v-card-actions>
@@ -34,7 +34,7 @@
 <script>
     import {POST_TYPES} from "../../services/PostService";
     import VueMarkdown from 'vue-markdown'
-    import {checkIfImageUrl, getYoutubeId} from "../../utils/utils";
+    import {checkIfImageUrl, getUpvoteColor, getYoutubeId} from "../../utils/utils";
 
     export default {
         name: "Post",
@@ -56,16 +56,7 @@
         methods: {
             getYoutubeId: getYoutubeId,
             checkIfImageUrl: checkIfImageUrl,
-            getUpvoteColor(forUpvote) {
-                const INACTIVE_COLOR = 'grey';
-                if (this.post.isUpvoted === null) {
-                    return INACTIVE_COLOR;
-                }
-                if (forUpvote) {
-                    return this.post.isUpvoted === 1 ? 'orange' : INACTIVE_COLOR;
-                }
-                return this.post.isUpvoted === -1 ? 'orange' : INACTIVE_COLOR;
-            },
+            getUpvoteColor: getUpvoteColor,
             upvote() {
                 if (this.post.isUpvoted === 1) {
                     this.post.upvotedCount -= 1;

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,8 @@ public class CommentResponse {
     private Instant createdAt;
     private CommentCreator author;
     private String groupName;
+    private Integer isUpvoted;
+    private Integer upvotedCount;
 
     public CommentResponse(Comment comment) {
         id = comment.getId();
@@ -32,10 +35,12 @@ public class CommentResponse {
     public CommentResponse(ICommentResponseDto dto) {
         id = dto.getId();
         content = dto.getContent();
-
-        createdAt = dto.getCreatedAt();
         author = new CommentCreator(dto.getUsername(), dto.getAvatar());
+        createdAt = dto.getCreatedAt();
+        replies = new ArrayList<>();
         groupName = dto.getGroupName();
+        isUpvoted = dto.getUpvoted();
+        upvotedCount = dto.getUpvotedCount();
     }
 
     @Getter

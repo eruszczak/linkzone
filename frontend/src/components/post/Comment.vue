@@ -14,6 +14,10 @@
             <span class="ml-4">{{item.content}}</span>
         </v-card-text>
         <v-card-actions>
+            <v-btn>{{item.upvotedCount || 0}}; upvoted? {{item.isUpvoted}}</v-btn>
+            <v-btn flat :color="getUpvoteColor(item, true)" @click="upvote">Upvote</v-btn>
+            <v-btn flat :color="getUpvoteColor(item, false)" @click="downvote">Downvote</v-btn>
+
             <v-btn @click="updating = !updating" color="orange" flat v-if="!readOnly">Update</v-btn>
             <v-btn @click="deleteComment()" color="orange" flat v-if="!readOnly">Delete</v-btn>
             <v-btn @click="item.showReplies = !item.showReplies" color="orange" flat v-if="item.reply && canReply && !readOnly">Reply
@@ -60,6 +64,7 @@
 
 <script>
     import validation from '../../mixins/validation';
+    import {getUpvoteColor} from "../../utils/utils";
 
     export default {
         name: 'Comment',
@@ -102,6 +107,7 @@
                     })
                 }
             },
+            getUpvoteColor: getUpvoteColor,
             deleteComment() {
                 this.$commentService.delete(this.item.id, () => {
                     this.emitRemoveEvent(null);
@@ -116,6 +122,33 @@
                     this.item.content = data.content;
                     this.updating = false
                 })
+            },
+            upvote() {
+                if (this.item.isUpvoted === 1) {
+                    this.item.upvotedCount -= 1;
+                    this.clear();
+                    return;
+                }
+                this.$commentService.upvote(this.item.id, () => {
+                    this.item.isUpvoted = 1;
+                    this.item.upvotedCount += 1;
+                });
+            },
+            downvote() {
+                if (this.item.isUpvoted === -1) {
+                    this.item.upvotedCount += 1;
+                    this.clear();
+                    return;
+                }
+                this.$commentService.downvote(this.item.id, () => {
+                    this.item.isUpvoted = -1;
+                    this.item.upvotedCount -= 1;
+                });
+            },
+            clear() {
+                this.$commentService.clearVote(this.item.id, () => {
+                    this.item.isUpvoted = null;
+                });
             }
         }
     }
