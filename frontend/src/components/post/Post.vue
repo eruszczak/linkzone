@@ -18,6 +18,13 @@
                     <p v-else>{{post.content}}</p>
                 </div>
             </div>
+            <button class="button" :class="[getUpvoteColor(post, true)]" @click="upvote">
+                <b-icon icon="arrow-up"></b-icon>
+            </button>
+
+            <button class="button" :class="[getUpvoteColor(post, false)]" @click="downvote">
+                <b-icon icon="arrow-down"></b-icon>
+            </button>
             <button class="button">{{post.upvotedCount || 0}}; upvoted? {{post.isUpvoted}}</button>
             <button class="button" :color="getUpvoteColor(post, true)" @click="upvote">Upvote</button>
             <button class="button" :color="getUpvoteColor(post, false)" @click="downvote">Downvote</button>

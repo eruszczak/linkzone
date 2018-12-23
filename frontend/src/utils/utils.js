@@ -54,15 +54,15 @@ export function getYoutubeId(url) {
     return null;
 }
 
-const INACTIVE_COLOR = 'grey';
+const INACTIVE_COLOR = 'is-white';
 export function getUpvoteColor(postOrComment, forUpvote) {
     if (postOrComment.isUpvoted === null) {
         return INACTIVE_COLOR;
     }
     if (forUpvote) {
-        return postOrComment.isUpvoted === 1 ? 'orange' : INACTIVE_COLOR;
+        return postOrComment.isUpvoted === 1 ? 'is-success' : INACTIVE_COLOR;
     }
-    return postOrComment.isUpvoted === -1 ? 'orange' : INACTIVE_COLOR;
+    return postOrComment.isUpvoted === -1 ? 'is-danger' : INACTIVE_COLOR;
 }
 
 export function formValid (fields) {
