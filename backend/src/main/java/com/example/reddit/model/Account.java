@@ -1,5 +1,6 @@
 package com.example.reddit.model;
 
+import com.example.reddit.config.AccountConstants;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +15,8 @@ import javax.validation.constraints.Size;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.example.reddit.config.AccountConstants.*;
+
 @Entity
 @Getter
 @Setter
@@ -26,11 +29,11 @@ public class Account extends DateAudit {
 
     @NotNull
     @Column(unique = true)
-    @Size(min = 3, max = 30)
+    @Size(min = USERNAME_MIN_LENGTH, max = USERNAME_MAX_LENGTH)
     private String username;
 
     @NotBlank
-    @Size(max = 40)
+    @Size(max = AccountConstants.EMAIL_LENGTH)
     @Email
     @Column(unique = true)
     private String email;
@@ -42,7 +45,7 @@ public class Account extends DateAudit {
     private String avatar;
 
     @NotNull
-    @Size(min = 5, max = 60)
+    @Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH)
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)

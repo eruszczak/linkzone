@@ -28,6 +28,6 @@ export default {
         "username_taken": "Nazwa użytkownika jest zajęta",
         "email_taken": "Adres email jest zajęty",
         "value_required": "Wartość jest wymagana",
-        "fix_error": ""
+        "no_user_found": "Nie znaleziono pasującego konta"
     }
 }
