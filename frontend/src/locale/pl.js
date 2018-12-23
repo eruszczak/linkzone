@@ -27,6 +27,7 @@ export default {
     "errors": {
         "username_taken": "Nazwa użytkownika jest zajęta",
         "email_taken": "Adres email jest zajęty",
-        "value_required": "Wartość jest wymagana"
+        "value_required": "Wartość jest wymagana",
+        "fix_error": ""
     }
 }

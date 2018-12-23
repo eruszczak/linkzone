@@ -64,3 +64,9 @@ export function getUpvoteColor(postOrComment, forUpvote) {
     }
     return postOrComment.isUpvoted === -1 ? 'orange' : INACTIVE_COLOR;
 }
+
+export function formValid (fields) {
+    return Object.keys(fields).every(field => {
+        return fields[field] && fields[field].valid;
+    });
+}

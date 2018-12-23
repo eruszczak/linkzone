@@ -6,23 +6,17 @@ import UserService from './services/UserService'
 import GroupService from './services/GroupService'
 import PostService from './services/PostService'
 import CommentService from './services/CommentService'
-// import Vuetify from 'vuetify'
-// import 'vuetify/dist/vuetify.min.css'
 import {TOAST_COLORS} from "./utils/utils";
 import './config/axios'
 import {toast} from "./config/toast";
 import VueI18n from 'vue-i18n'
 import messages from './locale'
-// import '@mdi/font/css/materialdesignicons.css'
-// import 'material-design-icons-iconfont/dist/material-design-icons.css' // TODO
 import moment from 'moment';
 import Buefy from 'buefy'
-// import 'buefy/dist/buefy.css'
+import VeeValidate from 'vee-validate';
 
+Vue.use(VeeValidate);
 Vue.use(Buefy);
-// Vue.use(Vuetify, {
-//     iconfont: 'mdi'
-// });
 Vue.use(VueI18n);
 
 const i18n = new VueI18n({

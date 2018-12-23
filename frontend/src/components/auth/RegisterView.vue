@@ -5,26 +5,25 @@
                 <div class="column is-6 is-offset-3">
                     <h3 class="title has-text-grey">{{'registerView.header' | t}}</h3>
                     <p class="subtitle has-text-grey">{{'registerView.hint' | t}}</p>
-                    <div class="notification is-danger" v-if="errors">
-                        <p v-for="error in errors">
+                    <div class="notification is-danger" v-if="serverErrors">
+                        <p v-for="error in serverErrors">
                             {{`errors.${error}` | t}}
                         </p>
                     </div>
                 </div>
                 <div class="column is-4 is-offset-4">
                     <div class="box">
-                        <b-field  label="Error" type="is-danger"
-                                  message="You can have a message too">
-                            <b-input icon="account" v-model="form.username" :placeholder="$t('registerView.username')"></b-input>
+                        <b-field :type="{'is-danger': triedToSubmit && errors.has('username')}" :message="triedToSubmit ? errors.first('username') : null">
+                            <b-input v-validate="{required: true, min: 3, max: 50}" icon="account" name="username" v-model="form.username" :placeholder="$t('registerView.username')"></b-input>
                         </b-field>
-                        <b-field>
-                            <b-input icon="email" v-model="form.email" :placeholder="$t('registerView.email')"></b-input>
+                        <b-field :type="{'is-danger': triedToSubmit && errors.has('email')}" :message="triedToSubmit ? errors.first('email') : null">
+                            <b-input v-validate="{ required: true, email: true, min: 3, max: 50 }" name="email" icon="email" v-model="form.email" :placeholder="$t('registerView.email')"></b-input>
                         </b-field>
-                        <b-field>
-                            <b-input icon="lock" type="password" v-model="form.password" :placeholder="$t('registerView.password')"></b-input>
+                        <b-field :type="{'is-danger': triedToSubmit && errors.has('password')}" :message="triedToSubmit ? errors.first('password') : null">
+                            <b-input v-validate="{ required: true, min: 6, max: 50 }" name="password" icon="lock" type="password" ref="password" v-model="form.password" :placeholder="$t('registerView.password')"></b-input>
                         </b-field>
-                        <b-field>
-                            <b-input icon="lock" type="password" v-model="form.passwordConfirm" :placeholder="$t('registerView.password-confirm')"></b-input>
+                        <b-field :type="{'is-danger': triedToSubmit && errors.has('password-confirm')}" :message="triedToSubmit ? errors.first('password-confirm') : null">
+                            <b-input v-validate="{ required: true, min: 6, max: 50, confirmed: 'password' }" name="password-confirm" icon="lock" type="password" v-model="form.passwordConfirm" :placeholder="$t('registerView.password-confirm')"></b-input>
                         </b-field>
                         <div class="field">
                             <b-checkbox :value="form.loginOnSuccess">
@@ -45,6 +44,7 @@
 <script>
     import {mapGetters, mapMutations} from 'vuex'
     import validation from "../../mixins/validation";
+    import {formValid} from "../../utils/utils";
 
     export default {
         name: "RegisterView",
@@ -57,15 +57,21 @@
                     password: 'password',
                     passwordConfirm: 'password',
                     loginOnSuccess: true,
-                    valid: false
+                    valid: false,
                 },
-                errors: null
+                triedToSubmit: false,
+                serverErrors: null,
+                passwordValidator: { required: true, min: 6, max: 50 }
             }
         },
         methods: {
             ...mapMutations(['setAccessToken', 'toggleLoading']),
             registerAccount() {
-                this.error = false;
+                this.triedToSubmit = true;
+                this.serverErrors = null;
+                if (!formValid(this.fields)) {
+                    return;
+                }
                 const vm = this;
                 this.toggleLoading(true);
                 this.$userService.register(vm.form, res => {
@@ -79,7 +85,7 @@
                         })
                     }
                 }, ({data}) => {
-                    this.errors = data.errors;
+                    this.serverErrors = data.errors;
                 })
             }
         }
