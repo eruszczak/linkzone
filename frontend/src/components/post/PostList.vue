@@ -1,23 +1,19 @@
 <template>
-    <section>
-        <v-flex>
-            <post :post="post" v-for="post in posts"></post>
-        </v-flex>
-        <v-alert :value="posts.length === 0"
-                 type="info"
-        >
-            No posts
-        </v-alert>
-    </section>
-
+    <div>
+        <post :post="post" v-for="post in posts"></post>
+        <b-notification v-if="posts.length === 0">
+            {{'posts.empty' | t}}
+        </b-notification>
+    </div>
 </template>
 
 <script>
     import Post from './Post'
+    import BNotification from "buefy/src/components/notification/Notification";
 
     export default {
         name: "PostList",
-        components: {Post},
+        components: {BNotification, Post},
         props: {
             posts: {
                 type: Array,

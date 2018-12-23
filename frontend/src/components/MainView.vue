@@ -1,6 +1,5 @@
 <template>
     <div>
-        main view
         <post-list :posts="posts"></post-list>
     </div>
 </template>

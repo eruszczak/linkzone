@@ -29,5 +29,8 @@ export default {
         "email_taken": "Adres email jest zajęty",
         "value_required": "Wartość jest wymagana",
         "no_user_found": "Nie znaleziono pasującego konta"
+    },
+    "posts": {
+        "empty": "Nie znaleziono żadnych postów"
     }
 }

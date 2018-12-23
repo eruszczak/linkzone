@@ -1,34 +1,28 @@
 <template>
-    <v-card class="mb-4">
-        <v-card-title primary-title>
-            <div>
-                <h3 class="headline mb-0"><router-link :to="{name: 'postView', params: {name: post.groupName, postID: post.id}}">{{post.title}}</router-link></h3>
-                {{post.isUpvoted}}
+    <section class="section">
+        <div class="container">
+            <h1 class="title"><router-link :to="{name: 'postView', params: {name: post.groupName, postID: post.id}}">{{post.title}}</router-link></h1>
+            <h2 class="subtitle">
+                A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading
+            </h2>
+            <div class="content ml-4">
+                <div v-if="post.type === POST_TYPES.POST">
+                    <vue-markdown :anchorAttributes="{target: '_blank', rel: 'nofollow'}" :source="post.content"></vue-markdown>
+                </div>
+                <div v-else-if="post.type === POST_TYPES.MEDIA">
+                    <img :src="`/static/${post.content}`">
+                </div>
+                <div v-else-if="post.type === POST_TYPES.LINK">
+                    <img v-if="checkIfImageUrl(post.content)" :src="post.content">
+                    <iframe v-else-if="getYoutubeId(post.content)" width="560" height="315" :src="`//www.youtube.com/embed/${getYoutubeId(post.content)}`" frameborder="0" allowfullscreen></iframe>
+                    <p v-else>{{post.content}}</p>
+                </div>
             </div>
-        </v-card-title>
-
-        <div class="content ml-4">
-            <div v-if="post.type === POST_TYPES.POST">
-                <vue-markdown :anchorAttributes="{target: '_blank', rel: 'nofollow'}" :source="post.content"></vue-markdown>
-            </div>
-            <div v-else-if="post.type === POST_TYPES.MEDIA">
-                <img :src="`/static/${post.content}`">
-            </div>
-            <div v-else-if="post.type === POST_TYPES.LINK">
-                <img v-if="checkIfImageUrl(post.content)" :src="post.content">
-                <iframe v-else-if="getYoutubeId(post.content)" width="560" height="315" :src="`//www.youtube.com/embed/${getYoutubeId(post.content)}`" frameborder="0" allowfullscreen></iframe>
-                <p v-else>{{post.content}}</p>
-            </div>
+            <button class="button">{{post.upvotedCount || 0}}; upvoted? {{post.isUpvoted}}</button>
+            <button class="button" :color="getUpvoteColor(post, true)" @click="upvote">Upvote</button>
+            <button class="button" :color="getUpvoteColor(post, false)" @click="downvote">Downvote</button>
         </div>
-
-        <v-card-actions>
-            <v-btn>{{post.upvotedCount || 0}}; upvoted? {{post.isUpvoted}}</v-btn>
-            <v-btn flat :color="getUpvoteColor(post, true)" @click="upvote">Upvote</v-btn>
-            <v-btn flat :color="getUpvoteColor(post, false)" @click="downvote">Downvote</v-btn>
-            <v-btn flat color="orange">Share</v-btn>
-            <v-btn flat color="orange">Explore</v-btn>
-        </v-card-actions>
-    </v-card>
+    </section>
 </template>
 
 <script>
