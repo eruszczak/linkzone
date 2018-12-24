@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
             " ORDER BY IF(c.parent_id IS NULL, c.id, c.parent_id), c.id, c.created_at ASC, ?#{#pageable}",
             countQuery = "SELECT COUNT(*) FROM comments c JOIN posts p ON p.id=c.post_id WHERE p.id=:id",
             nativeQuery = true)
-    Page<ICommentResponseDto> findByPostIdWithReplies(Long id, Long accountId, Pageable pageable);
+    Page<ICommentResponseDto> findByPostIdWithReplies(@Param("id") Long id,  @Param("accountId") Long accountId, @Param("pageable") Pageable pageable);
 
     List<Comment> findByPostIdAndParentIsNullOrderByCreatedAtDesc(Long id);
 

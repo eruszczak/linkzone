@@ -33,6 +33,14 @@ export default {
         "value_required": "Wartość jest wymagana",
         "no_user_found": "Nie znaleziono pasującego konta"
     },
+    "profile": {
+        "upvoted-posts": "Pozytywne posty",
+        "upvoted-comments": "Pozytywne komentarze",
+        "posts": "Posty",
+        "comments": "Komentarze",
+        "moderated-groups": "Moderowane grupy",
+        "administrated-groups": "Administrowane grupy"
+    },
     "posts": {
         "empty": "Nie znaleziono żadnych postów"
     }

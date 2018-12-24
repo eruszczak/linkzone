@@ -1,84 +1,52 @@
 <template>
-    <div>
-        <v-tabs
-                color="cyan"
-                dark
-                slider-color="yellow"
-                v-model="active"
-        >
-            <v-tab
-                    href="#upvoted"
-                    ripple
-            >
-                upvoted posts
-            </v-tab>
-            <v-tab
-                    href="#posts"
-                    ripple
-            >
-                posts
-            </v-tab>
-            <v-tab
-                    href="#comments"
-                    ripple
-            >
-                comments
-            </v-tab>
-            <v-tab
-                    href="#moderatedGroups"
-                    ripple
-            >
-                moderated groups
-            </v-tab>
-            <v-tab
-                    href="#administratedGroups"
-                    ripple
-            >
-                administrated groups
-            </v-tab>
-
-            <v-tab-item
-                    id="upvoted"
-            >
-                <v-card flat>
-                    <post-list :posts="upvotedPosts"></post-list>
-                </v-card>
-            </v-tab-item>
-
-            <v-tab-item
-                    id="posts"
-            >
-                <v-card flat>
-                    <post-list :posts="posts"></post-list>
-                </v-card>
-            </v-tab-item>
-
-            <v-tab-item
-                    id="comments"
-            >
-                <v-card flat>
-                    <v-card-text>
-                        <v-flex :key="item.id" v-for="(item, index) in comments" xs12>
-                            <comment :index="index" :item="item" @removed="handleRemovedComment($event)"
-                                     read-only></comment>
-                        </v-flex>
-                    </v-card-text>
-                </v-card>
-            </v-tab-item>
-
-            <v-tab-item
-                    id="moderatedGroups"
-            >
+    <section class="section">
+        <div class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">Tweets</p>
+                    <p class="title">3,456</p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">Following</p>
+                    <p class="title">123</p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">Followers</p>
+                    <p class="title">456K</p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">Likes</p>
+                    <p class="title">789</p>
+                </div>
+            </div>
+        </div>
+        <b-tabs v-model="activeTab" size="is-small" type="is-boxed" position="is-centered" @change="tabChange">
+            <b-tab-item :label="$t('profile.upvoted-posts')" icon="google-photos">
+                <post-list :posts="upvotedPosts"></post-list>
+            </b-tab-item>
+            <b-tab-item :label="$t('profile.upvoted-comments')" icon="library-music">
+                {{'profile.upvoted-comments' | t}}
+            </b-tab-item>
+            <b-tab-item :label="$t('profile.posts')" icon="video">
+                <post-list :posts="posts"></post-list>
+            </b-tab-item>
+            <b-tab-item :label="$t('profile.comments')" icon="video">
+                <comment v-for="item in comments" :item="item" @removed="handleRemovedComment($event)" read-only></comment>
+            </b-tab-item>
+            <b-tab-item :label="$t('profile.moderated-groups')" icon="video">
                 <group-list v-if="groups.moderatedGroups != undefined" :groups="groups.moderatedGroups"></group-list>
-            </v-tab-item>
-
-            <v-tab-item
-                    id="administratedGroups"
-            >
+            </b-tab-item>
+            <b-tab-item :label="$t('profile.administrated-groups')" icon="video">
                 <group-list v-if="groups.administratedGroups != undefined" :groups="groups.administratedGroups"></group-list>
-            </v-tab-item>
-        </v-tabs>
-    </div>
+            </b-tab-item>
+        </b-tabs>
+    </section>
 </template>
 
 <script>
@@ -86,6 +54,29 @@
     import PostList from '../post/PostList'
     import Comment from '../post/Comment'
     import GroupList from '../group/GroupList'
+
+    const tabNumbers = {
+        UPVOTED_POSTS: 0,
+        UPVOTED_COMMENTS: 1,
+        POSTS: 2,
+        COMMENTS: 3,
+        MOD_GROUPS: 4,
+        ADMIN_GROUPS: 5
+    };
+
+    const tabs = {
+        'upvoted-posts': tabNumbers.UPVOTED_POSTS,
+        'upvoted-comments': tabNumbers.UPVOTED_COMMENTS,
+        'posts': tabNumbers.POSTS,
+        'comments': tabNumbers.COMMENTS,
+        'mod-groups': tabNumbers.MOD_GROUPS,
+        'admin-groups': tabNumbers.ADMIN_GROUPS
+    };
+
+    const tabsRev = Object.assign({}, ...Object.entries(tabs).map(([a,b]) => ({ [b]: a })));
+
+    console.log(tabs)
+    console.log(tabsRev)
 
     export default {
         name: "UserProfileView",
@@ -98,39 +89,72 @@
         },
         data() {
             return {
-                active: null,
+                activeTab: 0,
                 text: 'Lorem ipsum dolor',
                 posts: [],
                 groups: {},
                 comments: [],
-                upvotedPosts: []
+                upvotedPosts: [],
+                visited: Object.assign({}, ...Object.entries(tabs).map(([a,b]) => ({ [b]: false })))
             }
+        },
+        mounted() {
+            const tab = this.$route.query['tab'];
+            if (!tab) {
+                this.updateQuery();
+            } else {
+                this.activeTab = tabs[tab] || 0;
+            }
+            this.loadTabContent();
         },
         computed: {
             ...mapGetters([])
         },
-        mounted() {
-            console.log('mounted');
-            this.$userService.getPosts(this.username, ({data}) => {
-                this.posts = data.content
-            });
-
-            this.$userService.getComments(this.username, ({data}) => {
-                this.comments = data.content
-            });
-
-            this.$userService.getGroupInfo(this.username, ({data}) => {
-                this.groups = data
-            });
-
-            this.$userService.getUpvotedPosts(this.username, ({data}) => {
-                this.upvotedPosts = data.content;
-            });
-        },
         methods: {
-            next() {
-                const active = parseInt(this.active);
-                this.active = (active < 2 ? active + 1 : 0)
+            loadTabContent() {
+                switch (this.activeTab) {
+                    case tabNumbers.UPVOTED_POSTS:
+                        this.$userService.getUpvotedPosts(this.username, ({data}) => {
+                            this.upvotedPosts = data.content;
+                        });
+                        break;
+                    case tabNumbers.UPVOTED_COMMENTS:
+                        this.$userService.getComments(this.username, ({data}) => {
+                            this.comments = data.content
+                        });
+                        break;
+                    case tabNumbers.POSTS:
+                        this.$userService.getPosts(this.username, ({data}) => {
+                            this.posts = data.content
+                        });
+                        break;
+                    case tabNumbers.COMMENTS:
+                        this.$userService.getComments(this.username, ({data}) => {
+                            this.comments = data.content
+                        });
+                        break;
+                    case tabNumbers.MOD_GROUPS:
+                        this.getGroups();
+                        break;
+                    case tabNumbers.ADMIN_GROUPS:
+                        this.getGroups();
+                        break;
+                }
+                this.visited[this.activeTab] = true;
+            },
+            getGroups() {
+                this.$userService.getGroupInfo(this.username, ({data}) => {
+                    this.groups = data
+                });
+            },
+            tabChange(index) {
+                if (!this.visited[this.activeTab]) {
+                    this.loadTabContent();
+                    this.updateQuery();
+                }
+            },
+            updateQuery() {
+                this.$router.replace({ name: 'userProfileView', query: { tab: tabsRev[this.activeTab] }});
             }
         }
     }
