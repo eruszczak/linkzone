@@ -271,6 +271,9 @@
     .mr-2 {
         margin-right: 2em;
     }
+    .ml-2 {
+        margin-left: 2em;
+    }
     // Import Bulma's core
     @import "~bulma/sass/utilities/_all";
 /*

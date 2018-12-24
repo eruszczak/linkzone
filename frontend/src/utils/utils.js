@@ -54,7 +54,7 @@ export function getYoutubeId(url) {
     return null;
 }
 
-const INACTIVE_COLOR = 'is-white';
+const INACTIVE_COLOR = 'is-dark';
 export function getUpvoteColor(postOrComment, forUpvote) {
     if (postOrComment.isUpvoted === null) {
         return INACTIVE_COLOR;

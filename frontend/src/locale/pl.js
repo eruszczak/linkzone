@@ -46,5 +46,8 @@ export default {
     },
     "groups": {
         "empty": "Nie znaleziono żadnych grup"
+    },
+    "comments": {
+        "reply": "Odpowiedz"
     }
 }

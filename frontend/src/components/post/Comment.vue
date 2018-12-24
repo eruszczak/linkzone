@@ -2,73 +2,40 @@
     <article class="media">
         <figure class="media-left">
             <p class="image is-64x64">
-                <img :src="!item.author.avatar ? $userService.getDefaultAvatar(item.author.username) : `/static/${item.author.avatar}`" alt="avatar">
+                <img :src="!item.author.avatar ? $userService.getDefaultAvatar(item.author.username) : `/static/${item.author.avatar}`"
+                     alt="avatar">
             </p>
         </figure>
         <div class="media-content">
             <div class="content">
                 <p>
-                    <strong><router-link :to="{name: 'userProfileView', params: {username: item.author.username}}">{{ item.author.username }}</router-link></strong>
+                    <router-link :to="{name: 'userProfileView', params: {username: item.author.username}}">
+                        {{ item.author.username }}
+                    </router-link>
+                    <span class="ml-2">
+                        <a class="button is-small" @click="upvote"><b-icon :type="getUpvoteColor(item, true)" icon="arrow-up"></b-icon></a>
+                        <b-tag type="is-white">{{item.upvotedCount || 0}}</b-tag>
+                        <a class="button is-small" @click="downvote"><b-icon :type="getUpvoteColor(item, false)" icon="arrow-down"></b-icon></a>
+                        <button v-if="!noReply && !isLocked" class="button is-small ml-2" @click="item.addReply = !item.addReply">
+                            <b-icon size="is-small" icon="comment-multiple"></b-icon>
+                            <span>{{'comments.reply' | t}}</span>
+                        </button>
+                    </span>
+                    <small class="is-pulled-right">{{item.createdAt | shortDate}}</small>
                     <br>
                     {{item.content}}
-                    <br>
-                    <small><a>Like</a> · <a v-if="!noReply && !isLocked" @click="item.addReply = !item.addReply">Reply</a> {{item.createdAt | shortDate}}</small>
                 </p>
             </div>
             <b-notification v-if="!item.replies && !isInner" :closable="false">
                 Be 1st to reply
             </b-notification>
-            <comment v-for="item in item.replies" :item="item" @removed="emitRemoveEvent(index)" no-reply :is-locked="isLocked"></comment>
+            <comment v-for="item in item.replies" :item="item" @removed="emitRemoveEvent(index)" no-reply
+                     :is-locked="isLocked"></comment>
             <new-comment v-if="item.addReply" v-model="item.reply.body" @add="replyToComment(item)"></new-comment>
         </div>
     </article>
-    <!--<v-card :color='index % 2 === 0 ? "grey lighten-4" : "grey lighten-3"' light>-->
-        <!--<v-card-title>-->
-            <!--<router-link :to="{name: 'groupDetailView', params: {name: item.groupName}}">{{ item.groupName }}</router-link>; {{item.createdAt | shortDate}}-->
-        <!--</v-card-title>-->
-        <!--<v-card-text>-->
-            <!--<v-avatar-->
-                    <!--:size="40"-->
-                    <!--:tile="false"-->
-                    <!--color="grey lighten-4"-->
-            <!--&gt;-->
-                <!--<img :src="!item.author.avatar ? $userService.getDefaultAvatar(item.author.username) : `/static/${item.author.avatar}`" alt="avatar">-->
-            <!--</v-avatar>-->
-            <!--<span class="ml-4">{{item.content}}</span>-->
-        <!--</v-card-text>-->
-        <!--<v-card-actions>-->
-            <!--<v-btn>{{item.upvotedCount || 0}}; upvoted? {{item.isUpvoted}}</v-btn>-->
-            <!--<v-btn flat :color="getUpvoteColor(item, true)" @click="upvote">Upvote</v-btn>-->
-            <!--<v-btn flat :color="getUpvoteColor(item, false)" @click="downvote">Downvote</v-btn>-->
-
-            <!--<v-btn @click="updating = !updating" color="orange" flat v-if="!readOnly">Update</v-btn>-->
-            <!--<v-btn @click="deleteComment()" color="orange" flat v-if="!readOnly">Delete</v-btn>-->
-            <!--<v-btn @click="item.showReplies = !item.showReplies" color="orange" flat v-if="item.reply && canReply && !readOnly">Reply-->
-                <!--/ Show replies ({{item.replies.length}})-->
-            <!--</v-btn>-->
-        <!--</v-card-actions>-->
-        <!--<div v-if="updating">-->
-            <!--<v-btn :disabled="item.body === updatedBody || !updatedBody" @click="updateComment()" color="red" flat>-->
-                <!--Update-->
-            <!--</v-btn>-->
-            <!--<v-text-field-->
-                    <!--:rules="[ruleIsNotEmpty]"-->
-                    <!--box-->
-                    <!--label="Update"-->
-                    <!--name="input-7-4"-->
-                    <!--v-model="updatedBody"-->
-            <!--&gt;</v-text-field>-->
-        <!--</div>-->
-        <!--<div class="ml-5" v-if="item.reply && item.showReplies">-->
-            <!--<v-form lazy-validation ref="commentForm" v-model="item.reply.valid">-->
-                <!--<v-text-field-->
-                        <!--:rules="[ruleIsNotEmpty]"-->
-                        <!--box-->
-                        <!--label="Reply"-->
-                        <!--name="input-7-4"-->
-                        <!--v-model="item.reply.body"-->
-                <!--&gt;</v-text-field>-->
-                <!--<v-btn :disabled="!item.reply.valid" @click="replyToComment(item)">Add reply</v-btn>-->
+    <!--<v-btn @click="updating = !updating" color="orange" flat v-if="!readOnly">Update</v-btn>-->
+    <!--<v-btn @click="deleteComment()" color="orange" flat v-if="!readOnly">Delete</v-btn>-->
 
 </template>
 
