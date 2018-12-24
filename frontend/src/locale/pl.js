@@ -48,6 +48,10 @@ export default {
         "empty": "Nie znaleziono żadnych grup"
     },
     "comments": {
-        "reply": "Odpowiedz"
-    }
+        "reply": "Odpowiedz",
+        "remove-title": "Usuń komentarz",
+        "remove-message": "Jesteś pewien, że chcesz usunąć ten komentarz? Operacja jest nieodwracalna",
+    },
+    "confirm": "Potwierdź",
+    "cancel": "Anuluj",
 }

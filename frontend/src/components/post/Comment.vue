@@ -21,7 +21,13 @@
                             <span>{{'comments.reply' | t}}</span>
                         </button>
                     </span>
-                    <small class="is-pulled-right">{{item.createdAt | shortDate}}</small>
+                    <span class="is-pulled-right">
+                       <a class="button is-small mr-2" @click="confirmCustomDelete">
+                            <b-icon type="is-danger" icon="delete"></b-icon>
+                        </a>
+                        <small>{{item.createdAt | shortDate}}</small>
+                    </span>
+
                     <br>
                     {{item.content}}
                 </p>
@@ -92,6 +98,7 @@
             deleteComment() {
                 this.$commentService.delete(this.item.id, () => {
                     this.emitRemoveEvent(null);
+                    this.$toast.open('Removed');
                 })
             },
             emitRemoveEvent(innerIndex) {
@@ -130,6 +137,19 @@
                 this.$commentService.clearVote(this.item.id, () => {
                     this.item.isUpvoted = null;
                 });
+            },
+            confirmCustomDelete() {
+                this.$dialog.confirm({
+                    title: this.$t('comments.remove-title'),
+                    message: this.$t('comments.remove-message'),
+                    confirmText: this.$t('confirm'),
+                    cancelText: this.$t('cancel'),
+                    type: 'is-danger',
+                    hasIcon: true,
+                    onConfirm: () => {
+                        this.deleteComment();
+                    }
+                })
             }
         }
     }
