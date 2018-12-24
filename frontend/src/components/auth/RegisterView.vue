@@ -44,7 +44,6 @@
 <script>
     import {mapGetters, mapMutations} from 'vuex'
     import validation from "../../mixins/validation";
-    import {formValid} from "../../utils/utils";
 
     export default {
         name: "RegisterView",
@@ -69,9 +68,13 @@
             registerAccount() {
                 this.triedToSubmit = true;
                 this.serverErrors = null;
-                if (!formValid(this.fields)) {
-                    return;
-                }
+                this.$validator.validate().then(result => {
+                    if (result) {
+                        this._register();
+                    }
+                });
+            },
+            _register() {
                 const vm = this;
                 this.toggleLoading(true);
                 this.$userService.register(vm.form, res => {

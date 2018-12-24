@@ -4,13 +4,14 @@
             <p>This thread has been locked. New comments cannot be posted.</p>
         </b-notification>
         <comment v-for="comment in comments" :item="comment"></comment>
-        <new-comment v-if="!readOnly && !post.locked" v-model="comment.body"></new-comment>
+        <new-comment v-if="!readOnly && !post.locked" v-model="comment.body" @add="addComment"></new-comment>
     </section>
 </template>
 
 <script>
     import Comment from './Comment'
     import NewComment from './NewComment'
+    import {prepareComment} from "../../utils/utils";
 
     export default {
         name: "Comments",
@@ -40,7 +41,7 @@
         methods: {
             addComment() {
                 this.$commentService.create(this.post.id, {content: this.comment.body}, ({data}) => {
-                    this.comments.push(this.prepareComment(data));
+                    this.comments.push(prepareComment(data));
                     this.comment.body = '';
                 })
             },

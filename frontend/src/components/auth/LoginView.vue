@@ -33,7 +33,6 @@
 <script>
     import {mapGetters, mapMutations} from 'vuex'
     import validation from "../../mixins/validation";
-    import {formValid} from "../../utils/utils";
 
     export default {
         name: 'LoginView',
@@ -54,9 +53,13 @@
             login() {
                 this.triedToSubmit = true;
                 this.serverErrors = null;
-                if (!formValid(this.fields)) {
-                    return;
-                }
+                this.$validator.validate().then(result => {
+                    if (result) {
+                        this._login();
+                    }
+                });
+            },
+            _login() {
                 this.toggleLoading(true);
                 this.$userService.authenticate(this.form.usernameOrEmail, this.form.password, () => {
                     this.toggleLoading(false);

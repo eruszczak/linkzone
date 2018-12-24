@@ -12,14 +12,14 @@
                     <br>
                     {{item.content}}
                     <br>
-                    <small><a>Like</a> · {{item.createdAt | shortDate}}</small>
+                    <small><a>Like</a> · <a v-if="!noReply && !isLocked" @click="item.addReply = !item.addReply">Reply</a> {{item.createdAt | shortDate}}</small>
                 </p>
             </div>
             <b-notification v-if="!item.replies && !isInner">
                 Be 1st to reply
             </b-notification>
             <comment v-for="item in item.replies" :item="item" @removed="emitRemoveEvent(index)" no-reply :is-locked="isLocked"></comment>
-            <new-comment v-if="!noReply && !isLocked"></new-comment>
+            <new-comment v-if="item.addReply" v-model="item.reply.body" @add="replyToComment(item)"></new-comment>
         </div>
     </article>
     <!--<v-card :color='index % 2 === 0 ? "grey lighten-4" : "grey lighten-3"' light>-->
@@ -116,13 +116,10 @@
         computed: {},
         methods: {
             replyToComment(comment) {
-                if (this.$refs['commentForm'].validate()) {
-                    this.$commentService.reply(comment.id, {content: comment.reply.body}, ({data}) => {
-                        comment.replies.unshift(data);
-                        comment.reply.body = '';
-                        this.$refs['commentForm'].reset()
-                    })
-                }
+                this.$commentService.reply(comment.id, {content: comment.reply.body}, ({data}) => {
+                    comment.replies.push(data);
+                    comment.reply.body = '';
+                })
             },
             getUpvoteColor: getUpvoteColor,
             deleteComment() {

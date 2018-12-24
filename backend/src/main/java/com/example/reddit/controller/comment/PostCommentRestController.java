@@ -40,7 +40,7 @@ public class PostCommentRestController {
 
     @GetMapping(value = "/")
     public ResponseEntity<?> list(@PathVariable Long postId, Pageable pageable, @CurrentUser UserPrincipal currentUser) {
-        Long userId = currentUser != null ? currentUser.getAccount().getId() : - 1;
+        Long userId = currentUser != null ? currentUser.getAccount().getId() : null;
         Page<ICommentResponseDto> comments = commentService.findByPostId(postId, userId, pageable);
         List<CommentResponse> result = new ArrayList<>();
 

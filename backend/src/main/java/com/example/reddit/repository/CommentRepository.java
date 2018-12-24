@@ -23,6 +23,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
             " JOIN accounts a ON a.id=c.account_id" +
             " WHERE p.id = :id" +
             " ORDER BY IF(c.parent_id IS NULL, c.id, c.parent_id), c.id, c.created_at ASC, ?#{#pageable}",
+            countQuery = "SELECT COUNT(*) FROM comments c JOIN posts p ON p.id=c.post_id WHERE p.id=:id",
             nativeQuery = true)
     Page<ICommentResponseDto> findByPostIdWithReplies(Long id, Long accountId, Pageable pageable);
 

@@ -8,17 +8,14 @@
         <div class="media-content">
             <div class="field">
                 <p class="control">
-                    <!--<b-field :type="{'is-danger': triedToSubmit && errors.has('email')}" :message="triedToSubmit ? errors.first('email') : null">-->
-                        <!--<b-input v-validate="{ required: true, email: true, min: 3, max: 50 }" name="email" icon="email" v-model="form.email" :placeholder="$t('registerView.email')"></b-input>-->
-                    <!--</b-field>-->
-                    <b-field>
-                        <b-input v-validate="'required'" v-model="" maxlength="200" type="textarea"></b-input>
+                    <b-field :type="{'is-danger': triedToSubmit && errors.has('body')}" :message="triedToSubmit ? errors.first('body') : null">
+                        <b-input v-validate="{required: true, min: 1, max: 1000}" name="body" v-model="_value" type="textarea"></b-input>
                     </b-field>
                 </p>
             </div>
             <div class="field">
                 <p class="control">
-                    <button class="button">Post comment</button>
+                    <button class="button" @click="addComment">Post comment</button>
                 </p>
             </div>
         </div>
@@ -34,16 +31,34 @@
                 required: true
             }
         },
-        // methods: {
-        //     addComment() {
-        //             this.$commentService.create(this.postID, {content: this.comment.body}, ({data}) => {
-        //                 // if sorting desc then push()
-        //                 this.comments.unshift(this.prepareComment(data));
-        //                 this.comment.body = '';
-        //                 this.$refs.commentForm.reset()
-        //             })
-        //     },
-        // }
+        data() {
+            return {
+                triedToSubmit: false
+            }
+        },
+
+        computed: {
+            _value: {
+                get: function(){
+                    console.log('getting', this.value)
+                    return this.value;
+                },
+                set: function(newValue){
+                    this.$emit('input', newValue)
+                }
+            }
+        },
+        methods: {
+            addComment() {
+                this.triedToSubmit = true;
+                this.$validator.validate().then(result => {
+                    if (result) {
+                        this.$emit('add');
+                        this.triedToSubmit = false;
+                    }
+                });
+            },
+        }
     }
 </script>
 

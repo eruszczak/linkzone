@@ -24,7 +24,7 @@
     import validation from '../../mixins/validation';
     import Comment from './Comment'
     import Comments from './Comments'
-    import {checkIfImageUrl, getYoutubeId} from "../../utils/utils";
+    import {checkIfImageUrl, getYoutubeId, prepareComment} from "../../utils/utils";
     import BNotification from "buefy/src/components/notification/Notification";
 
     export default {
@@ -83,17 +83,9 @@
                     let sumReplies = 0;
                     // TODO count on the backend
                     this.commentMetadata.total = data.totalElements + sumReplies;
-                    this.comments.push(...data.content.map(comment => this.prepareComment(comment)))
+                    this.comments.push(...data.content.map(comment => prepareComment(comment)))
                 })
-            },
-
-            prepareComment(commentResponse) {
-                commentResponse.reply = {
-                    body: '',
-                    valid: true
-                };
-                return commentResponse
-            },
+            }
         }
     }
 </script>
