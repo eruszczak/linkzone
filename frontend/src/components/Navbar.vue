@@ -51,20 +51,40 @@
                         <img :src="`/${selectedLanguage.icon}`" width="24px"/>
                     </a>
 
-                    <div class="navbar-dropdown">
+                    <div class="navbar-dropdown has-dropdown is-hoverable">
                         <a class="navbar-item" :class="{'is-active': language.locale === selectedLanguage.locale}" v-for="language in languages" :key="language.locale" @click="setLocale(language)">
                             <img :src="`/${language.icon}`" width="24px" class="mr-2"/> <span>{{`navbar.${language.locale}` | t}}</span>
                         </a>
                     </div>
                 </div>
+                <div class="navbar-item has-dropdown is-hoverable" v-if="isAuthenticated && user">
+                    <a class="navbar-link">
+                        {{user.username}}
+                    </a>
+
+                    <div class="navbar-dropdown">
+                        <router-link :to="{name: 'userProfileView', params: {username: user.username}}" class="navbar-item">
+                            {{'navbar.my-profile' | t}}
+                        </router-link>
+                        <router-link class="navbar-item" :to="{name: 'userEditView'}">
+                            {{'navbar.settings' | t}}
+                        </router-link>
+                        <hr class="navbar-divider">
+                        <a class="navbar-item" @click="logout">
+                            {{'navbar.logout' | t}}
+                        </a>
+                    </div>
+                </div>
                 <div class="navbar-item">
                     <div class="buttons">
-                        <router-link :to="{name: 'registerView'}" class="button is-primary">
-                            <strong>{{'navbar.register' | t}}</strong>
-                        </router-link>
-                        <router-link :to="{name: 'loginView'}" class="button is-light">
-                            {{'navbar.login' | t}}
-                        </router-link>
+                        <template v-if="!isAuthenticated">
+                            <router-link :to="{name: 'registerView'}" class="button is-primary">
+                                <strong>{{'navbar.register' | t}}</strong>
+                            </router-link>
+                            <router-link :to="{name: 'loginView'}" class="button is-light">
+                                {{'navbar.login' | t}}
+                            </router-link>
+                        </template>
                     </div>
                 </div>
             </div>
@@ -75,6 +95,7 @@
 <script>
     import {AVAILABLE_LANGUAGES} from "../locale";
     const LOCAL_STORAGE_LOCALE_KEY = 'locale';
+    import {mapGetters} from 'vuex';
 
     export default {
         name: "Navbar",
@@ -90,6 +111,9 @@
                 selectedLanguage: null
             }
         },
+        computed: {
+            ...mapGetters(['isAuthenticated', 'user'])
+        },
         methods: {
             setLocale(language) {
                 this.selectedLanguage.active = false;
@@ -97,7 +121,16 @@
                 localStorage.setItem(LOCAL_STORAGE_LOCALE_KEY, this.$i18n.locale);
                 this.selectedLanguage = language;
                 this.selectedLanguage.active = true
-            }
+            },
+            logout() {
+                this.$userService.logout(() => {
+                    this.$message({
+                        message: 'logged out',
+                        type: this.$toastColors.INFO
+                    })
+                });
+                // this.username = null
+            },
         }
     }
 </script>

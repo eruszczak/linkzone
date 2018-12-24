@@ -65,7 +65,8 @@
                     this.toggleLoading(false);
                     this.$message({
                         message: "Hello " + this.form.usernameOrEmail
-                    })
+                    });
+                    this.$router.replace('/');
                 }, ({data}) => {
                     this.serverErrors = data.errors;
                 })

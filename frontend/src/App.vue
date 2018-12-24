@@ -214,11 +214,6 @@
                     this.setupForAuthenticatedUser()
                 }
             });
-
-            const locale = localStorage.getItem(LOCAL_STORAGE_LOCALE_KEY) || this.$i18n.locale;
-            this.selectedLanguage = this.languages.find(l => l.locale === locale);
-            this.selectedLanguage.active = true;
-            this.$i18n.locale = locale
         },
         data() {
             return {
@@ -249,21 +244,6 @@
         },
         methods: {
             ...mapMutations(['setRegisterModalState', 'setLoginModalState', 'setGroups', 'disableAPIError', 'filterGroups']),
-            toggleLoginModal() {
-                this.setLoginModalState(true)
-            },
-            toggleRegisterModal() {
-                this.setRegisterModalState(true)
-            },
-            logout() {
-                this.$userService.logout(() => {
-                    this.$message({
-                        message: 'logged out',
-                        type: this.$toastColors.INFO
-                    })
-                });
-                this.username = null
-            },
             setupForAuthenticatedUser() {
                 this.username = this.$userService.getUsername();
                 // this.$userService.getUserDetails(this.username, (res) => {
@@ -282,13 +262,6 @@
             },
             filter() {
                 this.filterGroups(this.filterValue)
-            },
-            setLocale(language) {
-                this.selectedLanguage.active = false;
-                this.$i18n.locale = language.locale;
-                localStorage.setItem(LOCAL_STORAGE_LOCALE_KEY, this.$i18n.locale);
-                this.selectedLanguage = language;
-                this.selectedLanguage.active = true
             }
         }
     }

@@ -149,7 +149,7 @@ export default class UserService {
         if (isAuthenticated) {
             cb && cb();
             this.getUserDetails(this.getUsername(), ({data}) => {
-                this.user = data;
+                store.commit('setUser', data);
             });
         } else {
             cbError && cbError();

@@ -3,7 +3,10 @@ export default {
         "pl": "polski",
         "en": "angielski",
         "login": "Logowanie",
-        "register": "Rejestracja"
+        "register": "Rejestracja",
+        "logout": "Wyloguj",
+        "my-profile": "Mój profil",
+        "settings": "Ustawienia"
     },
     "loginView": {
         "header": "Logowanie",
