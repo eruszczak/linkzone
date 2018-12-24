@@ -1,31 +1,17 @@
 <template>
     <div>
         <pagination v-if="pagination" :pagination="pagination" @change="handleChange"/>
-        <!--<v-card v-if="groups">-->
-            <!--<v-list two-line>-->
-                <!--<template v-for="(group, index) in groups">-->
-                    <!--<v-list-tile-->
-                            <!--:key="group.name"-->
-                            <!--:to="{name: 'groupDetailView', params: {name: group.name}}"-->
-                            <!--avatar-->
-                    <!--&gt;-->
-                        <!--<v-list-tile-avatar>-->
-                            <!--<img src="https://cdn.vuetifyjs.com/images/lists/1.jpg">-->
-                        <!--</v-list-tile-avatar>-->
-
-                        <!--<v-list-tile-content>-->
-                            <!--<v-list-tile-title v-html="group.name"></v-list-tile-title>-->
-                            <!--<v-list-tile-sub-title v-html="group.description"></v-list-tile-sub-title>-->
-                        <!--</v-list-tile-content>-->
-                    <!--</v-list-tile>-->
-                <!--</template>-->
-            <!--</v-list>-->
-        <!--</v-card>-->
-        <!--<v-alert :value="groups.length === 0"-->
-                 <!--type="info"-->
-        <!--&gt;-->
-            <!--No groups-->
-        <!--</v-alert>-->
+        <section class="section" v-for="(group, index) in groups">
+            <div class="container">
+                <h1 class="title"><router-link :to="{name: 'groupDetailView', params: {name: group.name}}">{{group.name}}</router-link></h1>
+                <h2 class="subtitle">
+                    {{group.description}}
+                </h2>
+            </div>
+        </section>
+        <b-notification v-if="groups.length === 0" :closable="false">
+            {{'groups.empty' | t}}
+        </b-notification>
     </div>
 </template>
 

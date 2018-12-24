@@ -15,7 +15,7 @@
                     <small><a>Like</a> · <a v-if="!noReply && !isLocked" @click="item.addReply = !item.addReply">Reply</a> {{item.createdAt | shortDate}}</small>
                 </p>
             </div>
-            <b-notification v-if="!item.replies && !isInner">
+            <b-notification v-if="!item.replies && !isInner" :closable="false">
                 Be 1st to reply
             </b-notification>
             <comment v-for="item in item.replies" :item="item" @removed="emitRemoveEvent(index)" no-reply :is-locked="isLocked"></comment>

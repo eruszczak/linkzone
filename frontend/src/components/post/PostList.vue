@@ -1,7 +1,7 @@
 <template>
     <div>
         <post :post="post" v-for="post in posts"></post>
-        <b-notification v-if="posts.length === 0">
+        <b-notification v-if="posts.length === 0" :closable="false">
             {{'posts.empty' | t}}
         </b-notification>
     </div>

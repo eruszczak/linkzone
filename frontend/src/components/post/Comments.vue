@@ -1,6 +1,6 @@
 <template>
     <section class="section">
-        <b-notification v-if="!readOnly && post.locked">
+        <b-notification v-if="!readOnly && post.locked" :closable="false">
             <p>This thread has been locked. New comments cannot be posted.</p>
         </b-notification>
         <comment v-for="comment in comments" :item="comment"></comment>

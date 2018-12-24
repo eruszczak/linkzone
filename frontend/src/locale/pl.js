@@ -43,5 +43,8 @@ export default {
     },
     "posts": {
         "empty": "Nie znaleziono żadnych postów"
+    },
+    "groups": {
+        "empty": "Nie znaleziono żadnych grup"
     }
 }
