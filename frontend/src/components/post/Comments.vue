@@ -1,21 +1,17 @@
 <template>
     <section class="section">
-        <b-notification v-if="!readOnly && post.locked" :closable="false">
-            <p>This thread has been locked. New comments cannot be posted.</p>
-        </b-notification>
-        <comment v-for="comment in comments" :item="comment"></comment>
-        <new-comment v-if="!readOnly && !post.locked" v-model="comment.body" @add="addComment"></new-comment>
+        <comment v-for="(comment, index) in comments" :index="index" :item="comment" :is-locked="isLocked" :key="comment.id" @removed="handleRemovedComment" @added="handleAddedComment"></comment>
+        <slot></slot>
     </section>
 </template>
 
 <script>
     import Comment from './Comment'
-    import NewComment from './NewComment'
     import {prepareComment} from "../../utils/utils";
 
     export default {
         name: "Comments",
-        components: {Comment,NewComment},
+        components: {Comment},
         props: {
             comments: {
                 type: Array,
@@ -25,34 +21,32 @@
                 type: Boolean,
                 default: false
             },
-            post: {
-                type: Object,
-                required: true
+            isLocked: {
+                type: Boolean,
+                default: false
             }
         },
         data() {
             return {
-                comment: {
-                    body: '',
-                    valid: true
-                }
+
             }
         },
         methods: {
-            addComment() {
-                this.$commentService.create(this.post.id, {content: this.comment.body}, ({data}) => {
-                    this.comments.push(prepareComment(data));
-                    this.comment.body = '';
-                })
-            },
             handleRemovedComment($event) {
                 if ($event.innerIndex === null) {
+                    const replies = this.comments[$event.outerIndex].replies ? this.comments[$event.outerIndex].replies.length : 0;
+                    this.$emit('change', -(1 + replies));
                     this.comments.splice($event.outerIndex, 1);
                 } else {
+                    const before = this.comments[$event.outerIndex].replies.length;
                     this.comments[$event.outerIndex].replies.splice($event.innerIndex, 1);
+                    const after = this.comments[$event.outerIndex].replies.length;
+                    this.$emit('change', before - after);
                 }
-                this.commentMetadata.total = Math.max(this.commentMetadata.total - 1, 0);
             },
+            handleAddedComment($event) {
+                this.$emit('change', 1);
+            }
         }
     }
 </script>

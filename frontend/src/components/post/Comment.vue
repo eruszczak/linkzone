@@ -40,9 +40,6 @@
             <new-comment v-if="item.addReply" v-model="item.reply.body" @add="replyToComment(item)"></new-comment>
         </div>
     </article>
-    <!--<v-btn @click="updating = !updating" color="orange" flat v-if="!readOnly">Update</v-btn>-->
-    <!--<v-btn @click="deleteComment()" color="orange" flat v-if="!readOnly">Delete</v-btn>-->
-
 </template>
 
 <script>
@@ -76,7 +73,6 @@
                 default: false
             }
         },
-        mixins: [validation],
         data() {
             return {
                 updating: false,

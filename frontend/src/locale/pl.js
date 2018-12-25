@@ -42,7 +42,8 @@ export default {
         "administrated-groups": "Administrowane grupy"
     },
     "posts": {
-        "empty": "Nie znaleziono żadnych postów"
+        "empty": "Nie znaleziono żadnych postów",
+        "locked": "Post został zablokowany. Nowe komentarze nie mogą zostać dodane."
     },
     "groups": {
         "empty": "Nie znaleziono żadnych grup"
@@ -51,6 +52,7 @@ export default {
         "reply": "Odpowiedz",
         "remove-title": "Usuń komentarz",
         "remove-message": "Jesteś pewien, że chcesz usunąć ten komentarz? Operacja jest nieodwracalna",
+        "add": "Dodaj komentarz"
     },
     "confirm": "Potwierdź",
     "cancel": "Anuluj",

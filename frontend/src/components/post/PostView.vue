@@ -1,14 +1,21 @@
 <template>
-    <div v-if="post">
-        {{post}}
+    <section class="section" v-if="post">
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+            <!-- <span>{{post}}</span> -->
+            <ul>
+                <li><a href="#">Bulma</a></li>
+                <li><a href="#">Documentation</a></li>
+                <li><router-link :to="{name: 'groupDetailView', params: {name: post.groupName}}">{{post.groupName}}</router-link></li>
+                <li class="is-active"><a href="#" aria-current="page">{{post.title}}</a></li>
+            </ul>
+        </nav>
+
         <button class="button"><router-link :to="{name: 'postUpdateView', params: {id: post.id}}">update</router-link></button>
 
-        <p>can moderate: {{canModerate}}; isOwner: {{isOwner}}</p>
+        <!-- <p>can moderate: {{canModerate}}; isOwner: {{isOwner}}</p>
         <p>author: {{post.author}}</p>
-        <p>group: {{post.groupName}}</p>
-        <h1>{{post.title}}; {{post.type}};
-            <button class="button" @click="updating = !updating" v-if="isOwner || canModerate">update</button>
-        </h1>
+        <p>group: {{post.groupName}}</p> -->
+        <!-- <button class="button" @click="updating = !updating" v-if="isOwner || canModerate">update</button> -->
 
         <post :post="post"></post>
 
@@ -19,7 +26,7 @@
         <comments :comments="comments" @change="changeCommentCount" :is-locked="post.locked">
             <new-comment v-if="!post.locked" v-model="comment.body" @add="addComment"></new-comment>
         </comments>
-    </div>
+    </section>
 </template>
 
 <script>
