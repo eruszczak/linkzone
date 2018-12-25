@@ -35,7 +35,7 @@
             <b-notification v-if="!item.replies && !isInner" :closable="false">
                 Be 1st to reply
             </b-notification>
-            <comment v-for="item in item.replies" :item="item" @removed="emitRemoveEvent(index)" no-reply
+            <comment v-for="(item, index) in item.replies" :index="index" :item="item" @removed="emitRemoveEvent(index)" :key="item.id" no-reply @added="emitAddEvent"
                      :is-locked="isLocked"></comment>
             <new-comment v-if="item.addReply" v-model="item.reply.body" @add="replyToComment(item)"></new-comment>
         </div>
@@ -60,7 +60,7 @@
                 type: Object
             },
             index: {
-                required: false,
+                required: true,
                 type: Number
             },
             readOnly: {
@@ -84,7 +84,7 @@
             }
         },
         mounted() {
-            console.warn('body', this.item)
+            // console.warn('body', this.item)
         },
         computed: {},
         methods: {
@@ -92,7 +92,8 @@
                 this.$commentService.reply(comment.id, {content: comment.reply.body}, ({data}) => {
                     comment.replies.push(data);
                     comment.reply.body = '';
-                })
+                    this.emitAddEvent();
+                });
             },
             getUpvoteColor: getUpvoteColor,
             deleteComment() {
@@ -104,6 +105,9 @@
             emitRemoveEvent(innerIndex) {
                 console.log('emit remove event');
                 this.$emit('removed', {outerIndex: this.index, innerIndex: innerIndex})
+            },
+            emitAddEvent() {
+                this.$emit('added');
             },
             updateComment() {
                 this.$commentService.update(this.item.id, {content: this.updatedBody}, ({data}) => {

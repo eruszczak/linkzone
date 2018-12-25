@@ -12,8 +12,13 @@
 
         <post :post="post"></post>
 
-        <p class="tile">{{commentMetadata.total}} comments</p>
-        <comments :comments="comments" :post="post"></comments>
+        <p class="title">{{post.commentCount}} comments</p>
+        <b-notification v-if="post.locked" :closable="false">
+            <p>{{'posts.locked' | t}}</p>
+        </b-notification>
+        <comments :comments="comments" @change="changeCommentCount" :is-locked="post.locked">
+            <new-comment v-if="!post.locked" v-model="comment.body" @add="addComment"></new-comment>
+        </comments>
     </div>
 </template>
 
@@ -26,12 +31,13 @@
     import Comments from './Comments'
     import {checkIfImageUrl, getYoutubeId, prepareComment} from "../../utils/utils";
     import BNotification from "buefy/src/components/notification/Notification";
+    import NewComment from './NewComment';
 
     export default {
         name: 'PostView',
         props: ['postID', 'name'],
         mixins: [validation],
-        components: {BNotification, Comment, Post, Comments},
+        components: {BNotification, Comment, Post, Comments, NewComment},
         data() {
             return {
                 POST_TYPES,
@@ -46,6 +52,10 @@
                 canModerate: false,
                 isOwner: false,
                 user: null,
+                comment: {
+                    body: '',
+                    valid: true
+                }
 
             }
         },
@@ -85,6 +95,16 @@
                     this.commentMetadata.total = data.totalElements + sumReplies;
                     this.comments.push(...data.content.map(comment => prepareComment(comment)))
                 })
+            },
+            addComment() {
+                this.$commentService.create(this.post.id, {content: this.comment.body}, ({data}) => {
+                    this.comments.push(prepareComment(data));
+                    this.comment.body = '';
+                    this.changeCommentCount(1);
+                })
+            },
+            changeCommentCount(val) {
+                this.post.commentCount += val; 
             }
         }
     }

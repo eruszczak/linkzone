@@ -21,7 +21,7 @@
             <button class="button" :class="[getUpvoteColor(post, true)]" @click="upvote">
                 <b-icon icon="arrow-up"></b-icon>
             </button>
-
+            <button class="button">comments: {{post.commentCount}}</button>
             <button class="button" :class="[getUpvoteColor(post, false)]" @click="downvote">
                 <b-icon icon="arrow-down"></b-icon>
             </button>
