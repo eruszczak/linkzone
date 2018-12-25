@@ -1,6 +1,12 @@
 <template>
     <section class="section">
         <p class="title">{{'posts.create-header' | t}}</p>
+        <b-field label="Limited to 5 tags">
+            <b-taginput
+                maxtags="1"
+                :value="['One']">
+            </b-taginput>
+        </b-field>
         <b-field :label="$t('posts.pick-group')" :type="{'is-danger': triedToSubmit && errors.first('group')}" :message="triedToSubmit ? errors.first('group') : null">
             <b-autocomplete
                 v-validate="'required'"
@@ -11,7 +17,7 @@
                 field="name"
                 :loading="isFetching"
                 @keyup.native="getAsyncData"
-                @select="option => selected = option">
+                @select="option => selectedGroup = option">
 
                 <template slot-scope="props">
                     <div class="media">
@@ -87,7 +93,7 @@
                     }
                     value.form.content = this.filename;
                 }
-                this.$postService.addPost(value.form, this.selectedGroup, value.selectedForm, ({data}) => {
+                this.$postService.addPost(value.form, this.selectedGroup.name, value.selectedForm, ({data}) => {
                     console.log(data.id);
                     this.$router.push({
                         name: 'postView',

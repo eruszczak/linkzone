@@ -110,10 +110,11 @@
                 const selectedType = this.getSelectedPostType();
                 this.$validator.validateAll(this.getSelectedPostType().toLowerCase()).then((result) => {
                     if (result) {
-                        if (this.getSelectedPostType() === POST_TYPES.MEDIA) {
-                            // todo additionally check if image
-                            return;
-                        }
+                        // TODO its validated in PostCreateView too.
+                        // if (this.getSelectedPostType() === POST_TYPES.MEDIA) {
+                        //     // todo additionally check if image
+                        //     return;
+                        // }
                         this._submit();
                     }
                 });
