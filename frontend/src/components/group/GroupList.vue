@@ -42,6 +42,10 @@
                 required: false
             }
         },
+        data() {
+            return {
+            }
+        },
         methods: {
             handleChange(pageNumber) {
                 this.$emit('pageChange', pageNumber);

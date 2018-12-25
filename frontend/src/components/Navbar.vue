@@ -22,31 +22,21 @@
                     {{'navbar.add-post' | t}}
                 </router-link>
 
-                <router-link class="navbar-item" :to="{name: 'groupListView'}">
-                    {{'navbar.groups' | t}}
-                </router-link>
 
-                <!-- <div class="navbar-item has-dropdown is-hoverable">
+
+                <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
-                        More
+                        {{'navbar.more'|t}}
                     </a>
 
                     <div class="navbar-dropdown">
-                        <a class="navbar-item">
-                            About
-                        </a>
-                        <a class="navbar-item">
-                            Jobs
-                        </a>
-                        <a class="navbar-item">
-                            Contact
-                        </a>
-                        <hr class="navbar-divider">
-                        <a class="navbar-item">
-                            Report an issue
-                        </a>
+                        <router-link class="navbar-item" :to="{name: 'groupListView'}">
+                            {{'navbar.groups' | t}}
+                        </router-link>
+
+                        <router-link class="navbar-item" :to="{name: 'groupCreateView'}">{{'groups.add-group'|t}}</router-link>
                     </div>
-                </div> -->
+                </div>
             </div>
 
             <div class="navbar-end">

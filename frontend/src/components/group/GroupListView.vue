@@ -1,11 +1,11 @@
 <template>
-    <div>
-        <h2 class="mb-4">
-            <router-link :to="{name: 'groupCreateView'}">Add group</router-link>
-        </h2>
-
+    <section class="section">
+        <router-link class="button is-pulled-right" :to="{name: 'groupCreateView'}">{{'groups.add-group'|t}}</router-link>
+        <b-field style="width:300px" class="is-pulled-left">
+            <b-input v-model="query" placeholder="Szukaj"></b-input>
+        </b-field>
         <group-list :groups="groups" :pagination="pagination" @pageChange="handleChange"></group-list>
-    </div>
+    </section>
 </template>
 
 <script>
@@ -23,7 +23,8 @@
         data() {
             return {
                 groups: [],
-                pagination: {}
+                pagination: {},
+                query: ''
             }
         },
         watch: {
