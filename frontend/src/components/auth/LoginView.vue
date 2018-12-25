@@ -6,7 +6,7 @@
                     <h3 class="title has-text-grey">{{'loginView.header' | t}}</h3>
                     <p class="subtitle has-text-grey">{{'loginView.hint' | t}}</p>
                     <div class="notification is-danger" v-if="serverErrors">
-                        <p v-for="error in serverErrors">
+                        <p v-for="(error, index) in serverErrors" :key="index">
                             {{`errors.${error}` | t}}
                         </p>
                     </div>

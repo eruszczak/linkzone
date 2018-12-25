@@ -1,111 +1,31 @@
 <template>
     <div>
-        <v-tabs
-                grow
-                icons-and-text
-                tabs
-                v-model="selectedForm"
-        >
-            <v-tabs-slider color="yellow"></v-tabs-slider>
+        {{getCurrentForm()}}
+        <b-tabs v-model="selectedTab" type="is-toggle" expanded>
+            <b-tab-item :label="$t('posts.text')" icon="text">
+                <b-field :type="{'is-danger': triedToSubmit && errors.has('title')}" :message="triedToSubmit ? errors.first('title') : null">
+                    <b-input v-validate="'required'" name="title" icon="account" v-model="form.title" :placeholder="$t('posts.title')"></b-input>
+                </b-field>
+                <b-field :type="{'is-danger': triedToSubmit && errors.has('content')}" :message="triedToSubmit ? errors.first('content') : null">
+                    <b-input maxlength="1000" name="content" type="textarea" v-model="form.content" :placeholder="$t('posts.content')"></b-input>
+                </b-field>
+                <vue-markdown :anchorAttributes="{target: '_blank', rel: 'nofollow'}" :source="form.content"></vue-markdown>
+            </b-tab-item>
 
-            <v-tab :disabled="isTabDisabled(POST_TYPES.POST)" :href="`#${POST_TYPES.POST}`">
-                Post
-                <v-icon>phone</v-icon>
-            </v-tab>
+            <b-tab-item :label="$t('posts.media')" icon="image">
+                <b-field :type="{'is-danger': triedToSubmit && errors.has('title2')}" :message="triedToSubmit ? errors.first('title2') : null">
+                    <b-input v-validate="'required'" name="title2" icon="account" v-model="formMedia.title" :placeholder="$t('posts.title')"></b-input>
+                </b-field>
+                <img :src="`/static/${filename}`" style="max-width:300px;max-height:300px" v-if="filename">
+                <file-input @formData="handleImageUpload" is-image v-model="formMedia.content" :show-error="triedToSubmit"></file-input>
+            </b-tab-item>
 
-            <v-tab :disabled="isTabDisabled(POST_TYPES.MEDIA)" :href="`#${POST_TYPES.MEDIA}`">
-                Image
-                <v-icon>favorite</v-icon>
-            </v-tab>
+            <b-tab-item :label="$t('posts.link')" icon="link">
 
-            <v-tab :disabled="isTabDisabled(POST_TYPES.LINK)" :href="`#${POST_TYPES.LINK}`">
-                Link
-                <v-icon>account_box</v-icon>
-            </v-tab>
-            <v-tab-item
-                    :id="`${POST_TYPES.POST}`"
-            >
-                <v-card flat>
-                    <v-card-text>
-                        <v-form :ref="`form-${POST_TYPES.POST}`" lazy-validation v-model="form.valid">
-                            <v-text-field
-                                    :rules="[ruleIsNotEmpty]"
-                                    box
-                                    label="Title"
-                                    v-model="form.title"
-                            ></v-text-field>
-                            <v-container fluid grid-list-md>
-                                <v-layout row wrap>
-                                    <v-flex xs7>
-                                        <v-textarea
-                                                :rules="[ruleIsNotEmpty]"
-                                                box
-                                                label="Content"
-                                                v-model="form.content"
-                                        ></v-textarea>
-                                    </v-flex>
-                                    <v-flex xs5>
-                                        <v-card>
-                                            <v-card-text>
-                                                <vue-markdown :anchorAttributes="{target: '_blank', rel: 'nofollow'}"
-                                                              :source="form.content"></vue-markdown>
-                                            </v-card-text>
-                                        </v-card>
-                                    </v-flex>
-                                </v-layout>
-                            </v-container>
-                        </v-form>
-                        <!--<p>This editor lets you to use markdown. Here you can learn more about markdown syntax:</p>-->
-                        <!--<ul>-->
-                        <!--<li><a href="https://www.markdowntutorial.com" target="_blank">https://www.markdowntutorial.com/</a></li>-->
-                        <!--<li><a href="https://guides.github.com/features/mastering-markdown" target="_blank">https://guides.github.com/features/mastering-markdown</a></li>-->
-                        <!--</ul>-->
-                    </v-card-text>
-                </v-card>
-            </v-tab-item>
+            </b-tab-item>
+        </b-tabs>
 
-            <v-tab-item
-                    :id="`${POST_TYPES.MEDIA}`"
-            >
-                <v-form :ref="`form-${POST_TYPES.MEDIA}`" lazy-validation v-model="formMedia.valid">
-                    <v-text-field
-                            :rules="[ruleIsNotEmpty]"
-                            box
-                            label="Title"
-                            v-model="formMedia.title"
-                    ></v-text-field>
-                    <img :src="`/static/${filename}`" style="max-width:300px" v-if="filename">
-                    <file-input @formData="handleImageUpload" is-image v-model="formMedia.content"></file-input>
-                </v-form>
-            </v-tab-item>
-
-            <v-tab-item
-                    :id="`${POST_TYPES.LINK}`"
-            >
-                <v-form :ref="`form-${POST_TYPES.LINK}`" lazy-validation v-model="formLink.valid">
-                    <v-text-field
-                            :rules="[ruleIsNotEmpty]"
-                            box
-                            label="Title"
-                            v-model="formLink.title"
-                    ></v-text-field>
-                    <v-text-field
-                            :rules="[ruleIsNotEmpty, ruleUrl]"
-                            box
-                            label="Link"
-                            name="input-7-4"
-                            v-model="formLink.content"
-                    ></v-text-field>
-                </v-form>
-            </v-tab-item>
-        </v-tabs>
-
-        <v-checkbox label="Lock post"
-                    v-if="post"
-                    v-model="postLocked"
-        ></v-checkbox>
-
-        <v-btn @click="submit()" color="orange" flat>{{post ? 'Update' : 'Create'}}</v-btn>
+        <button class="button" @click="submit()" color="orange" flat>{{post ? 'Update' : 'Create'}}</button>
     </div>
 </template>
 
@@ -130,6 +50,8 @@
         data() {
             return {
                 POST_TYPES,
+                selectedTab: 0,
+                triedToSubmit: false,
                 selectedForm: POST_TYPES.POST,
                 filename: null,
                 postLocked: false,

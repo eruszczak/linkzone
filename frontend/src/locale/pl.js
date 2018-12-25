@@ -48,7 +48,15 @@ export default {
         "comments": "Komentarze",
         "save": "Zapisz",
         "added-by": "Dodane przez",
-        "in": "do"
+        "in": "do",
+        "pick-group": "Wybierz grupę",
+        "text": "Tekst",
+        "media": "Zdjęcie",
+        "link": "Link",
+        "create-header": "Dodaj post",
+        "search-group": "Wpisz nazwę grupy",
+        "title": "Tytuł",
+        "content": "Wiadomość"
     },
     "groups": {
         "empty": "Nie znaleziono żadnych grup"
@@ -61,4 +69,6 @@ export default {
     },
     "confirm": "Potwierdź",
     "cancel": "Anuluj",
+    "required": "Wartość jest wymagana",
+    "drop-image": "Upuść w tym polu obrazek lub kliknij, aby wybrać"
 }

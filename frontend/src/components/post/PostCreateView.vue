@@ -1,21 +1,23 @@
 <template>
     <section class="section">
-        <p class="content"><b>Selected:</b> {{ selected }}</p>
-        <b-field label="Find a movie">
+        <p class="title">{{'posts.create-header' | t}}</p>
+        <b-field :label="$t('posts.pick-group')" :type="{'is-danger': triedToSubmit && errors.first('group')}" :message="triedToSubmit ? errors.first('group') : null">
             <b-autocomplete
+                v-validate="'required'"
+                name="group"
                 v-model="name"
                 :data="data"
-                placeholder="e.g. Fight Club"
-                field="title"
+                :placeholder="$t('posts.search-group')"
+                field="name"
                 :loading="isFetching"
                 @keyup.native="getAsyncData"
                 @select="option => selected = option">
 
                 <template slot-scope="props">
                     <div class="media">
-                        <div class="media-left">
-                            <img width="32" :src="`https://image.tmdb.org/t/p/w500/${props.option.poster_path}`">
-                        </div>
+                        <!-- <div class="media-left"> -->
+                            <!-- <img width="32" :src="`https://image.tmdb.org/t/p/w500/${props.option.poster_path}`"> -->
+                        <!-- </div> -->
                         <div class="media-content">
                             {{ props.option.name }}; {{ props.option.createdAt | shortDate }}
                             <br>
@@ -27,10 +29,9 @@
                 </template>
             </b-autocomplete>
         </b-field>
-    </section>
-    <!-- <div>
+        <br>
         <post-creator @submit="createPost" @upload="filename = $event"></post-creator>
-    </div> -->
+    </section>
 </template>
 
 <script>
@@ -61,6 +62,7 @@
                 isUpdating: false,
                 items: [],
                 filename: null,
+                triedToSubmit: true,
 
                 data: [],
                 name: '',
@@ -69,12 +71,16 @@
             }
         },
         methods: {
-            createPost(value) {
+            createPost() {
+                this.triedToSubmit = true;
+                this.$validator.validate().then(result => {
+                    if (result) {
+                        // this._createPost();
+                    }
+                });
+            },
+            _createPost(value) {
                 console.log('craete post', value, this.selectedGroup, this.filename, value.selectedForm === POST_TYPES.MEDIA);
-                if (!this.selectedGroup) {
-                    return;
-                }
-
                 if (value.selectedForm === POST_TYPES.MEDIA) {
                     if (!this.filename) {
                         return;
@@ -92,8 +98,6 @@
                     })
                 })
             },
-                        // You have to install and import debounce to use it,
-            // it's not mandatory though.
             getAsyncData: debounce(function () {
                 if (!this.name.length) {
                     this.data = [];
@@ -103,50 +107,18 @@
 
                 console.log(this.name)
 
-                this.$groupService.getGroupList({}, this.name, res => {
+                this.$groupService.getGroupList(null, this.name, res => {
                     this.isFetching = false;
                     if (res.data.content.length === 0) {
+                        this.data = [];
                         return
                     }
                     this.data = res.data.content;
-                    // res.data.content = res.data.content.filter(i => this.groups.findIndex(g => g.id === i.id) === -1);
-                    // let index = this.items.findIndex((item => item.header === 'Other'));
-                    // if (index < 0) {
-                    //     this.items.push({header: 'Other'});
-                    //     index = this.items.length - 1;
-                    // }
-                    // console.log('before', this.items);
-                    // this.items.splice(index + 1, Infinity, ...res.data.content);
-                    // console.log('after', this.items);
-                    // this.items.push(...res.data.content);
 
-
-                    // this.items.map(i => i.avatar = 'https://cdn.vuetifyjs.com/images/lists/1.jpg');
-                    // this.items.map(i => i.group = i.description);
-
-                    // if (!query && this.groupOptions.length > 1) {
-                        
-                    // }
-                    // this.loading = false
                 }, () => {
                     this.isFetching = false;
                     // this.loading = false
                 })
-
-
-
-                // this.$http.get(`https://api.themoviedb.org/3/search/movie?api_key=bb6f51bef07465653c3e553d6ab161a8&query=${this.name}`)
-                //     .then(({ data }) => {
-                //         this.data = []
-                //         data.results.forEach((item) => this.data.push(item))
-                //     })
-                //     .catch((error) => {
-                //         this.data = []
-                //         throw error
-                //     })
-                //     .finally(() => {
-                //         this.isFetching = false
-                //     })
             }, 500)
         }
     }
