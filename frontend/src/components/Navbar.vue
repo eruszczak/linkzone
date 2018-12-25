@@ -14,15 +14,15 @@
 
         <div id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start">
-                <a class="navbar-item">
-                    Home
-                </a>
+                <router-link class="navbar-item" to="/">
+                    {{'navbar.main' | t}}
+                </router-link>
 
                 <router-link class="navbar-item" :to="{name: 'postCreateView'}">
                     {{'navbar.add-post' | t}}
                 </router-link>
 
-                <div class="navbar-item has-dropdown is-hoverable">
+                <!-- <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
                         More
                     </a>
@@ -42,10 +42,13 @@
                             Report an issue
                         </a>
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <div class="navbar-end">
+                <a href="https://github.com/reryk/reddit-clone" target="_blank" class="navbar-item mr-2">
+                    <b-icon icon="github-circle"></b-icon>
+                </a>
                 <div class="navbar-item has-dropdown is-hoverable" v-if="selectedLanguage">
                     <a class="navbar-link">
                         <img :src="`/${selectedLanguage.icon}`" width="24px"/>

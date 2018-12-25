@@ -80,7 +80,6 @@
                 this.filename = v
             },
             showError() {
-                console.log('changed showError')
                 this.$validator.validate();
             }
         },

@@ -71,11 +71,11 @@
             }
         },
         methods: {
-            createPost() {
+            createPost(value) {
                 this.triedToSubmit = true;
                 this.$validator.validate().then(result => {
                     if (result) {
-                        // this._createPost();
+                        this._createPost(value);
                     }
                 });
             },
