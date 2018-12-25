@@ -11,6 +11,7 @@ public interface IPostResponseDto {
     String getSlug();
     Instant getCreatedAt();
     PostType getType();
+    int getCommentCount();
     String getAuthor();
     String getAuthorAvatar();
     String getGroupName();

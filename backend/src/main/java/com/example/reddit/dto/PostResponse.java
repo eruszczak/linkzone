@@ -20,6 +20,7 @@ public class PostResponse {
     private boolean locked;
     private Integer isUpvoted;
     private Integer upvotedCount;
+    private int commentCount;
     private boolean isCreator;
 
     public PostResponse(Post post) {
@@ -44,6 +45,7 @@ public class PostResponse {
         locked = dto.getLocked();
         isUpvoted = dto.getUpvoted();
         upvotedCount = dto.getUpvotedCount();
+        commentCount = dto.getCommentCount();
     }
 
     public PostResponse(IPostResponseDto dto, Account account) {
