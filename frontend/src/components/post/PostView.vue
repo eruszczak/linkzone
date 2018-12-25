@@ -1,10 +1,7 @@
 <template>
     <section class="section" v-if="post">
         <nav class="breadcrumb" aria-label="breadcrumbs">
-            <!-- <span>{{post}}</span> -->
             <ul>
-                <li><a href="#">Bulma</a></li>
-                <li><a href="#">Documentation</a></li>
                 <li><router-link :to="{name: 'groupDetailView', params: {name: post.groupName}}">{{post.groupName}}</router-link></li>
                 <li class="is-active"><a href="#" aria-current="page">{{post.title}}</a></li>
             </ul>

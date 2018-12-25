@@ -37,7 +37,8 @@ public class AccountGroupRestController {
     public ResponseEntity<?> listGroupsSubscribedByUser(@PathVariable String username) {
         List<GroupMembership> groupMemberships = groupMembershipService
                 .findByAccountUsername(username);
-        List<GroupResponse> response = groupMemberships.stream().map(gm -> new GroupResponse(gm.getGroup())).collect(Collectors.toList());
+        List<GroupResponse> response = groupMemberships
+                .stream().map(gm -> new GroupResponse(gm.getGroup())).collect(Collectors.toList());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

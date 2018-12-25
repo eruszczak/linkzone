@@ -18,9 +18,9 @@
                     Home
                 </a>
 
-                <a class="navbar-item">
-                    Documentation
-                </a>
+                <router-link class="navbar-item" :to="{name: 'postCreateView'}">
+                    {{'navbar.add-post' | t}}
+                </router-link>
 
                 <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">

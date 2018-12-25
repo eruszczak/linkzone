@@ -50,14 +50,14 @@ public class GroupRestController {
     }
 
     @GetMapping(value = "/")
-    public ResponseEntity<?> list(Pageable pageable, @RequestParam(value = "name", required = false) String name) {
-        Page<Group> groups;
-        // todo: sort by isSubbed
-        System.out.println(name);
-        if (StringUtils.isNotBlank(name)) {
-            groups = groupService.search(pageable, name);
+    public ResponseEntity<?> list(Pageable pageable, @RequestParam(value = "name", required = false) String query, @CurrentUser UserPrincipal currentUser) {
+        Long userId = currentUser != null ? currentUser.getAccount().getId() : - 1;
+        Page<IGroupResponseDto> groups;
+        if (StringUtils.isNotBlank(query)) {
+            groups = groupService.search(pageable, query, userId);
         } else {
-            groups = groupService.findAll(pageable);
+            groups = groupService.search(pageable, "", userId);
+//            groups = groupService.findAll(pageable);
         }
         Page<GroupResponse> response = groups.map(GroupResponse::new);
         return new ResponseEntity<>(response, HttpStatus.OK);

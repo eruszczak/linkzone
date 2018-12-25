@@ -2,6 +2,7 @@ package com.example.reddit.service;
 
 import com.example.reddit.dto.GroupCreate;
 import com.example.reddit.dto.GroupUpdate;
+import com.example.reddit.dto.IGroupResponseDto;
 import com.example.reddit.exception.NotFoundException;
 import com.example.reddit.model.Account;
 import com.example.reddit.model.Group;
@@ -33,8 +34,8 @@ public class GroupService {
         return groupRepository.findAll(pageable);
     }
 
-    public Page<Group> search(Pageable pageable, String name) {
-        return groupRepository.findByNameIgnoreCaseContaining(pageable, name);
+    public Page<IGroupResponseDto> search(Pageable pageable, String name, Long accountId) {
+        return groupRepository.search("%" + name + "%", accountId, pageable);
     }
 
     public Group create(GroupCreate groupCreate, Account account) {

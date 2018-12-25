@@ -1,73 +1,57 @@
 <template>
-    <div>
-        <v-autocomplete
-                :deletable-chips="true"
-                :disabled="isUpdating"
-                :error="error"
-                :items="items"
-                :no-filter="true"
-                :search-input.sync="search"
-                box
-                chips
-                color="blue-grey lighten-2"
-                item-text="name"
-                item-value="name"
-                label="Select"
-                placeholder="Start typing to Search"
-                prepend-icon="mdi-database-search"
-                v-model="selectedGroup"
-        >
-            <template
-                    slot="selection"
-                    slot-scope="data"
-            >
-                <v-chip
-                        :selected="data.selected"
-                        @input="remove(data.item)"
-                        class="chip--select-multi"
-                        close
-                >
-                    <v-avatar>
-                        <img :src="data.item.avatar">
-                    </v-avatar>
-                    {{ data.item.name }}
-                </v-chip>
-            </template>
-            <template
-                    slot="item"
-                    slot-scope="data"
-            >
-                <template v-if="typeof data.item !== 'object'">
-                    <v-list-tile-content v-text="data.item"></v-list-tile-content>
-                </template>
-                <template v-else>
-                    <v-list-tile-avatar>
-                        <img :src="data.item.avatar">
-                    </v-list-tile-avatar>
-                    <v-list-tile-content>
-                        <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
-                        <v-list-tile-sub-title v-html="data.item.group"></v-list-tile-sub-title>
-                    </v-list-tile-content>
-                </template>
-            </template>
-        </v-autocomplete>
+    <section class="section">
+        <p class="content"><b>Selected:</b> {{ selected }}</p>
+        <b-field label="Find a movie">
+            <b-autocomplete
+                v-model="name"
+                :data="data"
+                placeholder="e.g. Fight Club"
+                field="title"
+                :loading="isFetching"
+                @keyup.native="getAsyncData"
+                @select="option => selected = option">
 
+                <template slot-scope="props">
+                    <div class="media">
+                        <div class="media-left">
+                            <img width="32" :src="`https://image.tmdb.org/t/p/w500/${props.option.poster_path}`">
+                        </div>
+                        <div class="media-content">
+                            {{ props.option.name }}; {{ props.option.createdAt | shortDate }}
+                            <br>
+                            <small>
+                                {{props.option.description}}
+                            </small>
+                        </div>
+                    </div>
+                </template>
+            </b-autocomplete>
+        </b-field>
+    </section>
+    <!-- <div>
         <post-creator @submit="createPost" @upload="filename = $event"></post-creator>
-    </div>
+    </div> -->
 </template>
 
 <script>
     import {mapGetters, mapMutations} from 'vuex'
     import PostCreator from './PostCreator'
     import {POST_TYPES} from "../../services/PostService";
+    import debounce from 'lodash/debounce'
 
     export default {
         name: 'PostCreateView',
         components: {PostCreator},
-        props: ['groupName'],
-        created() {
-            this.initSubbedGroups(true);
-            console.log('post create view, created()')
+        props: {
+            groupName: {
+                type: String,
+                required: false
+            }
+        },
+        mounted() {
+            if (this.groupName) {
+                // this.selectedGroup = this.groupName
+            }
         },
         data() {
             return {
@@ -76,91 +60,15 @@
                 search: null,
                 isUpdating: false,
                 items: [],
-                filename: null
+                filename: null,
+
+                data: [],
+                name: '',
+                selected: null,
+                isFetching: false
             }
-        },
-        watch: {
-            selectedGroup(val) {
-                if (val) {
-                    this.$router.push({name: 'postCreateView', params: {groupName: val}})
-                }
-            },
-            isUpdating(val) {
-                if (val) {
-                    setTimeout(() => (this.isUpdating = false), 3000)
-                }
-            },
-            filteredGroups2(val) {
-                console.log('watching filterGroups2', val);
-                // if (!val) {
-                //     return
-                // }
-                this.initSubbedGroups()
-            },
-            search(val) {
-                if (val && val.length > 2) {
-                    this.selectedGroup = null;
-                    this.getGroupOptions(val);
-                    this.filterGroups2(val)
-                }
-            }
-        },
-        computed: {
-            error() {
-                return !this.selectedGroup
-            },
-            ...mapGetters(['filteredGroups2', 'groups'])
         },
         methods: {
-            ...mapMutations(['filterGroups2']),
-            initSubbedGroups(created) {
-                if (this.items.length === 0) {
-                    this.items.push({header: 'Subscribed'})
-                }
-
-                let index = this.items.findIndex((item => item.header === 'Other'));
-                if (created) {
-                    this.items.splice(1, index - 1, ...this.groups)
-                } else {
-                    this.items.splice(1, index - 1, ...this.filteredGroups2)
-                }
-
-                if (this.groupName) {
-                    this.selectedGroup = this.groupName
-                }
-
-                this.items.map(i => i.avatar = 'https://cdn.vuetifyjs.com/images/lists/1.jpg');
-                this.items.map(i => i.group = i.description)
-            },
-            getGroupOptions(query) {
-                query = query ? query : '';
-                // this.loading = true
-                this.$groupService.getGroupList({}, query, res => {
-                    if (res.data.content.length === 0) {
-                        return
-                    }
-                    res.data.content = res.data.content.filter(i => this.groups.findIndex(g => g.id === i.id) === -1);
-                    let index = this.items.findIndex((item => item.header === 'Other'));
-                    if (index < 0) {
-                        this.items.push({header: 'Other'});
-                        index = this.items.length - 1;
-                    }
-                    console.log('before', this.items);
-                    this.items.splice(index + 1, Infinity, ...res.data.content);
-                    console.log('after', this.items);
-                    this.items.push(...res.data.content);
-
-
-                    this.items.map(i => i.avatar = 'https://cdn.vuetifyjs.com/images/lists/1.jpg');
-                    this.items.map(i => i.group = i.description);
-
-                    if (!query && this.groupOptions.length > 1) {
-                    }
-                    // this.loading = false
-                }, () => {
-                    // this.loading = false
-                })
-            },
             createPost(value) {
                 console.log('craete post', value, this.selectedGroup, this.filename, value.selectedForm === POST_TYPES.MEDIA);
                 if (!this.selectedGroup) {
@@ -183,7 +91,63 @@
                         }
                     })
                 })
-            }
+            },
+                        // You have to install and import debounce to use it,
+            // it's not mandatory though.
+            getAsyncData: debounce(function () {
+                if (!this.name.length) {
+                    this.data = [];
+                    return
+                }
+                this.isFetching = true;
+
+                console.log(this.name)
+
+                this.$groupService.getGroupList({}, this.name, res => {
+                    this.isFetching = false;
+                    if (res.data.content.length === 0) {
+                        return
+                    }
+                    this.data = res.data.content;
+                    // res.data.content = res.data.content.filter(i => this.groups.findIndex(g => g.id === i.id) === -1);
+                    // let index = this.items.findIndex((item => item.header === 'Other'));
+                    // if (index < 0) {
+                    //     this.items.push({header: 'Other'});
+                    //     index = this.items.length - 1;
+                    // }
+                    // console.log('before', this.items);
+                    // this.items.splice(index + 1, Infinity, ...res.data.content);
+                    // console.log('after', this.items);
+                    // this.items.push(...res.data.content);
+
+
+                    // this.items.map(i => i.avatar = 'https://cdn.vuetifyjs.com/images/lists/1.jpg');
+                    // this.items.map(i => i.group = i.description);
+
+                    // if (!query && this.groupOptions.length > 1) {
+                        
+                    // }
+                    // this.loading = false
+                }, () => {
+                    this.isFetching = false;
+                    // this.loading = false
+                })
+
+
+
+                // this.$http.get(`https://api.themoviedb.org/3/search/movie?api_key=bb6f51bef07465653c3e553d6ab161a8&query=${this.name}`)
+                //     .then(({ data }) => {
+                //         this.data = []
+                //         data.results.forEach((item) => this.data.push(item))
+                //     })
+                //     .catch((error) => {
+                //         this.data = []
+                //         throw error
+                //     })
+                //     .finally(() => {
+                //         this.isFetching = false
+                //     })
+            }, 500)
         }
     }
 </script>

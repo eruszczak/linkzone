@@ -53,9 +53,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             nativeQuery = true)
     Page<IPostResponseDto> findByAccountUsername(String username, Long accountId, Pageable pageable);
 
-    // TODO countQuery
-    // TODO countQuery
-    // TODO countQuery
     @Query(value = "SELECT p.id as id, p.title as title, p.content as content, p.slug as slug, p.type as type, a.username as author, g.name as groupName, p.locked as locked, p.created_at as createdAt," +
             " (SELECT COUNT(*) FROM comments c WHERE c.post_id = p.id) as commentCount," +
             " (SELECT pu.is_upvote FROM post_upvote pu WHERE pu.post_id = p.id AND pu.account_id = :accountId) as upvoted," +

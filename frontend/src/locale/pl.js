@@ -6,7 +6,8 @@ export default {
         "register": "Rejestracja",
         "logout": "Wyloguj",
         "my-profile": "Mój profil",
-        "settings": "Ustawienia"
+        "settings": "Ustawienia",
+        "add-post": "Dodaj post"
     },
     "loginView": {
         "header": "Logowanie",

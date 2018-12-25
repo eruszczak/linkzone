@@ -150,15 +150,7 @@
                 <!--<v-container class="grey lighten-4" fluid>-->
                     <!--&lt;!&ndash; <div style="padding: 30px"> &ndash;&gt;-->
                     <!--<router-view/>-->
-                    <!--<v-btn-->
-                            <!--@click="goToCreatePost()"-->
-                            <!--absolute-->
-                            <!--bottom-->
-                            <!--color="pink"-->
-                            <!--dark-->
-                            <!--fab-->
-                            <!--left-->
-                    <!--&gt;-->
+
                         <!--<v-icon>add</v-icon>-->
                     <!--</v-btn>-->
                     <!--&lt;!&ndash; </div> &ndash;&gt;-->
@@ -256,9 +248,6 @@
             },
             goToGroupDetail(group) {
                 this.$router.push({name: 'groupDetailView', params: {name: group.name}})
-            },
-            goToCreatePost() {
-                this.$router.push({name: 'postCreateView'})
             },
             filter() {
                 this.filterGroups(this.filterValue)
