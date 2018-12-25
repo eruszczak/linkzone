@@ -64,7 +64,7 @@ const router = new Router({
         },
         {
             name: 'postView',
-            path: '/groups/:name/:postID',
+            path: '/groups/:name/:postID/:slug?',
             component: PostView,
             props: true
         },

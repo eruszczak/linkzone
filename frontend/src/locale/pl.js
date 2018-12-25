@@ -43,7 +43,11 @@ export default {
     },
     "posts": {
         "empty": "Nie znaleziono żadnych postów",
-        "locked": "Post został zablokowany. Nowe komentarze nie mogą zostać dodane."
+        "locked": "Post został zablokowany. Nowe komentarze nie mogą zostać dodane.",
+        "comments": "Komentarze",
+        "save": "Zapisz",
+        "added-by": "Dodane przez",
+        "in": "do"
     },
     "groups": {
         "empty": "Nie znaleziono żadnych grup"

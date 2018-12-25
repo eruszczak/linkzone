@@ -7,6 +7,8 @@ import com.example.reddit.model.Post;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.Instant;
+
 @Getter
 @Setter
 public class PostResponse {
@@ -22,6 +24,7 @@ public class PostResponse {
     private Integer upvotedCount;
     private int commentCount;
     private boolean isCreator;
+    private Instant createdAt;
 
     public PostResponse(Post post) {
         id = post.getId();
@@ -46,6 +49,7 @@ public class PostResponse {
         isUpvoted = dto.getUpvoted();
         upvotedCount = dto.getUpvotedCount();
         commentCount = dto.getCommentCount();
+        createdAt = dto.getCreatedAt();
     }
 
     public PostResponse(IPostResponseDto dto, Account account) {

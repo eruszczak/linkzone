@@ -1,6 +1,6 @@
 <template>
     <div>
-        <post :post="post" v-for="post in posts"></post>
+        <post :post="post" v-for="post in posts" :key="post.id" link></post>
         <b-notification v-if="posts.length === 0" :closable="false">
             {{'posts.empty' | t}}
         </b-notification>

@@ -1,10 +1,14 @@
 <template>
     <section class="section">
         <div class="container">
-            <h1 class="title"><router-link :to="{name: 'postView', params: {name: post.groupName, postID: post.id}}">{{post.title}}</router-link></h1>
-            <h2 class="subtitle">
+            <small>{{'posts.added-by' | t}} <router-link :to="{name: 'userProfileView', params: {username: post.author}}">{{post.author}}</router-link> {{'posts.in' | t}} <router-link :to="{name: 'groupDetailView', params: {name: post.groupName}}">{{post.groupName}}</router-link>, {{post.createdAt | shortDate}}</small>
+            <p class="title is-4">
+                <router-link v-if="link" :to="{name: 'postView', params: {name: post.groupName, postID: post.id, slug: post.slug}}">{{post.title}}</router-link>
+                <span v-else>{{post.title}}</span>
+            </p>
+            <!-- <h2 class="subtitle">
                 A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading
-            </h2>
+            </h2> -->
             <div class="content ml-4">
                 <div v-if="post.type === POST_TYPES.POST">
                     <vue-markdown :anchorAttributes="{target: '_blank', rel: 'nofollow'}" :source="post.content"></vue-markdown>
@@ -18,16 +22,11 @@
                     <p v-else>{{post.content}}</p>
                 </div>
             </div>
-            <button class="button" :class="[getUpvoteColor(post, true)]" @click="upvote">
-                <b-icon icon="arrow-up"></b-icon>
-            </button>
-            <button class="button">comments: {{post.commentCount}}</button>
-            <button class="button" :class="[getUpvoteColor(post, false)]" @click="downvote">
-                <b-icon icon="arrow-down"></b-icon>
-            </button>
-            <button class="button">{{post.upvotedCount || 0}}; upvoted? {{post.isUpvoted}}</button>
-            <button class="button" :color="getUpvoteColor(post, true)" @click="upvote">Upvote</button>
-            <button class="button" :color="getUpvoteColor(post, false)" @click="downvote">Downvote</button>
+            <a class="button is-small" @click="upvote"><b-icon :type="getUpvoteColor(post, true)" icon="arrow-up"></b-icon></a>
+            <b-tag type="is-white">{{post.upvotedCount || 0}}</b-tag>
+            <a class="button is-small" @click="downvote"><b-icon :type="getUpvoteColor(post, false)" icon="arrow-down"></b-icon></a>
+            <span class="ml-2">{{'posts.comments'| t}}: {{post.commentCount}}</span>
+            <span class="ml-2">{{'posts.save' | t}}</span>
         </div>
     </section>
 </template>
@@ -44,6 +43,10 @@
             post: {
                 type: Object,
                 required: true
+            },
+            link: {
+                type: Boolean,
+                default: false
             }
         },
         computed: {
