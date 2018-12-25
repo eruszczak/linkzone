@@ -21,11 +21,16 @@
             </b-tab-item>
 
             <b-tab-item :label="$t('posts.link')" icon="link">
-
+                <b-field :type="{'is-danger': triedToSubmit && errors.has('title3')}" :message="triedToSubmit ? errors.first('title3') : null">
+                    <b-input v-validate="'required'" name="title3" icon="account" v-model="formLink.title" :placeholder="$t('posts.title')"></b-input>
+                </b-field>
+                <b-field :type="{'is-danger': triedToSubmit && errors.has('link')}" :message="triedToSubmit ? errors.first('link') : null">
+                    <b-input v-validate="'required'" name="link" icon="link" v-model="formLink.content" :placeholder="$t('posts.link')"></b-input>
+                </b-field>
             </b-tab-item>
         </b-tabs>
 
-        <button class="button" @click="submit()" color="orange" flat>{{post ? 'Update' : 'Create'}}</button>
+        <button class="button" @click="submit()">{{ post ? $t('update') : $t('add') }}</button>
     </div>
 </template>
 
@@ -85,17 +90,23 @@
         },
         methods: {
             submit() {
-                if (this.$refs[`form-${this.selectedForm}`].validate()) {
-                    const form = this.getCurrentForm();
-                    this.$emit('submit', {
-                        form: {
-                            title: form.title,
-                            content: form.content
-                        },
-                        selectedForm: this.selectedForm,
-                        postLocked: this.postLocked
-                    });
-                }
+                this.triedToSubmit = true;
+                this.$validator.validate().then(result => {
+                    if (result) {
+                        // this._submit();
+                    }
+                });
+            },
+            _submit() {
+                //     const form = this.getCurrentForm();
+                //     this.$emit('submit', {
+                //         form: {
+                //             title: form.title,
+                //             content: form.content
+                //         },
+                //         selectedForm: this.selectedForm,
+                //         postLocked: this.postLocked
+                //     });
             },
             isTabDisabled(type) {
                 return this.post && this.post.type !== type;

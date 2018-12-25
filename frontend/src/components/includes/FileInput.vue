@@ -5,7 +5,7 @@
                 {{ file.name }}
             </strong>
             <b-field :type="{'is-danger': showError && errors.has('image')}" :message="showError ? errors.first('image') : null">
-                <b-upload name="image" v-model="file" drag-drop accept="image/x-png,image/gif,image/jpeg" @input="onFileChange" :disabled="disabled">
+                <b-upload v-validate="'required'" name="image" v-model="file" drag-drop accept="image/x-png,image/gif,image/jpeg" @input="onFileChange" :disabled="disabled">
                     <section class="section">
                         <div class="content has-text-centered">
                             <p>
@@ -78,6 +78,10 @@
         watch: {
             value(v) {
                 this.filename = v
+            },
+            showError() {
+                console.log('changed showError')
+                this.$validator.validate();
             }
         },
         mounted() {
