@@ -64,13 +64,13 @@ const router = new Router({
         },
         {
             name: 'postView',
-            path: '/groups/:name/:postID/:slug?',
+            path: '/groups/:name/:postID/:slug',
             component: PostView,
             props: true
         },
         {
             name: 'postUpdateView',
-            path: '/groups/:name/:id/update',
+            path: '/post/:id/update',
             component: PostUpdateView,
             props: true
         },

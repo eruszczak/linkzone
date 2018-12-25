@@ -14,7 +14,7 @@
                     <vue-markdown :anchorAttributes="{target: '_blank', rel: 'nofollow'}" :source="post.content"></vue-markdown>
                 </div>
                 <div v-else-if="post.type === POST_TYPES.MEDIA">
-                    <img :src="`/static/${post.content}`">
+                    <img style="max-width:150px;max-height:150px" :src="`/static/${post.content}`">
                 </div>
                 <div v-else-if="post.type === POST_TYPES.LINK">
                     <img v-if="checkIfImageUrl(post.content)" :src="post.content">

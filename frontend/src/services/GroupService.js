@@ -9,13 +9,13 @@ export default class GroupService {
 
     subscribe(group, cb, cbError) {
         axios.post(`/groups/${group.name}/membership/`).then(cb, cbError).then(() => {
-            store.commit('addGroup', group)
+            // store.commit('addGroup', group)
         });
     }
 
     unsubscribe(group, cb, cbError) {
         axios.delete(`/groups/${group.name}/membership/`).then(cb, cbError).then(() => {
-            store.commit('unsubGroup', group)
+            // store.commit('unsubGroup', group)
         });
     }
 

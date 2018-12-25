@@ -22,6 +22,10 @@
                     {{'navbar.add-post' | t}}
                 </router-link>
 
+                <router-link class="navbar-item" :to="{name: 'groupListView'}">
+                    {{'navbar.groups' | t}}
+                </router-link>
+
                 <!-- <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
                         More

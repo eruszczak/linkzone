@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <section class="section">
         <b-tabs v-model="selectedTab" type="is-toggle" expanded>
             <b-tab-item :label="$t('posts.text')" icon="text">
                 <div class="column is-8 is-offset-2">
@@ -14,7 +14,7 @@
             </b-tab-item>
 
             <b-tab-item :label="$t('posts.media')" icon="image">
-                <div class="column is-8 is-offset-2">
+                <div class="column is-8 is-offset-2" v-if="getSelectedPostType() === POST_TYPES.MEDIA">
                     <b-field :type="{'is-danger': triedToSubmit && errors.has('media.title')}" :message="triedToSubmit ? errors.first('media.title') : null">
                         <b-input v-validate="'required'" name="title" icon="account" v-model="formMedia.title" :placeholder="$t('posts.title')" data-vv-scope="media"></b-input>
                     </b-field>
@@ -35,13 +35,18 @@
             </b-tab-item>
         </b-tabs>
 
-        <div class="field" v-if="post">
-            <b-checkbox v-model="postLocked">{{'posts.update-locked'|t}}</b-checkbox>
-            <small>{{'posts.update-locked-hint' |t}}</small>
+        <b-notification type="is-warning">
+            <div class="field" v-if="post">
+                <b-checkbox v-model="postLocked">{{'posts.update-locked'|t}}</b-checkbox>
+                <p><small>{{'posts.update-locked-hint' |t}}</small></p>
+            </div>
+        </b-notification>
+
+        <div class="has-text-centered mt-2">
+            <button class="button is-primary" @click="submit()">{{ post ? $t('update') : $t('add') }}</button>
         </div>
 
-        <button class="button is-primary" @click="submit()">{{ post ? $t('update') : $t('add') }}</button>
-    </div>
+    </section>
 </template>
 
 <script>
