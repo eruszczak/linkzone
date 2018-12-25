@@ -15,7 +15,7 @@
     export default {
         name: 'GroupListView',
         components: {
-            GroupList,
+            GroupList
         },
         mounted() {
             this.getGroups();

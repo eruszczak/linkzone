@@ -35,7 +35,7 @@
             </b-tab-item>
         </b-tabs>
 
-        <b-notification type="is-warning">
+        <b-notification type="is-warning" :closable="false">
             <div class="field" v-if="post">
                 <b-checkbox v-model="postLocked">{{'posts.update-locked'|t}}</b-checkbox>
                 <p><small>{{'posts.update-locked-hint' |t}}</small></p>
