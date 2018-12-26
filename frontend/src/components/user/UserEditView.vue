@@ -1,95 +1,50 @@
 <template>
-    <div>
-        <v-alert
-                :value="errorList.length > 0"
-                type="error"
-        >
-            {{errorList[0]}}
-        </v-alert>
-        <v-card
-                class="hide-overflow"
-                color="purple lighten-1"
-                dark
-        >
-            <v-toolbar
-                    card
-                    color="purple"
-            >
-                <v-icon>mdi-account</v-icon>
-                <v-toolbar-title class="font-weight-light">User Profile</v-toolbar-title>
-                <v-spacer></v-spacer>
-                <v-btn
-                        @click="isEditing = !isEditing"
-                        color="purple darken-3"
-                        fab
-                        small
-                >
-                    <v-icon v-if="isEditing">mdi-close</v-icon>
-                    <v-icon v-else>mdi-pencil</v-icon>
-                </v-btn>
-            </v-toolbar>
-            <v-card-text>
-                <v-text-field
-                        :disabled="!isEditing"
-                        :rules="[ruleIsNotEmpty]"
-                        color="white"
-                        label="Username"
-                        v-model="form.username"
-                ></v-text-field>
-                <v-text-field
-                        :disabled="!isEditing"
-                        :rules="[ruleEmail]"
-                        color="white"
-                        label="Email"
-                        v-model="form.email"
-                ></v-text-field>
-                <v-text-field
-                        :disabled="!isEditing"
-                        color="white"
-                        label="Tagline"
-                        v-model="form.tagline"
-                ></v-text-field>
-                <v-text-field :disabled="!isEditing" :rules="[]" label="Password" name="password" prepend-icon="lock"
-                              type="password" v-model="form.password"></v-text-field>
-                <v-text-field :disabled="!isEditing" :rules="[]" label="Password confirm" name="password"
-                              prepend-icon="lock"
-                              type="password" v-model="form.passwordConfirm"></v-text-field>
+    <section v-if="user" class="section">
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+            <ul>
+                <li><router-link :to="{name: 'userProfileView', params: {username: user.username}}">{{user.username}}</router-link></li>
+                <li class="is-active"><a href="#" aria-current="page">{{'userEditView'|t}}</a></li>
+            </ul>
+        </nav>
 
-                <div>
+        <b-notification v-if="errorList.length > 0" type="is-danger">
+            {{`errors.${errorList[0]}` | t}}
+        </b-notification>
+        <!-- <div class="box"> -->
+            <b-field :type="{'is-danger': triedToSubmit && errors.has('username')}" :message="triedToSubmit ? errors.first('username') : null">
+                <b-input v-validate="'required'" name="username" icon="account" v-model="form.username" :placeholder="$t('')"></b-input>
+            </b-field>
+            <b-field :type="{'is-danger': triedToSubmit && errors.has('email')}" :message="triedToSubmit ? errors.first('email') : null">
+                <b-input v-validate="'required|email'" name="email" icon="email" v-model="form.email" :placeholder="$t('registerView.email')"></b-input>
+            </b-field>
+            <b-field>
+                <b-input name="tagline" icon="text" type="text" v-model="form.tagline" :placeholder="$t('account.tagline')"></b-input>
+            </b-field>
+            <b-field :type="{'is-danger': triedToSubmit && errors.has('password')}" :message="triedToSubmit ? errors.first('password') : null">
+                <b-input v-validate="{ min: 6, max: 50 }" name="password" icon="lock" type="password" ref="password" v-model="form.password" :placeholder="$t('registerView.password')"></b-input>
+            </b-field>
+            <b-field :type="{'is-danger': triedToSubmit && errors.has('password-confirm')}" :message="triedToSubmit ? errors.first('password-confirm') : null">
+                <b-input v-validate="{ min: 6, max: 50, confirmed: 'password' }" name="password-confirm" icon="lock" type="password" v-model="form.passwordConfirm" :placeholder="$t('registerView.password-confirm')"></b-input>
+            </b-field>
+            
+            <div class="has-text-centered mt-2">
+                <button class="button is-primary" @click="save">{{'update' | t}}</button>
+            </div>
+        <!-- </div> -->
+
+                        <!-- <div>
                     <img v-if="avatarFilename" :src="`/static/${avatarFilename}`" width="100"/>
                     <file-input :disabled="!isEditing" :is-image="true" @formData="handleFormData" v-model="avatarFilename"></file-input>
                     <v-btn :disabled="avatarFormData.length === 0" @click.native="uploadAvatar" v-if="isEditing">Upload
                         avatar
                     </v-btn>
-                </div>
-            </v-card-text>
-            <v-divider></v-divider>
-            <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn
-                        :disabled="!isEditing"
-                        @click="save"
-                        color="success"
-                >
-                    Save
-                </v-btn>
-            </v-card-actions>
-            <v-snackbar
-                    :timeout="2000"
-                    absolute
-                    bottom
-                    left
-                    v-model="hasSaved"
-            >
-                Your profile has been updated
-            </v-snackbar>
-        </v-card>
-    </div>
+                </div> -->
+    </section>
 </template>
 
 <script>
     import validation from "../../mixins/validation";
-
+    import {mapGetters} from 'vuex';
     import FileInput from '../includes/FileInput';
 
     export default {
@@ -113,11 +68,9 @@
                 avatarFilename: '',
                 avatarErrors: [],
                 avatarFormData: [],
-                hasSaved: false,
                 errorList: [],
-                isEditing: null,
                 model: null,
-                username: null,
+                triedToSubmit: false,
                 form: {
                     username: null,
                     email: null,
@@ -127,18 +80,32 @@
                 }
             }
         },
+        computed: {
+            ...mapGetters(['user'])
+        },
         methods: {
             save() {
+                this.triedToSubmit = true;
                 this.errorList = [];
-                this.$userService.updateAccount(this.username, {
+                this.$validator.validate().then(result => {
+                    if (result) {
+                        this._save()
+                    }
+                });
+            },
+            _save() {
+                this.$userService.updateAccount({
                     username: this.form.username,
                     email: this.form.email,
                     tagline: this.form.tagline,
                     password: this.form.password,
                     passwordConfirm: this.form.passwordConfirm
-                }, () => {
-                    this.hasSaved = true;
-                    this.isEditing = !this.isEditing
+                }, ({data}) => {
+                    this.$toast.open({
+                        message: this.$t('updated-success'),
+                        type: 'is-success'
+                    });
+                    this.$userService.updateUserDetails(data);
                 }, ({data}) => {
                     console.error(data);
                     this.errorList = data.errors;
@@ -153,7 +120,7 @@
             },
             uploadAvatar() {
                 this.errorList = [];
-                this.$userService.uploadAvatar(this.username, this.avatarFormData[0], ({data}) => {
+                this.$userService.uploadAvatar(this.avatarFormData[0], ({data}) => {
                     this.avatarFilename = data.fileName;
                     this.avatarFormData = []
                 }, ({data}) => {

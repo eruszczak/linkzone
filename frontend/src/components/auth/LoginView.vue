@@ -1,5 +1,5 @@
 <template>
-    <section class="hero">
+    <section class="hero" @keyup.enter="login">
         <div class="hero-body">
             <div class="container has-text-centered">
                 <div class="column is-6 is-offset-3">

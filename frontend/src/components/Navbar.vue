@@ -54,6 +54,7 @@
                         </a>
                     </div>
                 </div>
+                <!-- <a class="navbar-item" @click="logout">logout</a> -->
                 <div class="navbar-item has-dropdown is-hoverable" v-if="isAuthenticated && user">
                     <a class="navbar-link">
                         {{user.username}}

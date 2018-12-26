@@ -1,8 +1,14 @@
 package com.example.reddit.dto;
 
 import com.example.reddit.model.Account;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class AccountDetails {
+
+    private Long id;
 
     private String username;
 
@@ -13,41 +19,10 @@ public class AccountDetails {
     private String avatar;
 
     public AccountDetails(Account account) {
+        setId(account.getId());
         setEmail(account.getEmail());
         setUsername(account.getUsername());
         setTagline(account.getTagline());
         setAvatar(account.getAvatar());
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getTagline() {
-        return tagline;
-    }
-
-    public void setTagline(String tagline) {
-        this.tagline = tagline;
     }
 }

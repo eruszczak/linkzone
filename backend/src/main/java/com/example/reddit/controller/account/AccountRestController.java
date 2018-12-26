@@ -138,7 +138,7 @@ public class AccountRestController {
             throw new ValidationErrorException(errors);
         }
         accountService.update(account, accountUpdate);
-        return new ResponseEntity<>(ModelMapper.mapAccountToSummary(account), HttpStatus.OK);
+        return new ResponseEntity<>(new AccountDetails(account), HttpStatus.OK);
     }
 
     @PostMapping(value = "/{username}/upload-avatar")

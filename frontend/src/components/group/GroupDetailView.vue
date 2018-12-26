@@ -14,6 +14,7 @@
         <p class="subtitle is-6">description: {{group.description}}</p>
 
         <sub-toggler :group="group"></sub-toggler>
+        <small class="ml-2">{{group.createdAt | shortDate}}</small>
 
         <a class="button" :to="{name: 'postCreateView', params: {groupName: group.name}}">
             {{'add-post-in-group' | t}}

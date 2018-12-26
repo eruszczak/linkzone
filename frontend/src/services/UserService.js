@@ -16,45 +16,42 @@ export default class UserService {
         if (decodedToken) {
             const time = Date.now() / 1000;
             if (token.exp < time) {
-                return false
+                return false;
             }
-            this.refreshToken(token);
+            // this.refreshToken(token);
             return true;
         }
-        return false
+        return false;
     }
 
     decodeToken(token) {
         if (!token) {
-            return null
+            return null;
         }
         return jwt_decode(token)
     }
 
-    refreshToken(token) {
+    // refreshToken(token) {
         // if soon expires: this.extendToken()
-    }
+    // }
 
     authenticate = (username, password, cb, cbError) => {
         axios.post('/users/login/', {
             usernameOrEmail: username,
             password: password
         }).then(res => {
-            store.commit('toggleLoading', false);
+            // store.commit('toggleLoading', false);
             store.commit('setIsAuthenticated', true);
             store.commit('setAccessToken', res.data.accessToken);
             localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_KEY, res.data.accessToken);
-            this.authNotifier.emit('authChange');
+            // this.authNotifier.emit('authChange');
             cb && cb();
             if (store.getters.next) {
                 console.warn(store.getters.next);
                 router.push(store.getters.next);
                 store.commit('setNextRoute', null);
             }
-        }).catch(res => {
-            console.log('catch error.response', res);
-            cbError && cbError(res)
-        });
+        }).catch(cbError);
     };
 
     register = (data, cb, cbError) => {
@@ -117,9 +114,7 @@ export default class UserService {
     }
 
     getUpdateInfo = (cb, cbError) => {
-        axios.get(`/users/details/`).then(cb, function (error) {
-            console.log('catch error.response', error.response)
-        });
+        axios.get(`/users/details/`).then(cb).catch(cbError);
     };
 
     uploadFile(data, cb) {
@@ -128,13 +123,12 @@ export default class UserService {
         })
     }
 
-    updateAccount = (username, data, cb, cbError) => {
-        // update this.user with new data
-        axios.put(`/users/${username}`, data).then(cb).catch(cbError);
+    updateAccount = (data, cb, cbError) => {
+        axios.put(`/users/${this.user.username}`, data).then(cb).catch(cbError);
     };
 
-    uploadAvatar = (username, form, cb, cbError) => {
-        axios.post(`/users/${username}/upload-avatar/`, form).then(cb).catch(cbError);
+    uploadAvatar = (form, cb, cbError) => {
+        axios.post(`/users/${this.user.username}/upload-avatar/`, form).then(cb).catch(cbError);
     };
 
     findExact = (username, cb, cbError) => {
@@ -148,17 +142,25 @@ export default class UserService {
         store.commit('setAccessToken', this.getToken());
         if (isAuthenticated) {
             cb && cb();
-            this.getUserDetails(this.getUsername(), ({data}) => {
-                store.commit('setUser', data);
-            });
+            this.getCurrentUserDetails();
         } else {
             cbError && cbError();
         }
     };
 
+    getCurrentUserDetails() {
+        this.getUpdateInfo(({data}) => {
+            this.updateUserDetails(data);
+        });
+    }
+
+    updateUserDetails(data) {
+        this.user = data;
+        store.commit('setUser', data);
+    }
+
     getUsername = () => {
-        const token = this.decodeToken(this.getToken());
-        return token ? token.iss : null
+        return this.user ? this.user.username : null;
     };
 
     getUserId = () => {
@@ -190,6 +192,7 @@ export default class UserService {
             router.push({path: '/'})
         }
         store.commit('setGroups', []);
-        cb && cb()
+        cb && cb();
+        this.username = null;
     }
 }
