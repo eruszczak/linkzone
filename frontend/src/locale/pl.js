@@ -7,7 +7,10 @@ export default {
         "logout": "Wyloguj",
         "my-profile": "Mój profil",
         "settings": "Ustawienia",
-        "add-post": "Dodaj post"
+        "add-post": "Dodaj post",
+        "main": "Strona główna",
+        "groups": "Grupy",
+        "more": "Więcej"
     },
     "loginView": {
         "header": "Logowanie",
@@ -32,7 +35,8 @@ export default {
         "username_taken": "Nazwa użytkownika jest zajęta",
         "email_taken": "Adres email jest zajęty",
         "value_required": "Wartość jest wymagana",
-        "no_user_found": "Nie znaleziono pasującego konta"
+        "no_user_found": "Nie znaleziono pasującego konta",
+        "invalid_dimensions": "Nieprawidłowe wymiary obrazka"
     },
     "profile": {
         "upvoted-posts": "Pozytywne posty",
@@ -56,10 +60,25 @@ export default {
         "create-header": "Dodaj post",
         "search-group": "Wpisz nazwę grupy",
         "title": "Tytuł",
-        "content": "Wiadomość"
+        "content": "Wiadomość",
+        "link": "Adres URL",
+        "update-locked": "Zablokuj post?",
+        "update-locked-hint": "Zablokowany post, nie może być komentowany." 
     },
     "groups": {
-        "empty": "Nie znaleziono żadnych grup"
+        "empty": "Nie znaleziono żadnych grup",
+        "sub": "Subskrybujesz",
+        "unsub": "Subskrybuj",
+        "sub-toast": "Nie subskrybujesz",
+        "unsub-toast": "Subskrybujesz",
+        "unsub-title": "Rezygnuj z subskrypcji",
+        "unsub-message": "Nie będziesz widział postów z tej grupy na stronie głównej",
+        "add-group": "Dodaj grupę",
+        "create-title": "Nazwa grupy",
+        "create-description": "Opis grupy",
+        "delete-group": "Usuń grupę",
+        "remove-title": "Usuń grupę",
+        "remove-message": "Usuniętej grupy nie można przywrócić. Wszystkie posty z tej grupy i komentarze do nich będą usunięte",
     },
     "comments": {
         "reply": "Odpowiedz",
@@ -67,8 +86,22 @@ export default {
         "remove-message": "Jesteś pewien, że chcesz usunąć ten komentarz? Operacja jest nieodwracalna",
         "add": "Dodaj komentarz"
     },
+    "account": {
+        "tagline": "Podsumowanie",
+        "upload-avatar": "Wgraj avatar",
+        "edit-hint": "W tym miejscu możesz zaktualizować swoje ustawienia"
+    },
     "confirm": "Potwierdź",
     "cancel": "Anuluj",
     "required": "Wartość jest wymagana",
-    "drop-image": "Upuść w tym polu obrazek lub kliknij, aby wybrać"
+    "drop-image": "Upuść w tym polu obrazek lub kliknij, aby wybrać",
+    "add": "Dodaj",
+    "update": "Aktualizuj",
+    "groupListView": "Grupy",
+    "updated-success": "Zaktualizowano",
+    "userEditView": "Ustawienia",
+    "file-restrictions": "Maksymalne wymiary obrazka to {width}px (szerokość) i {height}px (wysokość). Maksymalny rozmiar to {size}KB.",
+    "file-size-error": "Plik jest większy niż {size}KB",
+    "choosen-file": "Wybrany plik: {name}",
+    "groupEditView": "Edytuj grupę"
 }

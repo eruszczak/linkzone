@@ -6,9 +6,9 @@
                 <li class="is-active"><a href="#" aria-current="page">{{group.name}}</a></li>
             </ul>
         </nav>
-        <p v-if="group.isAdministrator">
-            <a class="button" :to="{name: 'groupEditView', params: {name: group.name}}">update</a>
-        </p>
+        <!-- <p v-if="group.isAdministrator"> -->
+            <router-link class="button" :to="{name: 'groupEditView', params: {name: group.name}}">update</router-link>
+        <!-- </p> -->
         <img :src="'/static/' + group.bannerUrl" v-if="group.bannerUrl">
         <p class="title is-4">{{group.name}}</p>
         <p class="subtitle is-6">description: {{group.description}}</p>
@@ -16,9 +16,9 @@
         <sub-toggler :group="group"></sub-toggler>
         <small class="ml-2">{{group.createdAt | shortDate}}</small>
 
-        <a class="button" :to="{name: 'postCreateView', params: {groupName: group.name}}">
+        <router-link class="button" :to="{name: 'postCreateView', params: {groupName: group.name}}">
             {{'add-post-in-group' | t}}
-        </a>
+        </router-link>
 
         <post-list :is-moderator="group.isModerator" :posts="posts"></post-list>
 

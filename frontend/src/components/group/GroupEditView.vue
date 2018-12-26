@@ -1,43 +1,34 @@
 <template>
-    <div v-if="group && isAdmin">
-
+    <section class="section" v-if="group && isAdmin">
+        {{group}} <br>
         <h1>Update /g/{{group.name}}</h1>
-        {{breadcrumbs}}
-        <!--<v-breadcrumbs :items="breadcrumbs">-->
-        <!--</v-breadcrumbs>-->
-        <!--<v-breadcrumbs :items="items" divider="-"></v-breadcrumbs>-->
-        <v-breadcrumbs>
-            <v-icon slot="divider">chevron_right</v-icon>
-            <v-breadcrumbs-item
-                    :disabled="item.disabled"
-                    :href="item.href"
-                    :key="item.text"
-                    v-for="item in items"
-            >
-                {{item.text}}
-                       
-            </v-breadcrumbs-item>
-        </v-breadcrumbs>
-        <v-divider class="my-3"></v-divider>
 
-        <v-alert
-                :value="bannerErrors.length > 0"
-                type="error"
-        >
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+            <ul>
+                <li><router-link :to="{name: 'groupListView'}">{{'groupListView' |t}}</router-link></li>
+                <li><router-link :to="{name: 'groupDetailView', params: {name: group.name}}">{{group.name}}</router-link></li>
+                <li class="is-active"><a href="#" aria-current="page">{{'groupEditView'|t}}</a></li>
+            </ul>
+        </nav>
+        <b-notification type="is-danger" v-if="bannerErrors.length > 0">
             {{bannerErrors[0]}}
-        </v-alert>
+        </b-notification>
+
+        <button class="button is-primary" @click="updateGroup">{{'update'|t}}</button>
+        <button class="button is-danger" @click="deleteGroup">{{'groups.delete-group'|t}}</button>
+
+        <b-field>
+            <b-input :disabled="true" icon="account-group" v-model="group.name"></b-input>
+        </b-field>
+        <b-field :type="{'is-danger': triedToSubmit && errors.has('description')}" :message="triedToSubmit ? errors.first('description') : null">
+            <b-input v-validate="'required'" name="description" icon="text" v-model="group.description" :placeholder="$t('groups.create-description')"></b-input>
+        </b-field>
 
         <img v-if="group.bannerUrl" :src="'/static/' + group.bannerUrl">
-        <file-input @formData="handleFormData" v-model="bannerFilename" :max-size-in-k-b="1000"></file-input>
-        <v-btn :disabled="bannerFormData.length === 0" @click.native="uploadBanner">Upload banner</v-btn>
-
-        <v-divider class="my-3"></v-divider>
-        <v-text-field
-                box
-                label="Group description"
-                v-model="group.description"
-        ></v-text-field>
-
+        <file-input :max-height="200" :max-width="1000" @formData="handleFormData" :max-size="1000"></file-input>
+        <!-- <v-btn :disabled="bannerFormData.length === 0" @click.native="uploadBanner">Upload banner</v-btn> -->
+    </section>
+<!-- 
         <v-autocomplete
                 :cache-items="false"
                 :deletable-chips="true"
@@ -66,9 +57,7 @@
                         @input="removeAdmin(data.item)"
                         class="chip--select-multi"
                 >
-                    <!--<v-avatar>-->
-                    <!--<img :src="data.item.avatar">-->
-                    <!--</v-avatar>-->
+
                     <span v-if="data.item.id === group.creator.id"><strong>{{data.item.username}}</strong> (creator)</span>
                     <span v-else>{{data.item.username}}</span>
                 </v-chip>
@@ -79,9 +68,7 @@
                     slot-scope="data"
             >
                 <template>
-                    <!--<v-list-tile-avatar>-->
-                    <!--<img :src="data.item.avatar">-->
-                    <!--</v-list-tile-avatar>-->
+
                     <v-list-tile-content>
                         <v-list-tile-title v-html="data.item.username"></v-list-tile-title>
                         <v-list-tile-sub-title v-html="data.item.tagline"
@@ -116,9 +103,7 @@
                         @input="removeMod(data.item)"
                         class="chip--select-multi"
                 >
-                    <!--<v-avatar>-->
-                    <!--<img :src="data.item.avatar">-->
-                    <!--</v-avatar>-->
+
                     <span v-if="data.item.id === group.creator.id"><strong>{{data.item.username}}</strong> (creator)</span>
                     <span v-else>{{data.item.username}}</span>
                 </v-chip>
@@ -129,9 +114,7 @@
                     slot-scope="data"
             >
                 <template>
-                    <!--<v-list-tile-avatar>-->
-                    <!--<img :src="data.item.avatar">-->
-                    <!--</v-list-tile-avatar>-->
+
                     <v-list-tile-content>
                         <v-list-tile-title v-html="data.item.username"></v-list-tile-title>
                         <v-list-tile-sub-title v-html="data.item.tagline"
@@ -234,62 +217,8 @@
             </v-card>
         </v-dialog>
 
-        <br>
-
-        <v-btn
-                @click="deleteDialog = true"
-                color="error"
-                dark
-        >
-            Delete group
-        </v-btn>
-
-        <v-dialog
-                max-width="290"
-                v-model="deleteDialog"
-        >
-            <v-card>
-                <v-card-title class="headline">Remove /g/{{group.name}}?</v-card-title>
-
-                <v-card-text>
-                    You cannot restore deleted group. All posts and comments from that group will be removed too.
-                    <v-text-field
-                            label="Enter group name to confirm"
-                            v-model="confirmDeletion"
-                    ></v-text-field>
-                </v-card-text>
-
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-
-                    <v-btn
-                            @click="deleteDialog = false"
-                            color="green darken-1"
-                            flat="flat"
-                    >
-                        Cancel
-                    </v-btn>
-
-                    <v-btn
-                            :disabled="confirmDeletion !== group.name"
-                            @click="removeGroup()"
-                            color="error darken-1"
-                            flat="flat"
-                    >
-                        Remove
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
-
-        <v-btn
-                @click="update()"
-                color="success"
-                dark
-        >
-            Update
-        </v-btn>
-    </div>
+        <br
+    </div> -->
 </template>
 
 <script>
@@ -307,12 +236,31 @@
             }
         },
         mounted() {
-            this.init()
+            this.$groupService.getGroupDetail(this.name, res => {
+                // this.toggleLoading(false)
+                this.group = res.data;
+                this.isAdmin = true;
+                // this.bannerFilename = this.group.bannerUrl;
+
+                // this.isAdmin = this.$groupService.isAdmin(this.group.administrators, this.$userService.getUserId());
+                // this.adminOptions = this.group.administrators.slice();
+                // this.adminOptions[0].disabled = true;
+                // this.selectedAdmins = this.group.administrators.slice();
+                // this.selectedContent = this.group.postTypes.slice();
+
+                // this.modOptions = this.group.moderators.slice();
+                // this.selectedMods = this.group.moderators.slice();
+
+                // this.confirmDeletion = this.group.name;
+                // if (!this.isAdmin) {
+                //     // TODO redirect somewhere
+                // }
+            })
         },
         data() {
             return {
-                bannerFormData: [],
                 bannerFilename: '',
+                triedToSubmit: false,
                 bannerErrors: [],
                 group: {},
                 isAdmin: false,
@@ -335,36 +283,7 @@
                 postTagsItems: [],
                 value: '',
                 rules: [{title: '', description: ''}],
-                rulesDialog: false,
-                breadcrumbs: [
-                    {
-                        text: 'groupname',
-                        disabled: false,
-                        href: 'breadcrumbs_dashboard'
-                    },
-                    {
-                        text: 'Update',
-                        disabled: true,
-                        href: 'breadcrumbs_link_2'
-                    }
-                ],
-                items: [
-                    {
-                        text: 'Dashboard',
-                        disabled: false,
-                        href: 'breadcrumbs_dashboard'
-                    },
-                    {
-                        text: 'Link 1',
-                        disabled: false,
-                        href: 'breadcrumbs_link_1'
-                    },
-                    {
-                        text: 'Link 2',
-                        disabled: true,
-                        href: 'breadcrumbs_link_2'
-                    }
-                ]
+                rulesDialog: false
             }
         },
         computed: {},
@@ -423,28 +342,6 @@
             }
         },
         methods: {
-            init() {
-                // this.toggleLoading(true)
-                this.$groupService.getGroupDetail(this.name, res => {
-                    // this.toggleLoading(false)
-                    this.group = res.data;
-                    this.bannerFilename = this.group.bannerUrl;
-
-                    this.isAdmin = this.$groupService.isAdmin(this.group.administrators, this.$userService.getUserId());
-                    this.adminOptions = this.group.administrators.slice();
-                    this.adminOptions[0].disabled = true;
-                    this.selectedAdmins = this.group.administrators.slice();
-                    this.selectedContent = this.group.postTypes.slice();
-
-                    this.modOptions = this.group.moderators.slice();
-                    this.selectedMods = this.group.moderators.slice();
-
-                    this.confirmDeletion = this.group.name;
-                    if (!this.isAdmin) {
-                        // TODO redirect somewhere
-                    }
-                })
-            },
             removeAdmin(item) {
                 const index = findIndex(this.selectedAdmins, {id: item.id});
                 console.log('remove admin', index);
@@ -487,7 +384,15 @@
                     .toLowerCase()
                     .indexOf(query.toString().toLowerCase()) > -1
             },
-            update() {
+            updateGroup() {
+                this.triedToSubmit = true;
+                this.$validator.validate().then(result => {
+                    if (result) {
+                        this._updateGroup();
+                    }
+                });
+            },
+            _updateGroup() {
                 this.$groupService.update(this.group.name, {
                     name: this.group.name,
                     description: this.group.description,
@@ -507,33 +412,35 @@
                     // })
                 })
             },
-            getRandomColor() {
-                return 'green'
-                // return this.colors[Math.floor(Math.random() * this.colors.length)]
+            deleteGroup() {
+                this.$dialog.confirm({
+                    title: this.$t('groups.remove-title'),
+                    message: this.$t('groups.remove-message'),
+                    confirmText: this.$t('confirm'),
+                    cancelText: this.$t('cancel'),
+                    type: 'is-danger',
+                    hasIcon: true,
+                    onConfirm: () => {
+                        this.removeGroup();
+                    }
+                })
             },
             removeGroup() {
                 this.$groupService.delete(this.group.name, () => {
-                    this.deleteDialog = false;
                     this.$router.push({path: '/'});
-                    this.$message({
+                    this.$toast.open({
                         message: 'Removed group',
-                        color: this.$toastColors.SUCCESS
+                        color: 'is-success'
                     })
                 })
             },
-            handleFormData(val) {
-                if (val.value) {
-                    this.bannerFormData = val.value;
-                }
-                this.bannerErrors = val.errors;
+            handleFormData($event) {
+                this.uploadBanner($event);
             },
-            uploadBanner() {
-                console.log(this.bannerFormData);
-                this.$groupService.uploadBanner(this.group.name, this.bannerFormData[0], ({data}) => {
+            uploadBanner(form) {
+                this.$groupService.uploadBanner(this.group.name, form, ({data}) => {
                     this.group.bannerUrl = data.fileName;
-                    this.bannerFormData = []
                 }, ({data}) => {
-                    console.error('GroupEditView.uploadBanner', data);
                     this.bannerErrors = data.errors;
                 });
             }

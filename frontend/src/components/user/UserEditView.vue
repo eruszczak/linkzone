@@ -105,10 +105,7 @@
                     password: this.form.password,
                     passwordConfirm: this.form.passwordConfirm
                 }, ({data}) => {
-                    this.$toast.open({
-                        message: this.$t('updated-success'),
-                        type: 'is-success'
-                    });
+                    this.updatedToast();
                     this.$userService.updateUserDetails(data);
                 }, ({data}) => {
                     this.errorList = data.errors;
@@ -120,10 +117,18 @@
             },
             uploadAvatar(form) {
                 this.$userService.uploadAvatar(form, ({data}) => {
+                    console.log(data)
                     this.$userService.updateUserDetails(data);
+                    this.updatedToast();
                 }, ({data}) => {
                     this.errorList = data.errors;
                 })
+            },
+            updatedToast() {
+                this.$toast.open({
+                    message: this.$t('updated-success'),
+                    type: 'is-success'
+                });
             }
         }
     }

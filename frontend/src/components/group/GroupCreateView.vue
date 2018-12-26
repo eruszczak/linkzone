@@ -2,10 +2,10 @@
     <section class="section">
         <div class="column is-8 is-offset-2">
             <b-field :type="{'is-danger': triedToSubmit && errors.has('name')}" :message="triedToSubmit ? errors.first('name') : null">
-                <b-input v-validate="'required'" name="name" icon="account" v-model="form.name" :placeholder="$t('groups.create-title')"></b-input>
+                <b-input v-validate="'required'" name="name" icon="account-group" v-model="form.name" :placeholder="$t('groups.create-title')"></b-input>
             </b-field>
             <b-field :type="{'is-danger': triedToSubmit && errors.has('description')}" :message="triedToSubmit ? errors.first('description') : null">
-                <b-input v-validate="'required'" name="description" icon="account" v-model="form.description" :placeholder="$t('groups.create-description')"></b-input>
+                <b-input v-validate="'required'" name="description" icon="text" v-model="form.description" :placeholder="$t('groups.create-description')"></b-input>
             </b-field>
             <div class="has-text-centered mt-2">
                 <button class="button is-primary" @click="submit">{{ $t('add') }}</button>
