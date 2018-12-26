@@ -8,12 +8,6 @@ export const POST_TYPES = {
     POST, MEDIA, LINK
 };
 
-export const POST_TYPES_TRANSLATE = {
-    [POST_TYPES.POST]: 'Text post',
-    [POST_TYPES.MEDIA]: 'Picture',
-    [POST_TYPES.LINK]: 'Link'
-};
-
 export default class PostService {
     constructor() {
     }

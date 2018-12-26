@@ -86,7 +86,9 @@ export default {
         "admin-hint": "Administratorzy mają uprawnienia moderatorów oraz mają dostęp do tej podstrony.",
         "mod-hint": "Moderatorzy nie mają dostępu do tej strony. Mogą zarządzać postami i komentarzami w tej grupie.",
         "pick-mods": "Moderatorzy",
-        "add-tag": "Wyszukaj"
+        "post-types": "Typy zawartości",
+        "post-types-hint": "Określ jakie rodzaje postów mogą być dodawane do tej grupy. Przynajmniej 1 wartość wymagana.",
+        "add-tag": "Szukaj..."
     },
     "comments": {
         "reply": "Odpowiedz",
@@ -113,5 +115,8 @@ export default {
     "file-size-error": "Plik jest większy niż {size}KB",
     "choosen-file": "Wybrany plik: {name}",
     "groupEditView": "Edytuj grupę",
-    "empty": "Brak wyników"
+    "empty": "Brak wyników",
+    "POST": "Tekst",
+    "MEDIA": "Zdjęcie",
+    "LINK": "Link",
 }

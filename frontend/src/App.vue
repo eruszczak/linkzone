@@ -1,7 +1,7 @@
 <template>
     <div>
         <navbar></navbar>
-        <main>
+        <main style="padding-bottom:50px">
             <router-view></router-view>
             <b-loading :is-full-page="true" :active.sync="isLoading" :can-cancel="false"></b-loading>
         </main>
@@ -35,7 +35,6 @@
         },
         computed: {
             ...mapGetters(['isLoading']),
-            // ...mapGetters(['accessToken', 'apiError', 'groups', 'isAuthenticated', 'showToast', 'toastOptions', 'filteredGroups'])
         },
         watch: {
             // 'apiError.isError'(isError) {
