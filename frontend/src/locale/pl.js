@@ -79,7 +79,10 @@ export default {
         "delete-group": "Usuń grupę",
         "remove-title": "Usuń grupę",
         "remove-message": "Usuniętej grupy nie można przywrócić. Wszystkie posty z tej grupy i komentarze do nich będą usunięte",
-        "update-header": "Aktualizuj"
+        "update-header": "Aktualizuj",
+        "pick-admins": "Administratorzy",
+        "pick-mods": "Moderatorzy",
+        "add-tag": "Wyszukaj"
     },
     "comments": {
         "reply": "Odpowiedz",
@@ -101,8 +104,10 @@ export default {
     "groupListView": "Grupy",
     "updated-success": "Zaktualizowano",
     "userEditView": "Ustawienia",
-    "file-restrictions": "Maksymalne wymiary obrazka to {width}px (szerokość) i {height}px (wysokość). Maksymalny rozmiar to {size}KB.",
+    "file-restrictions": "Maksymalne wymiary to {width}px (szerokość) i {height}px (wysokość).",
+    "file-size": "Maksymalny rozmiar to {size}KB.",
     "file-size-error": "Plik jest większy niż {size}KB",
     "choosen-file": "Wybrany plik: {name}",
-    "groupEditView": "Edytuj grupę"
+    "groupEditView": "Edytuj grupę",
+    "empty": "Brak wyników"
 }

@@ -29,8 +29,34 @@
                     <b-input v-validate="'required'" name="description" icon="text" v-model="group.description" :placeholder="$t('groups.create-description')"></b-input>
                 </b-field>
 
-                <img v-if="group.bannerUrl" :src="'/static/' + group.bannerUrl">
-                <file-input label="Banner" :max-height="200" :max-width="1000" @formData="handleFormData" :max-size="1000"></file-input>
+                <div class="mb-2 mt-2">
+                    <img v-if="group.bannerUrl" :src="'/static/' + group.bannerUrl">
+                    <file-input label="Banner" :max-height="200" :max-width="1000" @formData="handleFormData" :max-size="1000"></file-input>
+                </div>
+
+                <p>Creator: {{group.creator}}</p>
+
+                <b-field :label="$t('groups.pick-admins')">
+                    <b-taginput
+                        v-model="selectedAdmins"
+                        :data="adminOptions"
+                        autocomplete
+                        field="username"
+                        icon="account"
+                        :placeholder="$t('groups.add-tag')"
+                        @typing="updateAdminOptions">
+                        <template slot-scope="props">
+                            <figure class="image is-16x16" style="margin-right: 5px">
+                                <img src="https://api.adorable.io/avatar/100/user8">
+                            </figure>
+                            {{props.option.username}}
+                        </template>
+                        <template slot="empty">
+                            {{'empty'|t}}
+                        </template>
+                    </b-taginput>
+                </b-field>
+
                 <!-- <v-btn :disabled="bannerFormData.length === 0" @click.native="uploadBanner">Upload banner</v-btn> -->
                 <div class="mt-2 has-text-centered">
                     <button class="button is-primary" @click="updateGroup">{{'update'|t}}</button>
@@ -236,6 +262,7 @@
     import {findIndex} from 'lodash'
     import FileInput from '../includes/FileInput.vue'
     import {POST_TYPES, POST_TYPES_TRANSLATE} from "../../services/PostService";
+    import debounce from 'lodash/debounce'
 
     export default {
         name: "GroupEditView",
@@ -255,9 +282,9 @@
                 // this.bannerFilename = this.group.bannerUrl;
 
                 // this.isAdmin = this.$groupService.isAdmin(this.group.administrators, this.$userService.getUserId());
-                // this.adminOptions = this.group.administrators.slice();
+                this.adminOptions = [];
                 // this.adminOptions[0].disabled = true;
-                // this.selectedAdmins = this.group.administrators.slice();
+                this.selectedAdmins = this.group.administrators.slice();
                 // this.selectedContent = this.group.postTypes.slice();
 
                 // this.modOptions = this.group.moderators.slice();
@@ -295,107 +322,103 @@
                 postTagsItems: [],
                 value: '',
                 rules: [{title: '', description: ''}],
-                rulesDialog: false
+                rulesDialog: false,
+
+
+                filteredTags: ['aaaaaaa', 'bbbbbbb', 'ccccccc'],
+                isSelectOnly: false
             }
         },
-        computed: {},
         watch: {
-            searchAdmin(val) {
-                this.adminOptions = this.adminOptions.filter(user => {
-                    return findIndex(this.selectedAdmins, {id: user.id}) > -1
-                });
-                if (findIndex(this.selectedAdmins, {id: this.selectedAdmins[0].id}) < 0) {
-                    this.adminOptions.shift() // remove first element if 1st element is not selected admin
-                }
-                if (val && val.length > 2) {
-                    this.$userService.findExact(val.trim(), ({data}) => {
-                        if (findIndex(this.selectedAdmins, {id: data.id}) < 0 && this.adminOptions[0].id !== data.id) {
-                            this.adminOptions.unshift(data)
-                        }
-                    }, (error) => {
-                        console.log(error)
-                    })
-                }
-            },
-            searchMod(val) {
-                this.modOptions = this.modOptions.filter(user => {
-                    return findIndex(this.selectedMods, {id: user.id}) > -1
-                });
-                if (this.selectedMods.length > 0 && findIndex(this.selectedMods, {id: this.selectedMods[0].id}) < 0) {
-                    this.selectedMods.shift() // remove first element if 1st element is not selected admin
-                }
-                if (val && val.length > 2) {
-                    this.$userService.findExact(val.trim(), ({data}) => {
-                        if (findIndex(this.selectedMods, {id: data.id}) < 0 && this.modOptions[0].id !== data.id) {
-                            this.modOptions.unshift(data)
-                        }
-                    }, (error) => {
-                        console.log(error)
-                    })
-                }
-            },
-            model(val, prev) {
-                if (val.length === prev.length) return;
+            // searchAdmin(val) {
+            //     this.adminOptions = this.adminOptions.filter(user => {
+            //         return findIndex(this.selectedAdmins, {id: user.id}) > -1
+            //     });
+            //     if (findIndex(this.selectedAdmins, {id: this.selectedAdmins[0].id}) < 0) {
+            //         this.adminOptions.shift() // remove first element if 1st element is not selected admin
+            //     }
+            //     if (val && val.length > 2) {
+            //         this.$userService.findExact(val.trim(), ({data}) => {
+            //             if (findIndex(this.selectedAdmins, {id: data.id}) < 0 && this.adminOptions[0].id !== data.id) {
+            //                 this.adminOptions.unshift(data)
+            //             }
+            //         }, (error) => {
+            //             console.log(error)
+            //         })
+            //     }
+            // },
+            // searchMod(val) {
+            //     this.modOptions = this.modOptions.filter(user => {
+            //         return findIndex(this.selectedMods, {id: user.id}) > -1
+            //     });
+            //     if (this.selectedMods.length > 0 && findIndex(this.selectedMods, {id: this.selectedMods[0].id}) < 0) {
+            //         this.selectedMods.shift() // remove first element if 1st element is not selected admin
+            //     }
+            //     if (val && val.length > 2) {
+            //         this.$userService.findExact(val.trim(), ({data}) => {
+            //             if (findIndex(this.selectedMods, {id: data.id}) < 0 && this.modOptions[0].id !== data.id) {
+            //                 this.modOptions.unshift(data)
+            //             }
+            //         }, (error) => {
+            //             console.log(error)
+            //         })
+            //     }
+            // },
+            // model(val, prev) {
+            //     if (val.length === prev.length) return;
 
-                this.model = val.map(v => {
-                    if (typeof v === 'string') {
-                        v = {
-                            text: v,
-                            color: this.colors[this.nonce - 1]
-                        };
+            //     this.model = val.map(v => {
+            //         if (typeof v === 'string') {
+            //             v = {
+            //                 text: v,
+            //                 color: this.colors[this.nonce - 1]
+            //             };
 
-                        this.items.push(v);
+            //             this.items.push(v);
 
-                        this.nonce++
-                    }
+            //             this.nonce++
+            //         }
 
-                    return v
-                })
-            }
+            //         return v
+            //     })
+            // }
         },
         methods: {
-            removeAdmin(item) {
-                const index = findIndex(this.selectedAdmins, {id: item.id});
-                console.log('remove admin', index);
-                if (this.group.creator.id === item.id) {
-                    console.log('cant remove admin');
-                    return
-                }
-                if (index >= 0) {
-                    this.selectedAdmins.splice(index, 1)
-                }
-            },
-            removeMod(item) {
-                const index = this.selectedMods.indexOf(item);
-                if (index >= 0) {
-                    this.selectedMods.splice(index, 1)
-                }
-            },
             findIndex: findIndex,
-            isGroupCreator() {
-
-            },
-            edit(index, item) {
-                if (!this.editing) {
-                    this.editing = item;
-                    this.index = index
-                } else {
-                    this.editing = null;
-                    this.index = -1
-                }
-            },
-            filter(item, queryText, itemText) {
-                if (item.header) return false;
-
-                const hasValue = val => val != null ? val : '';
-
-                const text = hasValue(itemText);
-                const query = hasValue(queryText);
-
-                return text.toString()
-                    .toLowerCase()
-                    .indexOf(query.toString().toLowerCase()) > -1
-            },
+            updateAdminOptions: debounce(function (text) {
+                this.$userService.findExact(text.trim(), ({data}) => {
+                    console.log(data)
+                    this.adminOptions = [data];
+                    // if (findIndex(this.selectedAdmins, {id: data.id}) < 0 && this.adminOptions[0].id !== data.id) {
+                    //     this.adminOptions.unshift(data)
+                    // }
+                }, () => {
+                    this.adminOptions = [];
+                })
+                // this.filteredTags = this.adminOptions.filter((option) => {
+                //     return option.username
+                //         .toString()
+                //         .toLowerCase()
+                //         .indexOf(text.toLowerCase()) >= 0
+                // })
+            }, 500),
+            // removeAdmin(item) {
+            //     const index = findIndex(this.selectedAdmins, {id: item.id});
+            //     console.log('remove admin', index);
+            //     if (this.group.creator.id === item.id) {
+            //         console.log('cant remove admin');
+            //         return
+            //     }
+            //     if (index >= 0) {
+            //         this.selectedAdmins.splice(index, 1)
+            //     }
+            // },
+            // removeMod(item) {
+            //     const index = this.selectedMods.indexOf(item);
+            //     if (index >= 0) {
+            //         this.selectedMods.splice(index, 1)
+            //     }
+            // },
             updateGroup() {
                 this.triedToSubmit = true;
                 this.$validator.validate().then(result => {
