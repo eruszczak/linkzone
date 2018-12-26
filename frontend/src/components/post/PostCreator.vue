@@ -19,7 +19,7 @@
                         <b-input v-validate="'required'" name="title" icon="account" v-model="formMedia.title" :placeholder="$t('posts.title')" data-vv-scope="media"></b-input>
                     </b-field>
                     <img :src="`/static/${filename}`" style="max-width:150px;max-height:150px" v-if="filename">
-                    <file-input @formData="handleImageUpload" is-image v-model="formMedia.content" :show-error="triedToSubmit"></file-input>
+                    <file-input @formData="handleImageUpload" v-model="formMedia.content" :show-error="triedToSubmit"></file-input>
                 </div>
             </b-tab-item>
 
@@ -35,8 +35,8 @@
             </b-tab-item>
         </b-tabs>
 
-        <b-notification type="is-warning" :closable="false">
-            <div class="field" v-if="post">
+        <b-notification type="is-warning" :closable="false" v-if="post">
+            <div class="field">
                 <b-checkbox v-model="postLocked">{{'posts.update-locked'|t}}</b-checkbox>
                 <p><small>{{'posts.update-locked-hint' |t}}</small></p>
             </div>
@@ -156,19 +156,7 @@
                     this.filename = data.fileName;
                     this.$emit('upload', this.filename);
                 });
-            },
-            // async areFieldsValid(fieldNames) {
-            //     return _.every
-            //     // const validations = [];
-            //     // fieldNames.forEach(field => {
-            //     //     console.log(field)
-            //     //     validations.push(this.$validator.validate(field))
-            //     // });
-            //     // this.$validator.validate(fieldNames[0])
-            //     // console.log(fieldNames, fieldNames.map(field => this.$validator.validate(field)))
-            //     // const results = Promise.all(validations);
-            //     // return (await results).every(isValid => isValid);
-            // }
+            }
         }
     }
 </script>

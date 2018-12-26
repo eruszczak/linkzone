@@ -76,6 +76,9 @@
     .mb-2 {
         margin-bottom: 2em;
     }
+    .is-horizontal-center {
+        justify-content: center;
+    }
 
     @import "~bulma/sass/utilities/_all";
 /*

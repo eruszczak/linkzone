@@ -155,6 +155,7 @@ export default class UserService {
     }
 
     updateUserDetails(data) {
+        data.avatarUrl = data.avatar ? `/static/${data.avatar}` : this.getDefaultAvatar(data.username);
         this.user = data;
         store.commit('setUser', data);
     }

@@ -142,7 +142,7 @@ public class AccountRestController {
     }
 
     @PostMapping(value = "/{username}/upload-avatar")
-    public UploadFileResponse uploadAvatar(@RequestParam("data") MultipartFile file,
+    public AccountDetails uploadAvatar(@RequestParam("data") MultipartFile file,
                                            @PathVariable("username") String username,
                                            @CurrentUser UserPrincipal currentUser) {
         Utils.checkIfOwner(currentUser, username);
@@ -158,8 +158,7 @@ public class AccountRestController {
 
         fileStorageService.removeFile(currentUser.getAccount().getAvatar());
 
-        return new UploadFileResponse(fileName, fileDownloadUri,
-                file.getContentType(), file.getSize());
+        return detail(currentUser.getUsername());
     }
 
     @DeleteMapping(value = "/{username}")

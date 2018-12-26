@@ -57,6 +57,9 @@
                 <!-- <a class="navbar-item" @click="logout">logout</a> -->
                 <div class="navbar-item has-dropdown is-hoverable" v-if="isAuthenticated && user">
                     <a class="navbar-link">
+                        <figure class="image is-16x16" style="margin-right: 5px">
+                            <img :src="user.avatarUrl">
+                        </figure>
                         {{user.username}}
                     </a>
 

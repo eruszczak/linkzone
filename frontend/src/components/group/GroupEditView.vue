@@ -28,7 +28,7 @@
         </v-alert>
 
         <img v-if="group.bannerUrl" :src="'/static/' + group.bannerUrl">
-        <file-input :is-image="true" @formData="handleFormData" v-model="bannerFilename" :max-size-in-k-b="1000"></file-input>
+        <file-input @formData="handleFormData" v-model="bannerFilename" :max-size-in-k-b="1000"></file-input>
         <v-btn :disabled="bannerFormData.length === 0" @click.native="uploadBanner">Upload banner</v-btn>
 
         <v-divider class="my-3"></v-divider>

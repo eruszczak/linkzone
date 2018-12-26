@@ -7,10 +7,22 @@
             </ul>
         </nav>
 
-        <b-notification v-if="errorList.length > 0" type="is-danger">
+        <div class="tile is-parent has-text-centered">
+            <article class="tile is-child notification">
+                <p class="title">{{user.username}}</p>
+                <p class="subtitle">{{'account.edit-hint'|t}}</p>
+                <nav class="level">
+                    <figure class="image is-128x128 container">
+                        <img :src="user.avatarUrl">
+                    </figure>
+                </nav>
+            </article>
+        </div>
+
+        <b-notification v-if="errorList.length > 0" type="is-danger" :closable="false">
             {{`errors.${errorList[0]}` | t}}
         </b-notification>
-        <!-- <div class="box"> -->
+        <div class="column is-8 is-offset-2">
             <b-field :type="{'is-danger': triedToSubmit && errors.has('username')}" :message="triedToSubmit ? errors.first('username') : null">
                 <b-input v-validate="'required'" name="username" icon="account" v-model="form.username" :placeholder="$t('')"></b-input>
             </b-field>
@@ -26,19 +38,14 @@
             <b-field :type="{'is-danger': triedToSubmit && errors.has('password-confirm')}" :message="triedToSubmit ? errors.first('password-confirm') : null">
                 <b-input v-validate="{ min: 6, max: 50, confirmed: 'password' }" name="password-confirm" icon="lock" type="password" v-model="form.passwordConfirm" :placeholder="$t('registerView.password-confirm')"></b-input>
             </b-field>
-            
-            <div class="has-text-centered mt-2">
-                <button class="button is-primary" @click="save">{{'update' | t}}</button>
-            </div>
-        <!-- </div> -->
+        </div>
 
-                        <!-- <div>
-                    <img v-if="avatarFilename" :src="`/static/${avatarFilename}`" width="100"/>
-                    <file-input :disabled="!isEditing" :is-image="true" @formData="handleFormData" v-model="avatarFilename"></file-input>
-                    <v-btn :disabled="avatarFormData.length === 0" @click.native="uploadAvatar" v-if="isEditing">Upload
-                        avatar
-                    </v-btn>
-                </div> -->
+        <div>
+            <file-input label="Avatar" @formData="handleFormData"></file-input>
+        </div>
+        <div class="has-text-centered mt-2">
+            <button class="button is-primary" @click="save">{{'update' | t}}</button>
+        </div>
     </section>
 </template>
 
@@ -60,16 +67,12 @@
                 this.form.username = data.username;
                 this.form.email = data.email;
                 this.form.tagline = data.tagline;
-                this.avatarFilename = data.avatar;
             })
         },
         data() {
             return {
-                avatarFilename: '',
-                avatarErrors: [],
-                avatarFormData: [],
+                uploadErrorMsg: '',
                 errorList: [],
-                model: null,
                 triedToSubmit: false,
                 form: {
                     username: null,
@@ -94,6 +97,7 @@
                 });
             },
             _save() {
+                this.errorList = [];
                 this.$userService.updateAccount({
                     username: this.form.username,
                     email: this.form.email,
@@ -107,24 +111,17 @@
                     });
                     this.$userService.updateUserDetails(data);
                 }, ({data}) => {
-                    console.error(data);
                     this.errorList = data.errors;
                 })
             },
-            handleFormData(val) {
-                console.log('UserEditView.handleFormData', val)
-                if (val.value) {
-                    this.avatarFormData = val.value;
-                }
-                this.errorList = val.errors
-            },
-            uploadAvatar() {
+            handleFormData($event) {
                 this.errorList = [];
-                this.$userService.uploadAvatar(this.avatarFormData[0], ({data}) => {
-                    this.avatarFilename = data.fileName;
-                    this.avatarFormData = []
+                this.uploadAvatar($event);
+            },
+            uploadAvatar(form) {
+                this.$userService.uploadAvatar(form, ({data}) => {
+                    this.$userService.updateUserDetails(data);
                 }, ({data}) => {
-                    console.error('UserEditView.uploadAvatar', data);
                     this.errorList = data.errors;
                 })
             }
