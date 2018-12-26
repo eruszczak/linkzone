@@ -1,32 +1,43 @@
 <template>
-    <section class="section" v-if="group && isAdmin">
-        {{group}} <br>
-        <h1>Update /g/{{group.name}}</h1>
+    <section class="section is-fullwidth" v-if="group && isAdmin">
+        <section class="hero is-primary">
+            <div class="hero-body">
+                <div class="container">
+                <h1 class="title">
+                    {{'groups.update-header'|t}} /g/{{group.name}}
+                </h1>
+                </div>
+            </div>
+        </section>
+        <section class="container">
+            <nav class="breadcrumb mt-2" aria-label="breadcrumbs">
+                <ul>
+                    <li><router-link :to="{name: 'groupListView'}">{{'groupListView' |t}}</router-link></li>
+                    <li><router-link :to="{name: 'groupDetailView', params: {name: group.name}}">{{group.name}}</router-link></li>
+                    <li class="is-active"><a href="#" aria-current="page">{{'groupEditView'|t}}</a></li>
+                </ul>
+            </nav>
 
-        <nav class="breadcrumb" aria-label="breadcrumbs">
-            <ul>
-                <li><router-link :to="{name: 'groupListView'}">{{'groupListView' |t}}</router-link></li>
-                <li><router-link :to="{name: 'groupDetailView', params: {name: group.name}}">{{group.name}}</router-link></li>
-                <li class="is-active"><a href="#" aria-current="page">{{'groupEditView'|t}}</a></li>
-            </ul>
-        </nav>
-        <b-notification type="is-danger" v-if="bannerErrors.length > 0">
-            {{bannerErrors[0]}}
-        </b-notification>
+            <div class="column is-8 is-offset-2">
+                <b-notification type="is-danger" v-if="bannerErrors.length > 0">
+                    {{bannerErrors[0]}}
+                </b-notification>
+                <b-field>
+                    <b-input :disabled="true" icon="account-group" v-model="group.name"></b-input>
+                </b-field>
+                <b-field :type="{'is-danger': triedToSubmit && errors.has('description')}" :message="triedToSubmit ? errors.first('description') : null">
+                    <b-input v-validate="'required'" name="description" icon="text" v-model="group.description" :placeholder="$t('groups.create-description')"></b-input>
+                </b-field>
 
-        <button class="button is-primary" @click="updateGroup">{{'update'|t}}</button>
-        <button class="button is-danger" @click="deleteGroup">{{'groups.delete-group'|t}}</button>
-
-        <b-field>
-            <b-input :disabled="true" icon="account-group" v-model="group.name"></b-input>
-        </b-field>
-        <b-field :type="{'is-danger': triedToSubmit && errors.has('description')}" :message="triedToSubmit ? errors.first('description') : null">
-            <b-input v-validate="'required'" name="description" icon="text" v-model="group.description" :placeholder="$t('groups.create-description')"></b-input>
-        </b-field>
-
-        <img v-if="group.bannerUrl" :src="'/static/' + group.bannerUrl">
-        <file-input :max-height="200" :max-width="1000" @formData="handleFormData" :max-size="1000"></file-input>
-        <!-- <v-btn :disabled="bannerFormData.length === 0" @click.native="uploadBanner">Upload banner</v-btn> -->
+                <img v-if="group.bannerUrl" :src="'/static/' + group.bannerUrl">
+                <file-input label="Banner" :max-height="200" :max-width="1000" @formData="handleFormData" :max-size="1000"></file-input>
+                <!-- <v-btn :disabled="bannerFormData.length === 0" @click.native="uploadBanner">Upload banner</v-btn> -->
+                <div class="mt-2 has-text-centered">
+                    <button class="button is-primary" @click="updateGroup">{{'update'|t}}</button>
+                    <button class="button is-danger is-pulled-right is-small" @click="deleteGroup">{{'groups.delete-group'|t}}</button>
+                </div>
+            </div>
+        </section>
     </section>
 <!-- 
         <v-autocomplete

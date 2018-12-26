@@ -1,7 +1,7 @@
 <template>
     <div>
         <navbar></navbar>
-        <main class="container">
+        <main>
             <router-view></router-view>
             <b-loading :is-full-page="true" :active.sync="isLoading" :can-cancel="false"></b-loading>
         </main>
@@ -79,6 +79,9 @@
     }
     .is-horizontal-center {
         justify-content: center;
+    }
+    .section.is-fullwidth {
+        padding: 0!important;
     }
 
     @import "~bulma/sass/utilities/_all";

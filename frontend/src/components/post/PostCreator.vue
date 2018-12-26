@@ -17,7 +17,7 @@
             </b-tab-item>
 
             <b-tab-item :label="$t('posts.media')" icon="image" :disabled="isTabDisabled(POST_TYPES.MEDIA)">
-                <div class="column is-8 is-offset-2" v-if="post.type === POST_TYPES.MEDIA">
+                <div class="column is-8 is-offset-2" v-if="post && post.type === POST_TYPES.MEDIA">
                     <b-field :type="{'is-danger': triedToSubmit && errors.has('media.title')}" :message="triedToSubmit ? errors.first('media.title') : null">
                         <b-input v-validate="'required'" name="title" icon="account" v-model="formMedia.title" :placeholder="$t('posts.title')" data-vv-scope="media"></b-input>
                     </b-field>

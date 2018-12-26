@@ -79,6 +79,7 @@ export default {
         "delete-group": "Usuń grupę",
         "remove-title": "Usuń grupę",
         "remove-message": "Usuniętej grupy nie można przywrócić. Wszystkie posty z tej grupy i komentarze do nich będą usunięte",
+        "update-header": "Aktualizuj"
     },
     "comments": {
         "reply": "Odpowiedz",
