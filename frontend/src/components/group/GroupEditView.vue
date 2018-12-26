@@ -34,15 +34,40 @@
                     <file-input label="Banner" :max-height="200" :max-width="1000" @formData="handleFormData" :max-size="1000"></file-input>
                 </div>
 
-                <p>Creator: {{group.creator}}</p>
+                <b-field :label="$t('groups.creator')" :message="$t('groups.creator-hint')">
+                    <b-input :placeholder="group.creator.username" disabled></b-input>
+                </b-field>
 
-                <b-field :label="$t('groups.pick-admins')">
+                <b-field class="mt-2" :label="$t('groups.pick-admins')" :message="$t('groups.admin-hint')">
                     <b-taginput
                         v-model="selectedAdmins"
                         :data="adminOptions"
                         autocomplete
                         field="username"
                         icon="account"
+                        type="is-danger"
+                        :placeholder="$t('groups.add-tag')"
+                        @typing="updateAdminOptions">
+                        <template slot-scope="props">
+                            <figure class="image is-16x16" style="margin-right: 5px">
+                                <img src="https://api.adorable.io/avatar/100/user8">
+                            </figure>
+                            {{props.option.username}}
+                        </template>
+                        <template slot="empty">
+                            {{'empty'|t}}
+                        </template>
+                    </b-taginput>
+                </b-field>
+
+                <b-field class="mt-2" :label="$t('groups.pick-mods')" :message="$t('groups.mod-hint')">
+                    <b-taginput
+                        v-model="selectedMods"
+                        :data="modOptions"
+                        autocomplete
+                        field="username"
+                        icon="account"
+                        type="is-warning"
                         :placeholder="$t('groups.add-tag')"
                         @typing="updateAdminOptions">
                         <template slot-scope="props">
@@ -282,13 +307,13 @@
                 // this.bannerFilename = this.group.bannerUrl;
 
                 // this.isAdmin = this.$groupService.isAdmin(this.group.administrators, this.$userService.getUserId());
-                this.adminOptions = [];
+                // this.adminOptions = [];
                 // this.adminOptions[0].disabled = true;
                 this.selectedAdmins = this.group.administrators.slice();
                 // this.selectedContent = this.group.postTypes.slice();
 
                 // this.modOptions = this.group.moderators.slice();
-                // this.selectedMods = this.group.moderators.slice();
+                this.selectedMods = this.group.moderators.slice();
 
                 // this.confirmDeletion = this.group.name;
                 // if (!this.isAdmin) {
@@ -303,13 +328,19 @@
                 bannerErrors: [],
                 group: {},
                 isAdmin: false,
+
+
+
                 selectedAdmins: [],
                 selectedMods: [],
+                adminOptions: [],
+                modOptions: [],
+
+
+
                 loading: false,
                 search: null,
                 isUpdating: false,
-                adminOptions: [],
-                modOptions: [],
                 confirmDeletion: '',
                 deleteDialog: false,
                 searchAdmin: '',

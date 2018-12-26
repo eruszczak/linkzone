@@ -81,6 +81,10 @@ export default {
         "remove-message": "Usuniętej grupy nie można przywrócić. Wszystkie posty z tej grupy i komentarze do nich będą usunięte",
         "update-header": "Aktualizuj",
         "pick-admins": "Administratorzy",
+        "creator": "Założyciel",
+        "creator-hint": "Twórca grupy ma uprawnienia administratora. Jest niezmienialny oraz jako jedyny, może usunąć grupę.",
+        "admin-hint": "Administratorzy mają uprawnienia moderatorów oraz mają dostęp do tej podstrony.",
+        "mod-hint": "Moderatorzy nie mają dostępu do tej strony. Mogą zarządzać postami i komentarzami w tej grupie.",
         "pick-mods": "Moderatorzy",
         "add-tag": "Wyszukaj"
     },
