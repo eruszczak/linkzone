@@ -21,6 +21,7 @@
             this.$postService.getPost(this.id, ({data}) => {
                 this.post = data;
                 this.filename = this.post.content;
+                this.$toggleLoading(false);
             });
         },
         data() {
@@ -29,7 +30,6 @@
                 filename: null
             }
         },
-        computed: {},
         methods: {
             updatePost(value) {
                 console.log('updated post', value);

@@ -1,12 +1,12 @@
 <template>
     <div class="text-xs-center" v-if="pagination && pagination.totalPages > 1">
-        <v-pagination
+        <!-- <v-pagination
                 :length="pagination.totalPages"
                 :total-visible="7"
                 @input="handleCurrentChange"
                 circle
                 v-model="pagination.currentPage + 1"
-        ></v-pagination>
+        ></v-pagination> -->
     </div>
 </template>
 

@@ -59,6 +59,7 @@
             if (this.groupName) {
                 // this.selectedGroup = this.groupName
             }
+            this.$toggleLoading(false);
         },
         data() {
             return {
@@ -98,7 +99,7 @@
                     this.$router.push({
                         name: 'postView',
                         params: {
-                            name: this.selectedGroup,
+                            name: this.selectedGroup.name,
                             postID: data.id
                         }
                     })

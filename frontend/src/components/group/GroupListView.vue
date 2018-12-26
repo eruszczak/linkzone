@@ -48,6 +48,7 @@
                 this.$groupService.getGroupList(this.$route.query.page, '', res => {
                     this.groups = res.data.content;
                     this.pagination = getPaginationFromResponse(res.data);
+                    this.$toggleLoading(false);
                 })
             }
         }

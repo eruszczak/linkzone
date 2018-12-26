@@ -67,6 +67,7 @@
                 this.form.username = data.username;
                 this.form.email = data.email;
                 this.form.tagline = data.tagline;
+                this.$toggleLoading(false);
             })
         },
         data() {

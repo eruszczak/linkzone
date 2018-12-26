@@ -1,7 +1,7 @@
 <template>
     <section class="section">
         <b-tabs v-model="selectedTab" type="is-toggle" expanded>
-            <b-tab-item :label="$t('posts.text')" icon="text">
+            <b-tab-item :label="$t('posts.text')" icon="text" :disabled="isTabDisabled(POST_TYPES.POST)">
                 <div class="column is-8 is-offset-2">
                     <b-field :type="{'is-danger': triedToSubmit && errors.has('post.title')}" :message="triedToSubmit ? errors.first('post.title') : null">
                         <b-input v-validate="'required'" name="title" icon="account" v-model="form.title" :placeholder="$t('posts.title')" data-vv-scope="post"></b-input>
@@ -9,12 +9,15 @@
                     <b-field>
                         <b-input maxlength="1000" name="content" type="textarea" v-model="form.content" :placeholder="$t('posts.content')"></b-input>
                     </b-field>
-                    <vue-markdown :anchorAttributes="{target: '_blank', rel: 'nofollow'}" :source="form.content"></vue-markdown>
+                    <div class="box" v-if="form.content">
+                        <vue-markdown :anchorAttributes="{target: '_blank', rel: 'nofollow'}" :source="form.content"></vue-markdown>
+                      <!-- <vue-markdown>i am a ~~tast~~ **test**.</vue-markdown> -->
+                    </div>
                 </div>
             </b-tab-item>
 
-            <b-tab-item :label="$t('posts.media')" icon="image">
-                <div class="column is-8 is-offset-2" v-if="getSelectedPostType() === POST_TYPES.MEDIA">
+            <b-tab-item :label="$t('posts.media')" icon="image" :disabled="isTabDisabled(POST_TYPES.MEDIA)">
+                <div class="column is-8 is-offset-2" v-if="post.type === POST_TYPES.MEDIA">
                     <b-field :type="{'is-danger': triedToSubmit && errors.has('media.title')}" :message="triedToSubmit ? errors.first('media.title') : null">
                         <b-input v-validate="'required'" name="title" icon="account" v-model="formMedia.title" :placeholder="$t('posts.title')" data-vv-scope="media"></b-input>
                     </b-field>
@@ -23,7 +26,7 @@
                 </div>
             </b-tab-item>
 
-            <b-tab-item :label="$t('posts.link')" icon="link">
+            <b-tab-item :label="$t('posts.link')" icon="link" :disabled="isTabDisabled(POST_TYPES.LINK)">
                 <div class="column is-8 is-offset-2">
                     <b-field :type="{'is-danger': triedToSubmit && errors.has('link.title')}" :message="triedToSubmit ? errors.first('link.title') : null">
                         <b-input v-validate="'required'" name="title" icon="account" v-model="formLink.title" :placeholder="$t('posts.title')" data-vv-scope="link"></b-input>

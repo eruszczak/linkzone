@@ -55,20 +55,15 @@
                 mods: []
             }
         },
-        computed: {
-            ...mapGetters(['isLoading'])
-        },
         watch: {
             '$route'(to, from) {
                 this.init()
             },
         },
         methods: {
-            ...mapMutations(['toggleLoading']),
             init() {
-                this.toggleLoading(true);
                 this.$groupService.getGroupDetail(this.name, res => {
-                    this.toggleLoading(false);
+                    this.$toggleLoading(false);
                     this.group = res.data;
                     this.mods = this.group.moderators.map(user => user.username);
                     this.admins = this.group.administrators.map(user => user.username);

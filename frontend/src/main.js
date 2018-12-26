@@ -6,9 +6,7 @@ import UserService from './services/UserService'
 import GroupService from './services/GroupService'
 import PostService from './services/PostService'
 import CommentService from './services/CommentService'
-import {TOAST_COLORS} from "./utils/utils";
 import './config/axios'
-import {toast} from "./config/toast";
 import VueI18n from 'vue-i18n'
 import messages from './locale'
 import moment from 'moment';
@@ -32,14 +30,16 @@ Vue.prototype.$groupService = new GroupService();
 Vue.prototype.$userService = new UserService();
 Vue.prototype.$postService = new PostService();
 Vue.prototype.$commentService = new CommentService();
-Vue.prototype.$toastColors = TOAST_COLORS;
-Vue.prototype.$message = toast;
 Vue.filter("fullDate", str => moment(str).format('MMMM Do YYYY, HH:mm:ss'));
 Vue.filter('shortDate', str => moment(str).format('dddd, HH:mm:ss'));
 
 Vue.filter('t', function (value) {
     return i18n.t(value)
 });
+
+Vue.prototype.$toggleLoading = function(val) {
+    store.commit('toggleLoading', val);
+}
 
 Vue.prototype.$userService.autoLogin();
 

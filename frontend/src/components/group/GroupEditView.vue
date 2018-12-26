@@ -237,6 +237,7 @@
         },
         mounted() {
             this.$groupService.getGroupDetail(this.name, res => {
+                this.$toggleLoading(false);
                 // this.toggleLoading(false)
                 this.group = res.data;
                 this.isAdmin = true;

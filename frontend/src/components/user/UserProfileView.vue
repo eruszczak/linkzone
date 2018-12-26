@@ -112,25 +112,30 @@
         },
         methods: {
             loadTabContent() {
+                this.$toggleLoading(true);
                 switch (this.activeTab) {
                     case tabNumbers.UPVOTED_POSTS:
                         this.$userService.getUpvotedPosts(this.username, ({data}) => {
                             this.upvotedPosts = data.content;
+                            this.$toggleLoading(false);
                         });
                         break;
                     case tabNumbers.UPVOTED_COMMENTS:
                         this.$userService.getComments(this.username, ({data}) => {
-                            this.comments = data.content
+                            this.comments = data.content;
+                            this.$toggleLoading(false);
                         });
                         break;
                     case tabNumbers.POSTS:
                         this.$userService.getPosts(this.username, ({data}) => {
-                            this.posts = data.content
+                            this.posts = data.content;
+                            this.$toggleLoading(false);
                         });
                         break;
                     case tabNumbers.COMMENTS:
                         this.$userService.getComments(this.username, ({data}) => {
-                            this.comments = data.content
+                            this.comments = data.content;
+                            this.$toggleLoading(false);
                         });
                         break;
                     case tabNumbers.MOD_GROUPS:
@@ -144,7 +149,8 @@
             },
             getGroups() {
                 this.$userService.getGroupInfo(this.username, ({data}) => {
-                    this.groups = data
+                    this.groups = data;
+                    this.$toggleLoading(false);
                 });
             },
             tabChange(index) {

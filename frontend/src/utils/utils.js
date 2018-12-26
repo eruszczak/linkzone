@@ -1,8 +1,3 @@
-export const TOAST_COLORS = {
-    SUCCESS: 'success',
-    ERROR: 'error',
-    INFO: 'info'
-};
 export const getPaginationFromResponse = response => {
     return {
         total: response.totalElements,

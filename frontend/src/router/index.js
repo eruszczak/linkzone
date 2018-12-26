@@ -20,7 +20,6 @@ export const LOGIN_VIEW_ROUTE_NAME = 'loginView';
 
 const router = new Router({
     mode: process.env.NODE_ENV === 'production' ? 'history' : 'hash',
-    // linkActiveClass: 'is-active',
     linkExactActiveClass: 'is-active',
     routes: [
         {
@@ -104,6 +103,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
     console.log('to', to);
     console.log('from', from);
+    store.commit('toggleLoading', true)
     if (to.matched.some(record => record.meta.requiresAuth)) {
         console.log('requires Auth', store.getters.isAuthenticated);
         if (!store.getters.isAuthenticated) {

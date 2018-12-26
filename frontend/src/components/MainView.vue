@@ -19,6 +19,7 @@
             this.$postService.getTopPosts(({data}) => {
                 console.log(data);
                 this.posts = data.content;
+                this.$toggleLoading(false);
             })
         }
     }

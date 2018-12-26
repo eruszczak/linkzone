@@ -65,16 +65,16 @@
         },
         mounted() {
             console.log('mounted PostView', this.postID, this.name);
-            this.toggleLoading(true);
             this.$groupService.getGroupDetail(this.name, res => {
-                this.toggleLoading(false);
+                // this.$toggleLoading(false);
                 this.group = res.data;
                 // const isMod = this.$groupService.isMod(this.group.moderators);
                 // const isAdmin = this.$groupService.isAdmin(this.group.administrators);
                 // this.canModerate = isAdmin || isMod
             });
             this.$postService.getPost(this.postID, res => {
-                this.post = res.data
+                this.post = res.data;
+                this.$toggleLoading(false);
             });
             this.loadMoreComments();
         },
@@ -83,8 +83,6 @@
         methods: {
             checkIfImageUrl: checkIfImageUrl,
             getYoutubeId: getYoutubeId,
-            ...mapMutations(['toggleLoading']),
-
             loadMoreComments() {
                 if (this.commentMetadata.lastPage) {
                     return;

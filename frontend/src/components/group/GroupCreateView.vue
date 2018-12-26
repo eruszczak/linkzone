@@ -17,6 +17,9 @@
 <script>
     export default {
         name: 'GroupCreateView',
+        created() {
+            this.$toggleLoading(false);
+        },
         data() {
             return {
                 form: {
