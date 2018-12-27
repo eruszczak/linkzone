@@ -82,9 +82,9 @@
                     </b-taginput>
                 </b-field>
 
-                <b-field class="mt-2" :label="$t('groups.post-types')" :message="$t('groups.post-types-hint')">
+                <b-field class="mt-2" :label="$t('groups.post-types')" :message="triedToSubmit && errors.first('content') ? errors.first('content') : $t('groups.post-types-hint')" :type="{'is-danger': triedToSubmit && errors.has('content')}">
                     <div class="block" style="margin-bottom:0">
-                        <b-checkbox v-model="selectedContent" :native-value="type" v-for="type in POST_TYPES" :key="type">
+                        <b-checkbox v-validate="{required: true}" name="content" v-model="selectedContent" :native-value="type" v-for="type in POST_TYPES" :key="type">
                             {{ type | t }}
                         </b-checkbox>
                     </div>
@@ -170,17 +170,11 @@
                     administrators: this.selectedAdmins.map(user => user.id),
                     moderators: this.selectedMods.map(user => user.id),
                     postTypes: this.selectedContent,
-                    tags: this.group.tags
+                    // tags: this.group.tags
                 }, ({data}) => {
-                    this.$message({
-                        message: 'Updated group',
-                        color: this.$toastColors.SUCCESS
-                    })
+                    this.$success('Updated group');
                 }, () => {
-                    // this.$message({
-                    //     message: 'Error',
-                    //     color: this.$toastColors.ERROR
-                    // })
+                    this.$danger('Error');
                 })
             },
             deleteGroup() {

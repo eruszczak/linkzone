@@ -48,8 +48,10 @@
                 triedToSubmit: false
             }
         },
+        created() {
+            this.$toggleLoading(false);
+        },
         methods: {
-            ...mapMutations(['setAccessToken', 'toggleLoading']),
             login() {
                 this.triedToSubmit = true;
                 this.serverErrors = null;
@@ -60,13 +62,11 @@
                 });
             },
             _login() {
-                this.toggleLoading(true);
+                this.$toggleLoading(true);
                 this.$userService.authenticate(this.form.usernameOrEmail, this.form.password, () => {
-                    this.toggleLoading(false);
-                    this.$message({
-                        message: "Hello " + this.form.usernameOrEmail
-                    });
+                    this.$info('logged-in');
                     this.$router.replace('/');
+                    this.$toggleLoading(false);
                 }, ({data}) => {
                     this.serverErrors = data.errors;
                 })

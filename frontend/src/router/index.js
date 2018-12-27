@@ -52,6 +52,7 @@ const router = new Router({
             name: 'groupEditView',
             path: '/groups/:name/update',
             component: GroupEditView,
+            meta: {requiresAuth: true},
             props: true
         },
         {
@@ -71,6 +72,7 @@ const router = new Router({
             name: 'postUpdateView',
             path: '/post/:id/update',
             component: PostUpdateView,
+            meta: {requiresAuth: true},
             props: true
         },
         {
@@ -88,6 +90,7 @@ const router = new Router({
         {
             name: 'userEditView',
             path: '/settings',
+            meta: {requiresAuth: true},
             component: UserEditView
         },
     ],
@@ -101,24 +104,22 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-    console.log('to', to);
-    console.log('from', from);
+    console.warn('to-from', JSON.stringify(to.name), JSON.stringify(from.name));
     store.commit('toggleLoading', true)
     if (to.matched.some(record => record.meta.requiresAuth)) {
-        console.log('requires Auth', store.getters.isAuthenticated);
+        console.log('requires Auth. am i authenticated?', store.getters.isAuthenticated);
         if (!store.getters.isAuthenticated) {
             if (from.fullPath === '/') {
                 console.log('replacing');
                 router.replace({'path': '/'})
             }
-            console.log('not logged', store.getters.loginModalActive);
             // store.commit('setLoginModalState', false)
-            const timeout = from.name ? 0 : 500; // if user directly navigates to protected route, we must give some time to let login modal component to initialize
-            console.log('timeout', timeout);
-            setTimeout(() => {
-                store.commit('setLoginModalState', true);
-                store.commit('setNextRoute', {name: to.name, params: to.params})
-            }, timeout)
+            // const timeout = from.name ? 0 : 500; // if user directly navigates to protected route, we must give some time to let login modal component to initialize
+            // console.log('timeout', timeout);
+            store.commit('setNextRoute', {name: to.name, params: to.params})
+            // setTimeout(() => {
+            //     // store.commit('setLoginModalState', true);
+            // }, timeout)
         } else {
             next()
         }

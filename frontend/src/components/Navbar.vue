@@ -124,13 +124,7 @@
                 this.selectedLanguage.active = true
             },
             logout() {
-                this.$userService.logout(() => {
-                    this.$message({
-                        message: 'logged out',
-                        type: this.$toastColors.INFO
-                    })
-                });
-                // this.username = null
+                this.$userService.logout();
             },
         }
     }

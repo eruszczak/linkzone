@@ -20,7 +20,7 @@ Vue.use(VueI18n);
 const i18n = new VueI18n({
     locale: 'pl',
     messages,
-    fallbackLocale: 'en',
+    fallbackLocale: 'pl',
 });
 
 // Vue.config.performance = process.env.NODE_ENV === 'development' https://github.com/vuetifyjs/vuetifyjs.com/blob/dev/src/main.js
@@ -36,9 +36,31 @@ Vue.filter('shortDate', str => moment(str).format('dddd, HH:mm:ss'));
 Vue.filter('t', function (value) {
     return i18n.t(value)
 });
+Vue.prototype.$translate = function(val) {
+    return i18n.t(val);
+}
 
 Vue.prototype.$toggleLoading = function(val) {
     store.commit('toggleLoading', val);
+}
+
+Vue.prototype.$success = function(msg) {
+    showToast(msg, 'is-success');
+}
+
+Vue.prototype.$error = function(msg) {
+    showToast(msg, 'is-danger');
+}
+
+Vue.prototype.$info = function(msg) {
+    showToast(msg, 'is-info');
+}
+
+function showToast (msg, type) {
+    Vue.prototype.$toast.open({
+        message: i18n.t(msg),
+        type: type
+    })
 }
 
 Vue.prototype.$userService.autoLogin();

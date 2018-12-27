@@ -3,6 +3,7 @@ import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 import EventEmitter from 'eventemitter3'
 import router from '../router';
+import Vue from 'vue';
 
 const LOCAL_STORAGE_ACCESS_TOKEN_KEY = 'ACCESS_TOKEN';
 
@@ -182,18 +183,17 @@ export default class UserService {
     };
 
     logout = (cb) => {
-        // store.commit('setAccessToken', '')
+        console.log('logging out');
         localStorage.removeItem(LOCAL_STORAGE_ACCESS_TOKEN_KEY);
         store.commit('setIsAuthenticated', false);
         store.commit('setAccessToken', null);
-        console.log('logging out');
-        // this.authNotifier.emit('authChange')
         if (router.currentRoute.meta.requiresAuth) {
             console.log('redirecting from protected route');
-            router.push({path: '/'})
+            router.replace({path: '/'})
         }
-        store.commit('setGroups', []);
+        Vue.prototype.$info('logged-out');
+        // this.authNotifier.emit('authChange')
+        // store.commit('setGroups', []);
         cb && cb();
-        this.username = null;
     }
 }

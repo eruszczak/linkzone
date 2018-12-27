@@ -36,20 +36,6 @@
         computed: {
             ...mapGetters(['isLoading']),
         },
-        watch: {
-            // 'apiError.isError'(isError) {
-            //     if (isError) {
-            //         console.log('isError. App.vue')
-            //         this.$message({
-            //             message: this.apiError.message.message,
-            //             color: this.$toastColors.ERROR
-            //         }, () => {
-            //             this.disableAPIError()
-            //         })
-            //     }
-
-            // }
-        },
         methods: {
             // ...mapMutations(['setRegisterModalState', 'setLoginModalState', 'setGroups', 'disableAPIError', 'filterGroups']),
             // setupForAuthenticatedUser() {

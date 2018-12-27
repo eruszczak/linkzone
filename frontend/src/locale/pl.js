@@ -119,4 +119,7 @@ export default {
     "POST": "Tekst",
     "MEDIA": "Zdjęcie",
     "LINK": "Link",
+    "forbidden": "Brak uprawnień",
+    "logged-out": "Zostałeś wylogowany",
+    "logged-in": "Zostałeś zalogowany"
 }
