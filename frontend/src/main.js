@@ -44,22 +44,28 @@ Vue.prototype.$toggleLoading = function(val) {
     store.commit('toggleLoading', val);
 }
 
-Vue.prototype.$success = function(msg) {
-    showToast(msg, 'is-success');
+Vue.prototype.$success = function(msg, args) {
+    showToast(msg, 'is-success', args);
 }
 
-Vue.prototype.$error = function(msg) {
-    showToast(msg, 'is-danger');
+Vue.prototype.$danger = function(msg, args) {
+    showToast(msg, 'is-danger', args);
 }
 
-Vue.prototype.$info = function(msg) {
-    showToast(msg, 'is-info');
+Vue.prototype.$info = function(msg, args) {
+    showToast(msg, 'is-info', args);
 }
 
-function showToast (msg, type) {
+Vue.prototype.$warning = function(msg, args) {
+    showToast(msg, 'is-warning', args);
+}
+
+function showToast (msg, type, args) {
     Vue.prototype.$toast.open({
-        message: i18n.t(msg),
-        type: type
+        message: i18n.t(msg, args),
+        type: type,
+        position: 'is-top-right',
+        queue: false
     })
 }
 

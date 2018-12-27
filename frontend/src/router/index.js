@@ -105,21 +105,14 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
     console.warn('to-from', JSON.stringify(to.name), JSON.stringify(from.name));
-    store.commit('toggleLoading', true)
+    store.commit('toggleLoading', true);
     if (to.matched.some(record => record.meta.requiresAuth)) {
         console.log('requires Auth. am i authenticated?', store.getters.isAuthenticated);
         if (!store.getters.isAuthenticated) {
-            if (from.fullPath === '/') {
-                console.log('replacing');
-                router.replace({'path': '/'})
-            }
-            // store.commit('setLoginModalState', false)
-            // const timeout = from.name ? 0 : 500; // if user directly navigates to protected route, we must give some time to let login modal component to initialize
-            // console.log('timeout', timeout);
-            store.commit('setNextRoute', {name: to.name, params: to.params})
-            // setTimeout(() => {
-            //     // store.commit('setLoginModalState', true);
-            // }, timeout)
+            store.commit('setNextRoute', {name: to.name, params: to.params});
+            router.replace({'name': 'loginView'});
+            Vue.prototype.$warning('need-login');
+            store.commit('toggleLoading', false);
         } else {
             next()
         }

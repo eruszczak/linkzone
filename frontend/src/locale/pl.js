@@ -122,5 +122,6 @@ export default {
     "LINK": "Link",
     "forbidden": "Brak uprawnień",
     "logged-out": "Zostałeś wylogowany",
-    "logged-in": "Zostałeś zalogowany"
+    "logged-in": "Zostałeś zalogowany",
+    "need-login": "Aby kontynuować, musisz się zalogować"
 }

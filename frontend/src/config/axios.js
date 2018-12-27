@@ -22,7 +22,7 @@ axios.interceptors.response.use((response) => {
         console.log('unauthorized, logging out ...');
         Vue.prototype.$userService.logout();
     } else if (error.response.status === 403) {
-        Vue.prototype.$error(Vue.prototype.$translate('forbidden'));
+        Vue.prototype.$danger(Vue.prototype.$translate('forbidden'));
     }
     return Promise.reject(error.response)
 });

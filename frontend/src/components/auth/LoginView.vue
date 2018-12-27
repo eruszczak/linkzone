@@ -32,11 +32,9 @@
 
 <script>
     import {mapGetters, mapMutations} from 'vuex'
-    import validation from "../../mixins/validation";
 
     export default {
         name: 'LoginView',
-        mixins: [validation],
         data() {
             return {
                 serverErrors: null,

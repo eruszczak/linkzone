@@ -30,18 +30,24 @@
     import {mapMutations} from 'vuex'
     import {POST_TYPES} from "../../services/PostService";
     import Post from './Post'
-    import validation from '../../mixins/validation';
     import Comment from './Comment'
     import Comments from './Comments'
     import {checkIfImageUrl, getYoutubeId, prepareComment} from "../../utils/utils";
-    import BNotification from "buefy/src/components/notification/Notification";
     import NewComment from './NewComment';
 
     export default {
         name: 'PostView',
-        props: ['postID', 'name'],
-        mixins: [validation],
-        components: {BNotification, Comment, Post, Comments, NewComment},
+        props: {
+            postID: {
+                type: String,
+                required: true
+            },
+            name: { // groupName
+                type: String,
+                required: true
+            }
+        },
+        components: {Comment, Post, Comments, NewComment},
         data() {
             return {
                 POST_TYPES,

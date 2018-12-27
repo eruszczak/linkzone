@@ -50,7 +50,6 @@
 </template>
 
 <script>
-    import validation from "../../mixins/validation";
     import {mapGetters} from 'vuex';
     import FileInput from '../includes/FileInput';
 
@@ -59,10 +58,8 @@
         components: {
             FileInput
         },
-        mixins: [validation],
         mounted() {
             this.$userService.getUpdateInfo(({data}) => {
-                console.log(data);
                 this.username = data.username;
                 this.form.username = data.username;
                 this.form.email = data.email;
@@ -72,7 +69,6 @@
         },
         data() {
             return {
-                uploadErrorMsg: '',
                 errorList: [],
                 triedToSubmit: false,
                 form: {
@@ -118,7 +114,6 @@
             },
             uploadAvatar(form) {
                 this.$userService.uploadAvatar(form, ({data}) => {
-                    console.log(data)
                     this.$userService.updateUserDetails(data);
                     this.updatedToast();
                 }, ({data}) => {
@@ -126,10 +121,7 @@
                 })
             },
             updatedToast() {
-                this.$toast.open({
-                    message: this.$t('updated-success'),
-                    type: 'is-success'
-                });
+                this.$success('updated-success');
             }
         }
     }

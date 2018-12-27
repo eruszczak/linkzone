@@ -43,11 +43,9 @@
 
 <script>
     import {mapGetters, mapMutations} from 'vuex'
-    import validation from "../../mixins/validation";
 
     export default {
         name: "RegisterView",
-        mixins: [validation],
         data() {
             return {
                 form: {
@@ -64,7 +62,6 @@
             }
         },
         methods: {
-            ...mapMutations(['setAccessToken', 'toggleLoading']),
             registerAccount() {
                 this.triedToSubmit = true;
                 this.serverErrors = null;
@@ -76,12 +73,12 @@
             },
             _register() {
                 const vm = this;
-                this.toggleLoading(true);
+                this.$toggleLoading(true);
                 this.$userService.register(vm.form, res => {
                     let msg = "Account created";
                     if (vm.form.loginOnSuccess) {
                         this.$userService.authenticate(vm.form.email, vm.form.password, () => {
-                            this.toggleLoading(false);
+                            this.$toggleLoading(false);
                             vm.$message({
                                 message: "Hello " + vm.form.username
                             })

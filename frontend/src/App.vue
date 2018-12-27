@@ -69,7 +69,16 @@
         padding: 0!important;
     }
 
+
     @import "~bulma/sass/utilities/_all";
+    .navbar-item.is-active {
+        // background-color: #fafafa;
+        color: $primary!important;
+    }
+    .navbar-item:hover {
+        // background-color: #fafafa;
+        color: black!important;
+    }
 /*
     // Set your colors
     $primary: #63ef5c;

@@ -1,7 +1,7 @@
 <template>
     <section class="has-text-centered">
         <b-field :label="label" :type="{'is-danger': showError && errors.has('image')}" :message="showError ? errors.first('image') : null">
-            <b-upload v-validate="'required'" name="image" v-model="file" drag-drop accept="image/x-png,image/gif,image/jpeg" @input="onFileChange" :disabled="disabled">
+            <b-upload v-validate="'required'" name="image" v-model="file" drag-drop accept="image/*" @input="onFileChange" :disabled="disabled">
                 <section class="" style="padding: 1rem 1.5rem">
                     <div class="content has-text-centered">
                         <p>
@@ -14,7 +14,7 @@
         </b-field>
         <p><small>{{$t('file-size', {size: maxSize})}}</small></p>
         <p><small>{{$t('file-restrictions', {width: maxWidth, height: maxHeight})}}</small></p>
-        <p v-if="file"><small>{{$t('choosen-file', {name: file.name})}}</small></p>
+        <p v-if="file"><strong><small>{{$t('choosen-file', {name: file.name})}}, {{Math.round(file.size/1000)}}KB</small></strong></p>
     </section>
 </template>
 
@@ -48,9 +48,7 @@
         },
         data() {
             return {
-                filename: '',
                 file: null,
-                previousFile: null
             }
         },
         watch: {
@@ -60,35 +58,18 @@
         },
         methods: {
             onFileChange($event) {
-                console.log('event', $event)
-                if (!$event) {
-                    console.log('no file')
-                    return;
-                }
-                console.log($event.name, $event.size)
-                console.log(this.file.name, this.file.size)
-                // if (this.previousFile && this.previousFile.size === this.file.size) {
-                //     console.log('not changed')
-                //     // file not changed, someone picked a file then opened file dialog and cancelled it
+                // if ($event.name === this.file.name && $event.size === this.file.size) {
+                //     console.log('file not changed. ignoring')
                 //     return;
                 // }
-                // this.previousFile = this.file;
 
-
-                // if (this.file.size > this.maxSize * 1000) {
-                //     this.$toast.open({
-                //         message: this.$t('file-size-error', {size: this.maxSize}),
-                //         type: 'is-danger'
-                //     });
-                //     this.filename = '';
-                // } else {
-                //     const form = new FormData();
-                //     form.append('data', this.file, this.file.name);
-                //     this.$emit('formData', form);
-                // }
-
-
-                // this.$emit('input', this.filename);
+                if (this.file.size > this.maxSize * 1000) {
+                    this.$danger('file-size-error', {size: this.maxSize});
+                } else {
+                    const form = new FormData();
+                    form.append('data', this.file, this.file.name);
+                    this.$emit('formData', form);
+                }
             }
         }
     }

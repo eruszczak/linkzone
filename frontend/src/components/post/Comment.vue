@@ -43,14 +43,12 @@
 </template>
 
 <script>
-    import validation from '../../mixins/validation';
     import {getUpvoteColor} from "../../utils/utils";
     import NewComment from "./NewComment";
-    import BNotification from "buefy/src/components/notification/Notification";
 
     export default {
         name: 'Comment',
-        components: {BNotification, NewComment},
+        components: {NewComment},
         props: {
             item: {
                 required: true,

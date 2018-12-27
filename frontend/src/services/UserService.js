@@ -32,23 +32,18 @@ export default class UserService {
         return jwt_decode(token)
     }
 
-    // refreshToken(token) {
-        // if soon expires: this.extendToken()
-    // }
-
     authenticate = (username, password, cb, cbError) => {
         axios.post('/users/login/', {
             usernameOrEmail: username,
             password: password
-        }).then(res => {
-            // store.commit('toggleLoading', false);
+        }).then(({data}) => {
             store.commit('setIsAuthenticated', true);
-            store.commit('setAccessToken', res.data.accessToken);
-            localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_KEY, res.data.accessToken);
+            store.commit('setAccessToken', data.accessToken);
+            localStorage.setItem(LOCAL_STORAGE_ACCESS_TOKEN_KEY, data.accessToken);
             // this.authNotifier.emit('authChange');
             cb && cb();
+            this.getCurrentUserDetails();
             if (store.getters.next) {
-                console.warn(store.getters.next);
                 router.push(store.getters.next);
                 store.commit('setNextRoute', null);
             }
@@ -139,7 +134,6 @@ export default class UserService {
     autoLogin = (cb, cbError) => {
         const isAuthenticated = this.isTokenValid(this.getToken());
         store.commit('setIsAuthenticated', isAuthenticated);
-        console.log('isAuthenticated', isAuthenticated);
         store.commit('setAccessToken', this.getToken());
         if (isAuthenticated) {
             cb && cb();
@@ -195,5 +189,7 @@ export default class UserService {
         // this.authNotifier.emit('authChange')
         // store.commit('setGroups', []);
         cb && cb();
+        this.user = null;
+        store.commit('setUser', null);
     }
 }
