@@ -21,9 +21,7 @@
                     <sub-toggler :group="group"></sub-toggler>
                     <small class="ml-2">{{group.createdAt}}; {{group.createdAt | shortDate}}</small>
 
-                    <router-link class="button" :to="{name: 'postCreateView', params: {groupName: group.name}}">
-                        {{'groups.add-post-in-group' | t}}
-                    </router-link>
+                    <router-link class="button" :to="{name: 'postCreateView', params: {groupName: group.name}}">{{'groups.add-post-in-group' | t}}</router-link>
 
                     <post-list :is-moderator="group.isModerator" :posts="posts"></post-list>
 

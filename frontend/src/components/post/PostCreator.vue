@@ -1,18 +1,16 @@
 <template>
-    <section class="section">
+    <section class="">
         <b-tabs v-model="selectedTab" type="is-toggle" expanded>
             <b-tab-item :label="$t('posts.text')" icon="text" :disabled="isTabDisabled(POST_TYPES.POST)">
-                <div class="column is-8 is-offset-2">
-                    <b-field :type="{'is-danger': triedToSubmit && errors.has('post.title')}" :message="triedToSubmit ? errors.first('post.title') : null">
-                        <b-input v-validate="'required'" name="title" icon="account" v-model="form.title" :placeholder="$t('posts.title')" data-vv-scope="post"></b-input>
-                    </b-field>
-                    <b-field>
-                        <b-input maxlength="1000" name="content" type="textarea" v-model="form.content" :placeholder="$t('posts.content')"></b-input>
-                    </b-field>
-                    <div class="box" v-if="form.content">
-                        <vue-markdown :anchorAttributes="{target: '_blank', rel: 'nofollow'}" :source="form.content"></vue-markdown>
-                      <!-- <vue-markdown>i am a ~~tast~~ **test**.</vue-markdown> -->
-                    </div>
+                <b-field :type="{'is-danger': triedToSubmit && errors.has('post.title')}" :message="triedToSubmit ? errors.first('post.title') : null">
+                    <b-input v-validate="'required'" name="title" icon="account" v-model="form.title" :placeholder="$t('posts.title')" data-vv-scope="post"></b-input>
+                </b-field>
+                <b-field>
+                    <b-input maxlength="1000" name="content" type="textarea" v-model="form.content" :placeholder="$t('posts.content')"></b-input>
+                </b-field>
+                <div class="box" v-if="form.content">
+                    <vue-markdown :anchorAttributes="{target: '_blank', rel: 'nofollow'}" :source="form.content"></vue-markdown>
+                    <!-- <vue-markdown>i am a ~~tast~~ **test**.</vue-markdown> -->
                 </div>
             </b-tab-item>
 

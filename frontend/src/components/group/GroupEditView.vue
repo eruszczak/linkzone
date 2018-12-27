@@ -10,15 +10,15 @@
             </div>
         </section>
         <section class="container">
-            <nav class="breadcrumb mt-2" aria-label="breadcrumbs">
-                <ul>
-                    <li><router-link :to="{name: 'groupListView'}">{{'groupListView' |t}}</router-link></li>
-                    <li><router-link :to="{name: 'groupDetailView', params: {name: group.name}}">{{group.name}}</router-link></li>
-                    <li class="is-active"><a href="#" aria-current="page">{{'groupEditView'|t}}</a></li>
-                </ul>
-            </nav>
-
             <div class="column is-8 is-offset-2">
+                <nav class="breadcrumb mt-2" aria-label="breadcrumbs">
+                    <ul>
+                        <li><router-link :to="{name: 'groupListView'}">{{'groupListView' |t}}</router-link></li>
+                        <li><router-link :to="{name: 'groupDetailView', params: {name: group.name}}">{{group.name}}</router-link></li>
+                        <li class="is-active"><a href="#" aria-current="page">{{'groupEditView'|t}}</a></li>
+                    </ul>
+                </nav>
+
                 <b-notification type="is-danger" v-if="bannerErrors.length > 0">
                     {{bannerErrors[0]}}
                 </b-notification>

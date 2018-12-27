@@ -7,8 +7,10 @@
                 <div class="columns">
                     <div class="column is-three-quarters">
                         <span class="title is-4">
-                            <h1 class="title"><router-link :to="{name: 'groupDetailView', params: {name: group.name}}">{{group.name}}</router-link></h1>
-
+                            <h1 class="title">
+                                <router-link :to="{name: 'groupDetailView', params: {name: group.name}}">{{group.name}}</router-link>
+                                <router-link class="button is-small ml-2" :to="{name: 'postCreateView', params: {groupName: group.name}}">{{'groups.add-post-in-group' | t}}</router-link>
+                            </h1>
                         </span>
                         <div class="mt-2">
                             <p class="subtitle is-6">{{group.description}}</p>

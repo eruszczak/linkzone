@@ -65,6 +65,7 @@ export default {
         "update-locked": "Zablokuj post?",
         "update-locked-hint": "Zablokowany post, nie może być komentowany.",
         "create-post": "Dodaj post",
+        "update-post": "Aktualizuj"
     },
     "groups": {
         "empty": "Nie znaleziono żadnych grup",

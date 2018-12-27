@@ -1,29 +1,31 @@
 <template>
-    <section class="section" v-if="post">
-        <nav class="breadcrumb" aria-label="breadcrumbs">
-            <ul>
-                <li><router-link :to="{name: 'groupDetailView', params: {name: post.groupName}}">{{post.groupName}}</router-link></li>
-                <li class="is-active"><a href="#" aria-current="page">{{post.title}}</a></li>
-            </ul>
-        </nav>
+    <div class="container" v-if="post">
+        <div class="column is-8 is-offset-2">
+            <nav class="breadcrumb" aria-label="breadcrumbs">
+                <ul>
+                    <li><router-link :to="{name: 'groupDetailView', params: {name: post.groupName}}">{{post.groupName}}</router-link></li>
+                    <li class="is-active"><a href="#" aria-current="page">{{post.title}}</a></li>
+                </ul>
+            </nav>
 
-        <button class="button"><router-link :to="{name: 'postUpdateView', params: {id: post.id}}">update</router-link></button>
+            <button class="button"><router-link :to="{name: 'postUpdateView', params: {id: post.id}}">update</router-link></button>
 
-        <!-- <p>can moderate: {{canModerate}}; isOwner: {{isOwner}}</p>
-        <p>author: {{post.author}}</p>
-        <p>group: {{post.groupName}}</p> -->
-        <!-- <button class="button" @click="updating = !updating" v-if="isOwner || canModerate">update</button> -->
+            <!-- <p>can moderate: {{canModerate}}; isOwner: {{isOwner}}</p>
+            <p>author: {{post.author}}</p>
+            <p>group: {{post.groupName}}</p> -->
+            <!-- <button class="button" @click="updating = !updating" v-if="isOwner || canModerate">update</button> -->
 
-        <post :post="post"></post>
+            <post :post="post"></post>
 
-        <p class="title">{{post.commentCount}} comments</p>
-        <b-notification v-if="post.locked" :closable="false">
-            <p>{{'posts.locked' | t}}</p>
-        </b-notification>
-        <comments :comments="comments" @change="changeCommentCount" :is-locked="post.locked">
-            <new-comment v-if="!post.locked" v-model="comment.body" @add="addComment"></new-comment>
-        </comments>
-    </section>
+            <p class="title">{{post.commentCount}} comments</p>
+            <b-notification v-if="post.locked" :closable="false">
+                <p>{{'posts.locked' | t}}</p>
+            </b-notification>
+            <comments :comments="comments" @change="changeCommentCount" :is-locked="post.locked">
+                <new-comment v-if="!post.locked" v-model="comment.body" @add="addComment"></new-comment>
+            </comments>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -39,7 +41,7 @@
         name: 'PostView',
         props: {
             postID: {
-                type: String,
+                type: [String, Number],
                 required: true
             },
             name: { // groupName

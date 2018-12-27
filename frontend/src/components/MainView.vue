@@ -1,6 +1,8 @@
 <template>
-    <div>
-        <post-list :posts="posts"></post-list>
+    <div class="container">
+        <div class="column is-8 is-offset-2">
+            <post-list :posts="posts"></post-list>
+        </div>
     </div>
 </template>
 
