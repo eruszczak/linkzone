@@ -16,7 +16,7 @@
                     <!-- </p> -->
                     <img :src="'/static/' + group.bannerUrl" v-if="group.bannerUrl">
                     <p class="title is-4">{{group.name}}</p>
-                    <p class="subtitle is-6">description: {{group.description}}</p>
+                    <p class="subtitle is-6">{{group.description}}</p>
 
                     <sub-toggler :group="group"></sub-toggler>
                     <small class="ml-2">{{group.createdAt}}; {{group.createdAt | shortDate}}</small>

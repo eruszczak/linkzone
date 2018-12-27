@@ -44,7 +44,11 @@ export default {
         "posts": "Posty",
         "comments": "Komentarze",
         "moderated-groups": "Moderowane grupy",
-        "administrated-groups": "Administrowane grupy"
+        "administrated-groups": "Administrowane grupy",
+        "groups": "Grupy",
+        "stat-posts": "Napisane posty",
+        "stat-comments": "Napisane komentarze",
+        "stat-points": "Punkty"
     },
     "posts": {
         "empty": "Nie znaleziono żadnych postów",
@@ -94,7 +98,7 @@ export default {
         "subscribers": "Subskrybenci",
         "created-time": "Stworzona",
         "add-post-in-group": "Dodaj post",
-        "update-group": "Aktualizuj"
+        "update-group": "Aktualizuj",
     },
     "comments": {
         "reply": "Odpowiedz",

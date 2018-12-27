@@ -17,7 +17,7 @@
 
             <post :post="post"></post>
 
-            <p class="title">{{post.commentCount}} comments</p>
+            <p class="title is-4">{{post.commentCount}} comments</p>
             <b-notification v-if="post.locked" :closable="false">
                 <p>{{'posts.locked' | t}}</p>
             </b-notification>

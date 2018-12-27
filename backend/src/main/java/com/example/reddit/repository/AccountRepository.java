@@ -1,5 +1,6 @@
 package com.example.reddit.repository;
 
+import com.example.reddit.dto.IAccountStatsDto;
 import com.example.reddit.model.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -15,6 +16,9 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     Optional<Account> findByEmailIgnoreCase(String email);
 
     Optional<Account> findByUsernameIgnoreCaseOrEmailIgnoreCase(String username, String email);
+
+    @Query(value = "", nativeQuery = true)
+    IAccountStatsDto calculateStats(Long userId);
 
 //    @Query("SELECT COUNT(a.id) FROM Account a")
 //    long countUsers();

@@ -1,50 +1,54 @@
 <template>
-    <section class="section">
-        <div class="level">
-            <div class="level-item has-text-centered">
-                <div>
-                    <p class="heading">Tweets</p>
-                    <p class="title">3,456</p>
+    <section class="container">
+        <div class="column is-8 is-offset-2 mt-2 mb-2">
+            <div class="level">
+                <div class="level-item has-text-centered">
+                    <div>
+                        <p class="heading">{{'profile.stat-posts'|t}}</p>
+                        <p class="title">3,456</p>
+                    </div>
                 </div>
-            </div>
-            <div class="level-item has-text-centered">
-                <div>
-                    <p class="heading">Following</p>
-                    <p class="title">123</p>
+                <div class="level-item has-text-centered">
+                    <div>
+                        <p class="heading">{{'profile.stat-comments'|t}}</p>
+                        <p class="title">123</p>
+                    </div>
                 </div>
-            </div>
-            <div class="level-item has-text-centered">
-                <div>
-                    <p class="heading">Followers</p>
-                    <p class="title">456K</p>
-                </div>
-            </div>
-            <div class="level-item has-text-centered">
-                <div>
-                    <p class="heading">Likes</p>
-                    <p class="title">789</p>
+                <div class="level-item has-text-centered">
+                    <div>
+                        <p class="heading">{{'profile.stat-points'|t}}</p>
+                        <p class="title">456K</p>
+                    </div>
                 </div>
             </div>
         </div>
         <b-tabs v-model="activeTab" size="is-small" type="is-boxed" position="is-centered" @change="tabChange">
             <b-tab-item :label="$t('profile.upvoted-posts')" icon="google-photos">
-                <post-list :posts="upvotedPosts"></post-list>
+                <div class="column is-8 is-offset-2">
+                    <post-list :posts="upvotedPosts"></post-list>
+                </div>
             </b-tab-item>
             <b-tab-item :label="$t('profile.upvoted-comments')" icon="library-music">
-                {{'profile.upvoted-comments' | t}}
+                <div class="column is-8 is-offset-2">{{'profile.upvoted-comments' | t}}</div>
             </b-tab-item>
             <b-tab-item :label="$t('profile.posts')" icon="video">
-                <post-list :posts="posts"></post-list>
+                <div class="column is-8 is-offset-2">
+                    <post-list :posts="posts"></post-list>
+                </div>
             </b-tab-item>
             <b-tab-item :label="$t('profile.comments')" icon="video">
-                <comment v-for="item in comments" :item="item" @removed="handleRemovedComment($event)" read-only></comment>
+                <div class="column is-8 is-offset-2">
+                    <comment v-for="(item, index) in comments" :item="item" :index="index" :key="item.id" @removed="handleRemovedComment($event)" read-only></comment>
+                </div>
             </b-tab-item>
-            <b-tab-item :label="$t('profile.moderated-groups')" icon="video">
-                <group-list v-if="groups.moderatedGroups != undefined" :groups="groups.moderatedGroups"></group-list>
+            <b-tab-item :label="$t('profile.groups')" icon="video">
+                <div class="column is-8 is-offset-2">
+                    <group-list v-if="groups.moderatedGroups != undefined" :groups="groups.moderatedGroups"></group-list>
+                </div>
             </b-tab-item>
-            <b-tab-item :label="$t('profile.administrated-groups')" icon="video">
+            <!-- <b-tab-item :label="$t('profile.administrated-groups')" icon="video">
                 <group-list v-if="groups.administratedGroups != undefined" :groups="groups.administratedGroups"></group-list>
-            </b-tab-item>
+            </b-tab-item> -->
         </b-tabs>
     </section>
 </template>

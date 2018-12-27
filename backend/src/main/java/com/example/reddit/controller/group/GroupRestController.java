@@ -57,7 +57,6 @@ public class GroupRestController {
             groups = groupService.search(pageable, query, userId);
         } else {
             groups = groupService.search(pageable, "", userId);
-//            groups = groupService.findAll(pageable);
         }
         Page<GroupResponse> response = groups.map(GroupResponse::new);
         return new ResponseEntity<>(response, HttpStatus.OK);

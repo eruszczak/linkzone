@@ -51,16 +51,16 @@
 
 <style lang="scss">
     .mr-2 {
-        margin-right: 2em;
+        margin-right: 2em!important;
     }
     .ml-2 {
-        margin-left: 2em;
+        margin-left: 2em!important;
     }
     .mt-2 {
-        margin-top: 2em;
+        margin-top: 2em!important;
     }
     .mb-2 {
-        margin-bottom: 2em;
+        margin-bottom: 2em!important;
     }
     .is-horizontal-center {
         justify-content: center;

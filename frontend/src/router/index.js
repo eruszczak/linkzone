@@ -105,7 +105,9 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
     console.warn('to-from', JSON.stringify(to.name), JSON.stringify(from.name));
-    store.commit('toggleLoading', true);
+    if (to.name !== from.name) {
+        store.commit('toggleLoading', true);
+    }
     if (to.matched.some(record => record.meta.requiresAuth)) {
         console.log('requires Auth. am i authenticated?', store.getters.isAuthenticated);
         if (!store.getters.isAuthenticated) {

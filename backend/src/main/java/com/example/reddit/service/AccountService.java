@@ -2,6 +2,7 @@ package com.example.reddit.service;
 
 import com.example.reddit.dto.AccountCreate;
 import com.example.reddit.dto.AccountUpdate;
+import com.example.reddit.dto.IAccountStatsDto;
 import com.example.reddit.exception.UserNotFoundException;
 import com.example.reddit.model.Account;
 import com.example.reddit.model.Role;
@@ -89,6 +90,10 @@ public class AccountService {
             account.setPassword(encodePassword(accountUpdate.getPassword()));
         }
         save(account);
+    }
+
+    public IAccountStatsDto calculateStats(Long userId) {
+        return accountRepository.calculateStats(userId);
     }
 
     public Account findByUsername(String username) {

@@ -11,7 +11,7 @@
         </section>
         <div class="container">
             <div class="column is-8 is-offset-2">
-                <b-field v-if="!disabled" class="mt-2" :label="$t('posts.pick-group')" :type="{'is-danger': triedToSubmit && errors.first('group')}" :message="triedToSubmit ? errors.first('group') : null">
+                <b-field v-if="!disabled" class="mt-2 mb-2" :label="$t('posts.pick-group')" :type="{'is-danger': triedToSubmit && errors.first('group')}" :message="triedToSubmit ? errors.first('group') : null">
                     <b-taginput
                         v-model="selectedGroups"
                         :data="groupOptions"

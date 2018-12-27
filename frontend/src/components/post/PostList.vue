@@ -1,6 +1,8 @@
 <template>
     <div>
-        <post :post="post" v-for="post in posts" :key="post.id" link></post>
+        <div class="mt-2" v-for="post in posts" :key="post.id">
+            <post :post="post" link></post>
+        </div>
         <b-notification v-if="posts.length === 0" :closable="false">
             {{'posts.empty' | t}}
         </b-notification>
@@ -9,11 +11,10 @@
 
 <script>
     import Post from './Post'
-    import BNotification from "buefy/src/components/notification/Notification";
 
     export default {
         name: "PostList",
-        components: {BNotification, Post},
+        components: {Post},
         props: {
             posts: {
                 type: Array,

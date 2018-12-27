@@ -2,6 +2,7 @@ package com.example.reddit.service;
 
 import com.example.reddit.dto.GroupCreate;
 import com.example.reddit.dto.GroupUpdate;
+import com.example.reddit.dto.IAccountStatsDto;
 import com.example.reddit.dto.IGroupResponseDto;
 import com.example.reddit.exception.NotFoundException;
 import com.example.reddit.model.Account;
@@ -12,6 +13,7 @@ import com.example.reddit.repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
