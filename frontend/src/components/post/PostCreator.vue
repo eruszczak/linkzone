@@ -17,12 +17,12 @@
             </b-tab-item>
 
             <b-tab-item :label="$t('posts.media')" icon="image" :disabled="isTabDisabled(POST_TYPES.MEDIA)">
-                <div class="column is-8 is-offset-2" v-if="post && post.type === POST_TYPES.MEDIA">
+                <div class="column is-8 is-offset-2" v-if="!post || (post && post.type === POST_TYPES.MEDIA)">
                     <b-field :type="{'is-danger': triedToSubmit && errors.has('media.title')}" :message="triedToSubmit ? errors.first('media.title') : null">
                         <b-input v-validate="'required'" name="title" icon="account" v-model="formMedia.title" :placeholder="$t('posts.title')" data-vv-scope="media"></b-input>
                     </b-field>
                     <img :src="`/static/${filename}`" style="max-width:150px;max-height:150px" v-if="filename">
-                    <file-input @formData="handleImageUpload" v-model="formMedia.content" :show-error="triedToSubmit"></file-input>
+                    <file-input @formData="handleImageUpload" :show-error="triedToSubmit"></file-input>
                 </div>
             </b-tab-item>
 

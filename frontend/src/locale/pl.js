@@ -63,7 +63,8 @@ export default {
         "content": "Wiadomość",
         "link": "Adres URL",
         "update-locked": "Zablokuj post?",
-        "update-locked-hint": "Zablokowany post, nie może być komentowany." 
+        "update-locked-hint": "Zablokowany post, nie może być komentowany.",
+        "create-post": "Dodaj post"
     },
     "groups": {
         "empty": "Nie znaleziono żadnych grup",

@@ -1,42 +1,50 @@
 <template>
-    <section class="section">
-        <p class="title">{{'posts.create-header' | t}}</p>
-        <b-field label="Limited to 5 tags">
-            <b-taginput
-                maxtags="1"
-                :value="['One']">
-            </b-taginput>
-        </b-field>
-        <b-field :label="$t('posts.pick-group')" :type="{'is-danger': triedToSubmit && errors.first('group')}" :message="triedToSubmit ? errors.first('group') : null">
-            <b-autocomplete
-                v-validate="'required'"
-                name="group"
-                v-model="name"
-                :data="data"
-                :placeholder="$t('posts.search-group')"
-                field="name"
-                :loading="isFetching"
-                @keyup.native="getAsyncData"
-                @select="option => selectedGroup = option">
-
-                <template slot-scope="props">
-                    <div class="media">
-                        <!-- <div class="media-left"> -->
-                            <!-- <img width="32" :src="`https://image.tmdb.org/t/p/w500/${props.option.poster_path}`"> -->
-                        <!-- </div> -->
-                        <div class="media-content">
-                            {{ props.option.name }}; {{ props.option.createdAt | shortDate }}
-                            <br>
-                            <small>
-                                {{props.option.description}}
-                            </small>
+    <section class="section is-fullwidth">
+        <section class="hero is-primary">
+            <div class="hero-body">
+                <div class="container">
+                <h1 class="title">
+                    {{'posts.create-post'|t}}
+                </h1>
+                </div>
+            </div>
+        </section>
+        <section class="container">
+            <b-field class="mt-2" :label="$t('posts.pick-group')" :type="{'is-danger': triedToSubmit && errors.first('group')}" :message="triedToSubmit ? errors.first('group') : null">
+                <b-taginput
+                    v-model="selectedGroups"
+                    :data="groupOptions"
+                    maxtags="1"
+                    size="is-medium"
+                    autocomplete
+                    v-validate="'required'"
+                    name="group"
+                    field="name"
+                    icon="account"
+                    type="is-primary"
+                    :placeholder="$t('posts.search-group')"
+                    @typing="updateGroupOptions">
+                    <template slot-scope="props">
+                        <div class="media">
+                            <div class="media-left"> -->
+                                <img width="32" src="https://api.adorable.io/avatar/100/user10">
+                            </div>
+                            <div class="media-content">
+                                {{ props.option.name }}; {{ props.option.createdAt | shortDate }}
+                                <br>
+                                <small>
+                                    {{props.option.description}}
+                                </small>
+                            </div>
                         </div>
-                    </div>
-                </template>
-            </b-autocomplete>
-        </b-field>
-        <br>
-        <post-creator @submit="createPost" @upload="filename = $event"></post-creator>
+                    </template>
+                    <template slot="empty">
+                        {{'empty'|t}}
+                    </template>
+                </b-taginput>
+            </b-field>
+            <post-creator @submit="createPost" @upload="filename = $event"></post-creator>
+        </section>
     </section>
 </template>
 
@@ -63,21 +71,29 @@
         },
         data() {
             return {
-                selectedGroup: null,
-                loading: false,
-                search: null,
-                isUpdating: false,
-                items: [],
                 filename: null,
                 triedToSubmit: true,
-
-                data: [],
-                name: '',
-                selected: null,
-                isFetching: false
+                selectedGroups: [],
+                groupOptions: []
             }
         },
         methods: {
+            updateGroupOptions: debounce(function (text) {
+                console.log(text)
+                this.$groupService.getGroupList(null, text, res => {
+                    this.isFetching = false;
+                    if (res.data.content.length === 0) {
+                        this.groupOptions = [];
+                        return
+                    }
+                    this.groupOptions = res.data.content;
+
+                }, () => {
+                    this.groupOptions = [];
+                    // this.isFetching = false;
+                    // this.loading = false
+                })
+            }, 500),
             createPost(value) {
                 this.triedToSubmit = true;
                 this.$validator.validate().then(result => {
@@ -104,29 +120,7 @@
                         }
                     })
                 })
-            },
-            getAsyncData: debounce(function () {
-                if (!this.name.length) {
-                    this.data = [];
-                    return
-                }
-                this.isFetching = true;
-
-                console.log(this.name)
-
-                this.$groupService.getGroupList(null, this.name, res => {
-                    this.isFetching = false;
-                    if (res.data.content.length === 0) {
-                        this.data = [];
-                        return
-                    }
-                    this.data = res.data.content;
-
-                }, () => {
-                    this.isFetching = false;
-                    // this.loading = false
-                })
-            }, 500)
+            }
         }
     }
 </script>
