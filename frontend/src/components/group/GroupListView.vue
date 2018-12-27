@@ -1,10 +1,18 @@
 <template>
     <section class="section">
-        <router-link class="button is-pulled-right" :to="{name: 'groupCreateView'}">{{'groups.add-group'|t}}</router-link>
-        <b-field style="width:300px" class="is-pulled-left">
-            <b-input v-model="query" placeholder="Szukaj"></b-input>
-        </b-field>
-        <group-list :groups="groups" :pagination="pagination" @pageChange="handleChange"></group-list>
+        <div class="container">
+            <div class="column is-8 is-offset-2">
+                <div class="is-clearfix">
+                    <router-link class="button is-pulled-right" :to="{name: 'groupCreateView'}">{{'groups.add-group'|t}}</router-link>
+                    <b-field style="width:300px" class="is-pulled-left">
+                        <b-input v-model="query" :placeholder="$t('search')"></b-input>
+                    </b-field>
+                </div>
+                <section class="">
+                    <group-list :groups="groups" :pagination="pagination" @pageChange="handleChange"></group-list>
+                </section>
+            </div>
+        </div>
     </section>
 </template>
 

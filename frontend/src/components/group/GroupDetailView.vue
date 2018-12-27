@@ -1,30 +1,35 @@
 <template>
     <section class="section is-fullwidth" v-if="group">
         <img src="https://styles.redditmedia.com/t5_2sqho/styles/bannerBackgroundImage_g0n4opey4io11.jpg?format=pjpg&s=69513e1a04e11f844755cd34902d86d7c03f4abe"/>
-        <section class="container">
-            <nav class="breadcrumb" aria-label="breadcrumbs">
-                <ul>
-                    <li><router-link :to="{name: 'groupListView'}">{{'groupListView' |t}}</router-link></li>
-                    <li class="is-active"><a href="#" aria-current="page">{{group.name}}</a></li>
-                </ul>
-            </nav>
-            <!-- <p v-if="group.isAdministrator"> -->
-                <router-link class="button" :to="{name: 'groupEditView', params: {name: group.name}}">update</router-link>
-            <!-- </p> -->
-            <img :src="'/static/' + group.bannerUrl" v-if="group.bannerUrl">
-            <p class="title is-4">{{group.name}}</p>
-            <p class="subtitle is-6">description: {{group.description}}</p>
 
-            <sub-toggler :group="group"></sub-toggler>
-            <small class="ml-2">{{group.createdAt}}; {{group.createdAt | shortDate}}</small>
+        <section class="">
+            <div class="container">
+                <div class="column is-8 is-offset-2">
+                    <nav class="breadcrumb" aria-label="breadcrumbs">
+                        <ul>
+                            <li><router-link :to="{name: 'groupListView'}">{{'groupListView' |t}}</router-link></li>
+                            <li class="is-active"><a href="#" aria-current="page">{{group.name}}</a></li>
+                        </ul>
+                    </nav>
+                    <!-- <p v-if="group.isAdministrator"> -->
+                        <router-link class="button" :to="{name: 'groupEditView', params: {name: group.name}}">{{'groups.update-group'|t}}</router-link>
+                    <!-- </p> -->
+                    <img :src="'/static/' + group.bannerUrl" v-if="group.bannerUrl">
+                    <p class="title is-4">{{group.name}}</p>
+                    <p class="subtitle is-6">description: {{group.description}}</p>
 
-            <router-link class="button" :to="{name: 'postCreateView', params: {groupName: group.name}}">
-                {{'add-post-in-group' | t}}
-            </router-link>
+                    <sub-toggler :group="group"></sub-toggler>
+                    <small class="ml-2">{{group.createdAt}}; {{group.createdAt | shortDate}}</small>
 
-            <post-list :is-moderator="group.isModerator" :posts="posts"></post-list>
+                    <router-link class="button" :to="{name: 'postCreateView', params: {groupName: group.name}}">
+                        {{'groups.add-post-in-group' | t}}
+                    </router-link>
 
-            <pagination :pagination="pagination" @change="handleChange"/>
+                    <post-list :is-moderator="group.isModerator" :posts="posts"></post-list>
+
+                    <pagination :pagination="pagination" @change="handleChange"/>
+                </div>
+            </div>
         </section>
     </section>
 </template>

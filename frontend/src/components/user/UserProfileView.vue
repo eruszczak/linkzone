@@ -75,9 +75,6 @@
 
     const tabsRev = Object.assign({}, ...Object.entries(tabs).map(([a,b]) => ({ [b]: a })));
 
-    console.log(tabs)
-    console.log(tabsRev)
-
     export default {
         name: "UserProfileView",
         components: {PostList, Comment, GroupList},

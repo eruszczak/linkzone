@@ -64,7 +64,7 @@ export default {
         "link": "Adres URL",
         "update-locked": "Zablokuj post?",
         "update-locked-hint": "Zablokowany post, nie może być komentowany.",
-        "create-post": "Dodaj post"
+        "create-post": "Dodaj post",
     },
     "groups": {
         "empty": "Nie znaleziono żadnych grup",
@@ -89,7 +89,11 @@ export default {
         "pick-mods": "Moderatorzy",
         "post-types": "Typy zawartości",
         "post-types-hint": "Określ jakie rodzaje postów mogą być dodawane do tej grupy. Przynajmniej 1 wartość wymagana.",
-        "add-tag": "Szukaj..."
+        "add-tag": "Szukaj...",
+        "subscribers": "Subskrybenci",
+        "created-time": "Stworzona",
+        "add-post-in-group": "Dodaj post",
+        "update-group": "Aktualizuj"
     },
     "comments": {
         "reply": "Odpowiedz",
@@ -123,5 +127,6 @@ export default {
     "forbidden": "Brak uprawnień",
     "logged-out": "Zostałeś wylogowany",
     "logged-in": "Zostałeś zalogowany",
-    "need-login": "Aby kontynuować, musisz się zalogować"
+    "need-login": "Aby kontynuować, musisz się zalogować",
+    "search": "Szukaj"
 }
