@@ -148,7 +148,7 @@ public class AccountRestController {
         Utils.checkIfOwner(currentUser, username);
         MultipartFileValidator.validate(file);
         MultipartFileValidator.validateImageDimensions(file, 200, 200);
-        MultipartFileValidator.validateImageSize(file, 500);
+        MultipartFileValidator.validateImageSize(file, 100);
         String fileName = fileStorageService.storeFile(file);
         accountService.updateAvatar(fileName, currentUser.getId());
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()

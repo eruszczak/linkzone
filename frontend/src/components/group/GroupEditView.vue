@@ -3,9 +3,9 @@
         <section class="hero is-primary">
             <div class="hero-body">
                 <div class="container">
-                <h1 class="title">
-                    {{'groups.update-header'|t}} /g/{{group.name}}
-                </h1>
+                    <h1 class="title">
+                        {{'groups.update-header'|t}} /g/{{group.name}}
+                    </h1>
                 </div>
             </div>
         </section>
@@ -31,7 +31,7 @@
 
                 <div class="mb-2 mt-2">
                     <img v-if="group.bannerUrl" :src="'/static/' + group.bannerUrl">
-                    <file-input label="Banner" :max-height="200" :max-width="1000" @formData="handleFormData" :max-size="1000"></file-input>
+                    <file-input @formData="handleFormData" label="Banner" :max-height="200" :max-width="1000"  :max-size="1000"></file-input>
                 </div>
 
                 <b-field :label="$t('groups.creator')" :message="$t('groups.creator-hint')">
