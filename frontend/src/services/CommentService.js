@@ -25,7 +25,7 @@ export default class CommentService {
             cb && cb();
         });
     }
-
+    
     create(postId, data, cb, cbError) {
         const url = `/posts/${postId}/comments/`;
         axios.post(url, data).then(cb, cbError)

@@ -1,6 +1,6 @@
 <template>
     <section class="section is-fullwidth" v-if="user">
-        <section class="hero is-primary">
+        <section class="hero is-primary is-small">
             <div class="hero-body has-text-centered">
                 <p class="title">{{user.username}}</p>
                 <p class="subtitle">{{'account.edit-hint'|t}}</p>

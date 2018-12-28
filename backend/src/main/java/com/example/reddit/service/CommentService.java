@@ -2,6 +2,7 @@ package com.example.reddit.service;
 
 import com.example.reddit.dto.CommentCreate;
 import com.example.reddit.dto.ICommentResponseDto;
+import com.example.reddit.dto.ICounterDto;
 import com.example.reddit.exception.NotFoundException;
 import com.example.reddit.exception.ResourceLockedException;
 import com.example.reddit.model.*;
@@ -105,7 +106,6 @@ public class CommentService {
     }
 
     public void clearVote(Account account, Comment comment) {
-        // TODO set to null or remove?
         commentUpvoteRepository.deleteByAccountIdAndCommentId(account.getId(), comment.getId());
     }
 
@@ -119,6 +119,10 @@ public class CommentService {
         CommentUpvote commentUpvote = getOrCreateCommentUpvote(account, comment);
         commentUpvote.setIsUpvote(-1);
         commentUpvoteRepository.save(commentUpvote);
+    }
+
+    public ICounterDto countUpvotes(Long commentId) {
+        return commentUpvoteRepository.getCounter(commentId);
     }
 
     private CommentUpvote getOrCreateCommentUpvote(Account account, Comment comment) {

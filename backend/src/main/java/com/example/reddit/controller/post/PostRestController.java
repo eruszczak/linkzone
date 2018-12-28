@@ -1,5 +1,6 @@
 package com.example.reddit.controller.post;
 
+import com.example.reddit.dto.ICounterDto;
 import com.example.reddit.dto.IPostResponseDto;
 import com.example.reddit.dto.PostResponse;
 import com.example.reddit.dto.PostUpdate;
@@ -86,18 +87,18 @@ public class PostRestController {
     @PostMapping(value = "/{id}/clear-vote/")
     public ResponseEntity<?> clearVote(@PathVariable Long id, @CurrentUser UserPrincipal currentUser) {
         postService.clearVote(currentUser.getAccount(), postService.findById(id));
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(postService.countUpvotes(id), HttpStatus.OK);
     }
 
     @PostMapping(value = "/{id}/upvote/")
-    public ResponseEntity<?> upvote(@PathVariable Long id, @CurrentUser UserPrincipal currentUser) {
+    public ResponseEntity<ICounterDto> upvote(@PathVariable Long id, @CurrentUser UserPrincipal currentUser) {
         postService.upvote(currentUser.getAccount(), postService.findById(id));
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(postService.countUpvotes(id), HttpStatus.OK);
     }
 
     @PostMapping(value = "/{id}/downvote/")
     public ResponseEntity<?> downvote(@PathVariable Long id, @CurrentUser UserPrincipal currentUser) {
         postService.downvote(currentUser.getAccount(), postService.findById(id));
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(postService.countUpvotes(id), HttpStatus.OK);
     }
 }

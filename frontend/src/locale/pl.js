@@ -40,8 +40,8 @@ export default {
         "invalid_dimensions": "Nieprawidłowe wymiary obrazka"
     },
     "profile": {
-        "upvoted-posts": "Pozytywne posty",
-        "upvoted-comments": "Pozytywne komentarze",
+        "upvoted-posts": "Polubione posty",
+        "upvoted-comments": "Polubione komentarze",
         "posts": "Posty",
         "comments": "Komentarze",
         "moderated-groups": "Moderowane grupy",

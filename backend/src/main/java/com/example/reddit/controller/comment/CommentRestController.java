@@ -79,18 +79,18 @@ public class CommentRestController {
     @PostMapping(value = "/{id}/clear-vote/")
     public ResponseEntity<?> clearVote(@PathVariable Long id, @CurrentUser UserPrincipal currentUser) {
         commentService.clearVote(currentUser.getAccount(), commentService.findById(id));
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(commentService.countUpvotes(id), HttpStatus.OK);
     }
 
     @PostMapping(value = "/{id}/upvote/")
     public ResponseEntity<?> upvote(@PathVariable Long id, @CurrentUser UserPrincipal currentUser) {
         commentService.upvote(currentUser.getAccount(), commentService.findById(id));
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(commentService.countUpvotes(id), HttpStatus.OK);
     }
 
     @PostMapping(value = "/{id}/downvote/")
     public ResponseEntity<?> downvote(@PathVariable Long id, @CurrentUser UserPrincipal currentUser) {
         commentService.downvote(currentUser.getAccount(), commentService.findById(id));
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(commentService.countUpvotes(id), HttpStatus.OK);
     }
 }

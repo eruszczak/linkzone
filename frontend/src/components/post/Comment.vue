@@ -13,23 +13,24 @@
                         {{ item.author.username }}
                     </router-link>
                     <span class="ml-2">
-                        <a class="button is-small" @click="upvote"><b-icon :type="getUpvoteColor(item, true)" icon="arrow-up"></b-icon></a>
+                        <a class="button is-small is-white" @click="upvote"><b-icon :type="getUpvoteColor(item, true)" icon="chevron-up"></b-icon></a>
                         <b-tag type="is-white">{{item.upvotedCount || 0}}</b-tag>
-                        <a class="button is-small" @click="downvote"><b-icon :type="getUpvoteColor(item, false)" icon="arrow-down"></b-icon></a>
-                        <button v-if="!noReply && !isLocked" class="button is-small ml-2" @click="item.addReply = !item.addReply">
-                            <b-icon size="is-small" icon="comment-multiple"></b-icon>
-                            <span>{{'comments.reply' | t}}</span>
-                        </button>
+                        <a class="button is-small is-white" @click="downvote"><b-icon :type="getUpvoteColor(item, false)" icon="chevron-down"></b-icon></a>
+                        <b-tooltip :label="$t('comments.reply')" type="is-light" size="is-small">
+                            <a v-if="!noReply && !isLocked" class="button is-small ml-2 is-white" @click="item.addReply = !item.addReply">
+                                <b-icon size="is-small" icon="comment-multiple"></b-icon>
+                            </a>
+                        </b-tooltip>
                     </span>
                     <span class="is-pulled-right">
-                       <a class="button is-small mr-2" @click="confirmCustomDelete">
+                       <a class="button is-white is-small mr-2" @click="confirmCustomDelete">
                             <b-icon type="is-danger" icon="delete"></b-icon>
                         </a>
                         <small>{{item.createdAt | shortDate}}</small>
                     </span>
 
                     <br>
-                    {{item.content}}
+                    {{item.content}}; {{item.id}}
                 </p>
             </div>
             <b-notification v-if="!item.replies && !isInner" :closable="false">
@@ -77,10 +78,6 @@
                 updatedBody: this.item.content
             }
         },
-        mounted() {
-            // console.warn('body', this.item)
-        },
-        computed: {},
         methods: {
             replyToComment(comment) {
                 this.$commentService.reply(comment.id, {content: comment.reply.body}, ({data}) => {
@@ -97,7 +94,6 @@
                 })
             },
             emitRemoveEvent(innerIndex) {
-                console.log('emit remove event');
                 this.$emit('removed', {outerIndex: this.index, innerIndex: innerIndex})
             },
             emitAddEvent() {
@@ -111,29 +107,28 @@
             },
             upvote() {
                 if (this.item.isUpvoted === 1) {
-                    this.item.upvotedCount -= 1;
                     this.clear();
                     return;
                 }
-                this.$commentService.upvote(this.item.id, () => {
+                this.$commentService.upvote(this.item.id, ({data}) => {
                     this.item.isUpvoted = 1;
-                    this.item.upvotedCount += 1;
+                    this.item.upvotedCount = data.counter;
                 });
             },
             downvote() {
                 if (this.item.isUpvoted === -1) {
-                    this.item.upvotedCount += 1;
                     this.clear();
                     return;
                 }
-                this.$commentService.downvote(this.item.id, () => {
+                this.$commentService.downvote(this.item.id, ({data}) => {
                     this.item.isUpvoted = -1;
-                    this.item.upvotedCount -= 1;
+                    this.item.upvotedCount = data.counter;
                 });
             },
             clear() {
-                this.$commentService.clearVote(this.item.id, () => {
+                this.$commentService.clearVote(this.item.id, ({data}) => {
                     this.item.isUpvoted = null;
+                    this.item.upvotedCount = data.counter;
                 });
             },
             confirmCustomDelete() {

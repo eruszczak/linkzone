@@ -21,7 +21,7 @@
                         v-validate="'required'"
                         name="group"
                         field="name"
-                        icon="account"
+                        icon="account-group"
                         :disabled="disabled"
                         :closable="!disabled"
                         type="is-primary"

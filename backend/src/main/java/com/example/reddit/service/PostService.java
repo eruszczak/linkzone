@@ -1,6 +1,7 @@
 package com.example.reddit.service;
 
 import com.example.reddit.controller.post.PostType;
+import com.example.reddit.dto.ICounterDto;
 import com.example.reddit.dto.IPostResponseDto;
 import com.example.reddit.dto.PostCreate;
 import com.example.reddit.dto.PostUpdate;
@@ -154,6 +155,10 @@ public class PostService {
         PostUpvote postUpvote = getOrCreatePostUpvote(account, post);
         postUpvote.setIsUpvote(-1);
         postUpvoteRepository.save(postUpvote);
+    }
+
+    public ICounterDto countUpvotes(Long postId) {
+        return postUpvoteRepository.getCounter(postId);
     }
 
     private PostUpvote getOrCreatePostUpvote(Account account, Post post) {

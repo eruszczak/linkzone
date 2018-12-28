@@ -61,29 +61,28 @@
             getUpvoteColor: getUpvoteColor,
             upvote() {
                 if (this.post.isUpvoted === 1) {
-                    this.post.upvotedCount -= 1;
                     this.clear();
                     return;
                 }
-                this.$postService.upvote(this.post.id, () => {
+                this.$postService.upvote(this.post.id, ({data}) => {
                     this.post.isUpvoted = 1;
-                    this.post.upvotedCount += 1;
+                    this.post.upvotedCount = data.counter;
                 });
             },
             downvote() {
                 if (this.post.isUpvoted === -1) {
-                    this.post.upvotedCount += 1;
                     this.clear();
                     return;
                 }
-                this.$postService.downvote(this.post.id, () => {
+                this.$postService.downvote(this.post.id, ({data}) => {
                     this.post.isUpvoted = -1;
-                    this.post.upvotedCount -= 1;
+                    this.post.upvotedCount = data.counter;
                 });
             },
             clear() {
-                this.$postService.clearVote(this.post.id, () => {
+                this.$postService.clearVote(this.post.id, ({data}) => {
                     this.post.isUpvoted = null;
+                    this.post.upvotedCount = data.counter;
                 });
             }
         }

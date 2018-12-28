@@ -1,6 +1,6 @@
 <template>
     <div class="is-fullwidth" v-if="user">
-        <section class="hero is-primary">
+        <section class="hero is-primary is-small">
             <div class="hero-body has-text-centered">
                 <p class="title">{{ user.username }}</p>
                 <p class="subtitle">{{ user.tagline || 'account.default-tagline'|t }}</p>
@@ -36,20 +36,20 @@
                 </div>
             </div>
             <b-tabs v-model="activeTab" type="is-boxed" position="is-centered" @change="tabChange">
-                <b-tab-item :label="$t('profile.upvoted-posts')" icon="google-photos">
+                <b-tab-item :label="$t('profile.upvoted-posts')" icon="checkbox-marked">
                     <div class="column is-8 is-offset-2">
                         <post-list :posts="upvotedPosts"></post-list>
                     </div>
                 </b-tab-item>
-                <b-tab-item :label="$t('profile.upvoted-comments')" icon="library-music">
+                <b-tab-item :label="$t('profile.upvoted-comments')" icon="comment-check">
                     <div class="column is-8 is-offset-2">{{'profile.upvoted-comments' | t}}</div>
                 </b-tab-item>
-                <b-tab-item :label="$t('profile.posts')" icon="video">
+                <b-tab-item :label="$t('profile.posts')" icon="clipboard-text">
                     <div class="column is-8 is-offset-2">
                         <post-list :posts="posts"></post-list>
                     </div>
                 </b-tab-item>
-                <b-tab-item :label="$t('profile.comments')" icon="video">
+                <b-tab-item :label="$t('profile.comments')" icon="comment">
                     <div class="column is-8 is-offset-2">
                         <comment v-for="(item, index) in comments" :item="item" :index="index" :key="item.id" @removed="handleRemovedComment($event)" read-only></comment>
                     </div>
