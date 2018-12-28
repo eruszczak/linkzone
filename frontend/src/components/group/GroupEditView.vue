@@ -59,10 +59,16 @@
                         :placeholder="$t('groups.add-tag')"
                         @typing="updateAdminOptions">
                         <template slot-scope="props">
-                            <figure class="image is-16x16" style="margin-right: 5px">
-                                <img src="https://api.adorable.io/avatar/100/user8">
-                            </figure>
-                            {{props.option.username}}
+                            <div class="media">
+                                <div class="media-left">
+                                    <figure class="image is-16x16">
+                                        <img :src="$userService.getAvatarUrl(props.option)">
+                                    </figure>
+                                </div>
+                                <div class="media-content" style="margin-top: -3px;">
+                                    {{ props.option.username }}
+                                </div>
+                            </div>
                         </template>
                         <template slot="empty">
                             {{'empty'|t}}
@@ -73,7 +79,7 @@
                 <b-field class="mt-2" :label="$t('groups.pick-mods')" :message="$t('groups.mod-hint')">
                     <b-taginput
                         v-model="selectedMods"
-                        :data="modOptions"
+                        :data="adminOptions"
                         autocomplete
                         field="username"
                         icon="account"
@@ -81,10 +87,16 @@
                         :placeholder="$t('groups.add-tag')"
                         @typing="updateAdminOptions">
                         <template slot-scope="props">
-                            <figure class="image is-16x16" style="margin-right: 5px">
-                                <img src="https://api.adorable.io/avatar/100/user8">
-                            </figure>
-                            {{props.option.username}}
+                            <div class="media">
+                                <div class="media-left">
+                                    <figure class="image is-16x16">
+                                        <img :src="$userService.getAvatarUrl(props.option)">
+                                    </figure>
+                                </div>
+                                <div class="media-content" style="margin-top: -3px;">
+                                    {{ props.option.username }}
+                                </div>
+                            </div>
                         </template>
                         <template slot="empty">
                             {{'empty'|t}}
