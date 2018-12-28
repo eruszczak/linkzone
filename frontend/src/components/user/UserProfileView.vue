@@ -3,7 +3,7 @@
         <section class="hero is-primary is-small">
             <div class="hero-body has-text-centered">
                 <p class="title">{{ user.username }}</p>
-                <p class="subtitle">{{ user.tagline || 'account.default-tagline'|t }}</p>
+                <p class="subtitle"><span v-if="user.tagline">{{ user.tagline }}</span><span v-else>{{'account.default-tagline'|t }}</span></p>
                 <nav class="level">
                     <figure class="image is-128x128 container">
                         <img class="is-rounded" :src="user.avatarUrl">

@@ -2,7 +2,9 @@
     <div>
         <navbar></navbar>
         <main style="padding-bottom:50px">
-            <router-view></router-view>
+            <transition name="fade" mode="out-in">
+                <router-view></router-view>
+            </transition>
             <b-loading :is-full-page="true" :active.sync="isLoading" :can-cancel="false"></b-loading>
         </main>
     </div>
@@ -68,6 +70,17 @@
     .section.is-fullwidth {
         padding: 0!important;
     }
+
+
+    .fade-enter-active, .fade-leave-active {
+        transition-duration: 0.3s;
+        transition-property: opacity;
+        transition-timing-function: ease;
+    }
+    .fade-enter, .fade-leave-active {
+        opacity: 0;
+    }
+    
 
     @import "~bulma/sass/utilities/_all";
     .navbar-item.is-active {
