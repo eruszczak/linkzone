@@ -37,7 +37,8 @@ export default {
         "email_taken": "Adres email jest zajęty",
         "value_required": "Wartość jest wymagana",
         "no_user_found": "Nie znaleziono pasującego konta",
-        "invalid_dimensions": "Nieprawidłowe wymiary obrazka"
+        "invalid_dimensions": "Nieprawidłowe wymiary obrazka",
+        "AlreadyExistsException": "Nazwa jest już zajęta"
     },
     "profile": {
         "upvoted-posts": "Polubione posty",

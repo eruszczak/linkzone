@@ -53,15 +53,10 @@
                 this.$groupService.addGroup({
                     name: this.form.name,
                     description: this.form.description
-                }, (res) => {
-                    console.log(res);
-                    this.$router.push({name: 'groupDetailView', params: {name: res.data.name}})
-                }, err => {
-                    console.log(err);
-                    this.$message({
-                        message: err.data.errors[0],
-                        color: this.$toastColors.ERROR
-                    })
+                }, ({data}) => {
+                    this.$router.push({name: 'groupDetailView', params: {name: data.name}})
+                }, ({data}) => {
+                    this.$danger('errors.' + data.title);
                 })
             }
         }
