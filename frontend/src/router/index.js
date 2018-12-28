@@ -16,83 +16,26 @@ import {store} from '../store'
 
 Vue.use(Router);
 
-export const LOGIN_VIEW_ROUTE_NAME = 'loginView';
+export const setNextRoute = (route) => {
+    store.commit('setNextRoute', {name: route.name, params: route.params, query: route.query});
+}
 
 const router = new Router({
     mode: process.env.NODE_ENV === 'production' ? 'history' : 'hash',
     linkExactActiveClass: 'is-active',
     routes: [
-        {
-            name: "mainView",
-            path: "/",
-            component: MainView
-        },
-        {
-            name: LOGIN_VIEW_ROUTE_NAME,
-            path: '/login',
-            component: LoginView
-        },
-        {
-            name: 'registerView',
-            path: '/register',
-            component: RegisterView
-        },
-        {
-            name: 'groupListView',
-            path: '/groups',
-            component: GroupListView
-        },
-        {
-            name: 'groupDetailView',
-            path: '/groups/:name',
-            component: GroupDetailView,
-            props: true
-        },
-        {
-            name: 'groupEditView',
-            path: '/groups/:name/update',
-            component: GroupEditView,
-            meta: {requiresAuth: true},
-            props: true
-        },
-        {
-            name: 'postCreateView',
-            path: '/add/post/:groupName?',
-            component: PostCreateView,
-            meta: {requiresAuth: true},
-            props: true
-        },
-        {
-            name: 'postView',
-            path: '/groups/:name/:postID/:slug',
-            component: PostView,
-            props: true
-        },
-        {
-            name: 'postUpdateView',
-            path: '/post/:id/update',
-            component: PostUpdateView,
-            meta: {requiresAuth: true},
-            props: true
-        },
-        {
-            name: 'groupCreateView',
-            path: '/add/group',
-            meta: {requiresAuth: true},
-            component: GroupCreateView
-        },
-        {
-            name: 'userProfileView',
-            path: '/user/:username',
-            component: UserProfileView,
-            props: true
-        },
-        {
-            name: 'userEditView',
-            path: '/settings',
-            meta: {requiresAuth: true},
-            component: UserEditView
-        },
+        {name: "mainView", path: "/", component: MainView},
+        {name: 'loginView', path: '/login', component: LoginView},
+        {name: 'registerView', path: '/register', component: RegisterView},
+        {name: 'groupListView', path: '/groups', component: GroupListView},
+        {name: 'groupDetailView', path: '/groups/:name', component: GroupDetailView, props: true},
+        {name: 'groupEditView', path: '/groups/:name/update', component: GroupEditView, meta: {requiresAuth: true}, props: true},
+        {name: 'postCreateView', path: '/add/post/:groupName?', component: PostCreateView, meta: {requiresAuth: true}, props: true},
+        {name: 'postView',path: '/groups/:name/:postID/:slug', component: PostView, props: true},
+        {name: 'postUpdateView',path: '/post/:id/update', component: PostUpdateView, meta: {requiresAuth: true}, props: true},
+        {name: 'groupCreateView', path: '/add/group', meta: {requiresAuth: true}, component: GroupCreateView},
+        {name: 'userProfileView', path: '/user/:username', component: UserProfileView, props: true},
+        {name: 'userEditView', path: '/settings', meta: {requiresAuth: true}, component: UserEditView},
     ],
     scrollBehavior (to, from, savedPosition) {
         if (savedPosition) {
@@ -105,23 +48,20 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
     console.warn('to-from', JSON.stringify(to.name), JSON.stringify(from.name));
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        console.log('route requires auth. am i authenticated?', store.getters.isAuthenticated);
+        if (!store.getters.isAuthenticated) {
+            Vue.prototype.$userService.forceLoginIfNotLoggedIn(to);
+            return;
+        }
+    }
     if (to.name !== from.name) {
         store.commit('toggleLoading', true);
     }
-    if (to.matched.some(record => record.meta.requiresAuth)) {
-        console.log('requires Auth. am i authenticated?', store.getters.isAuthenticated);
-        if (!store.getters.isAuthenticated) {
-            store.commit('setNextRoute', {name: to.name, params: to.params});
-            router.replace({'name': 'loginView'});
-            Vue.prototype.$warning('need-login');
-            store.commit('toggleLoading', false);
-        } else {
-            next()
-        }
-    } else {
-        next()
-    }
+    next();
 });
+
+export default router;
 
 // router.beforeRouteEnter((to, from, next) => {
 //    console.log('before enter', to)
@@ -130,5 +70,3 @@ router.beforeEach((to, from, next) => {
 //router.afterEach((to, from) => {
 //    console.log('after')
 //})
-
-export default router

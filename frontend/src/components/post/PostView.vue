@@ -53,7 +53,7 @@
         data() {
             return {
                 POST_TYPES,
-                post: {},
+                post: null,
                 comments: [],
                 commentMetadata: {
                     lastPage: false,

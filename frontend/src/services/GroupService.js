@@ -4,7 +4,6 @@ import {buildPaginationQueryString} from '../utils/utils';
 
 export default class GroupService {
     constructor() {
-        console.log('creating groups ervice')
     }
 
     subscribe(group, cb, cbError) {
@@ -26,9 +25,7 @@ export default class GroupService {
     getGroupList = (page, query, cb, cbError) => {
         const url = '/groups/' + buildPaginationQueryString(page);
         const qs = query ? `&name=${query}` : '';
-        axios.get(url + qs).then(res => {
-            cb(res)
-        });
+        axios.get(url + qs).then(cb).catch(cbError);
     };
 
     uploadBanner = (groupName, form, cb, cbError) => {

@@ -2,14 +2,13 @@ import {store} from '../store'
 import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 import EventEmitter from 'eventemitter3'
-import router from '../router';
+import router, {setNextRoute} from '../router';
 import Vue from 'vue';
 
 const LOCAL_STORAGE_ACCESS_TOKEN_KEY = 'ACCESS_TOKEN';
 
 export default class UserService {
     authNotifier = new EventEmitter();
-
     user;
 
     isTokenValid(token) {
@@ -29,7 +28,7 @@ export default class UserService {
         if (!token) {
             return null;
         }
-        return jwt_decode(token)
+        return jwt_decode(token);
     }
 
     authenticate = (username, password, cb, cbError) => {
@@ -88,7 +87,7 @@ export default class UserService {
 
     getUpvotedPosts = (username, cb, cbError) => {
         if (!username) {
-            return
+            return;
         }
         const url = `/users/${username}/posts/upvoted/`;
         axios.get(url).then(cb);
@@ -99,11 +98,7 @@ export default class UserService {
     }
 
     getComments = (username, cb, cbError) => {
-        if (!username) {
-            return
-        }
-        const url = `/users/${username}/comments/`;
-        axios.get(url).then(cb);
+        axios.get(`/users/${username}/comments/`).then(cb);
     };
 
     isOwner(username) {
@@ -115,9 +110,7 @@ export default class UserService {
     };
 
     uploadFile(data, cb) {
-        axios.post(`/files/upload`, data).then(res => {
-            cb(res);
-        })
+        axios.post(`/files/upload`, data).then(cb);
     }
 
     updateAccount = (data, cb, cbError) => {
@@ -183,20 +176,32 @@ export default class UserService {
         return localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN_KEY)
     };
 
+    forceLoginIfNotLoggedIn(route) {
+        if (!store.getters.isAuthenticated) {
+            setNextRoute(route || router.currentRoute);
+            Vue.prototype.$info('need-login');
+            router.replace({'name': 'loginView'});
+        }
+    }
+
     logout = (cb) => {
-        console.log('logging out');
+        console.warn('logging out');
+        if (store.getters.isAuthenticated) {
+            Vue.prototype.$info('logged-out');
+        }
+
         localStorage.removeItem(LOCAL_STORAGE_ACCESS_TOKEN_KEY);
         store.commit('setIsAuthenticated', false);
         store.commit('setAccessToken', null);
+        this.user = null;
+        store.commit('setUser', null);
+
         if (router.currentRoute.meta.requiresAuth) {
-            console.log('redirecting from protected route');
             router.replace({path: '/'})
         }
-        Vue.prototype.$info('logged-out');
+
         // this.authNotifier.emit('authChange')
         // store.commit('setGroups', []);
         cb && cb();
-        this.user = null;
-        store.commit('setUser', null);
     }
 }

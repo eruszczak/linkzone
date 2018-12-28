@@ -137,5 +137,5 @@ export default {
     "logged-out": "Zostałeś wylogowany",
     "logged-in": "Zostałeś zalogowany",
     "need-login": "Aby kontynuować, musisz się zalogować",
-    "search": "Szukaj"
+    "search": "Szukaj",
 }

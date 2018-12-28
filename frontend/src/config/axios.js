@@ -2,7 +2,6 @@ import {store} from '../store/index'
 import axios from 'axios'
 import Vue from 'vue'
 
-// add headers before each request
 axios.interceptors.request.use((config) => {
     config.headers.common = {
         'Content-Type': 'application/json',
@@ -12,15 +11,14 @@ axios.interceptors.request.use((config) => {
     return config
 });
 
-// handle error response
 axios.interceptors.response.use((response) => {
-    return response
+    return response;
 }, function (error) {
     // console.error('axios', error);
     Vue.prototype.$toggleLoading(false);
     if (error.response.status === 401) {
-        console.log('unauthorized, logging out ...');
         Vue.prototype.$userService.logout();
+        Vue.prototype.$userService.forceLoginIfNotLoggedIn();
     } else if (error.response.status === 403) {
         Vue.prototype.$danger(Vue.prototype.$translate('forbidden'));
     }
