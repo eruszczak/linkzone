@@ -11,12 +11,9 @@
                 </nav>
             </div>
         </section>
-        <div class="tile is-parent has-text-centered">
-
-        </div>
 
         <div class="container">
-            <nav class="breadcrumb" aria-label="breadcrumbs">
+            <nav class="breadcrumb mt-2" aria-label="breadcrumbs">
                 <ul>
                     <li><router-link :to="{name: 'userProfileView', params: {username: user.username}}">{{user.username}}</router-link></li>
                     <li class="is-active"><a href="#" aria-current="page">{{'userEditView'|t}}</a></li>

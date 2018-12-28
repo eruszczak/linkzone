@@ -1,56 +1,67 @@
 <template>
-    <section class="container">
-        <div class="column is-8 is-offset-2 mt-2 mb-2">
-            <div class="level">
-                <div class="level-item has-text-centered">
-                    <div>
-                        <p class="heading">{{'profile.stat-posts'|t}}</p>
-                        <p class="title">{{stats.postCount || 0 }}</p>
+    <div class="is-fullwidth" v-if="user">
+        <section class="hero is-primary">
+            <div class="hero-body has-text-centered">
+                <p class="title">{{ user.username }}</p>
+                <p class="subtitle">{{ user.tagline || 'account.default-tagline'|t }}</p>
+                <nav class="level">
+                    <figure class="image is-128x128 container">
+                        <img class="is-rounded" :src="user.avatarUrl">
+                    </figure>
+                </nav>
+                <p>{{'account.user-since'|t}} {{user.createdAt | since}}</p>
+            </div>
+        </section>
+        <section class="container">
+            <div class="column is-8 is-offset-2 mt-2 mb-2">
+                <div class="level">
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading">{{'profile.stat-posts'|t}}</p>
+                            <p class="title">{{stats.postCount || 0 }}</p>
+                        </div>
                     </div>
-                </div>
-                <div class="level-item has-text-centered">
-                    <div>
-                        <p class="heading">{{'profile.stat-comments'|t}}</p>
-                        <p class="title">{{stats.commentCount || 0 }}</p>
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading">{{'profile.stat-comments'|t}}</p>
+                            <p class="title">{{stats.commentCount || 0 }}</p>
+                        </div>
                     </div>
-                </div>
-                <div class="level-item has-text-centered">
-                    <div>
-                        <p class="heading">{{'profile.stat-points'|t}}</p>
-                        <p class="title">{{ (stats.commentPoints || 0) + (stats.postPoints || 0) }}</p>
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading">{{'profile.stat-points'|t}}</p>
+                            <p class="title">{{ (stats.commentPoints || 0) + (stats.postPoints || 0) }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <b-tabs v-model="activeTab" size="is-small" type="is-boxed" position="is-centered" @change="tabChange">
-            <b-tab-item :label="$t('profile.upvoted-posts')" icon="google-photos">
-                <div class="column is-8 is-offset-2">
-                    <post-list :posts="upvotedPosts"></post-list>
-                </div>
-            </b-tab-item>
-            <b-tab-item :label="$t('profile.upvoted-comments')" icon="library-music">
-                <div class="column is-8 is-offset-2">{{'profile.upvoted-comments' | t}}</div>
-            </b-tab-item>
-            <b-tab-item :label="$t('profile.posts')" icon="video">
-                <div class="column is-8 is-offset-2">
-                    <post-list :posts="posts"></post-list>
-                </div>
-            </b-tab-item>
-            <b-tab-item :label="$t('profile.comments')" icon="video">
-                <div class="column is-8 is-offset-2">
-                    <comment v-for="(item, index) in comments" :item="item" :index="index" :key="item.id" @removed="handleRemovedComment($event)" read-only></comment>
-                </div>
-            </b-tab-item>
-            <b-tab-item :label="$t('profile.groups')" icon="video">
-                <div class="column is-8 is-offset-2">
-                    <group-list v-if="groups.moderatedGroups != undefined" :groups="groups.moderatedGroups"></group-list>
-                </div>
-            </b-tab-item>
-            <!-- <b-tab-item :label="$t('profile.administrated-groups')" icon="video">
-                <group-list v-if="groups.administratedGroups != undefined" :groups="groups.administratedGroups"></group-list>
-            </b-tab-item> -->
-        </b-tabs>
-    </section>
+            <b-tabs v-model="activeTab" type="is-boxed" position="is-centered" @change="tabChange">
+                <b-tab-item :label="$t('profile.upvoted-posts')" icon="google-photos">
+                    <div class="column is-8 is-offset-2">
+                        <post-list :posts="upvotedPosts"></post-list>
+                    </div>
+                </b-tab-item>
+                <b-tab-item :label="$t('profile.upvoted-comments')" icon="library-music">
+                    <div class="column is-8 is-offset-2">{{'profile.upvoted-comments' | t}}</div>
+                </b-tab-item>
+                <b-tab-item :label="$t('profile.posts')" icon="video">
+                    <div class="column is-8 is-offset-2">
+                        <post-list :posts="posts"></post-list>
+                    </div>
+                </b-tab-item>
+                <b-tab-item :label="$t('profile.comments')" icon="video">
+                    <div class="column is-8 is-offset-2">
+                        <comment v-for="(item, index) in comments" :item="item" :index="index" :key="item.id" @removed="handleRemovedComment($event)" read-only></comment>
+                    </div>
+                </b-tab-item>
+                <b-tab-item :label="$t('profile.groups')" icon="account-group">
+                    <div class="column is-8 is-offset-2">
+                        <group-list v-if="groups.moderatedGroups != undefined" :groups="groups.moderatedGroups"></group-list>
+                    </div>
+                </b-tab-item>
+            </b-tabs>
+        </section>
+    </div>
 </template>
 
 <script>
@@ -88,17 +99,21 @@
         },
         data() {
             return {
+                user: null,
                 activeTab: 0,
-                text: 'Lorem ipsum dolor',
                 posts: [],
                 stats: {},
                 groups: {},
                 comments: [],
                 upvotedPosts: [],
-                visited: Object.assign({}, ...Object.entries(tabs).map(([a,b]) => ({ [b]: false })))
+                visited: Object.assign({}, ...Object.entries(tabs).map(([a,b]) => ({ [b]: false }))) // mark every tab as not visited
             }
         },
         mounted() {
+            this.$userService.getUserDetails(this.username, ({data}) => {
+                this.user = data;
+                this.user.avatarUrl = this.$userService.getAvatarUrl(this.user);
+            });
             const tab = this.$route.query['tab'];
             if (!tab) {
                 this.updateQuery();
@@ -156,8 +171,8 @@
             tabChange(index) {
                 if (!this.visited[this.activeTab]) {
                     this.loadTabContent();
-                    this.updateQuery();
                 }
+                this.updateQuery();
             },
             updateQuery() {
                 this.$router.replace({ name: 'userProfileView', query: { tab: tabsRev[this.activeTab] }});

@@ -110,7 +110,9 @@ export default {
     "account": {
         "tagline": "Podsumowanie",
         "upload-avatar": "Wgraj avatar",
-        "edit-hint": "W tym miejscu możesz zaktualizować swoje ustawienia"
+        "edit-hint": "W tym miejscu możesz zaktualizować swoje ustawienia",
+        "default-tagline": "Brak podsumowania",
+        "user-since": "Zarejestrowany"
     },
     "confirm": "Potwierdź",
     "cancel": "Anuluj",

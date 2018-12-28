@@ -63,9 +63,6 @@ export default class UserService {
     };
 
     getUserDetails = (username, cb, cbError) => {
-        if (!username) {
-            return
-        }
         axios.get(`/users/${username}`).then(cb);
     };
 
@@ -156,9 +153,13 @@ export default class UserService {
     }
 
     updateUserDetails(data) {
-        data.avatarUrl = data.avatar ? `/static/${data.avatar}` : this.getDefaultAvatar(data.username);
+        data.avatarUrl = this.getAvatarUrl(data);
         this.user = data;
         store.commit('setUser', data);
+    }
+
+    getAvatarUrl(user) {
+        return user.avatar ? `/static/${user.avatar}` : this.getDefaultAvatar(user.username);
     }
 
     getUsername = () => {

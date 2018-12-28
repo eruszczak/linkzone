@@ -27,7 +27,7 @@
                         </b-taglist>
                         <b-taglist attached>
                             <b-tag type="is-dark">{{'groups.created-time'|t}}</b-tag>
-                            <b-tag type="is-info">{{group.createdAt | daysSince}}</b-tag>
+                            <b-tag type="is-info">{{group.createdAt | since}}</b-tag>
                         </b-taglist>
                         </div>
                     </div>
