@@ -17,8 +17,12 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     Optional<Account> findByUsernameIgnoreCaseOrEmailIgnoreCase(String username, String email);
 
-    @Query(value = "", nativeQuery = true)
-    IAccountStatsDto calculateStats(Long userId);
+    @Query(value = "SELECT (SELECT COUNT(*) FROM comments c WHERE c.account_id = a.id) as commentCount," +
+            "(SELECT COUNT(*) FROM posts p WHERE p.account_id = a.id) as postCount," +
+            "(SELECT SUM(cu.is_upvote) FROM comment_upvote cu JOIN comments c ON c.id = cu.comment_id WHERE c.account_id = a.id) as commentPoints," +
+            "(SELECT SUM(pu.is_upvote) FROM post_upvote pu JOIN posts p ON p.id = pu.post_id WHERE p.account_id = a.id) as postPoints" +
+            " FROM accounts a WHERE a.id = :userId", nativeQuery = true)
+    IAccountStatsDto calculateStats(@Param("userId") Long userId);
 
 //    @Query("SELECT COUNT(a.id) FROM Account a")
 //    long countUsers();

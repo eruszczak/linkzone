@@ -5,7 +5,7 @@
             <!-- {{group}} -->
             <div class="box">
                 <div class="columns">
-                    <div class="column is-three-quarters">
+                    <div class="column is-three-fifths">
                         <span class="title is-4">
                             <h1 class="title">
                                 <router-link :to="{name: 'groupDetailView', params: {name: group.name}}">{{group.name}}</router-link>
@@ -16,11 +16,12 @@
                             <p class="subtitle is-6">{{group.description}}</p>
                         </div>
                     </div>
-                    <div class="column">
-                        <b-taglist >
+                    <div class="column has-text-centered">
+                        <div class="is-pulled-right">
+                        <p style="margin-bottom: 8px">
                             <sub-toggler :group="group"></sub-toggler>
-                        </b-taglist>
-                        <b-taglist attached>
+                        </p>
+                        <b-taglist style="margin-bottom: 0" attached>
                             <b-tag type="is-dark">{{'groups.subscribers'|t}}</b-tag>
                             <b-tag type="is-info">{{group.subscribers}}</b-tag>
                         </b-taglist>
@@ -28,6 +29,7 @@
                             <b-tag type="is-dark">{{'groups.created-time'|t}}</b-tag>
                             <b-tag type="is-info">{{group.createdAt | daysSince}}</b-tag>
                         </b-taglist>
+                        </div>
                     </div>
                 </div>
             </div>

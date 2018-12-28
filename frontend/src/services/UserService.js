@@ -69,6 +69,10 @@ export default class UserService {
         axios.get(`/users/${username}`).then(cb);
     };
 
+    getUserStats = (username, cb, cbError) => {
+        axios.get(`/users/${username}/stats/`).then(cb).catch(cbError);
+    };
+
     getGroupInfo = (username, cb, cbError) => {
         if (!username) {
             return
@@ -146,6 +150,8 @@ export default class UserService {
     getCurrentUserDetails() {
         this.getUpdateInfo(({data}) => {
             this.updateUserDetails(data);
+        }, () => {
+            this.logout();
         });
     }
 

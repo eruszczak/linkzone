@@ -123,7 +123,8 @@
                         name: 'postView',
                         params: {
                             name: this.selectedGroups[0].name,
-                            postID: data.id
+                            postID: data.id,
+                            slug: data.slug
                         }
                     })
                 })

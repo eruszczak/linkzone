@@ -120,6 +120,11 @@ public class AccountRestController {
         return new AccountDetails(accountService.findByUsername(username));
     }
 
+    @GetMapping(value = "/{username}/stats")
+    public IAccountStatsDto stats(@PathVariable String username) {
+        return accountService.calculateStats(accountService.findByUsername(username).getId());
+    }
+
     @PutMapping(value = "/{username}")
     public ResponseEntity<?> update(@PathVariable String username,
                                     @Valid @RequestBody AccountUpdate accountUpdate,

@@ -49,7 +49,7 @@ export default {
         "groups": "Grupy",
         "stat-posts": "Napisane posty",
         "stat-comments": "Napisane komentarze",
-        "stat-points": "Punkty"
+        "stat-points": "Zdobyte punkty"
     },
     "posts": {
         "empty": "Nie znaleziono żadnych postów",

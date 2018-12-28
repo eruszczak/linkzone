@@ -5,19 +5,19 @@
                 <div class="level-item has-text-centered">
                     <div>
                         <p class="heading">{{'profile.stat-posts'|t}}</p>
-                        <p class="title">3,456</p>
+                        <p class="title">{{stats.postCount || 0 }}</p>
                     </div>
                 </div>
                 <div class="level-item has-text-centered">
                     <div>
                         <p class="heading">{{'profile.stat-comments'|t}}</p>
-                        <p class="title">123</p>
+                        <p class="title">{{stats.commentCount || 0 }}</p>
                     </div>
                 </div>
                 <div class="level-item has-text-centered">
                     <div>
                         <p class="heading">{{'profile.stat-points'|t}}</p>
-                        <p class="title">456K</p>
+                        <p class="title">{{ (stats.commentPoints || 0) + (stats.postPoints || 0) }}</p>
                     </div>
                 </div>
             </div>
@@ -64,8 +64,7 @@
         UPVOTED_COMMENTS: 1,
         POSTS: 2,
         COMMENTS: 3,
-        MOD_GROUPS: 4,
-        ADMIN_GROUPS: 5
+        GROUPS: 4,
     };
 
     const tabs = {
@@ -73,8 +72,7 @@
         'upvoted-comments': tabNumbers.UPVOTED_COMMENTS,
         'posts': tabNumbers.POSTS,
         'comments': tabNumbers.COMMENTS,
-        'mod-groups': tabNumbers.MOD_GROUPS,
-        'admin-groups': tabNumbers.ADMIN_GROUPS
+        'groups': tabNumbers.GROUPS,
     };
 
     const tabsRev = Object.assign({}, ...Object.entries(tabs).map(([a,b]) => ({ [b]: a })));
@@ -93,6 +91,7 @@
                 activeTab: 0,
                 text: 'Lorem ipsum dolor',
                 posts: [],
+                stats: {},
                 groups: {},
                 comments: [],
                 upvotedPosts: [],
@@ -107,6 +106,9 @@
                 this.activeTab = tabs[tab] || 0;
             }
             this.loadTabContent();
+            this.$userService.getUserStats(this.username, ({data}) => {
+                this.stats = data;
+            })
         },
         computed: {
             ...mapGetters([])
@@ -139,10 +141,7 @@
                             this.$toggleLoading(false);
                         });
                         break;
-                    case tabNumbers.MOD_GROUPS:
-                        this.getGroups();
-                        break;
-                    case tabNumbers.ADMIN_GROUPS:
+                    case tabNumbers.GROUPS:
                         this.getGroups();
                         break;
                 }
