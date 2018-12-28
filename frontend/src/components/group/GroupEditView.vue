@@ -57,6 +57,7 @@
                         icon="account"
                         type="is-danger"
                         :placeholder="$t('groups.add-tag')"
+                        :before-adding="beforeAddingAdmin"
                         @typing="updateAdminOptions">
                         <template slot-scope="props">
                             <div class="media">
@@ -85,6 +86,7 @@
                         icon="account"
                         type="is-warning"
                         :placeholder="$t('groups.add-tag')"
+                        :before-adding="beforeAddingMod"
                         @typing="updateAdminOptions">
                         <template slot-scope="props">
                             <div class="media">
@@ -239,6 +241,12 @@
                 }, ({data}) => {
                     this.bannerErrors = data.errors;
                 });
+            },
+            beforeAddingAdmin(user) {
+                return this.selectedAdmins.filter(u => u.id === user.id).length === 0;
+            },
+            beforeAddingMod(user) {
+                return this.selectedMods.filter(u => u.id === user.id).length === 0;
             }
         }
     }
