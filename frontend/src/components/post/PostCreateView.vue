@@ -68,7 +68,6 @@
             }
         },
         mounted() {
-            console.log(this.groupName)
             if (this.groupName) {
                 this.$groupService.getGroupDetail(this.groupName, ({data}) => {
                     this.selectedGroups = [data];
@@ -90,7 +89,6 @@
         },
         methods: {
             updateGroupOptions: debounce(function (text) {
-                console.log(text)
                 this.$groupService.getGroupList(null, text, ({data}) => {
                     if (data.content.length === 0) {
                         this.groupOptions = [];

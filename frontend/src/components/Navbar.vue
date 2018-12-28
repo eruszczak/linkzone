@@ -95,16 +95,15 @@
 
 <script>
     import {AVAILABLE_LANGUAGES} from "../locale";
-    const LOCAL_STORAGE_LOCALE_KEY = 'locale';
     import {mapGetters} from 'vuex';
+    import {LOCAL_STORAGE_LOCALE_KEY} from '../main';
+    import moment from 'moment';
 
     export default {
         name: "Navbar",
         mounted() {
-            const locale = localStorage.getItem(LOCAL_STORAGE_LOCALE_KEY) || this.$i18n.locale;
-            this.selectedLanguage = this.languages.find(l => l.locale === locale);
+            this.selectedLanguage = this.languages.find(l => l.locale === this.$i18n.locale);
             this.selectedLanguage.active = true;
-            this.$i18n.locale = locale;
         },
         data() {
             return {
@@ -121,7 +120,8 @@
                 this.$i18n.locale = language.locale;
                 localStorage.setItem(LOCAL_STORAGE_LOCALE_KEY, this.$i18n.locale);
                 this.selectedLanguage = language;
-                this.selectedLanguage.active = true
+                this.selectedLanguage.active = true;
+                moment.locale(this.$i18n.locale);
             },
             logout() {
                 this.$userService.logout();
