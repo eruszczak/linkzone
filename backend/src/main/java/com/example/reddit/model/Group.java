@@ -36,6 +36,9 @@ public class Group extends DateAudit {
     @Column(name = "banner_url")
     private String bannerUrl;
 
+    @Column(name = "logo")
+    private String logo;
+
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Account> administrators = new ArrayList<>();
 
@@ -93,6 +96,14 @@ public class Group extends DateAudit {
 //        post.setGroup(null); // why, it will be deleted anyway
 //    }
 
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
 
     public boolean isDefault() {
         return isDefault;

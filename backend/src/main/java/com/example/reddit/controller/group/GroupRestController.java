@@ -117,7 +117,7 @@ public class GroupRestController {
     public UploadFileResponse uploadBanner(@RequestParam("data") MultipartFile file,
                                            @PathVariable("name") String groupName) {
         MultipartFileValidator.validate(file);
-        MultipartFileValidator.validateImageDimensions(file, 200, 1000);
+        MultipartFileValidator.validateImageDimensions(file, 400, 2000);
         MultipartFileValidator.validateImageSize(file, 1000);
 
         String fileName = fileStorageService.storeFile(file);
@@ -129,6 +129,27 @@ public class GroupRestController {
                 .toUriString();
 
         fileStorageService.removeFile(group.getBannerUrl());
+
+        return new UploadFileResponse(fileName, fileDownloadUri,
+                file.getContentType(), file.getSize());
+    }
+
+    @PostMapping(value = "/{name}/upload-logo")
+    public UploadFileResponse uploadLogo(@RequestParam("data") MultipartFile file,
+                                         @PathVariable("name") String groupName) {
+        MultipartFileValidator.validate(file);
+        MultipartFileValidator.validateImageDimensions(file, 50, 50);
+        MultipartFileValidator.validateImageSize(file, 50);
+
+        String fileName = fileStorageService.storeFile(file);
+        Group group = groupService.findByName(groupName);
+        groupService.updateLogo(fileName, group);
+        String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/")
+                .path(fileName)
+                .toUriString();
+
+        fileStorageService.removeFile(group.getLogo());
 
         return new UploadFileResponse(fileName, fileDownloadUri,
                 file.getContentType(), file.getSize());

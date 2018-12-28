@@ -19,8 +19,8 @@
                     </ul>
                 </nav>
 
-                <b-notification type="is-danger" v-if="bannerErrors.length > 0">
-                    {{bannerErrors[0]}}
+                <b-notification type="is-danger" v-if="bannerErrors.length > 0" :closable="false">
+                    {{'errors.' + bannerErrors[0] | t}}
                 </b-notification>
                 <b-field>
                     <b-input :disabled="true" icon="account-group" v-model="group.name"></b-input>
@@ -29,10 +29,20 @@
                     <b-input v-validate="'required'" name="description" icon="text" v-model="group.description" :placeholder="$t('groups.create-description')"></b-input>
                 </b-field>
 
-                <div class="mb-2 mt-2">
-                    <img v-if="group.bannerUrl" :src="'/static/' + group.bannerUrl">
-                    <file-input @formData="handleFormData" label="Banner" :max-height="200" :max-width="1000"  :max-size="1000"></file-input>
-                </div>
+                <b-tabs class="mt-2">
+                    <b-tab-item :label="$t('groups.show-logo')" icon="google-photos">
+                        <div class="box has-text-centered">
+                            <img class="" v-if="group.logo" :src="'/static/' + group.logo">
+                            <file-input @formData="handleFormDataLogo" label="Logo" :max-height="50" :max-width="50" :max-size="50"></file-input>
+                        </div>
+                    </b-tab-item>
+                    <b-tab-item :label="$t('groups.show-banner')" icon="library-music">
+                        <div class="box">
+                            <img v-if="group.bannerUrl" :src="'/static/' + group.bannerUrl">
+                            <file-input @formData="handleFormData" label="Banner" :max-height="400" :max-width="2000" :max-size="1000"></file-input>
+                        </div>
+                    </b-tab-item>
+                </b-tabs>
 
                 <b-field :label="$t('groups.creator')" :message="$t('groups.creator-hint')">
                     <b-input :placeholder="group.creator.username" disabled></b-input>
@@ -193,14 +203,23 @@
             removeGroup() {
                 this.$groupService.delete(this.group.name, () => {
                     this.$router.push({path: '/'});
-                    this.$toast.open({
-                        message: 'Removed group',
-                        color: 'is-success'
-                    })
-                })
+                    this.$danger('removed-group');
+                });
+            },
+            handleFormDataLogo($event) {
+                this.bannerErrors = [];
+                this.uploadLogo($event);
             },
             handleFormData($event) {
+                this.bannerErrors = [];
                 this.uploadBanner($event);
+            },
+            uploadLogo(form) {
+                this.$groupService.uploadLogo(this.group.name, form, ({data}) => {
+                    this.group.logo = data.fileName;
+                }, ({data}) => {
+                    this.bannerErrors = data.errors;
+                });
             },
             uploadBanner(form) {
                 this.$groupService.uploadBanner(this.group.name, form, ({data}) => {

@@ -9,6 +9,7 @@ public interface IGroupResponseDto {
     String getName();
     String getDescription();
     String getBannerUrl();
+    String getLogo();
     Instant getCreatedAt();
 
     int getSubscribers();

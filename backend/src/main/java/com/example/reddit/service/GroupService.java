@@ -70,6 +70,10 @@ public class GroupService {
         groupRepository.updateGroupBannerUrl(bannerUrl, group.getName());
     }
 
+    public void updateLogo(String logo, Group group) {
+        groupRepository.updateLogo(logo, group.getName());
+    }
+
     public Group findById(Long id) {
         return groupRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(Group.class, id.toString()));

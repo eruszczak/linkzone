@@ -41,7 +41,7 @@ Vue.filter('shortDate', str => moment(str).format('dddd, HH:mm:ss'));
 Vue.filter('since', str => moment(str).fromNow());
 Vue.filter('t', value => i18n.t(value));
 
-Vue.prototype.$translate = () => i18n.t(val);
+Vue.prototype.$translate = (val) => i18n.t(val);
 Vue.prototype.$toggleLoading = (val) => { store.commit('toggleLoading', val); }
 Vue.prototype.$success = (msg, args) => { showToast(msg, 'is-success', args); }
 Vue.prototype.$danger = (msg, args) => { showToast(msg, 'is-danger', args); }

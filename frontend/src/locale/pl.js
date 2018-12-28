@@ -101,6 +101,10 @@ export default {
         "created-time": "Stworzona",
         "add-post-in-group": "Dodaj post",
         "update-group": "Aktualizuj",
+        "removed-group": "Grupa została usunięta",
+        "show-logo": "Wgraj logo",
+        "show-banner": "Wgraj baner"
+
     },
     "comments": {
         "reply": "Odpowiedz",

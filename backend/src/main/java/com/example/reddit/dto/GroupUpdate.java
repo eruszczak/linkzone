@@ -24,7 +24,6 @@ public class GroupUpdate {
     @Size(min = 1)
     private List<PostType> postTypes;
 
-    @Size(min = 1)
     private List<Long> administrators;
 
     private List<Long> moderators;

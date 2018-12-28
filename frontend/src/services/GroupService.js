@@ -32,6 +32,10 @@ export default class GroupService {
         axios.post(`/groups/${groupName}/upload-banner/`, form).then(cb).catch(cbError);
     };
 
+    uploadLogo = (groupName, form, cb, cbError) => {
+        axios.post(`/groups/${groupName}/upload-logo/`, form).then(cb).catch(cbError);
+    };
+
     update(groupName, data, cb) {
         axios.put(`/groups/${groupName}/`, data).then(cb);
     }

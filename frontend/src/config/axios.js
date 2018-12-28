@@ -13,14 +13,13 @@ axios.interceptors.request.use((config) => {
 
 axios.interceptors.response.use((response) => {
     return response;
-}, function (error) {
-    // console.error('axios', error);
+}, ({response}) => {
     Vue.prototype.$toggleLoading(false);
-    if (error.response.status === 401) {
+    if (response.status === 401) {
         Vue.prototype.$userService.logout();
         Vue.prototype.$userService.forceLoginIfNotLoggedIn();
-    } else if (error.response.status === 403) {
+    } else if (response.status === 403) {
         Vue.prototype.$danger(Vue.prototype.$translate('forbidden'));
     }
-    return Promise.reject(error.response)
+    return Promise.reject(response);
 });
