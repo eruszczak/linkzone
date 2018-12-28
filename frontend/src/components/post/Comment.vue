@@ -2,8 +2,7 @@
     <article class="media">
         <figure class="media-left">
             <p class="image is-32x32">
-                <img :src="!item.author.avatar ? $userService.getDefaultAvatar(item.author.username) : `/static/${item.author.avatar}`"
-                     alt="avatar">
+                <img :src="$userService.getAvatarUrl(item.author)" alt="avatar">
             </p>
         </figure>
         <div class="media-content">

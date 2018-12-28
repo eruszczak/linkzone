@@ -49,7 +49,7 @@
                     </a>
 
                     <div class="navbar-dropdown has-dropdown is-hoverable">
-                        <a class="navbar-item" :class="{'is-active': language.locale === selectedLanguage.locale}" v-for="language in languages" :key="language.locale" @click="setLocale(language)">
+                        <a class="navbar-item" :class="{'is-active': language.locale === selectedLanguage.locale}" v-for="language in AVAILABLE_LANGUAGES" :key="language.locale" @click="setLocale(language)">
                             <img :src="`/${language.icon}`" width="24px" class="mr-2"/> <span>{{`navbar.${language.locale}` | t}}</span>
                         </a>
                     </div>
@@ -102,12 +102,12 @@
     export default {
         name: "Navbar",
         mounted() {
-            this.selectedLanguage = this.languages.find(l => l.locale === this.$i18n.locale);
+            this.selectedLanguage = AVAILABLE_LANGUAGES.find(l => l.locale === this.$i18n.locale);
             this.selectedLanguage.active = true;
         },
         data() {
             return {
-                languages: AVAILABLE_LANGUAGES,
+                AVAILABLE_LANGUAGES,
                 selectedLanguage: null
             }
         },
@@ -118,9 +118,9 @@
             setLocale(language) {
                 this.selectedLanguage.active = false;
                 this.$i18n.locale = language.locale;
-                localStorage.setItem(LOCAL_STORAGE_LOCALE_KEY, this.$i18n.locale);
                 this.selectedLanguage = language;
                 this.selectedLanguage.active = true;
+                localStorage.setItem(LOCAL_STORAGE_LOCALE_KEY, this.$i18n.locale);
                 moment.locale(this.$i18n.locale);
             },
             logout() {
