@@ -6,7 +6,7 @@
                     <h3 class="title has-text-grey">{{'registerView.header' | t}}</h3>
                     <p class="subtitle has-text-grey">{{'registerView.hint' | t}}</p>
                     <div class="notification is-danger" v-if="serverErrors">
-                        <p v-for="error in serverErrors">
+                        <p v-for="error in serverErrors" :key="error">
                             {{`errors.${error}` | t}}
                         </p>
                     </div>
@@ -61,6 +61,9 @@
                 passwordValidator: { required: true, min: 6, max: 50 }
             }
         },
+        created() {
+            this.$toggleLoading(false);
+        },
         methods: {
             registerAccount() {
                 this.triedToSubmit = true;
@@ -74,15 +77,14 @@
             _register() {
                 const vm = this;
                 this.$toggleLoading(true);
-                this.$userService.register(vm.form, res => {
-                    let msg = "Account created";
+                this.$userService.register(vm.form, ({data}) => {
                     if (vm.form.loginOnSuccess) {
+                        this.$success('registerView.success');
                         this.$userService.authenticate(vm.form.email, vm.form.password, () => {
                             this.$toggleLoading(false);
-                            vm.$message({
-                                message: "Hello " + vm.form.username
-                            })
-                        })
+                            this.$info('logged-in');
+                            this.$router.replace('/');
+                        });
                     }
                 }, ({data}) => {
                     this.serverErrors = data.errors;

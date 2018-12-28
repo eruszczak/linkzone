@@ -60,7 +60,7 @@
                         <figure class="image is-16x16" style="margin-right: 5px">
                             <img :src="user.avatarUrl">
                         </figure>
-                        {{user.username}}
+                        {{user.username}}; {{user.id}}
                     </a>
 
                     <div class="navbar-dropdown">

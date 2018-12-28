@@ -30,6 +30,7 @@ export default {
         "register": "Zarejestruj się",
         "login": "Masz już konto? Zaloguj się",
         "log-me-in": "Zaloguj automatycznie",
+        "success": "Konto stworzone"
     },
     "errors": {
         "username_taken": "Nazwa użytkownika jest zajęta",

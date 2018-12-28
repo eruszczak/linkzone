@@ -127,4 +127,8 @@ router.beforeEach((to, from, next) => {
 //    console.log('before enter', to)
 // });
 
+//router.afterEach((to, from) => {
+//    console.log('after')
+//})
+
 export default router
