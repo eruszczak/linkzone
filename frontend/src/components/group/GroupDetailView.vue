@@ -1,7 +1,27 @@
 <template>
     <section class="section is-fullwidth" v-if="group">
-        <img src="https://styles.redditmedia.com/t5_2sqho/styles/bannerBackgroundImage_g0n4opey4io11.jpg?format=pjpg&s=69513e1a04e11f844755cd34902d86d7c03f4abe"/>
+        <div style="position: relative;">
+            <div v-if="group.bannerUrl" :style="`background-image: url('/static/${group.bannerUrl}'); background-size: cover; background-position: center; height: 200px`"></div>
+            <!-- <img src="https://styles.redditmedia.com/t5_2sqho/styles/bannerBackgroundImage_g0n4opey4io11.jpg?format=pjpg&s=69513e1a04e11f844755cd34902d86d7c03f4abe"/> -->
+            <div v-else style="height: 100px; background-color: grey"></div>
 
+            <div style="position: absolute;bottom: 10px">
+                <div class="container">
+                    <div class="column is-8 is-offset-2">
+                        <div class="media">
+                            <figure class="media-left">
+                                <p class="image is-48x48">
+                                    <img class="is-rounded" :src="$groupService.getLogoUrl(group)">
+                                </p>
+                            </figure>
+                            <div class="media-content">
+                                <p class="title is-4" style="margin-top:5px">{{group.name}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <section class="">
             <div class="container">
                 <div class="column is-8 is-offset-2">
@@ -14,7 +34,7 @@
                     <!-- <p v-if="group.isAdministrator"> -->
                         <router-link class="button" :to="{name: 'groupEditView', params: {name: group.name}}">{{'groups.update-group'|t}}</router-link>
                     <!-- </p> -->
-                    <img :src="'/static/' + group.bannerUrl" v-if="group.bannerUrl">
+                    <!-- <img :src="'/static/' + group.bannerUrl" v-if="group.bannerUrl"> -->
                     <p class="title is-4">{{group.name}}</p>
                     <p class="subtitle is-6">{{group.description}}</p>
 

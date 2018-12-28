@@ -29,11 +29,11 @@
                         @typing="updateGroupOptions">
                         <template slot-scope="props">
                             <div class="media">
-                                <div class="media-left"> -->
-                                    <img width="32" src="https://api.adorable.io/avatar/100/user10">
+                                <div class="media-left">
+                                    <img width="40" :src="$groupService.getLogoUrl(props.option)">
                                 </div>
                                 <div class="media-content">
-                                    {{ props.option.name }}; {{ props.option.createdAt | shortDate }}
+                                    <strong>{{ props.option.name }}</strong>
                                     <br>
                                     <small>
                                         {{props.option.description}}

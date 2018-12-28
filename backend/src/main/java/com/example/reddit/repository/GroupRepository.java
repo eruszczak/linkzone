@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public interface GroupRepository extends JpaRepository<Group, Long> {
 
-    @Query(value = "SELECT g.id as id, g.name as name, g.description as description, g.banner_url as bannerUrl, g.created_at as createdAt, g.logo as logo" +
+    @Query(value = "SELECT g.id as id, g.name as name, g.description as description, g.banner_url as bannerUrl, g.created_at as createdAt, g.logo as logo," +
             " (SELECT COUNT(*) FROM group_membership gm WHERE gm.group_id = g.id) as subscribers," +
             " (SELECT COUNT(*) FROM group_membership gm WHERE gm.group_id = g.id AND gm.user_id = :userId) as isSubbed" +
             " FROM group_tbl g" +

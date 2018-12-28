@@ -28,6 +28,10 @@ export default class GroupService {
         axios.get(url + qs).then(cb).catch(cbError);
     };
 
+    getLogoUrl(group) {
+        return group.logo ? `/static/${group.logo}` : `https://api.adorable.io/avatar/50/${group.name}`;
+    }
+
     uploadBanner = (groupName, form, cb, cbError) => {
         axios.post(`/groups/${groupName}/upload-banner/`, form).then(cb).catch(cbError);
     };
