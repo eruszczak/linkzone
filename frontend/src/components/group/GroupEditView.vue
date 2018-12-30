@@ -30,13 +30,13 @@
                 </b-field>
 
                 <b-tabs class="mt-2">
-                    <b-tab-item :label="$t('groups.show-logo')" icon="google-photos">
+                    <b-tab-item :label="$t('groups.show-logo')" icon="camera-image">
                         <div class="box has-text-centered">
                             <img class="" v-if="group.logo" :src="'/static/' + group.logo">
                             <file-input @formData="handleFormDataLogo" label="Logo" :max-height="50" :max-width="50" :max-size="50"></file-input>
                         </div>
                     </b-tab-item>
-                    <b-tab-item :label="$t('groups.show-banner')" icon="library-music">
+                    <b-tab-item :label="$t('groups.show-banner')" icon="image">
                         <div class="box">
                             <img v-if="group.bannerUrl" :src="'/static/' + group.bannerUrl">
                             <file-input @formData="handleFormData" label="Banner" :max-height="400" :max-width="2000" :max-size="1000"></file-input>
@@ -196,7 +196,7 @@
                     postTypes: this.selectedContent,
                     // tags: this.group.tags
                 }, ({data}) => {
-                    this.$success('Updated group');
+                    this.$success('updated-success');
                 }, () => {
                     this.$danger('Error');
                 })

@@ -51,6 +51,7 @@
                 value.form.locked = value.postLocked;
 
                 this.$postService.update(this.post.id, value.form, ({data}) => {
+                    this.$success('updated-success');
                     this.$router.push({
                         name: 'postView',
                         params: {
