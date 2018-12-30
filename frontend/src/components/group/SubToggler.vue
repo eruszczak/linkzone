@@ -1,8 +1,8 @@
 <template>
-    <button @click="toggleSub(group)" class="button is-small" :class="{'is-warning': group.subbed}">
+    <a @click="toggleSub(group)" :class="css">
         <span v-if="group.subbed">{{'groups.sub' | t}}</span>
         <span v-if="!group.subbed">{{'groups.unsub' | t}}</span>
-    </button>
+    </a>
 </template>
 
 <script>
@@ -12,7 +12,16 @@
             group: {
                 type: Object,
                 required: true
+            },
+            klass: {
+                type: String,
+                default: 'button is-small'
             }
+        },
+        computed: {
+          css() {
+              return [this.group.subbed ? 'is-warning' : '', this.klass];
+          }  
         },
         methods: {
             toggleSub(group) {
