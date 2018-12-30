@@ -106,7 +106,9 @@
                 const form = this.getCurrentForm();
                 form.title = this.post.title;
                 form.content = this.post.content;
-                this.filename = this.post.content;
+                if (this.post.type === POST_TYPES.MEDIA) {
+                    this.filename = this.post.content;
+                }
                 this.postLocked = this.post.locked;
             }
         },
@@ -116,11 +118,12 @@
                 const selectedType = this.getSelectedPostType();
                 this.$validator.validateAll(this.getSelectedPostType().toLowerCase()).then((result) => {
                     if (result) {
-                        // TODO its validated in PostCreateView too.
-                        // if (this.getSelectedPostType() === POST_TYPES.MEDIA) {
-                        //     // todo additionally check if image
-                        //     return;
-                        // }
+                        if (this.isMediaSelected()) {
+                            if (!this.filename) {
+                                this.$danger('no-file-selected');
+                                return;
+                            }
+                        }
                         this._submit();
                     }
                 });
@@ -130,11 +133,14 @@
                 this.$emit('submit', {
                     form: {
                         title: form.title,
-                        content: form.content
+                        content: this.isMediaSelected() ? this.filename : form.content
                     },
                     selectedForm: this.getSelectedPostType(),
                     postLocked: this.postLocked
                 });
+            },
+            isMediaSelected() {
+                return this.getSelectedPostType() === POST_TYPES.MEDIA;
             },
             isTabDisabled(type) {
                 return this.post && this.post.type !== type;
@@ -152,8 +158,8 @@
                         return this.formLink
                 }
             },
-            handleImageUpload(val) {
-                this.$userService.uploadFile(val.value[0], ({data}) => {
+            handleImageUpload(form) {
+                this.$userService.uploadFile(form, ({data}) => {
                     this.filename = data.fileName;
                     this.$emit('upload', this.filename);
                 });

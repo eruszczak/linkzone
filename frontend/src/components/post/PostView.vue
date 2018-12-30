@@ -19,7 +19,7 @@
             <post :post="post"></post>
 
             <p class="title is-5 mt-2">{{post.commentCount}} {{'posts.comments'| t}}</p>
-            <b-notification v-if="post.locked" :closable="false">
+            <b-notification v-if="post.locked" :closable="false" type="is-info">
                 <p>{{'posts.locked' | t}}</p>
             </b-notification>
             <comments :comments="comments" @change="changeCommentCount" :is-locked="post.locked">
@@ -73,7 +73,6 @@
             }
         },
         mounted() {
-            console.log('mounted PostView', this.postID, this.name);
             this.$groupService.getGroupDetail(this.name, res => {
                 // this.$toggleLoading(false);
                 this.group = res.data;
@@ -97,13 +96,8 @@
                     return;
                 }
                 this.$commentService.list(this.postID, {page: this.commentMetadata.pageNumber}, {}, ({data}) => {
-                    console.log('commenty', data);
                     this.commentMetadata.lastPage = data.last;
                     this.commentMetadata.pageNumber = data.number + 1;
-                    console.log(data.content);
-                    let sumReplies = 0;
-                    // TODO count on the backend
-                    this.commentMetadata.total = data.totalElements + sumReplies;
                     this.comments.push(...data.content.map(comment => prepareComment(comment)))
                 })
             },

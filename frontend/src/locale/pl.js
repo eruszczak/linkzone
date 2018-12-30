@@ -103,8 +103,8 @@ export default {
         "update-group": "Aktualizuj grupę",
         "removed-group": "Grupa została usunięta",
         "show-logo": "Wgraj logo",
-        "show-banner": "Wgraj baner"
-
+        "show-banner": "Wgraj baner",
+        "no-group-selected": "Nie wybrano docelowej grupy"
     },
     "comments": {
         "reply": "Odpowiedz",
@@ -143,4 +143,5 @@ export default {
     "logged-in": "Zostałeś zalogowany",
     "need-login": "Aby kontynuować, musisz się zalogować",
     "search": "Szukaj",
+    "no-file-selected": "Nie wybrano pliku"
 }

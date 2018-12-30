@@ -4,14 +4,14 @@
             <div class="hero-body">
                 <div class="container">
                 <h1 class="title">
-                    {{'posts.create-post'|t}} <span v-if="selectedGroups.length">- {{ selectedGroups[0].name }}</span>
+                    {{'posts.create-post'|t}} <span v-if="selectedGroups.length">- {{ selectedGroupName }}</span>
                 </h1>
                 </div>
             </div>
         </section>
         <div class="container">
             <div class="column is-8 is-offset-2">
-                <b-field v-if="!disabled" class="mt-2 mb-2" :label="$t('posts.pick-group')" :type="{'is-danger': triedToSubmit && errors.first('group')}" :message="triedToSubmit ? errors.first('group') : null">
+                <b-field v-if="!selectedGroupName" class="mt-2 mb-2" :label="$t('posts.pick-group')" :type="{'is-danger': triedToSubmit && errors.first('group')}" :message="triedToSubmit ? errors.first('group') : null">
                     <b-taginput
                         v-model="selectedGroups"
                         :data="groupOptions"
@@ -22,8 +22,7 @@
                         name="group"
                         field="name"
                         icon="account-group"
-                        :disabled="disabled"
-                        :closable="!disabled"
+                        :closable="!selectedGroupName"
                         type="is-primary"
                         :placeholder="$t('posts.search-group')"
                         @typing="updateGroupOptions">
@@ -72,7 +71,6 @@
                 this.$groupService.getGroupDetail(this.groupName, ({data}) => {
                     this.selectedGroups = [data];
                     this.$toggleLoading(false);
-                    this.disabled = true;
                 });
             } else {
                 this.$toggleLoading(false);
@@ -84,7 +82,7 @@
                 triedToSubmit: true,
                 selectedGroups: [],
                 groupOptions: [],
-                disabled: false
+                selectedGroupName: this.groupName
             }
         },
         methods: {
@@ -101,6 +99,11 @@
                 })
             }, 500),
             createPost(value) {
+                if (this.selectedGroups.length === 0) {
+                    this.$danger('groups.no-group-selected');
+                    this.selectedGroupName = null;
+                    return;
+                }
                 this.triedToSubmit = true;
                 this.$validator.validate().then(result => {
                     if (result) {
@@ -109,13 +112,6 @@
                 });
             },
             _createPost(value) {
-                console.log('craete post', value, this.selectedGroups[0], this.filename, value.selectedForm === POST_TYPES.MEDIA);
-                if (value.selectedForm === POST_TYPES.MEDIA) {
-                    if (!this.filename) {
-                        return;
-                    }
-                    value.form.content = this.filename;
-                }
                 this.$postService.addPost(value.form, this.selectedGroups[0].name, value.selectedForm, ({data}) => {
                     this.$router.push({
                         name: 'postView',

@@ -197,6 +197,10 @@
                     // tags: this.group.tags
                 }, ({data}) => {
                     this.$success('updated-success');
+                    this.$router.push({
+                        name: 'groupDetailView',
+                        params: {name: this.group.name}
+                    });
                 }, () => {
                     this.$danger('Error');
                 })

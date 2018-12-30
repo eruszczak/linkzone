@@ -40,23 +40,15 @@
         },
         methods: {
             updatePost(value) {
-                console.log('updated post', value);
-                if (this.post.type === POST_TYPES.MEDIA) {
-                    if (this.filename == null) {
-                        return;
-                    }
-                    value.form.content = this.filename;
-                }
-
                 value.form.locked = value.postLocked;
-
                 this.$postService.update(this.post.id, value.form, ({data}) => {
                     this.$success('updated-success');
                     this.$router.push({
                         name: 'postView',
                         params: {
                             name: data.groupName,
-                            postID: data.id
+                            postID: data.id,
+                            slug: data.slug
                         }
                     })
                 })
