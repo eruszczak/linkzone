@@ -5,7 +5,7 @@
             <!-- {{group}} -->
             <div class="box">
                 <div class="columns">
-                    <div class="column is-three-fifths">
+                    <div class="column">
                         <div class="media">
                             <figure class="media-left">
                                 <p class="image is-48x48">
@@ -25,21 +25,19 @@
                             <p class="subtitle is-6">{{group.description}}</p>
                         </div>
                     </div>
-                    <div class="column has-text-centered">
-                        <div class="is-pulled-right">
-                            <p style="margin-bottom: 8px">
-                                <router-link class="button is-small" style="margin-right: 5px" :to="{name: 'postCreateView', params: {groupName: group.name}}">{{'groups.add-post-in-group' | t}}</router-link>
-                                <sub-toggler :group="group"></sub-toggler>
-                            </p>
-                            <b-taglist style="margin-bottom: 0" attached>
-                                <b-tag><strong>{{'groups.subscribers'|t}}</strong></b-tag>
-                                <b-tag>{{group.subscribers}}</b-tag>
-                            </b-taglist>
-                            <b-taglist attached>
-                                <b-tag><strong>{{'groups.created-time'|t}}</strong></b-tag>
-                                <b-tag>{{group.createdAt | since}}</b-tag>
-                            </b-taglist>
-                        </div>
+                    <div class="column has-text-centered is-narrow">
+                        <p style="margin-bottom: 8px; width: 250px">
+                            <router-link class="button is-small" style="margin-right: 5px" :to="{name: 'postCreateView', params: {groupName: group.name}}">{{'groups.add-post-in-group' | t}}</router-link>
+                            <sub-toggler :group="group"></sub-toggler>
+                        </p>
+                        <b-taglist style="margin-bottom: 0" attached>
+                            <b-tag><strong>{{'groups.subscribers'|t}}</strong></b-tag>
+                            <b-tag>{{group.subscribers}}</b-tag>
+                        </b-taglist>
+                        <b-taglist attached>
+                            <b-tag><strong>{{'groups.created-time'|t}}</strong></b-tag>
+                            <b-tag>{{group.createdAt | since}}</b-tag>
+                        </b-taglist>
                     </div>
                 </div>
             </div>
