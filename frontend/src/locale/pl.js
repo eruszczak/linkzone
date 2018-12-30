@@ -55,7 +55,7 @@ export default {
     "posts": {
         "empty": "Nie znaleziono żadnych postów",
         "locked": "Post został zablokowany. Nowe komentarze nie mogą zostać dodane.",
-        "comments": "Komentarze",
+        "comments": "komentarze",
         "save": "Zapisz",
         "added-by": "Dodane przez",
         "in": "do",
@@ -71,7 +71,7 @@ export default {
         "update-locked": "Zablokuj post?",
         "update-locked-hint": "Zablokowany post, nie może być komentowany.",
         "create-post": "Dodaj post",
-        "update-post": "Aktualizuj"
+        "update-post": "Aktualizuj post"
     },
     "groups": {
         "empty": "Nie znaleziono żadnych grup",
@@ -100,7 +100,7 @@ export default {
         "subscribers": "Subskrybenci",
         "created-time": "Stworzona",
         "add-post-in-group": "Dodaj post",
-        "update-group": "Aktualizuj",
+        "update-group": "Aktualizuj grupę",
         "removed-group": "Grupa została usunięta",
         "show-logo": "Wgraj logo",
         "show-banner": "Wgraj baner"
@@ -110,7 +110,8 @@ export default {
         "reply": "Odpowiedz",
         "remove-title": "Usuń komentarz",
         "remove-message": "Jesteś pewien, że chcesz usunąć ten komentarz? Operacja jest nieodwracalna",
-        "add": "Dodaj komentarz"
+        "add": "Skomentuj post",
+        "add-reply": "Odpowiedz"
     },
     "account": {
         "tagline": "Podsumowanie",

@@ -1,5 +1,5 @@
 <template>
-    <section class="section">
+    <section class="">
         <comment v-for="(comment, index) in comments" :index="index" :item="comment" :is-locked="isLocked" :key="comment.id" @removed="handleRemovedComment" @added="handleAddedComment"></comment>
         <slot></slot>
     </section>

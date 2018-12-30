@@ -1,7 +1,7 @@
 <template>
     <section>
-        <small>{{'posts.added-by' | t}} <router-link :to="{name: 'userProfileView', params: {username: post.author}}">{{post.author}}</router-link> {{'posts.in' | t}} <router-link :to="{name: 'groupDetailView', params: {name: post.groupName}}">{{post.groupName}}</router-link>, {{post.createdAt | shortDate}}</small>
-        <p class="title is-4">
+        <small>{{'posts.added-by' | t}} <router-link :to="{name: 'userProfileView', params: {username: post.author}}">{{post.author}}</router-link> {{'posts.in' | t}} <router-link :to="{name: 'groupDetailView', params: {name: post.groupName}}">{{post.groupName}}</router-link>, {{post.createdAt | since}}</small>
+        <p class="title is-4" style="margin-top:15px">
             <router-link v-if="link" :to="{name: 'postView', params: {name: post.groupName, postID: post.id, slug: post.slug}}">{{post.title}}</router-link>
             <span v-else>{{post.title}}</span>
         </p>
@@ -24,8 +24,9 @@
         <a class="button is-small" @click="upvote"><b-icon :type="getUpvoteColor(post, true)" icon="arrow-up"></b-icon></a>
         <b-tag type="is-white">{{post.upvotedCount || 0}}</b-tag>
         <a class="button is-small" @click="downvote"><b-icon :type="getUpvoteColor(post, false)" icon="arrow-down"></b-icon></a>
-        <span class="ml-2">{{'posts.comments'| t}}: {{post.commentCount}}</span>
+        <span class="ml-2" v-if="link">{{post.commentCount}} {{'posts.comments'| t}}</span>
         <span class="ml-2">{{'posts.save' | t}}</span>
+        <span class="ml-2">Share</span>
     </section>
 </template>
 
@@ -45,7 +46,7 @@
             link: {
                 type: Boolean,
                 default: false
-            }
+            },
         },
         computed: {
 

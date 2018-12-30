@@ -57,7 +57,7 @@
                             <post-list :is-moderator="group.isModerator" :posts="posts"></post-list>
                             <!-- <pagination :pagination="pagination" @change="handleChange"/> -->
                         </div>
-                        <div class="column is-narrow is-hidden-touch">
+                        <div class="column is-narrow is-hidden-touch mt-2">
                             <div class="card" style="width:300px">
                             <header class="card-header">
                                 <p class="card-header-title">

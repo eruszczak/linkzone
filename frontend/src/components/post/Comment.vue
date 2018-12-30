@@ -17,7 +17,7 @@
                         <a class="button is-small is-white" @click="downvote"><b-icon :type="getUpvoteColor(item, false)" icon="chevron-down"></b-icon></a>
                         <b-tooltip :label="$t('comments.reply')" type="is-light" size="is-small">
                             <a v-if="!noReply && !isLocked" class="button is-small ml-2 is-white" @click="item.addReply = !item.addReply">
-                                <b-icon size="is-small" icon="comment-multiple"></b-icon>
+                                <b-icon size="is-small" type="is-info" icon="comment-multiple"></b-icon>
                             </a>
                         </b-tooltip>
                     </span>
@@ -25,11 +25,11 @@
                        <a class="button is-white is-small mr-2" @click="confirmCustomDelete">
                             <b-icon type="is-danger" icon="delete"></b-icon>
                         </a>
-                        <small>{{item.createdAt | shortDate}}</small>
+                        <small>{{item.createdAt | since}}</small>
                     </span>
 
                     <br>
-                    {{item.content}}; {{item.id}}
+                    {{item.content}}
                 </p>
             </div>
             <b-notification v-if="!item.replies && !isInner" :closable="false">
@@ -37,7 +37,7 @@
             </b-notification>
             <comment v-for="(item, index) in item.replies" :index="index" :item="item" @removed="emitRemoveEvent(index)" :key="item.id" no-reply @added="emitAddEvent"
                      :is-locked="isLocked"></comment>
-            <new-comment v-if="item.addReply" v-model="item.reply.body" @add="replyToComment(item)"></new-comment>
+            <new-comment is-reply v-if="item.addReply" v-model="item.reply.body" @add="replyToComment(item)"></new-comment>
         </div>
     </article>
 </template>

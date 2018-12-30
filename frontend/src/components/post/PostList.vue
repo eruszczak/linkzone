@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="mt-2" v-for="post in posts" :key="post.id">
+        <div class="mt-2 box" v-for="post in posts" :key="post.id">
             <post :post="post" link></post>
         </div>
         <b-notification v-if="posts.length === 0" :closable="false">

@@ -8,8 +8,9 @@
                 </ul>
             </nav>
 
-            <button class="button"><router-link :to="{name: 'postUpdateView', params: {id: post.id}}">update</router-link></button>
-
+            <div class="is-pulled-right">
+                <router-link class="button is-warning is-small" :to="{name: 'postUpdateView', params: {id: post.id}}">{{'posts.update-post'|t}}</router-link>
+            </div>
             <!-- <p>can moderate: {{canModerate}}; isOwner: {{isOwner}}</p>
             <p>author: {{post.author}}</p>
             <p>group: {{post.groupName}}</p> -->
@@ -17,7 +18,7 @@
 
             <post :post="post"></post>
 
-            <p class="title is-4">{{post.commentCount}} comments</p>
+            <p class="title is-5 mt-2">{{post.commentCount}} {{'posts.comments'| t}}</p>
             <b-notification v-if="post.locked" :closable="false">
                 <p>{{'posts.locked' | t}}</p>
             </b-notification>

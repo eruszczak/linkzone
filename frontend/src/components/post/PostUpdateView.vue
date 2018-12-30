@@ -4,7 +4,7 @@
             <nav class="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     <li><router-link :to="{name: 'postView', params: {postID: post.id, slug: post.slug, name: post.groupName}}">Post #{{post.id}}</router-link></li>
-                    <li class="is-active"><a href="#" aria-current="page">{{'posts.update-post'|t}}</a></li>
+                    <li class="is-active"><a href="#" aria-current="page">{{'update'|t}}</a></li>
                 </ul>
             </nav>
             <post-creator :post="post" @submit="updatePost" @upload="filename = $event" v-if="post"></post-creator>

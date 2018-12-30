@@ -20,7 +20,7 @@
         },
         computed: {
           css() {
-              return [this.group.subbed ? 'is-warning' : '', this.klass];
+              return [this.group.subbed ? 'is-warning' : 'is-info', this.klass];
           }  
         },
         methods: {

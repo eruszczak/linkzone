@@ -33,11 +33,11 @@
                             </p>
                             <b-taglist style="margin-bottom: 0" attached>
                                 <b-tag type="is-dark">{{'groups.subscribers'|t}}</b-tag>
-                                <b-tag type="is-info">{{group.subscribers}}</b-tag>
+                                <b-tag>{{group.subscribers}}</b-tag>
                             </b-taglist>
                             <b-taglist attached>
                                 <b-tag type="is-dark">{{'groups.created-time'|t}}</b-tag>
-                                <b-tag type="is-info">{{group.createdAt | since}}</b-tag>
+                                <b-tag>{{group.createdAt | since}}</b-tag>
                             </b-taglist>
                         </div>
                     </div>
