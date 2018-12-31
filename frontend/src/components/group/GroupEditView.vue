@@ -1,5 +1,5 @@
 <template>
-    <section class="section is-fullwidth" v-if="group && isAdmin">
+    <section class="section is-fullwidth" v-if="group">
         <section class="hero is-primary">
             <div class="hero-body">
                 <div class="container">
@@ -26,7 +26,7 @@
                     <b-input :disabled="true" icon="account-group" v-model="group.name"></b-input>
                 </b-field>
                 <b-field :type="{'is-danger': triedToSubmit && errors.has('description')}" :message="triedToSubmit ? errors.first('description') : null">
-                    <b-input v-validate="'required'" name="description" icon="text" v-model="group.description" :placeholder="$t('groups.create-description')"></b-input>
+                    <b-input type="textarea" v-validate="'required'" name="description" v-model="group.description" :placeholder="$t('groups.create-description')"></b-input>
                 </b-field>
 
                 <b-tabs class="mt-2">
@@ -116,7 +116,7 @@
 
                 <div class="mt-2 has-text-centered">
                     <button class="button is-primary" @click="updateGroup">{{'update'|t}}</button>
-                    <button class="button is-danger is-pulled-right is-small" @click="deleteGroup">{{'groups.delete-group'|t}}</button>
+                    <button v-if="group.isCreator" class="button is-danger is-pulled-right is-small" @click="deleteGroup">{{'groups.delete-group'|t}}</button>
                 </div>
             </div>
         </section>
@@ -139,13 +139,18 @@
             }
         },
         mounted() {
-            this.$groupService.getGroupDetail(this.name, res => {
+            this.$groupService.getGroupDetail(this.name, ({data}) => {
+
+                if (!data.isAdministrator) {
+                    this.$danger('forbidden');
+                    this.$router.replace({path: '/'});
+                    return;
+                }
+
                 this.$toggleLoading(false);
-                this.group = res.data;
-                this.isAdmin = true;
+                this.group = data;
                 // this.bannerFilename = this.group.bannerUrl;
 
-                // this.isAdmin = this.$groupService.isAdmin(this.group.administrators, this.$userService.getUserId());
                 this.selectedAdmins = this.group.administrators.slice();
                 this.selectedContent = this.group.postTypes.slice();
 
@@ -158,8 +163,7 @@
         data() {
             return {
                 bannerErrors: [],
-                isAdmin: false,
-                group: {},
+                group: null,
                 triedToSubmit: false,
                 selectedAdmins: [],
                 selectedMods: [],

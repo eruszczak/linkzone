@@ -10,12 +10,12 @@
             </div>
         </section>
         <div class="container">
-            <div class="column is-8 is-offset-2 mt-2">
+            <div class="column is-6 is-offset-3 mt-2">
                 <b-field :type="{'is-danger': triedToSubmit && errors.has('name')}" :message="triedToSubmit ? errors.first('name') : null">
                     <b-input v-validate="'required'" name="name" icon="account-group" v-model="form.name" :placeholder="$t('groups.create-title')"></b-input>
                 </b-field>
                 <b-field :type="{'is-danger': triedToSubmit && errors.has('description')}" :message="triedToSubmit ? errors.first('description') : null">
-                    <b-input v-validate="'required'" name="description" icon="text" v-model="form.description" :placeholder="$t('groups.create-description')"></b-input>
+                    <b-input type="textarea" v-validate="'required'" name="description" v-model="form.description" :placeholder="$t('groups.create-description')"></b-input>
                 </b-field>
                 <div class="has-text-centered mt-2">
                     <button class="button is-primary" @click="submit">{{ $t('add') }}</button>

@@ -104,7 +104,8 @@ export default {
         "removed-group": "Grupa została usunięta",
         "show-logo": "Wgraj logo",
         "show-banner": "Wgraj baner",
-        "no-group-selected": "Nie wybrano docelowej grupy"
+        "no-group-selected": "Nie wybrano docelowej grupy",
+        "moderator": "Jesteś moderatorem tej grupy. Możesz aktualizować/usuwać/blokować posty/komentarze w tej grupie"
     },
     "comments": {
         "reply": "Odpowiedz",

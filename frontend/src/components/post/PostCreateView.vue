@@ -4,13 +4,13 @@
             <div class="hero-body">
                 <div class="container">
                 <h1 class="title">
-                    {{'posts.create-post'|t}} <span v-if="selectedGroups.length">- {{ selectedGroupName }}</span>
+                    {{'posts.create-post'|t}} <span v-if="grpName">- {{ grpName }}</span>
                 </h1>
                 </div>
             </div>
         </section>
         <div class="container">
-            <div class="column is-8 is-offset-2">
+            <div class="column is-8 is-offset-2 mt-2">
                 <b-field v-if="!selectedGroupName" class="mt-2 mb-2" :label="$t('posts.pick-group')" :type="{'is-danger': triedToSubmit && errors.first('group')}" :message="triedToSubmit ? errors.first('group') : null">
                     <b-taginput
                         v-model="selectedGroups"
@@ -83,6 +83,11 @@
                 selectedGroups: [],
                 groupOptions: [],
                 selectedGroupName: this.groupName
+            }
+        },
+        computed: {
+            grpName() {
+                return this.selectedGroups.length ? this.selectedGroups[0].name : this.selectedGroupName;
             }
         },
         methods: {

@@ -18,6 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 public class GroupService {
@@ -38,6 +39,10 @@ public class GroupService {
 
     public Page<IGroupResponseDto> search(Pageable pageable, String name, Long accountId) {
         return groupRepository.search("%" + name + "%", accountId, pageable);
+    }
+
+    public IGroupResponseDto findDtoByName(String name, Long accountId) {
+        return groupRepository.findDtoByName(name, accountId).orElseThrow(() -> new NotFoundException(Group.class, name));
     }
 
     public Group create(GroupCreate groupCreate, Account account) {

@@ -36,6 +36,7 @@ Vue.prototype.$userService = new UserService();
 Vue.prototype.$postService = new PostService();
 Vue.prototype.$commentService = new CommentService();
 
+Vue.filter('date', str => moment(str).format('DD MMM YYYY'));
 Vue.filter('fullDate', str => moment(str).format('MMMM Do YYYY, HH:mm:ss'));
 Vue.filter('shortDate', str => moment(str).format('dddd, HH:mm:ss'));
 Vue.filter('since', str => moment(str).fromNow());

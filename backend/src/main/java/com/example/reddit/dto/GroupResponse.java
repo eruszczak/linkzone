@@ -10,27 +10,26 @@ import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Getter
-@Setter
 public class GroupResponse {
-    private long id;
-    private String name;
-    private String description;
-    private Instant createdAt;
-    private String bannerUrl;
-    private String logo;
+    public long id;
+    public String name;
+    public String description;
+    public Instant createdAt;
+    public String bannerUrl;
+    public String logo;
 
-    private boolean isSubbed;
-    private int subscribers;
+    public boolean isSubbed;
+    public int subscribers;
 
-    private List<AccountSummary> administrators;
-    private List<AccountSummary> moderators;
-    private List<PostType> postTypes;
-    private List<String> tags;
+    public List<AccountSummary> administrators;
+    public List<AccountSummary> moderators;
+    public List<PostType> postTypes;
+    public List<String> tags;
 
-    private AccountSummary creator;
-    private boolean isModerator;
-    private boolean isAdministrator;
+    public AccountSummary creator;
+    public boolean isCreator;
+    public boolean isModerator;
+    public boolean isAdministrator;
 
     public GroupResponse(Group group) {
         this.name = group.getName();
@@ -46,17 +45,6 @@ public class GroupResponse {
         this.logo = group.getLogo();
     }
 
-    public GroupResponse(Group group, boolean isSubbed) {
-        this(group);
-        this.isSubbed = isSubbed;
-    }
-
-    public GroupResponse(Group group, boolean isSubbed, Account account) {
-        this(group, isSubbed);
-        isAdministrator = account != null && (group.getCreator().equals(account) || group.getAdministrators().contains(account));
-        isModerator = account != null && (group.getModerators().contains(account) || isAdministrator);
-    }
-
     public GroupResponse(IGroupResponseDto dto) {
         id = dto.getId();
         name = dto.getName();
@@ -66,5 +54,19 @@ public class GroupResponse {
         isSubbed = dto.getIsSubbed() > 0;
         subscribers = dto.getSubscribers();
         logo = dto.getLogo();
+    }
+
+    public GroupResponse(IGroupResponseDto dto, Group group, Account requestUser) {
+        this(dto);
+        this.creator = new AccountSummary(group.getCreator());
+        this.administrators = group.getAdministrators().stream().map(AccountSummary::new).collect(Collectors.toList());
+        this.moderators = group.getModerators().stream().map(AccountSummary::new).collect(Collectors.toList());
+        this.postTypes = group.getPostTypes();
+        this.tags = group.getTags();
+        if (requestUser != null) {
+            isCreator = group.getCreator().equals(requestUser);
+            isAdministrator = isCreator || group.getAdministrators().contains(requestUser);
+            isModerator = group.getModerators().contains(requestUser) || isAdministrator;
+        }
     }
 }

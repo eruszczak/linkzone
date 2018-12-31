@@ -76,13 +76,11 @@ public class GroupRestController {
 
     @GetMapping(value = "/{name}")
     public ResponseEntity<?> detail(@PathVariable String name, @CurrentUser UserPrincipal currentUser) {
+        Long userId = currentUser != null ? currentUser.getAccount().getId() : - 1;
+        IGroupResponseDto groupDto = groupService.findDtoByName(name, userId);
         Group group = groupService.findByNameFetchEager(name);
-        boolean isSubbed = false;
-        if (currentUser != null) {
-            isSubbed = groupMembershipService.isUserSubbedToGroup(currentUser.getAccount().getUsername(), name);
-        }
         Account account = currentUser == null ? null : currentUser.getAccount();
-        return new ResponseEntity<>(new GroupResponse(group, isSubbed, account), HttpStatus.OK);
+        return new ResponseEntity<>(new GroupResponse(groupDto, group, account), HttpStatus.OK);
     }
 
     @GetMapping(value = "/checkName/{name}")

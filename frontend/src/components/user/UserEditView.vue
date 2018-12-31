@@ -13,16 +13,17 @@
         </section>
 
         <div class="container">
-            <nav class="breadcrumb mt-2" aria-label="breadcrumbs">
-                <ul>
-                    <li><router-link :to="{name: 'userProfileView', params: {username: user.username}}">{{user.username}}</router-link></li>
-                    <li class="is-active"><a href="#" aria-current="page">{{'userEditView'|t}}</a></li>
-                </ul>
-            </nav>
-            <b-notification v-if="errorList.length > 0" type="is-danger" :closable="false">
-                {{`errors.${errorList[0]}` | t}}
-            </b-notification>
             <div class="column is-8 is-offset-2">
+                <nav class="breadcrumb mt-2" aria-label="breadcrumbs">
+                    <ul>
+                        <li><router-link :to="{name: 'userProfileView', params: {username: user.username}}">{{user.username}}</router-link></li>
+                        <li class="is-active"><a href="#" aria-current="page">{{'userEditView'|t}}</a></li>
+                    </ul>
+                </nav>
+                <b-notification v-if="errorList.length > 0" type="is-danger" :closable="false">
+                    {{`errors.${errorList[0]}` | t}}
+                </b-notification>
+
                 <b-field :type="{'is-danger': triedToSubmit && errors.has('username')}" :message="triedToSubmit ? errors.first('username') : null">
                     <b-input v-validate="'required'" name="username" icon="account" v-model="form.username" :placeholder="$t('')"></b-input>
                 </b-field>

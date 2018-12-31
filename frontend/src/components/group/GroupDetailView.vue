@@ -31,12 +31,13 @@
                             <li class="is-active"><a href="#" aria-current="page">{{group.name}}</a></li>
                         </ul>
                     </nav>
+                    <moderator v-if="group.moderator"></moderator>
 
                     <div class="box is-hidden-desktop">
                         <p class="title is-4">{{group.name}} <span class="is-pulled-right"><sub-toggler :group="group"></sub-toggler></span></p>
                         <p class="subtitle is-6">{{group.description}}</p>
 
-                        <small class="ml-2">{{group.createdAt}}; {{group.createdAt | since}}</small>
+                        <small class="ml-2">{{group.createdAt | date}}</small>
 
                         <div class="field is-grouped">
                             <p class="control">
@@ -85,7 +86,7 @@
                                         <div class="level-item has-text-centered">
                                             <div>
                                             <p class="heading">Stworzona</p>
-                                            <p class="title is-5">{{group.createdAt}}</p>
+                                            <p class="title is-5">{{group.createdAt | date}}</p>
                                             </div>
                                         </div>
                                     </nav>
@@ -95,16 +96,13 @@
                             <footer class="card-footer">
                                 <router-link class="card-footer-item" :to="{name: 'postCreateView', params: {groupName: group.name}}">{{'groups.add-post-in-group' | t}}</router-link>
                             </footer>
-                            <footer class="card-footer">
-                                <!-- <a href="#" class="card-footer-item">Create post</a> -->
+                            <footer class="card-footer" v-if="group.isAdministrator">
                                 <router-link class="card-footer-item" :to="{name: 'groupEditView', params: {name: group.name}}">{{'groups.update-group'|t}}</router-link>
                             </footer>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </section>
     </section>
@@ -116,6 +114,7 @@
     import PostList from '../post/PostList'
     import {getPaginationFromResponse} from '../../utils/utils';
     import SubToggler from './SubToggler';
+    import Moderator from './Moderator'
 
     const POST_TYPES = {
         POST: 'POST', MEDIA: 'MEDIA', LINK: 'LINK'
@@ -124,7 +123,7 @@
     export default {
         name: 'GroupDetailView',
         props: ['name'],
-        components: {Pagination, PostList, SubToggler},
+        components: {Pagination, PostList, SubToggler, Moderator},
         mounted() {
             this.init()
         },
