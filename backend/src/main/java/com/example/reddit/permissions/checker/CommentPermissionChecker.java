@@ -8,17 +8,17 @@ import java.util.Optional;
 public class CommentPermissionChecker extends PermissionChecker {
 
     private Comment comment;
-    private GroupPermissionChecker groupPermissionChecker;
+    private PostPermissionChecker postPermissionChecker;
 
     public CommentPermissionChecker(Account authenticatedAccount, Comment comment) {
         super(authenticatedAccount);
         this.comment = comment;
-        groupPermissionChecker = new GroupPermissionChecker(authenticatedAccount, comment.getPost().getGroup());
+        postPermissionChecker = new PostPermissionChecker(authenticatedAccount, comment.getPost());
     }
 
     @Override
     public boolean canUpdate() {
-        return comment.getAccount().equals(authenticatedAccount) || groupPermissionChecker.canModerate();
+        return comment.getAccount().equals(authenticatedAccount) || postPermissionChecker.canUpdate();
     }
 
     /**

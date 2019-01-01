@@ -43,10 +43,11 @@ public class PostCommentRestController {
         Long userId = currentUser != null ? currentUser.getAccount().getId() : null;
         Page<ICommentResponseDto> comments = commentService.findByPostId(postId, userId, pageable);
         List<CommentResponse> result = new ArrayList<>();
-
+        String requestUsername = currentUser != null ? currentUser.getUsername() : "";
         CommentResponse previousParent = null;
         for (ICommentResponseDto dto : comments.getContent()) {
             CommentResponse comment = new CommentResponse(dto);
+            comment.isCreator = requestUsername.equals(dto.getUsername());
             if (dto.getParentId() == null) {
                 result.add(comment);
                 previousParent = comment;
@@ -55,7 +56,6 @@ public class PostCommentRestController {
             }
         }
         Page<CommentResponse> responses = new PageImpl<>(result, pageable, result.size());
-//        Page<CommentResponse> responses = comments.map(CommentResponse::new);
         return new ResponseEntity<>(responses, HttpStatus.OK);
     }
 

@@ -22,7 +22,7 @@
                         </b-tooltip>
                     </span>
                     <span class="is-pulled-right">
-                       <a class="button is-white is-small mr-2" @click="confirmDelete">
+                       <a class="button is-white is-small mr-2" @click="confirmDelete" v-if="item.isCreator || item.author.username === parentUsername || canDelete">
                             <b-icon type="is-danger" icon="delete"></b-icon>
                         </a>
                         <small>{{item.createdAt | since}}</small>
@@ -33,9 +33,9 @@
                 </p>
             </div>
             <b-notification v-if="!item.replies && !isInner" :closable="false">
-                Be 1st to reply
+                {{'comments.first-to-reply'|t}}
             </b-notification>
-            <comment v-for="(item, index) in item.replies" :index="index" :item="item" @removed="emitRemoveEvent(index)" :key="item.id" no-reply @added="emitAddEvent"
+            <comment :parent-username="item.author.username" v-for="(item, index) in item.replies" :index="index" :item="item" @removed="emitRemoveEvent(index)" :key="item.id" no-reply @added="emitAddEvent"
                      :is-locked="isLocked"></comment>
             <new-comment is-reply v-if="item.addReply" v-model="item.reply.body" @add="replyToComment(item)"></new-comment>
         </div>
@@ -67,6 +67,14 @@
                 default: false
             },
             noReply: {
+                type: Boolean,
+                default: false
+            },
+            parentUsername: {
+                required: false,
+                type: String
+            },
+            canDelete: {
                 type: Boolean,
                 default: false
             }

@@ -21,7 +21,7 @@
             <b-notification v-if="post.locked" :closable="false" type="is-info">
                 <p>{{'posts.locked' | t}}</p>
             </b-notification>
-            <comments :comments="comments" @change="changeCommentCount" :is-locked="post.locked">
+            <comments :comments="comments" @change="changeCommentCount" :is-locked="post.locked" :can-delete="group.isModerator || post.isCreator">
                 <new-comment v-if="!post.locked" v-model="comment.body" @add="addComment"></new-comment>
             </comments>
         </div>
@@ -55,15 +55,13 @@
             return {
                 POST_TYPES,
                 post: null,
+                group: null,
                 comments: [],
                 commentMetadata: {
                     lastPage: false,
                     pageNumber: 0,
                     total: 0
                 },
-                group: null,
-                canModerate: false,
-                isOwner: false,
                 user: null,
                 comment: {
                     body: '',

@@ -53,7 +53,7 @@ function showToast (msg, type, args) {
     Vue.prototype.$toast.open({
         message: i18n.t(msg, args),
         type: type,
-        position: 'is-top-right',
+        position: 'is-top',
         queue: false
     });
 }

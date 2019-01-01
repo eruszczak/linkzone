@@ -25,7 +25,7 @@ public class CommentRestController {
     private CommentService commentService;
 
     @Autowired
-    CommentRestController(CommentService commentService) {
+    public CommentRestController(CommentService commentService) {
         this.commentService = commentService;
     }
 

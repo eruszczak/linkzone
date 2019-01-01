@@ -116,7 +116,8 @@ export default {
         "remove-message": "Jesteś pewien, że chcesz usunąć ten komentarz? Wszystkie odpowiedzi na ten komentarz zostaną skasowane. Operacja jest nieodwracalna",
         "add": "Skomentuj post",
         "add-reply": "Odpowiedz",
-        "removed": "Komentarz został skasowany"
+        "removed": "Komentarz został skasowany",
+        "first-to-reply": "Brak komentarzy"
     },
     "account": {
         "tagline": "Podsumowanie",

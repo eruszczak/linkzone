@@ -63,8 +63,8 @@
                 this.$toggleLoading(true);
                 this.$userService.authenticate(this.form.usernameOrEmail, this.form.password, () => {
                     this.$info('logged-in');
-                    this.$router.replace('/');
                     this.$toggleLoading(false);
+                    this.$router.replace({path: '/'});
                 }, ({data}) => {
                     this.serverErrors = data.errors;
                 })

@@ -10,18 +10,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Getter
-@Setter
 public class CommentResponse {
 
-    private Long id;
-    private String content;
-    private List<CommentResponse> replies = new ArrayList<>();
-    private Instant createdAt;
-    private CommentCreator author;
-    private String groupName;
-    private Integer isUpvoted;
-    private Integer upvotedCount;
+    public Long id;
+    public String content;
+    public List<CommentResponse> replies;
+    public Instant createdAt;
+    public CommentCreator author;
+    public String groupName;
+    public Integer isUpvoted;
+    public Integer upvotedCount;
+
+    public boolean isCreator;
 
     public CommentResponse(Comment comment) {
         id = comment.getId();
@@ -49,16 +49,16 @@ public class CommentResponse {
 
     @Getter
     @Setter
-    private class CommentCreator {
-        private String username;
-        private String avatar;
+    public class CommentCreator {
+        public String username;
+        public String avatar;
 
-        private CommentCreator(Account account) {
+        public CommentCreator(Account account) {
             username = account.getUsername();
             avatar = account.getAvatar();
         }
 
-        private CommentCreator(String username, String avatar) {
+        public CommentCreator(String username, String avatar) {
             this.username = username;
             this.avatar = avatar;
         }

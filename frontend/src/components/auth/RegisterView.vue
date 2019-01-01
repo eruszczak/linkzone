@@ -83,7 +83,7 @@
                         this.$userService.authenticate(vm.form.email, vm.form.password, () => {
                             this.$toggleLoading(false);
                             this.$info('logged-in');
-                            this.$router.replace('/');
+                            this.$router.replace({path: '/'});
                         });
                     }
                 }, ({data}) => {
