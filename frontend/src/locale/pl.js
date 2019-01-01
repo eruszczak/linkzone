@@ -71,7 +71,10 @@ export default {
         "update-locked": "Zablokuj post?",
         "update-locked-hint": "Zablokowany post, nie może być komentowany.",
         "create-post": "Dodaj post",
-        "update-post": "Aktualizuj post"
+        "update-post": "Aktualizuj post",
+        "remove-title": "Usuń post",
+        "remove-message": "Jesteś pewien, że chcesz usunąć ten post? Wszystkie komentarze do tego postu zostaną skasowane. Operacja jest nieodwracalna.",
+        "removed": "Post został skasowany"
     },
     "groups": {
         "empty": "Nie znaleziono żadnych grup",
@@ -110,9 +113,10 @@ export default {
     "comments": {
         "reply": "Odpowiedz",
         "remove-title": "Usuń komentarz",
-        "remove-message": "Jesteś pewien, że chcesz usunąć ten komentarz? Operacja jest nieodwracalna",
+        "remove-message": "Jesteś pewien, że chcesz usunąć ten komentarz? Wszystkie odpowiedzi na ten komentarz zostaną skasowane. Operacja jest nieodwracalna",
         "add": "Skomentuj post",
-        "add-reply": "Odpowiedz"
+        "add-reply": "Odpowiedz",
+        "removed": "Komentarz został skasowany"
     },
     "account": {
         "tagline": "Podsumowanie",

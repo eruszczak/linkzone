@@ -44,19 +44,13 @@
             subGroup(group) {
                 this.$groupService.subscribe(group, res => {
                     group.subbed = true;
-                    this.$toast.open({
-                        message: this.$t('groups.unsub-toast'),
-                        type: 'is-success'
-                    })
+                    this.$success('groups.unsub-toast');
                 });
             },
             unsubGroup(group) {
                 this.$groupService.unsubscribe(group, res => {
                     group.subbed = false;
-                    this.$toast.open({
-                        message: this.$t('groups.sub-toast'),
-                        type: 'is-success'
-                    })
+                    this.$success('groups.sub-toast');
                 });
             }
         }

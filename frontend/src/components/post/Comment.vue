@@ -22,7 +22,7 @@
                         </b-tooltip>
                     </span>
                     <span class="is-pulled-right">
-                       <a class="button is-white is-small mr-2" @click="confirmCustomDelete">
+                       <a class="button is-white is-small mr-2" @click="confirmDelete">
                             <b-icon type="is-danger" icon="delete"></b-icon>
                         </a>
                         <small>{{item.createdAt | since}}</small>
@@ -89,7 +89,7 @@
             deleteComment() {
                 this.$commentService.delete(this.item.id, () => {
                     this.emitRemoveEvent(null);
-                    this.$toast.open('Removed');
+                    this.$info('comments.removed');
                 })
             },
             emitRemoveEvent(innerIndex) {
@@ -130,7 +130,7 @@
                     this.item.upvotedCount = data.counter;
                 });
             },
-            confirmCustomDelete() {
+            confirmDelete() {
                 this.$dialog.confirm({
                     title: this.$t('comments.remove-title'),
                     message: this.$t('comments.remove-message'),

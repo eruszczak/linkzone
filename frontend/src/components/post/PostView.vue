@@ -12,6 +12,7 @@
 
             <div v-if="post.isCreator || (group && group.isModerator)" class="is-pulled-right">
                 <router-link class="button is-warning is-small" :to="{name: 'postUpdateView', params: {id: post.id}}">{{'posts.update-post'|t}}</router-link>
+                <button style="margin-left:8px;" class="button is-white is-small" @click="confirmDelete"><b-icon type="is-danger" icon="delete"></b-icon></button>
             </div>
 
             <post :post="post"></post>
@@ -81,11 +82,33 @@
             });
             this.loadMoreComments();
         },
-        computed: {
-        },
         methods: {
             checkIfImageUrl: checkIfImageUrl,
             getYoutubeId: getYoutubeId,
+            confirmDelete() {
+                this.$dialog.confirm({
+                    title: this.$t('posts.remove-title'),
+                    message: this.$t('posts.remove-message'),
+                    confirmText: this.$t('confirm'),
+                    cancelText: this.$t('cancel'),
+                    type: 'is-danger',
+                    hasIcon: true,
+                    onConfirm: () => {
+                        this.deletePost();
+                    }
+                })
+            },
+            deletePost() {
+                this.$postService.delete(this.post.id, () => {
+                    this.$info('posts.removed');
+                    this.$router.push({
+                        name: 'groupDetailView',
+                        params: {
+                            name: this.post.groupName
+                        }
+                    })
+                })
+            },
             loadMoreComments() {
                 if (this.commentMetadata.lastPage) {
                     return;
