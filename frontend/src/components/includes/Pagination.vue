@@ -1,5 +1,15 @@
 <template>
     <div class="text-xs-center" v-if="pagination && pagination.totalPages > 1">
+        <b-pagination
+            :total="pagination.total"
+            :current.sync="pagination.currentPage"
+            :order="order"
+            :size="size"
+            :simple="isSimple"
+            :rounded="isRounded"
+            :per-page="pagination.pageSize"
+            @change="handleCurrentChange">
+        </b-pagination>
         <!-- <v-pagination
                 :length="pagination.totalPages"
                 :total-visible="7"
@@ -14,13 +24,24 @@
 
     export default {
         name: 'Pagination',
-        props: ['pagination'],
-        mounted() {
+        props: {
+            pagination: {
+                required: true,
+                type: Object
+            }
         },
         data() {
-            return {}
+            return {
+                total: 200,
+                current: 1,
+                perPage: 20,
+                order: '',
+                size: '',
+                isSimple: false,
+                isRounded: false
+            }
         },
-        computed: {},
+
         methods: {
             handleCurrentChange(val) {
                 this.$emit('change', val - 1);

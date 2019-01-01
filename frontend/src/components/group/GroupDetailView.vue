@@ -2,7 +2,6 @@
     <section class="section is-fullwidth" v-if="group">
         <div style="position: relative;">
             <div v-if="group.bannerUrl" :style="`background-image: url('/static/${group.bannerUrl}'); background-size: cover; background-position: center; height: 200px`"></div>
-            <!-- <img src="https://styles.redditmedia.com/t5_2sqho/styles/bannerBackgroundImage_g0n4opey4io11.jpg?format=pjpg&s=69513e1a04e11f844755cd34902d86d7c03f4abe"/> -->
             <div v-else style="height: 100px; background-color: grey"></div>
 
             <div style="position: absolute;bottom: 15px">
@@ -51,12 +50,9 @@
 
                     <div class="columns">
                         <div class="column">
-                            <!-- <p v-if="group.isAdministrator"> -->
-                            <!-- </p> -->
-                            <!-- <img :src="'/static/' + group.bannerUrl" v-if="group.bannerUrl"> -->
-
                             <post-list :is-moderator="group.isModerator" :posts="posts"></post-list>
-                            <!-- <pagination :pagination="pagination" @change="handleChange"/> -->
+                            {{pagination}}
+                            <pagination :pagination="pagination" @change="handleChange"/>
                         </div>
                         <div class="column is-narrow is-hidden-touch mt-2">
                             <div class="card" style="width:300px">
@@ -144,9 +140,9 @@
         },
         methods: {
             init() {
-                this.$groupService.getGroupDetail(this.name, res => {
+                this.$groupService.getGroupDetail(this.name, ({data}) => {
                     this.$toggleLoading(false);
-                    this.group = res.data;
+                    this.group = data;
                     this.mods = this.group.moderators.map(user => user.username);
                     this.admins = this.group.administrators.map(user => user.username);
                     this.getPosts({});
@@ -156,9 +152,9 @@
                 this.getPosts({page: pageNumber})
             },
             getPosts(pagination = {}) {
-                this.$groupService.getPosts(this.group, pagination, res => {
-                    this.pagination = getPaginationFromResponse(res.data);
-                    this.posts = res.data.content;
+                this.$groupService.getPosts(this.group, pagination, ({data}) => {
+                    this.pagination = getPaginationFromResponse(data);
+                    this.posts = data.content;
                 })
             }
         }

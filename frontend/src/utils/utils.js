@@ -3,7 +3,7 @@ export const getPaginationFromResponse = response => {
         total: response.totalElements,
         totalPages: response.totalPages,
         pageSize: response.pageable.pageSize,
-        currentPage: response.number,
+        currentPage: response.number + 1,
     }
 };
 export const PAGINATION = {

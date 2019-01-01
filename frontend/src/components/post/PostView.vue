@@ -1,5 +1,5 @@
 <template>
-    <div class="container" v-if="post">
+    <div class="container" v-if="post && group">
         <div class="column is-8 is-offset-2 mt-2">
             <nav class="breadcrumb" aria-label="breadcrumbs">
                 <ul>
