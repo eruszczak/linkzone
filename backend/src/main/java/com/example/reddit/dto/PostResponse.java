@@ -9,22 +9,21 @@ import lombok.Setter;
 
 import java.time.Instant;
 
-@Getter
-@Setter
 public class PostResponse {
-    private long id;
-    private String title;
-    private String content;
-    private String slug;
-    private PostType type;
-    private String author;
-    private String groupName;
-    private boolean locked;
-    private Integer isUpvoted;
-    private Integer upvotedCount;
-    private int commentCount;
-    private boolean isCreator;
-    private Instant createdAt;
+    public long id;
+    public String title;
+    public String content;
+    public String slug;
+    public PostType type;
+    public String author;
+    public String groupName;
+    public boolean locked;
+    public Integer isUpvoted;
+    public Integer upvotedCount;
+    public int commentCount;
+    public Instant createdAt;
+
+    public boolean isCreator;
 
     public PostResponse(Post post) {
         id = post.getId();
@@ -52,8 +51,10 @@ public class PostResponse {
         createdAt = dto.getCreatedAt();
     }
 
-    public PostResponse(IPostResponseDto dto, Account account) {
+    public PostResponse(IPostResponseDto dto, Account requestUser) {
         this(dto);
-        isCreator = account != null && author.equals(account.getUsername());
+        if (requestUser != null) {
+            isCreator = dto.getAuthor().equals(requestUser.getUsername());
+        }
     }
 }

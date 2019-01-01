@@ -142,8 +142,7 @@
             this.$groupService.getGroupDetail(this.name, ({data}) => {
 
                 if (!data.isAdministrator) {
-                    this.$danger('forbidden');
-                    this.$router.replace({path: '/'});
+                    this.$userService.forbidden();
                     return;
                 }
 

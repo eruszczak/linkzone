@@ -105,7 +105,7 @@ export default {
         "show-logo": "Wgraj logo",
         "show-banner": "Wgraj baner",
         "no-group-selected": "Nie wybrano docelowej grupy",
-        "moderator": "Jesteś moderatorem tej grupy. Możesz aktualizować/usuwać/blokować posty/komentarze w tej grupie"
+        "moderator": "Jesteś moderatorem tej grupy. Możesz aktualizować oraz usuwać posty lub komentarze w tej grupie oraz wyłączyć możliwość dodawania komentarzy w postach"
     },
     "comments": {
         "reply": "Odpowiedz",

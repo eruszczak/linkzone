@@ -66,7 +66,7 @@ public class GroupResponse {
         if (requestUser != null) {
             isCreator = group.getCreator().equals(requestUser);
             isAdministrator = isCreator || group.getAdministrators().contains(requestUser);
-            isModerator = group.getModerators().contains(requestUser) || isAdministrator;
+            isModerator = isAdministrator || group.getModerators().contains(requestUser);
         }
     }
 }

@@ -36,7 +36,7 @@
             </b-tab-item>
         </b-tabs>
 
-        <b-notification type="is-warning" :closable="false" v-if="post">
+        <b-notification type="is-warning" :closable="false" v-if="isPostModerator">
             <div class="field">
                 <b-checkbox v-model="postLocked">{{'posts.update-locked'|t}}</b-checkbox>
                 <p><small>{{'posts.update-locked-hint' |t}}</small></p>
@@ -76,6 +76,10 @@
             post: {
                 type: Object,
                 required: false
+            },
+            isPostModerator: {
+                type: Boolean,
+                default: false
             }
         },
         data() {

@@ -31,7 +31,7 @@
                             <li class="is-active"><a href="#" aria-current="page">{{group.name}}</a></li>
                         </ul>
                     </nav>
-                    <moderator v-if="group.moderator"></moderator>
+                    <moderator v-if="group.isModerator"></moderator>
 
                     <div class="box is-hidden-desktop">
                         <p class="title is-4">{{group.name}} <span class="is-pulled-right"><sub-toggler :group="group"></sub-toggler></span></p>

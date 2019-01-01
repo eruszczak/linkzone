@@ -1,6 +1,6 @@
 <template>
     <div class="container" v-if="post">
-        <div class="column is-8 is-offset-2">
+        <div class="column is-8 is-offset-2 mt-2">
             <nav class="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     <li><router-link :to="{name: 'groupDetailView', params: {name: post.groupName}}">{{post.groupName}}</router-link></li>
@@ -8,13 +8,11 @@
                 </ul>
             </nav>
 
-            <div class="is-pulled-right">
+            <moderator v-if="group && group.isModerator"></moderator>
+
+            <div v-if="post.isCreator || (group && group.isModerator)" class="is-pulled-right">
                 <router-link class="button is-warning is-small" :to="{name: 'postUpdateView', params: {id: post.id}}">{{'posts.update-post'|t}}</router-link>
             </div>
-            <!-- <p>can moderate: {{canModerate}}; isOwner: {{isOwner}}</p>
-            <p>author: {{post.author}}</p>
-            <p>group: {{post.groupName}}</p> -->
-            <!-- <button class="button" @click="updating = !updating" v-if="isOwner || canModerate">update</button> -->
 
             <post :post="post"></post>
 
@@ -37,6 +35,7 @@
     import Comments from './Comments'
     import {checkIfImageUrl, getYoutubeId, prepareComment} from "../../utils/utils";
     import NewComment from './NewComment';
+    import Moderator from '../group/Moderator';
 
     export default {
         name: 'PostView',
@@ -50,7 +49,7 @@
                 required: true
             }
         },
-        components: {Comment, Post, Comments, NewComment},
+        components: {Comment, Post, Comments, NewComment, Moderator},
         data() {
             return {
                 POST_TYPES,
@@ -73,12 +72,8 @@
             }
         },
         mounted() {
-            this.$groupService.getGroupDetail(this.name, res => {
-                // this.$toggleLoading(false);
-                this.group = res.data;
-                // const isMod = this.$groupService.isMod(this.group.moderators);
-                // const isAdmin = this.$groupService.isAdmin(this.group.administrators);
-                // this.canModerate = isAdmin || isMod
+            this.$groupService.getGroupDetail(this.name, ({data}) => {
+                this.group = data;
             });
             this.$postService.getPost(this.postID, res => {
                 this.post = res.data;

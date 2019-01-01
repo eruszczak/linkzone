@@ -184,6 +184,11 @@ export default class UserService {
         }
     }
 
+    forbidden() {
+        Vue.prototype.$danger('forbidden');
+        router.replace({path: '/'});
+    }
+
     logout = (cb) => {
         console.warn('logging out');
         if (store.getters.isAuthenticated) {
