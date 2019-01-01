@@ -154,9 +154,6 @@
                 this.selectedContent = this.group.postTypes.slice();
 
                 this.selectedMods = this.group.moderators.slice();
-                // if (!this.isAdmin) {
-                //     // TODO redirect somewhere
-                // }
             })
         },
         data() {
@@ -176,7 +173,6 @@
             findIndex: findIndex,
             updateAdminOptions: debounce(function (text) {
                 this.$userService.findExact(text.trim(), ({data}) => {
-                    console.log(data)
                     this.adminOptions = [data];
                 }, () => {
                     this.adminOptions = [];
@@ -204,8 +200,6 @@
                         name: 'groupDetailView',
                         params: {name: this.group.name}
                     });
-                }, () => {
-                    this.$danger('Error');
                 })
             },
             deleteGroup() {
@@ -239,14 +233,18 @@
                 this.$groupService.uploadLogo(this.group.name, form, ({data}) => {
                     this.group.logo = data.fileName;
                 }, ({data}) => {
-                    this.bannerErrors = data.errors;
+                    if (data.errors) {
+                        this.bannerErrors = data.errors;
+                    }
                 });
             },
             uploadBanner(form) {
                 this.$groupService.uploadBanner(this.group.name, form, ({data}) => {
                     this.group.bannerUrl = data.fileName;
                 }, ({data}) => {
-                    this.bannerErrors = data.errors;
+                    if (data.errors) {
+                        this.bannerErrors = data.errors;
+                    }
                 });
             },
             beforeAddingAdmin(user) {

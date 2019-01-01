@@ -132,7 +132,6 @@
                 group: null,
                 posts: [],
                 pagination: {},
-                isSubbed: false,
                 POST_TYPES: POST_TYPES,
                 admins: [],
                 mods: []
@@ -150,21 +149,16 @@
                     this.group = res.data;
                     this.mods = this.group.moderators.map(user => user.username);
                     this.admins = this.group.administrators.map(user => user.username);
-                    console.log('mods', this.mods);
-                    console.log('admins', this.admins);
                     this.getPosts({});
-                    this.isSubbed = res.data.isSubbed
                 })
             },
             handleChange(pageNumber) {
                 this.getPosts({page: pageNumber})
             },
             getPosts(pagination = {}) {
-                console.log(this.group);
                 this.$groupService.getPosts(this.group, pagination, res => {
                     this.pagination = getPaginationFromResponse(res.data);
                     this.posts = res.data.content;
-                    console.log('posty', this.posts)
                 })
             }
         }

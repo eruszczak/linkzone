@@ -70,11 +70,12 @@ public class GroupService {
         save(group);
     }
 
-    //    @PreAuthorize("hasPermission(#group, '" + Permissions.UPDATE + "')")
+    @PreAuthorize("hasPermission(#group, '" + Permissions.UPDATE + "')")
     public void updateGroupBannerUrl(String bannerUrl, Group group) {
         groupRepository.updateGroupBannerUrl(bannerUrl, group.getName());
     }
 
+    @PreAuthorize("hasPermission(#group, '" + Permissions.UPDATE + "')")
     public void updateLogo(String logo, Group group) {
         groupRepository.updateLogo(logo, group.getName());
     }
