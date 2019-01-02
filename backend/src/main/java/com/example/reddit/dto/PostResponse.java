@@ -17,6 +17,7 @@ public class PostResponse {
     public PostType type;
     public String author;
     public String groupName;
+    public String groupLogo;
     public boolean locked;
     public Integer isUpvoted;
     public Integer upvotedCount;
@@ -49,6 +50,7 @@ public class PostResponse {
         upvotedCount = dto.getUpvotedCount();
         commentCount = dto.getCommentCount();
         createdAt = dto.getCreatedAt();
+        groupLogo = dto.getGroupLogo();
     }
 
     public PostResponse(IPostResponseDto dto, Account requestUser) {

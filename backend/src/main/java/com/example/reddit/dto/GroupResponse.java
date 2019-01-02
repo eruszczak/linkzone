@@ -58,7 +58,7 @@ public class GroupResponse {
         subscribers = dto.getSubscribers();
         logo = dto.getLogo();
         isDefault = dto.getIsDefault();
-        postCount = dto.getPostCount();
+        postCount = dto.getPostCount() != null ? dto.getPostCount() : 0;
     }
 
     public GroupResponse(IGroupResponseDto dto, Group group, Account requestUser) {

@@ -14,7 +14,9 @@ import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    @Query(value = "SELECT p.id as id, p.title as title, p.content as content, p.slug as slug, p.type as type, a.username as author, g.name as groupName, p.locked as locked, p.created_at as createdAt," +
+    String QUERY = "SELECT p.id as id, p.title as title, p.content as content, p.slug as slug, p.type as type, a.username as author, g.name as groupName, g.logo as groupLogo, p.locked as locked, p.created_at as createdAt,";
+
+    @Query(value = QUERY +
             " (SELECT COUNT(*) FROM comments c WHERE c.post_id = p.id) as commentCount," +
             " (SELECT pu.is_upvote FROM post_upvote pu WHERE pu.post_id = p.id AND pu.account_id = :accountId) as upvoted," +
             " (SELECT SUM(pu.is_upvote) FROM post_upvote pu WHERE pu.post_id = p.id) as upvotedCount" +
@@ -27,7 +29,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findByGroupName(String name);
 
-    @Query(value = "SELECT p.id as id, p.title as title, p.content as content, p.slug as slug, p.type as type, a.username as author, g.name as groupName, p.locked as locked, p.created_at as createdAt," +
+    @Query(value = QUERY +
             " (SELECT COUNT(*) FROM comments c WHERE c.post_id = p.id) as commentCount," +
             " (SELECT pu.is_upvote FROM post_upvote pu WHERE pu.post_id = p.id AND pu.account_id = :accountId) as upvoted," +
             " (SELECT SUM(pu.is_upvote) FROM post_upvote pu WHERE pu.post_id = p.id) as upvotedCount" +
@@ -40,7 +42,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             nativeQuery = true)
     Page<IPostResponseDto> findByGroupName(@Param("name") String name, @Param("pageable") Pageable pageable, @Param("accountId") Long accountId);
 
-    @Query(value = "SELECT p.id as id, p.title as title, p.content as content, p.slug as slug, p.type as type, a.username as author, g.name as groupName, p.locked as locked, p.created_at as createdAt," +
+    @Query(value = QUERY +
             " (SELECT COUNT(*) FROM comments c WHERE c.post_id = p.id) as commentCount," +
             " (SELECT pu.is_upvote FROM post_upvote pu WHERE pu.post_id = p.id AND pu.account_id = :accountId) as upvoted," +
             " (SELECT SUM(pu.is_upvote) FROM post_upvote pu WHERE pu.post_id = p.id) as upvotedCount" +
@@ -53,7 +55,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             nativeQuery = true)
     Page<IPostResponseDto> findByAccountUsername(@Param("username") String username, @Param("accountId") Long accountId, @Param("pageable") Pageable pageable);
 
-    @Query(value = "SELECT p.id as id, p.title as title, p.content as content, p.slug as slug, p.type as type, a.username as author, g.name as groupName, p.locked as locked, p.created_at as createdAt," +
+    @Query(value = QUERY +
             " (SELECT COUNT(*) FROM comments c WHERE c.post_id = p.id) as commentCount," +
             " (SELECT pu.is_upvote FROM post_upvote pu WHERE pu.post_id = p.id AND pu.account_id = :accountId) as upvoted," +
             " (SELECT SUM(pu.is_upvote) FROM post_upvote pu WHERE pu.post_id = p.id) as upvotedCount" +
@@ -66,7 +68,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             nativeQuery = true)
     Page<IPostResponseDto> findTop(@Param("accountId") Long accountId, @Param("pageable") Pageable pageable);
 
-    @Query(value = "SELECT p.id as id, p.title as title, p.content as content, p.slug as slug, p.type as type, a.username as author, g.name as groupName, p.locked as locked, p.created_at as createdAt," +
+    @Query(value = QUERY +
             " (SELECT COUNT(*) FROM comments c WHERE c.post_id = p.id) as commentCount," +
             " (SELECT SUM(pu.is_upvote) FROM post_upvote pu WHERE pu.post_id = p.id) as upvotedCount" +
             " FROM posts p" +
@@ -77,7 +79,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             nativeQuery = true)
     Page<IPostResponseDto> findTop(@Param("pageable") Pageable pageable);
 
-    @Query(value = "SELECT p.id as id, p.title as title, p.content as content, p.slug as slug, p.type as type, a.username as author, g.name as groupName, p.locked as locked, p.created_at as createdAt," +
+    @Query(value = QUERY +
             " (SELECT COUNT(*) FROM comments c WHERE c.post_id = p.id) as commentCount," +
             " pu.is_upvote as upvoted," +
             " (SELECT pu.is_upvote FROM post_upvote pu WHERE pu.post_id = p.id AND pu.account_id = :accountId) as upvotedUser," +

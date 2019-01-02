@@ -7,15 +7,16 @@
             <div style="position: absolute;bottom: 15px">
                 <div class="container">
                     <div class="column is-8 is-offset-2">
-                        <div class="media" style="width: 200px;">
-                            <figure class="media-left">
+                        <div style="display: flex;flex-direction: row;width:300px">
                                 <p class="image is-48x48">
                                     <img class="is-rounded" :src="$groupService.getLogoUrl(group)">
                                 </p>
+                                <p class="title is-4" style="margin-top:9px;margin-left:1rem">{{group.name}}</p>
+                            <!-- <figure class="media-left">
+   
                             </figure>
                             <div class="media-content" style="overflow: hidden;">
-                                <p class="title is-4" style="margin-top:9px">{{group.name}}</p>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>

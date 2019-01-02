@@ -15,5 +15,5 @@ public interface IGroupResponseDto {
 
     int getSubscribers();
     int getIsSubbed();
-    int getPostCount();
+    Integer getPostCount();
 }

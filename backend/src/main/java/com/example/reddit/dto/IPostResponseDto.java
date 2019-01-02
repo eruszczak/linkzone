@@ -15,6 +15,7 @@ public interface IPostResponseDto {
     String getAuthor();
     String getAuthorAvatar();
     String getGroupName();
+    String getGroupLogo();
     boolean getLocked();
     Integer getUpvoted();
     Integer getUpvotedUser();

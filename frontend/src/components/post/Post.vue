@@ -1,6 +1,6 @@
 <template>
     <section>
-        <small>{{'posts.added-by' | t}} <router-link :to="{name: 'userProfileView', params: {username: post.author}}">{{post.author}}</router-link> {{'posts.in' | t}} <router-link :to="{name: 'groupDetailView', params: {name: post.groupName}}">{{post.groupName}}</router-link>, {{post.createdAt | since}}</small>
+        <small style="display: flex;flex-direction: row;">{{'posts.added-by' | t}} <router-link style="margin: 0 3px" :to="{name: 'userProfileView', params: {username: post.author}}">{{post.author}}</router-link> {{'posts.in' | t}} <span style="margin: 0 5px" class="image is-24x24"><img class="is-rounded" :src="$groupService.getLogoUrl({logo: post.groupLogo, name: post.groupName})"></span> <router-link :to="{name: 'groupDetailView', params: {name: post.groupName}}">{{post.groupName}}</router-link>, {{post.createdAt | since}}</small>
         <p class="title is-4" style="margin-top:15px">
             <router-link v-if="link" :to="{name: 'postView', params: {name: post.groupName, postID: post.id, slug: post.slug}}">{{post.title}}</router-link>
             <span v-else>{{post.title}}</span>
