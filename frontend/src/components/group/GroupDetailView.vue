@@ -67,21 +67,21 @@
                                     <nav class="level">
                                         <div class="level-item has-text-centered">
                                             <div>
-                                            <p class="heading">Subscribers</p>
-                                            <p class="title is-5">3,456</p>
+                                            <p class="heading">{{'groups.subs'|t}}</p>
+                                            <p class="title is-5">{{group.subscribers}}</p>
                                             </div>
                                         </div>
                                         <div class="level-item has-text-centered">
                                             <div>
-                                            <p class="heading">Posts</p>
-                                            <p class="title is-5">123</p>
+                                            <p class="heading">{{'groups.posts'|t}}</p>
+                                            <p class="title is-5">{{group.postCount}}</p>
                                             </div>
                                         </div>
                                     </nav>
                                     <nav class="level">
                                         <div class="level-item has-text-centered">
                                             <div>
-                                            <p class="heading">Stworzona</p>
+                                            <p class="heading">{{'groups.created-time'|t}}</p>
                                             <p class="title is-5">{{group.createdAt | date}}</p>
                                             </div>
                                         </div>

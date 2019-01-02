@@ -21,6 +21,7 @@ public class GroupResponse {
 
     public boolean isSubbed;
     public int subscribers;
+    public int postCount;
 
     public List<AccountSummary> administrators;
     public List<AccountSummary> moderators;
@@ -57,6 +58,7 @@ public class GroupResponse {
         subscribers = dto.getSubscribers();
         logo = dto.getLogo();
         isDefault = dto.getIsDefault();
+        postCount = dto.getPostCount();
     }
 
     public GroupResponse(IGroupResponseDto dto, Group group, Account requestUser) {

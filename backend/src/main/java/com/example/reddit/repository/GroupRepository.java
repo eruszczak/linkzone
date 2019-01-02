@@ -25,6 +25,7 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
     Page<IGroupResponseDto> search(@Param("query") String query, @Param("userId") Long userId, @Param("pageable") Pageable pageable);
 
     @Query(value = "SELECT g.id as id, g.name as name, g.description as description, g.banner_url as bannerUrl, g.created_at as createdAt, g.logo as logo, g.is_default as isDefault," +
+            " (SELECT COUNT(*) FROM posts p WHERE p.group_id = g.id) as postCount," +
             " (SELECT COUNT(*) FROM group_membership gm WHERE gm.group_id = g.id) as subscribers," +
             " (SELECT COUNT(*) FROM group_membership gm WHERE gm.group_id = g.id AND gm.user_id = :userId) as isSubbed" +
             " FROM group_tbl g" +

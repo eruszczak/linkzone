@@ -121,7 +121,7 @@
                         <figure class="image is-16x16" style="margin-right: 5px">
                             <img :src="user.avatarUrl">
                         </figure>
-                         {{user.username}} <b-icon v-if="user.isAdmin" icon="crown" size="" type="is-warning"></b-icon>
+                         {{user.username}} <b-icon style="margin-left:5px" v-if="user.isAdmin" icon="crown" size="" type="is-warning"></b-icon>
                     </a>
 
                     <div class="navbar-dropdown">

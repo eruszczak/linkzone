@@ -107,6 +107,8 @@ export default {
         "update-group": "Aktualizuj grupę",
         "removed-group": "Grupa została usunięta",
         "show-logo": "Wgraj logo",
+        "subs": "Subskrybenci",
+        "posts": "Posty",
         "show-banner": "Wgraj baner",
         "added-group": "Grupa została stworzona",
         "no-group-selected": "Nie wybrano docelowej grupy",
