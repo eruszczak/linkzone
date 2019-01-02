@@ -108,6 +108,7 @@ export default {
         "removed-group": "Grupa została usunięta",
         "show-logo": "Wgraj logo",
         "show-banner": "Wgraj baner",
+        "added-group": "Grupa została stworzona",
         "no-group-selected": "Nie wybrano docelowej grupy",
         "moderator": "Jesteś moderatorem tej grupy. Możesz aktualizować oraz usuwać posty lub komentarze w tej grupie oraz wyłączyć możliwość dodawania komentarzy w postach",
         "default-group": "Domyślna grupa",

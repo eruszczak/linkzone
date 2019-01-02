@@ -19,7 +19,7 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
             " (SELECT COUNT(*) FROM group_membership gm WHERE gm.group_id = g.id AND gm.user_id = :userId) as isSubbed" +
             " FROM group_tbl g" +
             " WHERE lower(g.name) LIKE lower(:query)" +
-            " ORDER BY subscribers DESC, isSubbed DESC, ?#{#pageable}",
+            " ORDER BY subscribers DESC, isSubbed DESC LIMIT ?#{#pageable.offset},?#{#pageable.pageSize}",
             nativeQuery = true,
             countQuery = "SELECT COUNT(*) FROM group_tbl g WHERE lower(g.name) LIKE lower(:query)")
     Page<IGroupResponseDto> search(@Param("query") String query, @Param("userId") Long userId, @Param("pageable") Pageable pageable);

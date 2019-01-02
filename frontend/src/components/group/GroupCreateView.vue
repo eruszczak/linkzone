@@ -54,7 +54,8 @@
                     name: this.form.name,
                     description: this.form.description
                 }, ({data}) => {
-                    this.$router.push({name: 'groupDetailView', params: {name: data.name}})
+                    this.$success('groups.added-group');
+                    this.$router.push({name: 'groupDetailView', params: {name: data.name}});
                 }, ({data}) => {
                     this.$danger('errors.' + data.title);
                 })

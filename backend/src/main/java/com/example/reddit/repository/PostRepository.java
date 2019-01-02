@@ -61,7 +61,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             " INNER JOIN group_membership gm ON gm.group_id = p.group_id AND gm.user_id = :accountId" +
             " JOIN accounts a ON a.id = p.account_id" +
             " JOIN group_tbl g ON g.id = p.group_id" +
-            " ORDER BY upvotedCount DESC, ?#{#pageable}",
+            " ORDER BY upvotedCount DESC, p.created_at DESC LIMIT ?#{#pageable.offset},?#{#pageable.pageSize}",
             countQuery = "SELECT COUNT(*) FROM posts p INNER JOIN group_membership gm ON gm.group_id = p.group_id AND gm.user_id = :accountId",
             nativeQuery = true)
     Page<IPostResponseDto> findTop(@Param("accountId") Long accountId, @Param("pageable") Pageable pageable);

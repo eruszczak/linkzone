@@ -9,7 +9,9 @@
                     </b-field>
                 </div>
                 <section class="">
+                    {{pagination}}
                     <group-list :groups="groups" :pagination="pagination" @pageChange="handleChange"></group-list>
+                    <!-- <pagination :pagination="pagination" @change="handleChange"/> -->
                 </section>
             </div>
         </div>
@@ -18,12 +20,13 @@
 
 <script>
     import {getPaginationFromResponse} from "../../utils/utils"
+    import Pagination from '../includes/Pagination'
     import GroupList from './GroupList'
 
     export default {
         name: 'GroupListView',
         components: {
-            GroupList
+            GroupList, Pagination
         },
         mounted() {
             this.getGroups();
@@ -52,10 +55,11 @@
                 // this.getGroups({page: pageNumber});
             },
             getGroups() {
-                console.log('getting page', this.$route.query.page)
-                this.$groupService.getGroupList(this.$route.query.page, '', res => {
-                    this.groups = res.data.content;
-                    this.pagination = getPaginationFromResponse(res.data);
+                this.pagination.page = this.$route.query.page || 0;
+                this.$toggleLoading(true);
+                this.$groupService.getGroupList(this.pagination, '', ({data}) => {
+                    this.groups = data.content;
+                    this.pagination = getPaginationFromResponse(data);
                     this.$toggleLoading(false);
                 })
             }

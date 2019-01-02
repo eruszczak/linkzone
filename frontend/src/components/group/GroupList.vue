@@ -1,7 +1,6 @@
 <template>
     <div>
-        <pagination v-if="pagination" :pagination="pagination" @change="handleChange"/>
-        <div class="mt-2" v-for="group in groups" :key="group.id">
+        <div class="mt-2 mb-2" v-for="group in groups" :key="group.id">
             <!-- {{group}} -->
             <div class="box">
                 <div class="columns">
@@ -42,6 +41,7 @@
                 </div>
             </div>
         </div>
+        <pagination v-if="pagination" :pagination="pagination" @change="handleChange"/>
         <b-notification v-if="groups.length === 0" :closable="false">
             {{'groups.empty' | t}}
         </b-notification>

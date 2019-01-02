@@ -1,9 +1,9 @@
 <template>
     <div class="container">
         <div class="column is-8 is-offset-2">
-            <b-notification :closable="false" type="is-info" size="small">
-                <p>{{'from-all-groups' | t}}</p>
-                <p>{{'from-subbed-groups' | t}}</p>
+            <b-notification :closable="false" type="is-default" size="small">
+                <span v-if="!user">{{'from-all-groups' | t}}</span>
+                <span v-else>{{'from-subbed-groups' | t}}</span>
             </b-notification>
             <post-list :posts="posts"></post-list>
                                         {{pagination}}
@@ -16,6 +16,7 @@
     import PostList from '@/components/post/PostList';
     import {getPaginationFromResponse} from './../utils/utils';
     import Pagination from './includes/Pagination'
+    import {mapGetters} from 'vuex'
 
     export default {
         name: "MainView",
@@ -28,6 +29,9 @@
         },
         mounted() {
             this.getPosts();
+        },
+        computed: {
+            ...mapGetters(['user'])
         },
         methods: {
             handleChange(pageNumber) {
