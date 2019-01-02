@@ -74,7 +74,8 @@ export default {
         "update-post": "Aktualizuj post",
         "remove-title": "Usuń post",
         "remove-message": "Jesteś pewien, że chcesz usunąć ten post? Wszystkie komentarze do tego postu zostaną skasowane. Operacja jest nieodwracalna.",
-        "removed": "Post został skasowany"
+        "removed": "Post został skasowany",
+        "added-post": "Dodano post"
     },
     "groups": {
         "empty": "Nie znaleziono żadnych grup",

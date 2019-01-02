@@ -70,7 +70,7 @@ export default class GroupService {
 
     getPosts = (group, pageable, cb, cbError) => {
         const url = `/groups/${group.name}/posts/` + buildPaginationQueryString(pageable.page, pageable.perPage);
-        axios.get(url).then(cb);
+        axios.get(url).then(cb).catch(cbError);
     };
 
     checkGroupName = (name, cb, cbError) => {

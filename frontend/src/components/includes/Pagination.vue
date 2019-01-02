@@ -10,13 +10,6 @@
             :per-page="pagination.pageSize"
             @change="handleCurrentChange">
         </b-pagination>
-        <!-- <v-pagination
-                :length="pagination.totalPages"
-                :total-visible="7"
-                @input="handleCurrentChange"
-                circle
-                v-model="pagination.currentPage + 1"
-        ></v-pagination> -->
     </div>
 </template>
 

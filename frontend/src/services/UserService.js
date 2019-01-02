@@ -4,6 +4,7 @@ import jwt_decode from 'jwt-decode'
 import EventEmitter from 'eventemitter3'
 import router, {setNextRoute} from '../router';
 import Vue from 'vue';
+import {buildPaginationQueryString} from '../utils/utils';
 
 const LOCAL_STORAGE_ACCESS_TOKEN_KEY = 'ACCESS_TOKEN';
 
@@ -77,20 +78,14 @@ export default class UserService {
         axios.get(url).then(cb);
     };
 
-    getPosts = (username, cb, cbError) => {
-        if (!username) {
-            return
-        }
-        const url = `/users/${username}/posts/`;
-        axios.get(url).then(cb);
+    getPosts = (username, pageable, cb, cbError) => {
+        const url = `/users/${username}/posts/` + buildPaginationQueryString(pageable.page, pageable.perPage);
+        axios.get(url).then(cb).catch(cbError);
     };
 
-    getUpvotedPosts = (username, cb, cbError) => {
-        if (!username) {
-            return;
-        }
-        const url = `/users/${username}/posts/upvoted/`;
-        axios.get(url).then(cb);
+    getUpvotedPosts = (username, pageable, cb, cbError) => {
+        const url = `/users/${username}/posts/upvoted/` + buildPaginationQueryString(pageable.page, pageable.perPage);
+        axios.get(url).then(cb).catch(cbError);
     };
 
     getDefaultAvatar(username) {

@@ -118,6 +118,7 @@
             },
             _createPost(value) {
                 this.$postService.addPost(value.form, this.selectedGroups[0].name, value.selectedForm, ({data}) => {
+                    this.$success('posts.added-post');
                     this.$router.push({
                         name: 'postView',
                         params: {

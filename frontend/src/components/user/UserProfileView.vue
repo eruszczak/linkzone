@@ -35,10 +35,13 @@
                     </div>
                 </div>
             </div>
+                        {{pagination}}
+
             <b-tabs v-model="activeTab" type="is-boxed" position="is-centered" @change="tabChange">
                 <b-tab-item :label="$t('profile.upvoted-posts')" icon="checkbox-marked">
                     <div class="column is-8 is-offset-2">
                         <post-list :posts="upvotedPosts"></post-list>
+                        <pagination :pagination="pagination[activeTab]" @change="handleChange"/>
                     </div>
                 </b-tab-item>
                 <b-tab-item :label="$t('profile.upvoted-comments')" icon="comment-check">
@@ -47,6 +50,7 @@
                 <b-tab-item :label="$t('profile.posts')" icon="clipboard-text">
                     <div class="column is-8 is-offset-2">
                         <post-list :posts="posts"></post-list>
+                        <pagination :pagination="pagination[activeTab]" @change="handleChange"/>
                     </div>
                 </b-tab-item>
                 <b-tab-item :label="$t('profile.comments')" icon="comment">
@@ -69,6 +73,8 @@
     import PostList from '../post/PostList'
     import Comment from '../post/Comment'
     import GroupList from '../group/GroupList'
+    import Pagination from '../includes/Pagination'
+    import {getPaginationFromResponse} from '../../utils/utils';
 
     const tabNumbers = {
         UPVOTED_POSTS: 0,
@@ -90,7 +96,7 @@
 
     export default {
         name: "UserProfileView",
-        components: {PostList, Comment, GroupList},
+        components: {PostList, Comment, GroupList, Pagination},
         props: {
             username: {
                 type: String,
@@ -101,6 +107,7 @@
             return {
                 user: null,
                 activeTab: 0,
+                pagination: Object.assign({}, ...Object.entries(tabs).map(([a,b]) => ({ [b]: {} }))),
                 posts: [],
                 stats: {},
                 groups: {},
@@ -125,16 +132,14 @@
                 this.stats = data;
             })
         },
-        computed: {
-            ...mapGetters([])
-        },
         methods: {
             loadTabContent() {
                 this.$toggleLoading(true);
                 switch (this.activeTab) {
                     case tabNumbers.UPVOTED_POSTS:
-                        this.$userService.getUpvotedPosts(this.username, ({data}) => {
+                        this.$userService.getUpvotedPosts(this.username, this.pagination[this.activeTab], ({data}) => {
                             this.upvotedPosts = data.content;
+                            this.pagination[this.activeTab] = getPaginationFromResponse(data);
                             this.$toggleLoading(false);
                         });
                         break;
@@ -145,7 +150,8 @@
                         });
                         break;
                     case tabNumbers.POSTS:
-                        this.$userService.getPosts(this.username, ({data}) => {
+                        this.$userService.getPosts(this.username, this.pagination[this.activeTab], ({data}) => {
+                            this.pagination[this.activeTab] = getPaginationFromResponse(data);
                             this.posts = data.content;
                             this.$toggleLoading(false);
                         });
@@ -170,9 +176,15 @@
             },
             tabChange(index) {
                 if (!this.visited[this.activeTab]) {
+                    // this.pagination = {};
                     this.loadTabContent();
                 }
                 this.updateQuery();
+            },
+            handleChange(pageNumber) {
+                this.pagination[this.activeTab].page = pageNumber;
+                this.loadTabContent();
+                // this.getPosts({page: pageNumber})
             },
             updateQuery() {
                 this.$router.replace({ name: 'userProfileView', query: { tab: tabsRev[this.activeTab] }});
