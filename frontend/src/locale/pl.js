@@ -127,7 +127,8 @@ export default {
         "upload-avatar": "Wgraj avatar",
         "edit-hint": "W tym miejscu możesz zaktualizować swoje ustawienia",
         "default-tagline": "Brak podsumowania",
-        "user-since": "Zarejestrowany"
+        "user-since": "Zarejestrowany",
+        "is-admin": "Administrator"
     },
     "confirm": "Potwierdź",
     "cancel": "Anuluj",

@@ -47,13 +47,23 @@ public class AccountService {
     }
 
     public Account create(AccountCreate accountCreate) {
+        Account account = prepare(accountCreate, RoleName.USER);
+        return save(account);
+    }
+
+    public Account create(AccountCreate accountCreate, RoleName roleName) {
+        Account account = prepare(accountCreate, roleName);
+        return save(account);
+    }
+
+    private Account prepare(AccountCreate accountCreate, RoleName roleName) {
         Account account = new Account();
         account.setEmail(accountCreate.getEmail());
         account.setUsername(accountCreate.getUsername());
         account.setPassword(encodePassword(accountCreate.getPassword()));
-        Role userRole = roleService.findByName(RoleName.USER);
+        Role userRole = roleService.findByName(roleName);
         account.setRoles(Collections.singleton(userRole));
-        return save(account);
+        return account;
     }
 
     public Account save(Account account) {

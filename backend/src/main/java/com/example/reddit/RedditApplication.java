@@ -5,6 +5,7 @@ import com.example.reddit.controller.post.PostType;
 import com.example.reddit.dto.AccountCreate;
 import com.example.reddit.dto.CommentCreate;
 import com.example.reddit.model.*;
+import com.example.reddit.permissions.RoleName;
 import com.example.reddit.repository.AccountRepository;
 import com.example.reddit.repository.CommentUpvoteRepository;
 import com.example.reddit.repository.PostUpvoteRepository;
@@ -48,6 +49,8 @@ public class RedditApplication {
         return (evt) -> {
             boolean runInit = !update.equals("update");
             if (runInit) {
+                Account global = accountService.create(getAccountDto("admin"), RoleName.ADMIN);
+
                 Account group1admin = accountService.create(getAccountDto("group1admin"));
                 Account group1mod = accountService.create(getAccountDto("group1mod"));
                 Account group1creator = accountService.create(getAccountDto("group1creator"));
@@ -60,6 +63,9 @@ public class RedditApplication {
                 Group g3 = new Group("group3", "group description");
                 Group g4 = new Group("random", "group description");
                 g2.setCreator(group1admin);
+                g2.addAdministrator(group1mod);
+                g2.addAdministrator(group1creator);
+                g2.addModerator(user1);
                 g3.setCreator(group1admin);
                 g4.setCreator(group1admin);
                 g3.setDefault(true);

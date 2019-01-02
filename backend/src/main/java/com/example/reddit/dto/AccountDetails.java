@@ -1,33 +1,37 @@
 package com.example.reddit.dto;
 
 import com.example.reddit.model.Account;
+import com.example.reddit.model.Role;
+import com.example.reddit.permissions.RoleName;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.util.Set;
 
-@Getter
-@Setter
 public class AccountDetails {
 
-    private Long id;
+    public Long id;
 
-    private String username;
+    public String username;
 
-    private String email;
+    public String email;
 
-    private String tagline;
+    public String tagline;
 
-    private String avatar;
+    public String avatar;
 
-    private Instant createdAt;
+    public Instant createdAt;
+
+    public boolean isAdmin;
 
     public AccountDetails(Account account) {
-        setId(account.getId());
-        setEmail(account.getEmail());
-        setUsername(account.getUsername());
-        setTagline(account.getTagline());
-        setAvatar(account.getAvatar());
-        setCreatedAt(account.getCreatedAt());
+        id = account.getId();
+        email = account.getEmail();
+        username = account.getUsername();
+        tagline = account.getTagline();
+        avatar = account.getAvatar();
+        createdAt = account.getCreatedAt();
+        isAdmin = account.isAdmin();
     }
 }

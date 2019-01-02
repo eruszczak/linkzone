@@ -64,7 +64,7 @@ public class GroupResponse {
         this.postTypes = group.getPostTypes();
         this.tags = group.getTags();
         if (requestUser != null) {
-            isCreator = group.getCreator().equals(requestUser);
+            isCreator = requestUser.isAdmin() || group.getCreator().equals(requestUser);
             isAdministrator = isCreator || group.getAdministrators().contains(requestUser);
             isModerator = isAdministrator || group.getModerators().contains(requestUser);
         }

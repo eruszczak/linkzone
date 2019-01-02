@@ -2,7 +2,9 @@
     <div class="is-fullwidth" v-if="user">
         <section class="hero is-primary is-small">
             <div class="hero-body has-text-centered">
+                <p style="margin-bottom: 10px" class="has-text-warning"><strong><b-icon v-if="user.isAdmin" icon="crown" size="" type="is-warning"></b-icon><span style="margin: 0 5px">{{'account.is-admin'|t}}</span><b-icon v-if="user.isAdmin" icon="crown" size="" type="is-warning"></b-icon></strong></p>
                 <p class="title">{{ user.username }}</p>
+
                 <p class="subtitle"><span v-if="user.tagline">{{ user.tagline }}</span><span v-else>{{'account.default-tagline'|t }}</span></p>
                 <nav class="level">
                     <figure class="image is-128x128 container">

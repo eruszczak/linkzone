@@ -1,6 +1,7 @@
 package com.example.reddit.model;
 
 import com.example.reddit.config.AccountConstants;
+import com.example.reddit.permissions.RoleName;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
@@ -77,6 +78,10 @@ public class Account extends DateAudit {
         for (Post post : posts) {
             post.setAccount(null);
         }
+    }
+
+    public boolean isAdmin() {
+        return getRoles().stream().map(Role::getName).anyMatch(roleName -> roleName == RoleName.ADMIN);
     }
 
     public List<GrantedAuthority> getAuthorities() {

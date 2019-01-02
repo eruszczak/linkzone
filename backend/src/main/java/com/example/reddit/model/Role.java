@@ -19,6 +19,10 @@ public class Role {
     public Role() {
     }
 
+    public Role(RoleName name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }
@@ -33,5 +37,10 @@ public class Role {
 
     public void setName(RoleName name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return ((Role) obj).name.equals(name);
     }
 }

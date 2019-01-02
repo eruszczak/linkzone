@@ -115,7 +115,7 @@
                 </b-field>
 
                 <div class="field mt-2">
-                    <b-checkbox disabled>{{'groups.default-group'|t}}</b-checkbox>
+                    <b-checkbox :disabled="!user.isAdmin">{{'groups.default-group'|t}}</b-checkbox>
                     <p><small>{{'groups.default-group-hint' |t}}</small></p>
                 </div>
 
@@ -133,6 +133,7 @@
     import FileInput from '../includes/FileInput.vue'
     import {POST_TYPES} from "../../services/PostService";
     import debounce from 'lodash/debounce'
+    import {mapGetters} from 'vuex'
 
     export default {
         name: "GroupEditView",
@@ -173,6 +174,9 @@
                 selectedContent: [],
                 POST_TYPES
             }
+        },
+        computed: {
+            ...mapGetters(['user'])
         },
         methods: {
             findIndex: findIndex,
