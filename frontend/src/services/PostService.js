@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {buildPaginationQueryString} from '../utils/utils';
 
 const POST = 'POST';
 const MEDIA = 'MEDIA';
@@ -27,9 +28,9 @@ export default class PostService {
         })
     };
 
-    getTopPosts = (cb, cbError) => {
-        const url = `/posts/top/`;
-        axios.get(url).then(cb);
+    getTopPosts = (pageable, cb, cbError) => {
+        const url = `/posts/top/` + buildPaginationQueryString(pageable.page, pageable.perPage);
+        axios.get(url).then(cb).catch(cbError);
     };
 
     getPost = (id, cb) => {

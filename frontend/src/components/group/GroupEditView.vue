@@ -114,6 +114,11 @@
                     </div>
                 </b-field>
 
+                <div class="field mt-2">
+                    <b-checkbox disabled>{{'groups.default-group'|t}}</b-checkbox>
+                    <p><small>{{'groups.default-group-hint' |t}}</small></p>
+                </div>
+
                 <div class="mt-2 has-text-centered">
                     <button class="button is-primary" @click="updateGroup">{{'update'|t}}</button>
                     <button v-if="group.isCreator" class="button is-danger is-pulled-right is-small" @click="deleteGroup">{{'groups.delete-group'|t}}</button>

@@ -109,7 +109,9 @@ export default {
         "show-logo": "Wgraj logo",
         "show-banner": "Wgraj baner",
         "no-group-selected": "Nie wybrano docelowej grupy",
-        "moderator": "Jesteś moderatorem tej grupy. Możesz aktualizować oraz usuwać posty lub komentarze w tej grupie oraz wyłączyć możliwość dodawania komentarzy w postach"
+        "moderator": "Jesteś moderatorem tej grupy. Możesz aktualizować oraz usuwać posty lub komentarze w tej grupie oraz wyłączyć możliwość dodawania komentarzy w postach",
+        "default-group": "Domyślna grupa",
+        "default-group-hint": "Opcja dla globalnego administratora serwisu. Grupa domyślna wyróżnia się tym, że nowo zarejestrowani użytkownicy stają się automatycznie jej subskrybentami. Ponadto, użytkownicy niezarejestrowani, odwiedzając stronę główną widzą posty z grup domyślnych."
     },
     "comments": {
         "reply": "Odpowiedz",
@@ -150,5 +152,7 @@ export default {
     "logged-in": "Zostałeś zalogowany",
     "need-login": "Aby kontynuować, musisz się zalogować",
     "search": "Szukaj",
-    "no-file-selected": "Nie wybrano pliku"
+    "no-file-selected": "Nie wybrano pliku",
+    "from-all-groups": "Jesteś niezarejestrowany, dlatego widzisz posty ze wszystkich grup. Zarejestruj się i subskrybuj grupy, aby widzieć tylko to co cię interesuje",
+    "from-subbed-groups": "Jesteś zalogowany, dlatego widzisz posty z subskrybowanych przez ciebie grup.",
 }
