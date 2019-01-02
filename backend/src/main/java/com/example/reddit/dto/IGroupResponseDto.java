@@ -11,6 +11,7 @@ public interface IGroupResponseDto {
     String getBannerUrl();
     String getLogo();
     Instant getCreatedAt();
+    boolean getIsDefault();
 
     int getSubscribers();
     int getIsSubbed();

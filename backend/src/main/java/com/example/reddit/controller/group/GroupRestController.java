@@ -98,7 +98,8 @@ public class GroupRestController {
     @PutMapping(value = "/{name}")
     public ResponseEntity<?> update(@PathVariable String name,
                                     @Valid @RequestBody GroupUpdate updatedGroup,
-                                    Errors errors) {
+                                    Errors errors,
+                                    @CurrentUser UserPrincipal currentUser) {
         Group group = groupService.findByNameFetchEager(name);
         // only validate name if it has changed
         if (!group.getName().equals(updatedGroup.getName())) {
@@ -106,6 +107,9 @@ public class GroupRestController {
         }
         if (errors.hasErrors()) {
             throw new ValidationErrorException(errors);
+        }
+        if (currentUser.getAccount().isAdmin()) {
+            group.setDefault(updatedGroup.isDefault());
         }
         groupService.update(group, updatedGroup);
         return new ResponseEntity<>(updatedGroup, HttpStatus.OK);

@@ -10,23 +10,79 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.List;
 
-@Getter
-@Setter
 public class GroupUpdate {
 
     @NoSpacesConstraint
     @NotNull
     @Size(min = GroupConstants.MIN_LENGTH, max = GroupConstants.MAX_LENGTH)
-    private String name;
+    public String name;
 
-    private String description;
+    public String description;
 
     @Size(min = 1)
-    private List<PostType> postTypes;
+    public List<PostType> postTypes;
 
-    private List<Long> administrators;
+    public List<Long> administrators;
 
-    private List<Long> moderators;
+    public List<Long> moderators;
 
-    private List<String> tags;
+    public List<String> tags;
+
+    public boolean isDefault;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<PostType> getPostTypes() {
+        return postTypes;
+    }
+
+    public void setPostTypes(List<PostType> postTypes) {
+        this.postTypes = postTypes;
+    }
+
+    public List<Long> getAdministrators() {
+        return administrators;
+    }
+
+    public void setAdministrators(List<Long> administrators) {
+        this.administrators = administrators;
+    }
+
+    public List<Long> getModerators() {
+        return moderators;
+    }
+
+    public void setModerators(List<Long> moderators) {
+        this.moderators = moderators;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+    public boolean isDefault() {
+        return isDefault;
+    }
+
+    public void setDefault(boolean aDefault) {
+        isDefault = aDefault;
+    }
 }

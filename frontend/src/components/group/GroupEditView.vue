@@ -115,7 +115,7 @@
                 </b-field>
 
                 <div class="field mt-2">
-                    <b-checkbox :disabled="!user.isAdmin">{{'groups.default-group'|t}}</b-checkbox>
+                    <b-checkbox :disabled="!user.isAdmin" v-model="group.isDefault">{{'groups.default-group'|t}}</b-checkbox>
                     <p><small>{{'groups.default-group-hint' |t}}</small></p>
                 </div>
 
@@ -202,6 +202,7 @@
                     administrators: this.selectedAdmins.map(user => user.id),
                     moderators: this.selectedMods.map(user => user.id),
                     postTypes: this.selectedContent,
+                    isDefault: this.group.isDefault
                     // tags: this.group.tags
                 }, ({data}) => {
                     this.$success('updated-success');

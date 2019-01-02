@@ -17,6 +17,7 @@ public class GroupResponse {
     public Instant createdAt;
     public String bannerUrl;
     public String logo;
+    public boolean isDefault;
 
     public boolean isSubbed;
     public int subscribers;
@@ -43,6 +44,7 @@ public class GroupResponse {
         this.tags = group.getTags();
         this.bannerUrl = group.getBannerUrl();
         this.logo = group.getLogo();
+        this.isDefault = group.isDefault();
     }
 
     public GroupResponse(IGroupResponseDto dto) {
@@ -54,6 +56,7 @@ public class GroupResponse {
         isSubbed = dto.getIsSubbed() > 0;
         subscribers = dto.getSubscribers();
         logo = dto.getLogo();
+        isDefault = dto.getIsDefault();
     }
 
     public GroupResponse(IGroupResponseDto dto, Group group, Account requestUser) {

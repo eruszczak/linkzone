@@ -15,7 +15,7 @@ public class GroupPermissionChecker extends PermissionChecker {
 
     @Override
     public boolean canUpdate() {
-        return group.getCreator().equals(authenticatedAccount) ||
+        return isGlobalModOrAdmin() || group.getCreator().equals(authenticatedAccount) ||
                 group.getAdministrators().contains(authenticatedAccount);
     }
 
