@@ -47,9 +47,9 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-    console.warn('to-from', JSON.stringify(to.name), JSON.stringify(from.name));
+    // console.warn('to-from', JSON.stringify(to.name), JSON.stringify(from.name));
     if (to.matched.some(record => record.meta.requiresAuth)) {
-        console.log('route requires auth. am i authenticated?', store.getters.isAuthenticated);
+        // console.log('route requires auth. am i authenticated?', store.getters.isAuthenticated);
         if (!store.getters.isAuthenticated) {
             Vue.prototype.$userService.forceLoginIfNotLoggedIn(to);
             return;

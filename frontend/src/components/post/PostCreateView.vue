@@ -67,14 +67,12 @@
             }
         },
         mounted() {
-            if (this.groupName) {
-                this.$groupService.getGroupDetail(this.groupName, ({data}) => {
-                    this.selectedGroups = [data];
-                    this.$toggleLoading(false);
-                });
-            } else {
-                this.$toggleLoading(false);
-            }
+            this.init();
+        },
+        watch: {
+            '$route'(to, from) {
+                this.init();
+            },
         },
         data() {
             return {
@@ -82,7 +80,7 @@
                 triedToSubmit: true,
                 selectedGroups: [],
                 groupOptions: [],
-                selectedGroupName: this.groupName
+                selectedGroupName: null
             }
         },
         computed: {
@@ -91,14 +89,25 @@
             }
         },
         methods: {
+            init() {
+                this.selectedGroups = [];
+                this.selectedGroupName = this.groupName;
+                if (this.groupName) {
+                    this.$groupService.getGroupDetail(this.groupName, ({data}) => {
+                        this.selectedGroups = [data];
+                        this.$toggleLoading(false);
+                    });
+                } else {
+                    this.$toggleLoading(false);
+                }
+            },
             updateGroupOptions: debounce(function (text) {
-                this.$groupService.getGroupList(null, text, ({data}) => {
+                this.$groupService.getGroupList({}, text, ({data}) => {
                     if (data.content.length === 0) {
                         this.groupOptions = [];
-                        return
+                        return;
                     }
                     this.groupOptions = data.content;
-
                 }, () => {
                     this.groupOptions = [];
                 })

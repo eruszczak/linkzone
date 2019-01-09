@@ -25,7 +25,7 @@
                         <router-link :to="{name: 'registerView'}">{{'loginView.register' | t}}</router-link>
                     </p>
                     <br><br>
-                    <button class="button is-small" @click="form.usernameOrEmail = 'admin'">admin</button>
+                    <button class="button is-small" @click="form.usernameOrEmail = 'admin'; form.password = 'password'; login()">admin</button>
                 </div>
             </div>
         </div>
@@ -41,8 +41,8 @@
             return {
                 serverErrors: null,
                 form: {
-                    usernameOrEmail: 'admin',
-                    password: 'password',
+                    usernameOrEmail: '',
+                    password: '',
                 },
                 triedToSubmit: false
             }
@@ -67,8 +67,6 @@
                     this.$toggleLoading(false);
                     this.$router.replace({path: '/'});
                 }, ({data}) => {
-                    console.log(data)
-                    // this.$danger()
                     this.serverErrors = data.errors;
                 })
             }

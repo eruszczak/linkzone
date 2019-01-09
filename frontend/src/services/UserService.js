@@ -197,8 +197,8 @@ export default class UserService {
         store.commit('setUser', null);
 
         if (router.currentRoute.meta.requiresAuth) {
-            router.replace({path: '/'})
-        }
+            router.replace({name: 'loginView'})
+        } 
 
         // this.authNotifier.emit('authChange')
         // store.commit('setGroups', []);
