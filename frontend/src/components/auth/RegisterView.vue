@@ -2,7 +2,7 @@
     <section class="hero">
         <div class="hero-body">
             <div class="container has-text-centered">
-                <div class="column is-6 is-offset-3">
+                <div class="column is-8 is-offset-2">
                     <h3 class="title has-text-grey">{{'registerView.header' | t}}</h3>
                     <p class="subtitle has-text-grey">{{'registerView.hint' | t}}</p>
                     <div class="notification is-danger" v-if="serverErrors">
@@ -11,7 +11,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="column is-4 is-offset-4">
+                <div class="column is-6 is-offset-3">
                     <div class="box">
                         <b-field :type="{'is-danger': triedToSubmit && errors.has('username')}" :message="triedToSubmit ? errors.first('username') : null">
                             <b-input v-validate="{required: true, min: 3, max: 50}" icon="account" name="username" v-model="form.username" :placeholder="$t('registerView.username')"></b-input>

@@ -38,7 +38,9 @@ export default {
         "value_required": "Wartość jest wymagana",
         "no_user_found": "Nie znaleziono pasującego konta",
         "invalid_dimensions": "Nieprawidłowe wymiary obrazka",
-        "AlreadyExistsException": "Nazwa jest już zajęta"
+        "AlreadyExistsException": "Nazwa jest już zajęta",
+        "bad_credentials": "Podano złe dane",
+        "password_no_match": "Hasła nie są takie same"
     },
     "profile": {
         "upvoted-posts": "Polubione posty",

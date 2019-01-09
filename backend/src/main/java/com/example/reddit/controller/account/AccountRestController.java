@@ -1,10 +1,7 @@
 package com.example.reddit.controller.account;
 
 import com.example.reddit.dto.*;
-import com.example.reddit.exception.EmailTakenException;
-import com.example.reddit.exception.UserNotFoundException;
-import com.example.reddit.exception.UsernameTakenException;
-import com.example.reddit.exception.ValidationErrorException;
+import com.example.reddit.exception.*;
 import com.example.reddit.model.Account;
 import com.example.reddit.resource.AccountResource;
 import com.example.reddit.resource.AccountResourceAssembler;
@@ -25,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
@@ -61,12 +59,19 @@ public class AccountRestController {
         if (errors.hasErrors()) {
             throw new ValidationErrorException(errors);
         }
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsernameOrEmail(),
-                        loginRequest.getPassword()
-                )
-        );
+
+        Authentication authentication;
+        try {
+            authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getUsernameOrEmail(),
+                            loginRequest.getPassword()
+                    )
+            );
+        } catch (AuthenticationException e) {
+            throw new NotFoundException();
+        }
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.generateToken(authentication);
         return new ResponseEntity<>(new JwtAuthenticationResponse(jwt), HttpStatus.OK);

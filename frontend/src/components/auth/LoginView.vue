@@ -2,7 +2,7 @@
     <section class="hero" @keyup.enter="login">
         <div class="hero-body">
             <div class="container has-text-centered">
-                <div class="column is-6 is-offset-3">
+                <div class="column is-8 is-offset-2">
                     <h3 class="title has-text-grey">{{'loginView.header' | t}}</h3>
                     <p class="subtitle has-text-grey">{{'loginView.hint' | t}}</p>
                     <div class="notification is-danger" v-if="serverErrors">
@@ -11,7 +11,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="column is-4 is-offset-4">
+                <div class="column is-6 is-offset-3">
                     <div class="box">
                         <b-field :type="{'is-danger': triedToSubmit && errors.has('name')}" :message="triedToSubmit ? errors.first('name') : null">
                             <b-input v-validate="'required'" name="name" icon="account" v-model="form.usernameOrEmail" :placeholder="$t('loginView.name')"></b-input>
@@ -24,6 +24,8 @@
                     <p class="has-text-grey">
                         <router-link :to="{name: 'registerView'}">{{'loginView.register' | t}}</router-link>
                     </p>
+                    <br><br>
+                    <button class="button is-small" @click="form.usernameOrEmail = 'admin'">admin</button>
                 </div>
             </div>
         </div>
@@ -39,9 +41,8 @@
             return {
                 serverErrors: null,
                 form: {
-                    usernameOrEmail: 'admin1',
+                    usernameOrEmail: 'admin',
                     password: 'password',
-                    valid: false
                 },
                 triedToSubmit: false
             }
@@ -66,6 +67,8 @@
                     this.$toggleLoading(false);
                     this.$router.replace({path: '/'});
                 }, ({data}) => {
+                    console.log(data)
+                    // this.$danger()
                     this.serverErrors = data.errors;
                 })
             }
