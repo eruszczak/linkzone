@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface GroupRepository extends JpaRepository<Group, Long> {
@@ -34,6 +35,8 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
     Optional<IGroupResponseDto> findDtoByName(@Param("query") String query, @Param("userId") Long userId);
 
     Optional<Group> findByNameIgnoreCase(String name);
+
+    List<Group> findByIsDefaultTrue();
 
     Page<Group> findByNameIgnoreCaseContaining(Pageable pageable, String name);
 

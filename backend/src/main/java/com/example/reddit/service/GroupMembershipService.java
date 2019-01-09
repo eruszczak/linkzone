@@ -1,9 +1,12 @@
 package com.example.reddit.service;
 
 import com.example.reddit.exception.NotFoundException;
+import com.example.reddit.model.Account;
+import com.example.reddit.model.Group;
 import com.example.reddit.model.GroupMembership;
 import com.example.reddit.repository.GroupMembershipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -31,6 +34,15 @@ public class GroupMembershipService {
 
     public GroupMembership save(GroupMembership groupMembership) {
         return groupMembershipRepository.save(groupMembership);
+    }
+
+    public GroupMembership subscribe(Group group, Account account) {
+        GroupMembership groupMembership = new GroupMembership(group, account);
+        try {
+            save(groupMembership);
+        } catch (DataIntegrityViolationException ignored) {
+        }
+        return groupMembership;
     }
 
     public Optional<GroupMembership> findById(Long aLong) {

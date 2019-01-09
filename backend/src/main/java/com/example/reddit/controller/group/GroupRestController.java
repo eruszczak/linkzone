@@ -168,11 +168,7 @@ public class GroupRestController {
     public ResponseEntity<GroupMembership> subscribeGroup(@PathVariable String name,
                                                           @CurrentUser UserPrincipal currentUser) {
         Group group = groupService.findByName(name);
-        GroupMembership groupMembership = new GroupMembership(group, currentUser.getAccount());
-        try {
-            groupMembershipService.save(groupMembership);
-        } catch (DataIntegrityViolationException ignored) {
-        }
+        GroupMembership groupMembership = groupMembershipService.subscribe(group, currentUser.getAccount());
         return new ResponseEntity<>(groupMembership, HttpStatus.CREATED);
     }
 

@@ -24,7 +24,7 @@
         <a class="button is-small" @click="upvote"><b-icon :type="getUpvoteColor(post, true)" icon="arrow-up"></b-icon></a>
         <b-tag type="is-white">{{post.upvotedCount || 0}}</b-tag>
         <a class="button is-small" @click="downvote"><b-icon :type="getUpvoteColor(post, false)" icon="arrow-down"></b-icon></a>
-        <span class="ml-2" v-if="link">{{post.commentCount}} {{'posts.comments'| t}}</span>
+        <span class="ml-2" v-if="link"><span v-if="post.commentCount">{{post.commentCount}} {{'posts.comments'| t}}</span><span v-else>{{'comments.no-comments'|t}}</span></span>
         <!-- <span class="ml-2">{{'posts.save' | t}}</span> -->
         <!-- <span class="ml-2">Share</span> -->
     </section>

@@ -126,7 +126,8 @@ export default {
         "add": "Skomentuj post",
         "add-reply": "Odpowiedz",
         "removed": "Komentarz został skasowany",
-        "first-to-reply": "Brak komentarzy"
+        "first-to-reply": "Brak komentarzy",
+        "no-comments": "brak komentarzy"
     },
     "account": {
         "tagline": "Podsumowanie",

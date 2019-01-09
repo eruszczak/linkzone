@@ -5,6 +5,7 @@ import com.example.reddit.dto.AccountUpdate;
 import com.example.reddit.dto.IAccountStatsDto;
 import com.example.reddit.exception.UserNotFoundException;
 import com.example.reddit.model.Account;
+import com.example.reddit.model.Group;
 import com.example.reddit.model.Role;
 import com.example.reddit.permissions.RoleName;
 import com.example.reddit.repository.AccountRepository;
@@ -27,11 +28,18 @@ public class AccountService {
 
     private final RoleService roleService;
 
+    private final GroupService groupService;
+
+    private final GroupMembershipService groupMembershipService;
+
     @Autowired
-    public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder, RoleService roleService) {
+    public AccountService(AccountRepository accountRepository, PasswordEncoder passwordEncoder, RoleService roleService,
+                          GroupService groupService, GroupMembershipService groupMembershipService) {
         this.accountRepository = accountRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleService = roleService;
+        this.groupService = groupService;
+        this.groupMembershipService = groupMembershipService;
     }
 
     public List<Account> findAll() {
@@ -48,7 +56,12 @@ public class AccountService {
 
     public Account create(AccountCreate accountCreate) {
         Account account = prepare(accountCreate, RoleName.USER);
-        return save(account);
+        account = save(account);
+        List<Group> defaultGroups = groupService.findDefaultGroups();
+        for (Group group : defaultGroups) {
+            groupMembershipService.subscribe(group, account);
+        }
+        return account;
     }
 
     public Account create(AccountCreate accountCreate, RoleName roleName) {
