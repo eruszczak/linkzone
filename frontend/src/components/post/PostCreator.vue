@@ -8,7 +8,8 @@
                 <b-field>
                     <b-input maxlength="1000" name="content" type="textarea" v-model="form.content" :placeholder="$t('posts.content')"></b-input>
                 </b-field>
-                <div class="box" v-if="form.content">
+                <button class="button is-small" @click="showPreview = !showPreview">{{'posts.show-preview'|t}}</button>
+                <div class="box" v-if="form.content && showPreview">
                     <vue-markdown :anchorAttributes="{target: '_blank', rel: 'nofollow'}" :source="form.content"></vue-markdown>
                     <!-- <vue-markdown>i am a ~~tast~~ **test**.</vue-markdown> -->
                 </div>
@@ -20,7 +21,7 @@
                         <b-input v-validate="'required'" name="title" icon="account" v-model="formMedia.title" :placeholder="$t('posts.title')" data-vv-scope="media"></b-input>
                     </b-field>
                     <img :src="`/static/${filename}`" style="max-width:150px;max-height:150px" v-if="filename">
-                    <file-input @formData="handleImageUpload" :show-error="triedToSubmit"></file-input>
+                    <file-input :max-height="4000" :max-width="4000" :max-size="2000" @formData="handleImageUpload" :show-error="triedToSubmit"></file-input>
                 </div>
             </b-tab-item>
 
@@ -89,6 +90,7 @@
                 triedToSubmit: false,
                 filename: null,
                 postLocked: false,
+                showPreview: false,
                 form: {
                     title: '',
                     content: ''

@@ -13,11 +13,11 @@
                 <vue-markdown :anchorAttributes="{target: '_blank', rel: 'nofollow'}" :source="post.content"></vue-markdown>
             </div>
             <div v-else-if="post.type === POST_TYPES.MEDIA">
-                <img style="max-width:150px;max-height:150px" :src="`/static/${post.content}`">
+                <image-fade :src="`/static/${post.content}`"></image-fade>
             </div>
             <div v-else-if="post.type === POST_TYPES.LINK">
-                <img v-if="checkIfImageUrl(post.content)" :src="post.content">
-                <iframe v-else-if="getYoutubeId(post.content)" width="560" height="315" :src="`//www.youtube.com/embed/${getYoutubeId(post.content)}`" frameborder="0" allowfullscreen></iframe>
+                <image-fade v-if="checkIfImageUrl(post.content)" :src="post.content"></image-fade>
+                <iframe v-else-if="getYoutubeId(post.content)" width="100%" height="500px" :src="`//www.youtube.com/embed/${getYoutubeId(post.content)}`" frameborder="0" allowfullscreen></iframe>
                 <p v-else>{{post.content}}</p>
             </div>
         </div>
@@ -25,8 +25,8 @@
         <b-tag type="is-white">{{post.upvotedCount || 0}}</b-tag>
         <a class="button is-small" @click="downvote"><b-icon :type="getUpvoteColor(post, false)" icon="arrow-down"></b-icon></a>
         <span class="ml-2" v-if="link">{{post.commentCount}} {{'posts.comments'| t}}</span>
-        <span class="ml-2">{{'posts.save' | t}}</span>
-        <span class="ml-2">Share</span>
+        <!-- <span class="ml-2">{{'posts.save' | t}}</span> -->
+        <!-- <span class="ml-2">Share</span> -->
     </section>
 </template>
 
@@ -34,10 +34,12 @@
     import {POST_TYPES} from "../../services/PostService";
     import VueMarkdown from 'vue-markdown'
     import {checkIfImageUrl, getUpvoteColor, getYoutubeId} from "../../utils/utils";
+    import ImageFade from '../includes/ImageFade'
+
 
     export default {
         name: "Post",
-        components: {VueMarkdown},
+        components: {VueMarkdown, ImageFade},
         props: {
             post: {
                 type: Object,
@@ -49,7 +51,7 @@
             },
         },
         computed: {
-
+            
         },
         data() {
             return {
@@ -91,5 +93,4 @@
 </script>
 
 <style scoped>
-
 </style>

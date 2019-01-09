@@ -7,6 +7,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "posts")
@@ -27,15 +28,11 @@ public class Post extends DateAudit {
     @JoinColumn(name = "group_id", nullable = false)
     private Group group;
 
-//    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-//    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-//    private Set<Comment> comments = new HashSet<>();
-
-    // group membership
     @NotNull
     private String title;
 
     @NotNull
+    @Size(max = 1000)
     private String content;
 
     private String slug;

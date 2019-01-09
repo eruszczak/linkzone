@@ -58,23 +58,20 @@
 
         <div id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start">
-                <router-link class="navbar-item" to="/">
+                <!-- <router-link class="navbar-item" to="/">
                     {{'navbar.main' | t}}
-                </router-link>
-                <router-link class="navbar-item" :to="{name: 'postCreateView'}">
-                    {{'navbar.add-post' | t}}
-                </router-link>
-                <div class="navbar-item has-dropdown is-hoverable">
+                </router-link> -->
+                <router-link class="navbar-item" :to="{name: 'groupListView'}">{{'navbar.groups' | t}}</router-link>
+                <router-link class="navbar-item" :to="{name: 'postCreateView'}">{{'navbar.add-post' | t}}</router-link>
+                <router-link class="navbar-item" :to="{name: 'groupCreateView'}">{{'groups.add-group'|t}}</router-link>
+                <!-- <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
                         {{'navbar.more'|t}}
                     </a>
                     <div class="navbar-dropdown">
-                        <router-link class="navbar-item" :to="{name: 'groupListView'}">
-                            {{'navbar.groups' | t}}
-                        </router-link>
-                        <router-link class="navbar-item" :to="{name: 'groupCreateView'}">{{'groups.add-group'|t}}</router-link>
+
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <div class="navbar-end">

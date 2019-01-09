@@ -1,7 +1,11 @@
 package com.example.reddit.controller;
 
 import com.example.reddit.dto.UploadFileResponse;
+import com.example.reddit.security.CurrentUser;
+import com.example.reddit.security.UserPrincipal;
 import com.example.reddit.service.FileStorageService;
+import com.example.reddit.utils.MultipartFileValidator;
+import com.example.reddit.utils.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -50,7 +54,11 @@ public class FileController {
     }
 
     @PostMapping(value = "/upload")
-    public UploadFileResponse uploadMedia(@RequestParam("data") MultipartFile file) {
+    public UploadFileResponse uploadMedia(@RequestParam("data") MultipartFile file, @CurrentUser UserPrincipal currentUser) {
+        Utils.checkIfAuthenticated(currentUser);
+        MultipartFileValidator.validate(file);
+        MultipartFileValidator.validateImageDimensions(file, 4000, 4000);
+        MultipartFileValidator.validateImageSize(file, 2000);
         String filename = fileStorageService.storeFile(file);
         return new UploadFileResponse(filename);
     }
