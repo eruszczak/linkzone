@@ -1,7 +1,7 @@
 <template>
-    <a @click="toggleSub(group)" :class="css">
-        <span v-if="group.subbed">{{'groups.sub' | t}}</span>
-        <span v-if="!group.subbed">{{'groups.unsub' | t}}</span>
+    <a @click="toggleSub" :class="css">
+        <span v-if="group.isSubbed">{{'groups.sub' | t}}</span>
+        <span v-if="!group.isSubbed">{{'groups.unsub' | t}}</span>
     </a>
 </template>
 
@@ -20,12 +20,12 @@
         },
         computed: {
           css() {
-              return [this.group.subbed ? 'is-warning' : 'is-info', this.klass];
+              return [this.group.isSubbed ? 'is-warning' : 'is-info', this.klass];
           }  
         },
         methods: {
-            toggleSub(group) {
-                if (group.subbed) {
+            toggleSub() {
+                if (this.group.isSubbed) {
                     this.$dialog.confirm({
                         title: this.$t('groups.unsub-title'),
                         message: this.$t('groups.unsub-message'),
@@ -34,22 +34,22 @@
                         type: 'is-default',
                         hasIcon: true,
                         onConfirm: () => {
-                            this.unsubGroup(group);
+                            this.unsubGroup();
                         }
-                    })
+                    });
                 } else {
-                    this.subGroup(group);
+                    this.subGroup();
                 }
             },
-            subGroup(group) {
-                this.$groupService.subscribe(group, res => {
-                    group.subbed = true;
+            subGroup() {
+                this.$groupService.subscribe(this.group, () => {
+                    this.group.isSubbed = true;
                     this.$success('groups.unsub-toast');
                 });
             },
             unsubGroup(group) {
-                this.$groupService.unsubscribe(group, res => {
-                    group.subbed = false;
+                this.$groupService.unsubscribe(this.group, () => {
+                    this.group.isSubbed = false;
                     this.$success('groups.sub-toast');
                 });
             }
