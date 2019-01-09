@@ -13,70 +13,46 @@
 
         <div v-if="showBurger" class="navbar-menu is-hidden-desktop is-active">
             <div class="navbar-start">
-                <a href="/archive" class="nav-item is-tab">All Articles</a>
+                <div class="navbar-item">
+                    <router-link class="navbar-link is-arrowless" to="/">
+                        {{'navbar.main' | t}}
+                    </router-link>
+                </div>
 
-                <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link " href="http://bulma.io/blog/">
-                        Blog
+                <div class="navbar-item">
+                    <router-link class="navbar-item" :to="{name: 'postCreateView'}">
+                        {{'navbar.add-post' | t}}
+                    </router-link>
+                </div>
+
+                <div class="navbar-item">
+                    <router-link class="navbar-item" :to="{name: 'groupListView'}">
+                        {{'navbar.groups' | t}}
+                    </router-link>
+                    <router-link class="navbar-item" :to="{name: 'groupCreateView'}">{{'groups.add-group'|t}}</router-link>
+                </div>
+
+                <div class="navbar-item" v-if="isAuthenticated && user">
+                    <a class="navbar-link is-arrowless">
+                        <figure class="image is-16x16" style="margin-right: 5px; display:inline-block">
+                            <img :src="user.avatarUrl">
+                        </figure>
+                         <span style="display:inline-block">{{user.username}} <b-icon style="margin-left:5px" v-if="user.isAdmin" icon="crown" size="" type="is-warning"></b-icon></span>
                     </a>
-                    <div  class="navbar-dropdown " data-style="width: 18rem;">
 
-                        <a class="navbar-item" href="/2017/03/10/new-field-element/">
-                            <div class="navbar-content">
-                                <p>
-                                    <small class="has-text-info">10 Mar 2017</small>
-                                </p>
-                                <p>New field element (for better controls)</p>
-                            </div>
-                        </a>
-
-                        <a class="navbar-item" href="/2016/04/11/metro-ui-css-grid-with-bulma-tiles/">
-                            <div class="navbar-content">
-                                <p>
-                                    <small class="has-text-info">11 Apr 2016</small>
-                                </p>
-                                <p>Metro UI CSS grid with Bulma tiles</p>
-                            </div>
-                        </a>
-
+                    <div class="navbar-dropdown">
+                        <router-link :to="{name: 'userProfileView', params: {username: user.username}}" class="navbar-item">
+                            {{'navbar.my-profile' | t}}
+                        </router-link>
+                        <router-link class="navbar-item" :to="{name: 'userEditView'}">
+                            {{'navbar.settings' | t}}
+                        </router-link>
                         <hr class="navbar-divider">
-                        <div class="navbar-item">
-                            <div class="navbar-content">
-                                <div class="level is-mobile">
-                                    <div class="level-left">
-                                        <div class="level-item">
-                                            <strong>Stay up to date!</strong>
-                                        </div>
-                                    </div>
-                                    <div class="level-right">
-                                        <div class="level-item">
-                                            <a class="button is-rss is-small" href="http://bulma.io/atom.xml">
-                      <span class="icon is-small">
-                        <i class="fa fa-rss"></i>
-                      </span>
-                                                <span>Subscribe</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <a class="navbar-item" @click="logout">
+                            {{'navbar.logout' | t}}
+                        </a>
                     </div>
                 </div>
-            </div>
-
-            <div class="navbar-end">
-                <a class="navbar-item" href="/register"></a>
-                <a class="navbar-item" href="/login">Login</a>
-               
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link">User</a>
-                        <div class="navbar-dropdown">
-                            <a href="#" class="navbar-item">My Profile</a>
-                            <a href="#" class="navbar-item">Logout</a>
-                            <form id="logout-form" action="" method="#" style="display: none;"></form>
-                        </div>
-                    </div>
             </div>
         </div>
 
