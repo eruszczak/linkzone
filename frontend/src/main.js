@@ -43,11 +43,29 @@ Vue.filter('since', str => moment(str).fromNow());
 Vue.filter('t', value => i18n.t(value));
 
 Vue.prototype.$translate = (val) => i18n.t(val);
-Vue.prototype.$toggleLoading = (val) => { store.commit('toggleLoading', val); }
+Vue.prototype.$toggleLoading = (val) => { store.commit('toggleLoading', val); scrollToTop() }
 Vue.prototype.$success = (msg, args) => { showToast(msg, 'is-success', args); }
 Vue.prototype.$danger = (msg, args) => { showToast(msg, 'is-danger', args); }
 Vue.prototype.$info = (msg, args) => { showToast(msg, 'is-info', args); }
 Vue.prototype.$warning = (msg, args) => { showToast(msg, 'is-warning', args); }
+
+var stepTime = 20;
+var docBody = document.body;
+var focElem = document.documentElement;
+var scrollAnimationStep = function (initPos, stepAmount) {
+    var newPos = initPos - stepAmount > 0 ? initPos - stepAmount : 0;
+    docBody.scrollTop = focElem.scrollTop = newPos;
+    newPos && setTimeout(function () {
+        scrollAnimationStep(newPos, stepAmount);
+    }, stepTime);
+}
+
+function scrollToTop (speed = 500) {
+    var topOffset = docBody.scrollTop || focElem.scrollTop;
+    var stepAmount = topOffset;
+    speed && (stepAmount = (topOffset * stepTime)/speed);
+    scrollAnimationStep(topOffset, stepAmount);
+};
 
 function showToast (msg, type, args) {
     Vue.prototype.$toast.open({

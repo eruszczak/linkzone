@@ -1,5 +1,5 @@
 <template>
-    <div class="text-xs-center" v-if="pagination && pagination.totalPages > 1">
+    <div class="text-xs-center mt-2" v-if="pagination && pagination.totalPages > 1">
         <b-pagination
             :total="pagination.total"
             :current.sync="pagination.currentPage"

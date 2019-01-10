@@ -6,9 +6,7 @@
                 <span v-else>{{'from-subbed-groups' | t}}</span>
             </b-notification> -->
             <post-list v-if="loaded" :posts="posts"></post-list>
-            <div v-if="loaded" class="mt-2">
-                <pagination :pagination="pagination" @change="handleChange"/>
-            </div>
+            <pagination v-if="loaded" :pagination="pagination" @change="handleChange"/>
         </div>
     </div>
 </template>

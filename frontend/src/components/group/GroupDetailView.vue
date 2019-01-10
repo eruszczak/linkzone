@@ -52,7 +52,6 @@
                     <div class="columns">
                         <div class="column">
                             <post-list :is-moderator="group.isModerator" :posts="posts"></post-list>
-                            {{pagination}}
                             <pagination :pagination="pagination" @change="handleChange"/>
                         </div>
                         <div class="column is-narrow is-hidden-touch mt-2">
@@ -142,7 +141,6 @@
         methods: {
             init() {
                 this.$groupService.getGroupDetail(this.name, ({data}) => {
-                    this.$toggleLoading(false);
                     this.group = data;
                     this.mods = this.group.moderators.map(user => user.username);
                     this.admins = this.group.administrators.map(user => user.username);
@@ -153,7 +151,9 @@
                 this.getPosts({page: pageNumber})
             },
             getPosts(pagination = {}) {
+                this.$toggleLoading(true);
                 this.$groupService.getPosts(this.group, pagination, ({data}) => {
+                    this.$toggleLoading(false);
                     this.pagination = getPaginationFromResponse(data);
                     this.posts = data.content;
                 })
