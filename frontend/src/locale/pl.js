@@ -165,5 +165,6 @@ export default {
     "from-subbed-groups": "Jesteś zalogowany, dlatego widzisz posty z subskrybowanych przez ciebie grup.",
     "admin": "Administrator",
     "creator": "Twórca",
-    "mod": "Moderator"
+    "mod": "Moderator",
+    "group-default": "Grupa domyślna"
 }

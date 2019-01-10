@@ -61,9 +61,9 @@
                 <!-- <router-link class="navbar-item" to="/">
                     {{'navbar.main' | t}}
                 </router-link> -->
-                <router-link class="navbar-item" :to="{name: 'groupListView'}">{{'navbar.groups' | t}}</router-link>
-                <router-link class="navbar-item" :to="{name: 'postCreateView'}">{{'navbar.add-post' | t}}</router-link>
-                <router-link class="navbar-item" :to="{name: 'groupCreateView'}">{{'groups.add-group'|t}}</router-link>
+                <router-link class="navbar-item" :to="{name: 'groupListView'}"><b-icon style="margin-right:5px;" icon="account-group"></b-icon> {{'navbar.groups' | t}}</router-link>
+                <router-link class="navbar-item" :to="{name: 'postCreateView'}"><b-icon style="margin-right:5px;" icon="pencil"></b-icon> {{'navbar.add-post' | t}}</router-link>
+                <router-link class="navbar-item" :to="{name: 'groupCreateView'}"><b-icon style="margin-right:5px;" icon="plus"></b-icon> {{'groups.add-group'|t}}</router-link>
                 <!-- <div class="navbar-item has-dropdown is-hoverable">
                     <a class="navbar-link">
                         {{'navbar.more'|t}}
@@ -99,14 +99,14 @@
 
                     <div class="navbar-dropdown">
                         <router-link :to="{name: 'userProfileView', params: {username: user.username}}" class="navbar-item">
-                            {{'navbar.my-profile' | t}}
+                            <b-icon style="margin-right:5px;" icon="account"></b-icon> {{'navbar.my-profile' | t}}
                         </router-link>
                         <router-link class="navbar-item" :to="{name: 'userEditView'}">
-                            {{'navbar.settings' | t}}
+                            <b-icon style="margin-right:5px;" icon="settings"></b-icon> {{'navbar.settings' | t}}
                         </router-link>
                         <hr class="navbar-divider">
                         <a class="navbar-item" @click="logout">
-                            {{'navbar.logout' | t}}
+                            <b-icon style="margin-right:5px;" icon="logout"></b-icon> {{'navbar.logout' | t}}
                         </a>
                     </div>
                 </div>
