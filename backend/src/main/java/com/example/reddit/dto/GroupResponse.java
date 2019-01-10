@@ -32,6 +32,7 @@ public class GroupResponse {
     public boolean isCreator;
     public boolean isModerator;
     public boolean isAdministrator;
+    public String groupStatus;
 
     public GroupResponse(Group group) {
         this.name = group.getName();
@@ -59,6 +60,7 @@ public class GroupResponse {
         logo = dto.getLogo();
         isDefault = dto.getIsDefault();
         postCount = dto.getPostCount() != null ? dto.getPostCount() : 0;
+        this.groupStatus = dto.getGroupStatus();
     }
 
     public GroupResponse(IGroupResponseDto dto, Group group, Account requestUser) {

@@ -37,6 +37,9 @@
                             <b-tag><strong>{{'groups.created-time'|t}}</strong></b-tag>
                             <b-tag>{{group.createdAt | since}}</b-tag>
                         </b-taglist>
+                        <b-taglist attached>
+                            <b-tag><strong>{{group.groupStatus}}</strong></b-tag>
+                        </b-taglist>
                     </div>
                 </div>
             </div>

@@ -71,11 +71,8 @@ export default class UserService {
     };
 
     getGroupInfo = (username, cb, cbError) => {
-        if (!username) {
-            return
-        }
-        const url = `/users/groupInfo/${username}`;
-        axios.get(url).then(cb);
+        const url = `/users/${username}/groups/managed/`;
+        axios.get(url).then(cb).catch(cbError);
     };
 
     getPosts = (username, pageable, cb, cbError) => {

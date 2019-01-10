@@ -37,8 +37,6 @@
                     </div>
                 </div>
             </div>
-                        {{pagination}}
-
             <b-tabs v-model="activeTab" type="is-boxed" position="is-centered" @change="tabChange">
                 <b-tab-item :label="$t('profile.upvoted-posts')" icon="checkbox-marked">
                     <div class="column is-8 is-offset-2">
@@ -62,7 +60,7 @@
                 </b-tab-item>
                 <b-tab-item :label="$t('profile.groups')" icon="account-group">
                     <div class="column is-8 is-offset-2">
-                        <group-list v-if="groups.moderatedGroups != undefined" :groups="groups.moderatedGroups"></group-list>
+                        <group-list :groups="groups"></group-list>
                     </div>
                 </b-tab-item>
             </b-tabs>

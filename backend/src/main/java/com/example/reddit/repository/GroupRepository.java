@@ -48,11 +48,11 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
             COUNTS_PART +
             "FROM group_tbl g\n" +
             "INNER JOIN group_tbl_administrators gta ON gta.administrators_id = :userId AND gta.administrated_groups_id = g.id\n" +
-            SElECT_PART + "'mod' as groupStatus,\n" +
+            "UNION " + SElECT_PART + "'mod' as groupStatus,\n" +
             COUNTS_PART +
             "FROM group_tbl g\n" +
             "INNER JOIN group_tbl_moderators gtm ON gtm.moderators_id = :userId AND gtm.moderated_groups_id = g.id\n" +
-            SElECT_PART + "'creator' as groupStatus,\n" +
+            "UNION " + SElECT_PART + "'creator' as groupStatus,\n" +
             COUNTS_PART +
             "FROM group_tbl g WHERE g.creator_id = :userId", nativeQuery = true)
     List<IGroupResponseDto> getManagedGroups(@Param("userId") Long userId, @Param("requestUserId") Long requestUserId);

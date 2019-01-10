@@ -44,7 +44,7 @@ public class AccountGroupRestController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/managed")
+    @GetMapping(value = "/managed/")
     public ResponseEntity<?> listManagedGroups(@PathVariable String username, @CurrentUser UserPrincipal currentUser) {
         Long requestUserId = currentUser != null ? currentUser.getAccount().getId() : - 1;
         List<GroupResponse> response = groupService
