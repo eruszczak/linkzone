@@ -244,7 +244,7 @@
                     this.group.logo = data.fileName;
                 }, ({data}) => {
                     if (data.errors) {
-                        this.bannerErrors = data.errors;
+                        this.bannerErrors = data.errors || [];
                     }
                 });
             },
@@ -253,7 +253,7 @@
                     this.group.bannerUrl = data.fileName;
                 }, ({data}) => {
                     if (data.errors) {
-                        this.bannerErrors = data.errors;
+                        this.bannerErrors = data.errors || [];
                     }
                 });
             },

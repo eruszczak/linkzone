@@ -5,7 +5,7 @@
                 <div class="column is-8 is-offset-2">
                     <h3 class="title has-text-grey">{{'loginView.header' | t}}</h3>
                     <p class="subtitle has-text-grey">{{'loginView.hint' | t}}</p>
-                    <div class="notification is-danger" v-if="serverErrors">
+                    <div class="notification is-danger" v-if="serverErrors.length">
                         <p v-for="(error, index) in serverErrors" :key="index">
                             {{`errors.${error}` | t}}
                         </p>
@@ -39,7 +39,7 @@
         name: 'LoginView',
         data() {
             return {
-                serverErrors: null,
+                serverErrors: [],
                 form: {
                     usernameOrEmail: '',
                     password: '',
@@ -53,7 +53,7 @@
         methods: {
             login() {
                 this.triedToSubmit = true;
-                this.serverErrors = null;
+                this.serverErrors = [];
                 this.$validator.validate().then(result => {
                     if (result) {
                         this._login();
@@ -67,7 +67,7 @@
                     this.$toggleLoading(false);
                     this.$router.replace({path: '/'});
                 }, ({data}) => {
-                    this.serverErrors = data.errors;
+                    this.serverErrors = data.errors || [];
                 })
             }
         }

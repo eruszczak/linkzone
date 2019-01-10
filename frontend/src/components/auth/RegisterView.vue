@@ -5,7 +5,7 @@
                 <div class="column is-8 is-offset-2">
                     <h3 class="title has-text-grey">{{'registerView.header' | t}}</h3>
                     <p class="subtitle has-text-grey">{{'registerView.hint' | t}}</p>
-                    <div class="notification is-danger" v-if="serverErrors">
+                    <div class="notification is-danger" v-if="serverErrors.length">
                         <p v-for="error in serverErrors" :key="error">
                             {{`errors.${error}` | t}}
                         </p>
@@ -26,7 +26,7 @@
                             <b-input v-validate="{ required: true, min: 6, max: 50, confirmed: 'password' }" name="password-confirm" icon="lock" type="password" v-model="form.passwordConfirm" :placeholder="$t('registerView.password-confirm')"></b-input>
                         </b-field>
                         <div class="field">
-                            <b-checkbox :value="form.loginOnSuccess">
+                            <b-checkbox v-model="form.loginOnSuccess">
                                 {{'registerView.log-me-in' | t}}
                             </b-checkbox>
                         </div>
@@ -57,7 +57,7 @@
                     valid: false,
                 },
                 triedToSubmit: false,
-                serverErrors: null,
+                serverErrors: [],
                 passwordValidator: { required: true, min: 6, max: 50 }
             }
         },
@@ -67,7 +67,9 @@
         methods: {
             registerAccount() {
                 this.triedToSubmit = true;
-                this.serverErrors = null;
+                this.serverErrors = [];
+                    console.log(this.form)
+
                 this.$validator.validate().then(result => {
                     if (result) {
                         this._register();
@@ -75,19 +77,24 @@
                 });
             },
             _register() {
-                const vm = this;
                 this.$toggleLoading(true);
-                this.$userService.register(vm.form, ({data}) => {
-                    if (vm.form.loginOnSuccess) {
-                        this.$success('registerView.success');
-                        this.$userService.authenticate(vm.form.email, vm.form.password, () => {
+                this.$userService.register(this.form, ({data}) => {
+                    this.$success('registerView.success');
+                    if (this.form.loginOnSuccess) {
+                        this.$userService.authenticate(this.form.email, this.form.password, () => {
                             this.$toggleLoading(false);
                             this.$info('logged-in');
                             this.$router.replace({path: '/'});
                         });
+                    } else {
+                        this.$toggleLoading(false);
+                        this.$router.replace({path: '/'});
                     }
                 }, ({data}) => {
-                    this.serverErrors = data.errors;
+                    if (data.fieldErrors.username) {
+                        this.errors.add({field: 'username', msg: this.$t('errors.' + data.fieldErrors.username)}); 
+                    }
+                    this.serverErrors = data.errors || [];
                 })
             }
         }

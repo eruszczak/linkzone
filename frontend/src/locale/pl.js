@@ -40,7 +40,8 @@ export default {
         "invalid_dimensions": "Nieprawidłowe wymiary obrazka",
         "AlreadyExistsException": "Nazwa jest już zajęta",
         "bad_credentials": "Podano złe dane",
-        "password_no_match": "Hasła nie są takie same"
+        "password_no_match": "Hasła nie są takie same",
+        "no_spaces_allowed": "Spacje są zabronione"
     },
     "profile": {
         "upvoted-posts": "Polubione posty",
@@ -166,5 +167,6 @@ export default {
     "admin": "Administrator",
     "creator": "Twórca",
     "mod": "Moderator",
-    "group-default": "Grupa domyślna"
+    "group-default": "Grupa domyślna",
+    "no_spaces": "Pole nie może zawierać spacji"
 }

@@ -57,7 +57,9 @@
                     this.$success('groups.added-group');
                     this.$router.push({name: 'groupDetailView', params: {name: data.name}});
                 }, ({data}) => {
-                    this.$danger('errors.' + data.title);
+                    if (data.fieldErrors.name) {
+                        this.errors.add({field: 'name', msg: this.$t('errors.' + data.fieldErrors.name)}); 
+                    }
                 })
             }
         }

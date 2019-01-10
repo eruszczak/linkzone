@@ -68,6 +68,9 @@ function scrollToTop (speed = 500) {
 };
 
 function showToast (msg, type, args) {
+    if (!msg) {
+        return;
+    }
     Vue.prototype.$toast.open({
         message: i18n.t(msg, args),
         type: type,

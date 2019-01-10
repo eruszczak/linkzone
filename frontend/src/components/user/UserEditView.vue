@@ -27,6 +27,7 @@
                 <b-field :type="{'is-danger': triedToSubmit && errors.has('username')}" :message="triedToSubmit ? errors.first('username') : null">
                     <b-input v-validate="'required'" name="username" icon="account" v-model="form.username" :placeholder="$t('')"></b-input>
                 </b-field>
+
                 <b-field :type="{'is-danger': triedToSubmit && errors.has('email')}" :message="triedToSubmit ? errors.first('email') : null">
                     <b-input v-validate="'required|email'" name="email" icon="email" v-model="form.email" :placeholder="$t('registerView.email')"></b-input>
                 </b-field>
@@ -107,7 +108,10 @@
                     this.updatedToast();
                     this.$userService.updateUserDetails(data);
                 }, ({data}) => {
-                    this.errorList = data.errors;
+                    if (data.fieldErrors.username) {
+                        this.errors.add({field: 'username', msg: this.$t('errors.' + data.fieldErrors.username)}); 
+                    }
+                    this.errorList = data.errors || [];
                 })
             },
             handleFormData($event) {
@@ -119,7 +123,7 @@
                     this.$userService.updateUserDetails(data);
                     this.updatedToast();
                 }, ({data}) => {
-                    this.errorList = data.errors;
+                    this.errorList = data.errors || [];
                 })
             },
             updatedToast() {

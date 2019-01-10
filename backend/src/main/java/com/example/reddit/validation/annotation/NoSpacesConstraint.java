@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NoSpacesConstraint {
-    String MESSAGE = "Field cannot contain spaces";
+    String MESSAGE = "no_spaces_allowed";
 
     String message() default MESSAGE;
 

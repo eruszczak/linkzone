@@ -8,10 +8,8 @@
                         <b-input v-model="query" @input="search" :placeholder="$t('search')"></b-input>
                     </b-field>
                 </div>
-                <section class="">
-                    {{pagination}}
+                <section>
                     <group-list :groups="groups" :pagination="pagination" @pageChange="handleChange"></group-list>
-                    <!-- <pagination :pagination="pagination" @change="handleChange"/> -->
                 </section>
             </div>
         </div>
