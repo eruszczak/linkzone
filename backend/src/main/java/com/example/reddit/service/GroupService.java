@@ -55,6 +55,7 @@ public class GroupService {
         group.setName(groupCreate.getName());
         group.setDescription(groupCreate.getDescription());
         group.setCreator(account);
+        group.setDefault(false);
 //        group = save(group);
 //        group.addAdministrator(account);
         return save(group);
@@ -73,6 +74,10 @@ public class GroupService {
         group.setModerators(accountRepository.findAllById(updatedGroup.getModerators()));
         group.setTags(updatedGroup.getTags());
         save(group);
+    }
+
+    public List<IGroupResponseDto> getManagedGroups(Long userId, Long requestUserId) {
+        return groupRepository.getManagedGroups(userId, requestUserId);
     }
 
     @PreAuthorize("hasPermission(#group, '" + Permissions.UPDATE + "')")

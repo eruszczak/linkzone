@@ -15,7 +15,11 @@ import java.util.Optional;
 
 public interface GroupRepository extends JpaRepository<Group, Long> {
 
-    @Query(value = "SELECT g.id as id, g.name as name, g.description as description, g.banner_url as bannerUrl, g.created_at as createdAt, g.logo as logo, g.is_default as isDefault," +
+    String SElECT_PART = "SELECT g.id as id, g.name as name, g.description as description, g.banner_url as bannerUrl, g.created_at as createdAt, g.logo as logo, g.is_default as isDefault,";
+    String COUNTS_PART = "(SELECT COUNT(*) FROM group_membership gm WHERE gm.group_id = g.id) as subscribers,\n" +
+            "(SELECT COUNT(*) FROM group_membership gm WHERE gm.group_id = g.id AND gm.user_id = :requestUserId) as isSubbed\n";
+
+    @Query(value = SElECT_PART +
             " (SELECT COUNT(*) FROM group_membership gm WHERE gm.group_id = g.id) as subscribers," +
             " (SELECT COUNT(*) FROM group_membership gm WHERE gm.group_id = g.id AND gm.user_id = :userId) as isSubbed" +
             " FROM group_tbl g" +
@@ -25,7 +29,7 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
             countQuery = "SELECT COUNT(*) FROM group_tbl g WHERE lower(g.name) LIKE lower(:query)")
     Page<IGroupResponseDto> search(@Param("query") String query, @Param("userId") Long userId, @Param("pageable") Pageable pageable);
 
-    @Query(value = "SELECT g.id as id, g.name as name, g.description as description, g.banner_url as bannerUrl, g.created_at as createdAt, g.logo as logo, g.is_default as isDefault," +
+    @Query(value = SElECT_PART +
             " (SELECT COUNT(*) FROM posts p WHERE p.group_id = g.id) as postCount," +
             " (SELECT COUNT(*) FROM group_membership gm WHERE gm.group_id = g.id) as subscribers," +
             " (SELECT COUNT(*) FROM group_membership gm WHERE gm.group_id = g.id AND gm.user_id = :userId) as isSubbed" +
@@ -39,6 +43,19 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
     List<Group> findByIsDefaultTrue();
 
     Page<Group> findByNameIgnoreCaseContaining(Pageable pageable, String name);
+
+    @Query(value = SElECT_PART + "'admin' as groupStatus,\n" +
+            COUNTS_PART +
+            "FROM group_tbl g\n" +
+            "INNER JOIN group_tbl_administrators gta ON gta.administrators_id = :userId AND gta.administrated_groups_id = g.id\n" +
+            SElECT_PART + "'mod' as groupStatus,\n" +
+            COUNTS_PART +
+            "FROM group_tbl g\n" +
+            "INNER JOIN group_tbl_moderators gtm ON gtm.moderators_id = :userId AND gtm.moderated_groups_id = g.id\n" +
+            SElECT_PART + "'creator' as groupStatus,\n" +
+            COUNTS_PART +
+            "FROM group_tbl g WHERE g.creator_id = :userId", nativeQuery = true)
+    List<IGroupResponseDto> getManagedGroups(@Param("userId") Long userId, @Param("requestUserId") Long requestUserId);
 
     @Modifying
     @Transactional
