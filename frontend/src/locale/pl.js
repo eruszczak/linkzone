@@ -163,4 +163,7 @@ export default {
     "no-file-selected": "Nie wybrano pliku",
     "from-all-groups": "Jesteś niezarejestrowany, dlatego widzisz posty ze wszystkich grup. Zarejestruj się i subskrybuj grupy, aby widzieć tylko to co cię interesuje",
     "from-subbed-groups": "Jesteś zalogowany, dlatego widzisz posty z subskrybowanych przez ciebie grup.",
+    "admin": "Administrator",
+    "creator": "Twórca",
+    "mod": "Moderator"
 }

@@ -37,8 +37,8 @@
                             <b-tag><strong>{{'groups.created-time'|t}}</strong></b-tag>
                             <b-tag>{{group.createdAt | since}}</b-tag>
                         </b-taglist>
-                        <b-taglist attached>
-                            <b-tag><strong>{{group.groupStatus}}</strong></b-tag>
+                        <b-taglist attached v-if="group.groupStatus.length">
+                            <b-tag v-for="status in group.groupStatus" type="is-warning" :key="status" style="margin-right:5px"><strong>{{status|t}}</strong></b-tag>
                         </b-taglist>
                     </div>
                 </div>

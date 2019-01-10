@@ -110,7 +110,7 @@
                 pagination: Object.assign({}, ...Object.entries(tabs).map(([a,b]) => ({ [b]: {} }))),
                 posts: [],
                 stats: {},
-                groups: {},
+                groups: [],
                 comments: [],
                 upvotedPosts: [],
                 visited: Object.assign({}, ...Object.entries(tabs).map(([a,b]) => ({ [b]: false }))) // mark every tab as not visited
@@ -170,7 +170,18 @@
             },
             getGroups() {
                 this.$userService.getGroupInfo(this.username, ({data}) => {
-                    this.groups = data;
+                    const uniqueGroups = [];
+                    data.forEach(group => {
+                        const index = uniqueGroups.findIndex(el => el.id === group.id);
+                        if (index === -1) {
+                            group.groupStatus = [group.groupStatus];
+                            uniqueGroups.push(group);
+                        } else {
+                            uniqueGroups[index].groupStatus.push(group.groupStatus);
+                        }
+                        return group;
+                    });
+                    this.groups = uniqueGroups;
                     this.$toggleLoading(false);
                 });
             },
