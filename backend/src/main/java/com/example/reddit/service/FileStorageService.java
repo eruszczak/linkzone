@@ -58,13 +58,13 @@ public class FileStorageService {
             System.out.println(targetLocation);
 
 
-            String path = this.getClass().getClassLoader().getResource("").getPath();
-            String fullPath = URLDecoder.decode(path, "UTF-8");
-            String pathArr[] = fullPath.split("/WEB-INF/classes/");
-            System.out.println(fullPath);
-            System.out.println(pathArr[0]);
-            fullPath = pathArr[0];
-            System.out.println(fullPath);
+//            String path = this.getClass().getClassLoader().getResource("").getPath();
+//            String fullPath = URLDecoder.decode(path, "UTF-8");
+//            String pathArr[] = fullPath.split("/WEB-INF/classes/");
+//            System.out.println(fullPath);
+//            System.out.println(pathArr[0]);
+//            fullPath = pathArr[0];
+//            System.out.println(fullPath);
 
 
             return fileName;
