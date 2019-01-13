@@ -1,7 +1,7 @@
 package com.example.reddit;
 
 import com.example.reddit.config.FileStorageProperties;
-import com.example.reddit.controller.post.PostType;
+import com.example.reddit.model.PostType;
 import com.example.reddit.dto.AccountCreate;
 import com.example.reddit.dto.CommentCreate;
 import com.example.reddit.model.*;

@@ -1,6 +1,6 @@
 package com.example.reddit.dto;
 
-import com.example.reddit.controller.post.PostType;
+import com.example.reddit.model.PostType;
 
 import java.time.Instant;
 

@@ -1,10 +1,8 @@
 package com.example.reddit.dto;
 
-import com.example.reddit.controller.post.PostType;
+import com.example.reddit.model.PostType;
 import com.example.reddit.model.Account;
 import com.example.reddit.model.Group;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.Instant;
 import java.util.List;

@@ -1,7 +1,6 @@
 package com.example.reddit.model;
 
 import com.example.reddit.config.GroupConstants;
-import com.example.reddit.controller.post.PostType;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 

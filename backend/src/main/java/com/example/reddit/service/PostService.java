@@ -1,6 +1,6 @@
 package com.example.reddit.service;
 
-import com.example.reddit.controller.post.PostType;
+import com.example.reddit.model.PostType;
 import com.example.reddit.dto.ICounterDto;
 import com.example.reddit.dto.IPostResponseDto;
 import com.example.reddit.dto.PostCreate;

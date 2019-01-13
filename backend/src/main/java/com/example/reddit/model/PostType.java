@@ -1,4 +1,4 @@
-package com.example.reddit.controller.post;
+package com.example.reddit.model;
 
 public enum PostType {
     POST, MEDIA, LINK

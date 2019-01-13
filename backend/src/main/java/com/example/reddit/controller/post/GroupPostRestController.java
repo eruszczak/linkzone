@@ -5,12 +5,12 @@ import com.example.reddit.exception.ValidationErrorException;
 import com.example.reddit.model.Account;
 import com.example.reddit.model.Group;
 import com.example.reddit.model.Post;
+import com.example.reddit.model.PostType;
 import com.example.reddit.security.CurrentUser;
 import com.example.reddit.security.UserPrincipal;
 import com.example.reddit.service.FileStorageService;
 import com.example.reddit.service.GroupService;
 import com.example.reddit.service.PostService;
-import com.example.reddit.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,9 +20,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/groups/{groupName}/posts")
