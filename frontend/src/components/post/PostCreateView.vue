@@ -4,7 +4,18 @@
             <div class="hero-body">
                 <div class="container">
                 <h1 class="title">
-                    {{'posts.create-post'|t}} <span v-if="grpName">- {{ grpName }}</span>
+                    <span v-if="!grpName">{{'posts.create-post'|t}}</span>
+                    <div v-if="grpName">
+                        <router-link :to="{name: 'groupDetailView', params: {name: grpName}}">
+                            <div style="display: flex;flex-direction: row;">
+                                <p style="margin-right:15px">{{'posts.create-post'|t}}:</p>
+                                <p class="image is-48x48">
+                                    <img class="is-rounded" :src="logo"/>
+                                </p>
+                                <p class="title is-4" style="margin-top:9px;margin-left:1rem; color:hsl(0, 0%, 21%)">{{grpName}}</p>
+                            </div>
+                        </router-link>
+                    </div>
                 </h1>
                 </div>
             </div>
@@ -45,7 +56,7 @@
                         </template>
                     </b-taginput>
                 </b-field>
-                <post-creator @submit="createPost" @upload="filename = $event"></post-creator>
+                <post-creator v-if="groupPostTypes" @submit="createPost" @upload="filename = $event" :group-post-types="groupPostTypes"></post-creator>
             </div>
         </div>
     </section>
@@ -84,8 +95,14 @@
             }
         },
         computed: {
+            logo() {
+                return this.selectedGroups.length ? this.$groupService.getLogoUrl(this.selectedGroups[0]) : null;
+            },
             grpName() {
                 return this.selectedGroups.length ? this.selectedGroups[0].name : this.selectedGroupName;
+            },
+            groupPostTypes() {
+                return this.selectedGroups.length ? this.selectedGroups[0].postTypes : null;
             }
         },
         methods: {
@@ -136,6 +153,10 @@
                             slug: data.slug
                         }
                     })
+                }, ({data}) => {
+                    if (data.message === 'post_type_not_allowed') {
+                        this.$danger('errors.post_type_not_allowed')
+                    }
                 })
             }
         }

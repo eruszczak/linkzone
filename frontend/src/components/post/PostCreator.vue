@@ -1,5 +1,5 @@
 <template>
-    <section class="">
+    <section>
         <b-tabs v-model="selectedTab" type="is-toggle" expanded>
             <b-tab-item :label="$t('posts.text')" icon="text" :disabled="isTabDisabled(POST_TYPES.POST)">
                 <b-field :type="{'is-danger': triedToSubmit && errors.has('post.title')}" :message="triedToSubmit ? errors.first('post.title') : null">
@@ -8,10 +8,14 @@
                 <b-field>
                     <b-input maxlength="1000" name="content" type="textarea" v-model="form.content" :placeholder="$t('posts.content')"></b-input>
                 </b-field>
-                <button class="button is-small" @click="showPreview = !showPreview">{{'posts.show-preview'|t}}</button>
-                <div class="box" v-if="form.content && showPreview">
-                    <vue-markdown :anchorAttributes="{target: '_blank', rel: 'nofollow'}" :source="form.content"></vue-markdown>
-                    <!-- <vue-markdown>i am a ~~tast~~ **test**.</vue-markdown> -->
+                <button class="button is-small" v-if="form.content" style="margin-bottom: 1em" @click="showPreview = !showPreview">{{'posts.show-preview'|t}}</button>
+                <div class="content" v-if="form.content && showPreview">
+                    <div style="margin-left:1em">
+                        <p><a href="https://guides.github.com/features/mastering-markdown/" target="_blank">Markdown tutorial</a></p>
+                        <div class="box">
+                            <vue-markdown :anchorAttributes="{target: '_blank', rel: 'nofollow'}" :source="form.content"></vue-markdown>
+                        </div>
+                    </div>
                 </div>
             </b-tab-item>
 
@@ -81,6 +85,10 @@
             isPostModerator: {
                 type: Boolean,
                 default: false
+            },
+            groupPostTypes: {
+                type: Array,
+                required: false
             }
         },
         data() {
@@ -107,6 +115,8 @@
             }
         },
         mounted() {
+                console.log(this.groupPostTypes, this.post)
+
             if (this.post) {
                 this.selectedTab = TABS_REV[this.post.type];
                 const form = this.getCurrentForm();
@@ -116,6 +126,9 @@
                     this.filename = this.post.content;
                 }
                 this.postLocked = this.post.locked;
+            } else if (this.groupPostTypes) {
+                console.log('here')
+                this.selectedTab = TABS_REV[this.groupPostTypes[0]]
             }
         },
         methods: {
@@ -149,6 +162,9 @@
                 return this.getSelectedPostType() === POST_TYPES.MEDIA;
             },
             isTabDisabled(type) {
+                if (this.groupPostTypes) {
+                    return this.groupPostTypes.filter(t => t === type).length === 0;
+                }
                 return this.post && this.post.type !== type;
             },
             getSelectedPostType() {

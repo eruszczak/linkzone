@@ -20,6 +20,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.xml.bind.ValidationException;
 
 @RestController
 @RequestMapping(value = "/api/groups/{groupName}/posts")

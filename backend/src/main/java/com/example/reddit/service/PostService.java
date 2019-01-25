@@ -1,5 +1,7 @@
 package com.example.reddit.service;
 
+import com.example.reddit.exception.PostTypeNotAllowed;
+import com.example.reddit.exception.ValidationErrorException;
 import com.example.reddit.model.PostType;
 import com.example.reddit.dto.ICounterDto;
 import com.example.reddit.dto.IPostResponseDto;
@@ -19,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
+import javax.xml.bind.ValidationException;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,6 +59,9 @@ public class PostService {
     }
 
     public Post create(PostCreate dto, Group group, Account account, PostType postType) {
+        if (!group.getPostTypes().stream().anyMatch(x -> x.equals(postType))) {
+            throw new PostTypeNotAllowed();
+        }
         Post post = new Post();
         post.setTitle(dto.getTitle());
         post.setContent(dto.getContent());

@@ -18,20 +18,17 @@
                         {{'navbar.main' | t}}
                     </router-link>
                 </div>
-
-                <div class="navbar-item">
-                    <router-link class="navbar-item" :to="{name: 'postCreateView'}">
-                        {{'navbar.add-post' | t}}
-                    </router-link>
-                </div>
-
                 <div class="navbar-item">
                     <router-link class="navbar-item" :to="{name: 'groupListView'}">
                         {{'navbar.groups' | t}}
                     </router-link>
                     <router-link class="navbar-item" :to="{name: 'groupCreateView'}">{{'groups.add-group'|t}}</router-link>
                 </div>
-
+                <div class="navbar-item">
+                    <router-link class="navbar-item" :to="{name: 'postCreateView'}">
+                        {{'navbar.add-post' | t}}
+                    </router-link>
+                </div>
                 <div class="navbar-item" v-if="isAuthenticated && user">
                     <a class="navbar-link is-arrowless">
                         <figure class="image is-16x16" style="margin-right: 5px; display:inline-block">
@@ -58,20 +55,9 @@
 
         <div id="navbarBasicExample" class="navbar-menu">
             <div class="navbar-start">
-                <!-- <router-link class="navbar-item" to="/">
-                    {{'navbar.main' | t}}
-                </router-link> -->
                 <router-link class="navbar-item" :to="{name: 'groupListView'}"><b-icon style="margin-right:5px;" icon="account-group"></b-icon> {{'navbar.groups' | t}}</router-link>
-                <router-link class="navbar-item" :to="{name: 'postCreateView'}"><b-icon style="margin-right:5px;" icon="pencil"></b-icon> {{'navbar.add-post' | t}}</router-link>
                 <router-link class="navbar-item" :to="{name: 'groupCreateView'}"><b-icon style="margin-right:5px;" icon="plus"></b-icon> {{'groups.add-group'|t}}</router-link>
-                <!-- <div class="navbar-item has-dropdown is-hoverable">
-                    <a class="navbar-link">
-                        {{'navbar.more'|t}}
-                    </a>
-                    <div class="navbar-dropdown">
-
-                    </div>
-                </div> -->
+                <router-link class="navbar-item" :to="{name: 'postCreateView'}"><b-icon style="margin-right:5px;" icon="pencil"></b-icon> {{'navbar.add-post' | t}}</router-link>
             </div>
 
             <div class="navbar-end">

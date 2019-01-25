@@ -13,7 +13,7 @@ export default class PostService {
     constructor() {
     }
 
-    addPost = (data, groupName, type, cb) => {
+    addPost = (data, groupName, type, cb, cbError) => {
         let url = `/groups/${groupName}/posts/`;
         switch (type) {
             case POST_TYPES.MEDIA:
@@ -23,9 +23,7 @@ export default class PostService {
                 url = `${url}link/`;
                 break
         }
-        axios.post(url, data).then(cb, error => {
-            console.log('catch error.response', error.response)
-        })
+        axios.post(url, data).then(cb, cbError)
     };
 
     getTopPosts = (pageable, cb, cbError) => {

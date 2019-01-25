@@ -41,7 +41,8 @@ export default {
         "AlreadyExistsException": "Name already taken",
         "bad_credentials": "Invalid credentials",
         "password_no_match": "Passwords do not match",
-        "no_spaces_allowed": "Spaces are not allowed"
+        "no_spaces_allowed": "Spaces are not allowed",
+        "post_type_not_allowed": "Post type not allowed"
     },
     "profile": {
         "upvoted-posts": "Upvoted posts",
@@ -77,7 +78,7 @@ export default {
         "remove-message": "Are you sure you want to delete this post and its comments? It's irreversible",
         "removed": "Post has been removed",
         "added-post": "Added post",
-        "show-preview": "Show preview"
+        "show-preview": "Show Markdown preview"
     },
     "groups": {
         "empty": "No groups found",

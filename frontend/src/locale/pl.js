@@ -41,7 +41,8 @@ export default {
         "AlreadyExistsException": "Nazwa jest już zajęta",
         "bad_credentials": "Podano złe dane",
         "password_no_match": "Hasła nie są takie same",
-        "no_spaces_allowed": "Spacje są zabronione"
+        "no_spaces_allowed": "Spacje są zabronione",
+        "post_type_not_allowed": "Typ postu niedozwolony"
     },
     "profile": {
         "upvoted-posts": "Polubione posty",
@@ -79,7 +80,7 @@ export default {
         "remove-message": "Jesteś pewien, że chcesz usunąć ten post? Wszystkie komentarze do tego postu zostaną skasowane. Operacja jest nieodwracalna.",
         "removed": "Post został skasowany",
         "added-post": "Dodano post",
-        "show-preview": "Pokaż podgląd"
+        "show-preview": "Pokaż podgląd Markdown",
     },
     "groups": {
         "empty": "Nie znaleziono żadnych grup",

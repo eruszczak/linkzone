@@ -8,15 +8,10 @@
                 <div class="container">
                     <div class="column is-8 is-offset-2">
                         <div style="display: flex;flex-direction: row;width:300px">
-                                <p class="image is-48x48">
-                                    <img class="is-rounded" :src="$groupService.getLogoUrl(group)">
-                                </p>
-                                <p class="title is-4" style="margin-top:9px;margin-left:1rem">{{group.name}}</p>
-                            <!-- <figure class="media-left">
-   
-                            </figure>
-                            <div class="media-content" style="overflow: hidden;">
-                            </div> -->
+                            <p class="image is-48x48">
+                                <img class="is-rounded" :src="$groupService.getLogoUrl(group)">
+                            </p>
+                            <p class="title is-4" style="margin-top:9px;margin-left:1rem">{{group.name}}</p>
                         </div>
                     </div>
                 </div>
