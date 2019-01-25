@@ -1,17 +1,17 @@
 <template>
     <section class="section is-fullwidth" v-if="group">
         <div style="position: relative;">
-            <div v-if="group.bannerUrl" :style="`background-image: url('/static/${group.bannerUrl}'); background-size: cover; background-position: center; height: 200px`"></div>
+            <div v-if="group.bannerUrl" :style="`background-image: url('/static/${group.bannerUrl}'); background-size: cover; background-position: center; height: 200px;`"></div>
             <div v-else style="height: 100px; background-color: grey"></div>
 
-            <div style="position: absolute;bottom: 15px">
+            <div style="position: absolute" :style="{'bottom': group.bannerUrl ? '50px': '15px'}">
                 <div class="container">
                     <div class="column is-8 is-offset-2">
                         <div style="display: flex;flex-direction: row;width:300px">
                             <p class="image is-48x48">
                                 <img class="is-rounded" :src="$groupService.getLogoUrl(group)">
                             </p>
-                            <p class="title is-4" style="margin-top:9px;margin-left:1rem">{{group.name}}</p>
+                            <p class="title is-4" style="color:white;margin-top:9px;margin-left:1rem;text-shadow: 3px 3px 7px rgba(0,0,0,0.78);">{{group.name}}</p>
                         </div>
                     </div>
                 </div>
