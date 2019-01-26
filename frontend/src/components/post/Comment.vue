@@ -20,17 +20,16 @@
                                 <b-icon size="is-small" type="is-info" icon="comment-multiple"></b-icon>
                             </a>
                         </b-tooltip>
+                        <router-link v-if="readOnly" :to="{name: 'postView', params: {postID: item.postId, slug: item.postSlug, name: item.groupName}}">Post: {{truncate(item.postTitle, {length: 10})}}</router-link>
                     </span>
                     <span class="is-pulled-right">
-                       <a class="button is-white is-small mr-2" @click="confirmDelete" v-if="item.isCreator || item.author.username === parentUsername || canDelete">
+                        <a class="button is-white is-small mr-2" @click="confirmDelete" v-if="item.isCreator || item.author.username === parentUsername || canDelete">
                             <b-icon type="is-danger" icon="delete"></b-icon>
                         </a>
                         <small>{{item.createdAt | since}}</small>
                     </span>
-
                     <br>
                     {{item.content}}
-                    <router-link :to="{name: 'postView', params: {postID: item.postId, slug: item.postSlug, name: item.groupName}}">Post #{{item.postTitle}}</router-link>
                 </p>
             </div>
             <b-notification v-if="!item.replies && !isInner" :closable="false">
@@ -46,6 +45,7 @@
 <script>
     import {getUpvoteColor} from "../../utils/utils";
     import NewComment from "./NewComment";
+    import {truncate} from 'lodash';
 
     export default {
         name: 'Comment',
@@ -87,6 +87,7 @@
             }
         },
         methods: {
+            truncate: truncate,
             replyToComment(comment) {
                 this.$commentService.reply(comment.id, {content: comment.reply.body}, ({data}) => {
                     comment.replies.push(data);
