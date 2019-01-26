@@ -1,6 +1,7 @@
 package com.example.reddit.controller.group;
 
 import com.example.reddit.dto.GroupResponse;
+import com.example.reddit.dto.IGroupResponseDto;
 import com.example.reddit.model.GroupMembership;
 import com.example.reddit.security.CurrentUser;
 import com.example.reddit.security.UserPrincipal;
@@ -36,11 +37,10 @@ public class AccountGroupRestController {
     }
 
     @GetMapping(value = "/")
-    public ResponseEntity<?> listGroupsSubscribedByUser(@PathVariable String username) {
-        List<GroupMembership> groupMemberships = groupMembershipService
-                .findByAccountUsername(username);
-        List<GroupResponse> response = groupMemberships
-                .stream().map(gm -> new GroupResponse(gm.getGroup())).collect(Collectors.toList());
+    public ResponseEntity<?> listGroupsSubscribedByUser(@PathVariable String username, @CurrentUser UserPrincipal currentUser) {
+        Long requestUserId = currentUser != null ? currentUser.getAccount().getId() : - 1;
+        List<IGroupResponseDto> dtos = groupService.getSubscribedGroups(accountService.findByUsername(username).getId(), requestUserId);
+        List<GroupResponse> response = dtos.stream().map(GroupResponse::new).collect(Collectors.toList());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

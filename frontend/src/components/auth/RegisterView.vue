@@ -84,11 +84,11 @@
                         this.$userService.authenticate(this.form.email, this.form.password, () => {
                             this.$toggleLoading(false);
                             this.$info('logged-in');
-                            this.$router.replace({path: '/'});
+                            this.goToProfile();
                         });
                     } else {
                         this.$toggleLoading(false);
-                        this.$router.replace({path: '/'});
+                        this.goToProfile();
                     }
                 }, ({data}) => {
                     if (data.fieldErrors.username) {
@@ -96,6 +96,9 @@
                     }
                     this.serverErrors = data.errors || [];
                 })
+            },
+            goToProfile() {
+                this.$router.replace({name: 'userProfileView', params: {username: this.form.username}});
             }
         }
     }

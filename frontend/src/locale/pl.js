@@ -54,7 +54,9 @@ export default {
         "groups": "Grupy",
         "stat-posts": "Napisane posty",
         "stat-comments": "Napisane komentarze",
-        "stat-points": "Zdobyte punkty"
+        "stat-points": "Zdobyte punkty",
+        "is-subscribed-true": "Subskrybowane",
+        "is-subscribed-false": "Zarządzane"
     },
     "posts": {
         "empty": "Nie znaleziono żadnych postów",

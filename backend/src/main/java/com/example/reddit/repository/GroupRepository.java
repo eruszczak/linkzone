@@ -57,6 +57,12 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
             "FROM group_tbl g WHERE g.creator_id = :userId", nativeQuery = true)
     List<IGroupResponseDto> getManagedGroups(@Param("userId") Long userId, @Param("requestUserId") Long requestUserId);
 
+    @Query(value = SElECT_PART +
+            COUNTS_PART +
+            "FROM group_tbl g\n" +
+            "JOIN group_membership gm ON gm.group_id = g.id AND gm.user_id = :userId", nativeQuery = true)
+    List<IGroupResponseDto> getSubscribedGroups(@Param("userId") Long userId, @Param("requestUserId") Long requestUserId);
+
     @Modifying
     @Transactional
     @Query("update Group g set g.logo = :logo where g.name = :name")

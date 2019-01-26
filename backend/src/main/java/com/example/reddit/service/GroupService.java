@@ -61,6 +61,10 @@ public class GroupService {
         return save(group);
     }
 
+    public List<IGroupResponseDto> getSubscribedGroups(Long userId, Long requestUserId) {
+        return groupRepository.getSubscribedGroups(userId, requestUserId);
+    }
+
     public Group save(Group group) {
         return groupRepository.save(group);
     }

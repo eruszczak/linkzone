@@ -21,15 +21,6 @@
             Loading, Navbar
         },
         mounted() {
-            // if (this.isAuthenticated) {
-            //     this.setupForAuthenticatedUser()
-            // }
-
-            // this.$userService.authNotifier.on('authChange', () => {
-            //     if (this.isAuthenticated) {
-            //         this.setupForAuthenticatedUser()
-            //     }
-            // });
         },
         data() {
             return {
@@ -39,14 +30,7 @@
             ...mapGetters(['isLoading']),
         },
         methods: {
-            // ...mapMutations(['setRegisterModalState', 'setLoginModalState', 'setGroups', 'disableAPIError', 'filterGroups']),
-            // setupForAuthenticatedUser() {
-            //     this.username = this.$userService.getUsername();
-            //     // this.$userService.getUserDetails(this.username, (res) => {
-            //     this.$groupService.getSubbedGroups(this.username, (res) => {
-            //         this.setGroups(res.data)
-            //     })
-            // },
+
         }
     }
 </script>

@@ -67,8 +67,14 @@
                     </div>
                 </b-tab-item>
                 <b-tab-item :label="$t('profile.groups')" icon="account-group">
+
                     <div class="column is-8 is-offset-2">
-                        <group-list :groups="groups"></group-list>
+                        <div style="margin-bottom: 2em">
+                            <b-switch v-model="isSubscribedGroups" @input="changeSwitch">
+                                {{ isSubscribedGroups ? $t('profile.is-subscribed-true') : $t('profile.is-subscribed-false') }}
+                            </b-switch>
+                        </div>
+                        <group-list :groups="isSubscribedGroups ? subscribedGroups : groups"></group-list>
                     </div>
                 </b-tab-item>
             </b-tabs>
@@ -122,6 +128,8 @@
                 comments: [],
                 upvotedComments: [],
                 upvotedPosts: [],
+                subscribedGroups: [],
+                isSubscribedGroups: false,
                 visited: Object.assign({}, ...Object.entries(tabs).map(([a,b]) => ({ [b]: false }))) // mark every tab as not visited
             }
         },
@@ -172,10 +180,20 @@
                         });
                         break;
                     case tabNumbers.GROUPS:
-                        this.getGroups();
+                        if (this.isSubscribedGroups) {
+                            this.$groupService.getSubbedGroups(this.username, ({data}) => {
+                                this.subscribedGroups = data;
+                                this.$toggleLoading(false);
+                            });
+                        } else {
+                            this.getGroups();
+                        }
                         break;
                 }
                 this.visited[this.activeTab] = true;
+            },
+            changeSwitch(val) {
+                this.loadTabContent();
             },
             getGroups() {
                 this.$userService.getGroupInfo(this.username, ({data}) => {
@@ -196,7 +214,6 @@
             },
             tabChange(index) {
                 if (!this.visited[this.activeTab]) {
-                    // this.pagination = {};
                     this.loadTabContent();
                 }
                 this.updateQuery();
@@ -204,7 +221,6 @@
             handleChange(pageNumber) {
                 this.pagination[this.activeTab].page = pageNumber;
                 this.loadTabContent();
-                // this.getPosts({page: pageNumber})
             },
             updateQuery() {
                 this.$router.replace({ name: 'userProfileView', query: { tab: tabsRev[this.activeTab] }});
