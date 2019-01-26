@@ -20,6 +20,9 @@ public class CommentResponse {
     public String groupName;
     public Integer isUpvoted;
     public Integer upvotedCount;
+    public String postTitle;
+    public Long postId;
+    public String postSlug;
 
     public boolean isCreator;
 
@@ -41,6 +44,9 @@ public class CommentResponse {
         groupName = dto.getGroupName();
         isUpvoted = dto.getUpvoted();
         upvotedCount = dto.getUpvotedCount();
+        postTitle = dto.getPostTitle();
+        postId = dto.getPostId();
+        postSlug = dto.getPostSlug();
     }
 
     public void addReply(CommentResponse commentResponse) {

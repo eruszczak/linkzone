@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div class="mt-2 mb-2" v-for="group in groups" :key="group.id">
+    <div class="mt-2 mb-2">
+        <div class="mb-2" v-for="group in groups" :key="group.id">
             <!-- {{group}} -->
             <div class="box">
                 <div class="columns">

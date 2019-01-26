@@ -45,7 +45,12 @@
                     </div>
                 </b-tab-item>
                 <b-tab-item :label="$t('profile.upvoted-comments')" icon="comment-check">
-                    <div class="column is-8 is-offset-2">{{'profile.upvoted-comments' | t}}</div>
+                    <div class="column is-8 is-offset-2">
+                    <comment v-for="(item, index) in upvotedComments" :item="item" :index="index" :key="item.id" @removed="handleRemovedComment($event)" read-only></comment>
+                    <b-notification v-if="upvotedComments.length === 0" :closable="false">
+                        {{'comments.no-comments' | t}}
+                    </b-notification>
+                    </div>
                 </b-tab-item>
                 <b-tab-item :label="$t('profile.posts')" icon="clipboard-text">
                     <div class="column is-8 is-offset-2">
@@ -56,6 +61,9 @@
                 <b-tab-item :label="$t('profile.comments')" icon="comment">
                     <div class="column is-8 is-offset-2">
                         <comment v-for="(item, index) in comments" :item="item" :index="index" :key="item.id" @removed="handleRemovedComment($event)" read-only></comment>
+                        <b-notification v-if="comments.length === 0" :closable="false">
+                            {{'comments.no-comments' | t}}
+                        </b-notification>
                     </div>
                 </b-tab-item>
                 <b-tab-item :label="$t('profile.groups')" icon="account-group">
@@ -112,6 +120,7 @@
                 stats: {},
                 groups: [],
                 comments: [],
+                upvotedComments: [],
                 upvotedPosts: [],
                 visited: Object.assign({}, ...Object.entries(tabs).map(([a,b]) => ({ [b]: false }))) // mark every tab as not visited
             }
@@ -144,8 +153,8 @@
                         });
                         break;
                     case tabNumbers.UPVOTED_COMMENTS:
-                        this.$userService.getComments(this.username, ({data}) => {
-                            this.comments = data.content;
+                        this.$userService.getUpvotedComments(this.username, ({data}) => {
+                            this.upvotedComments = data.content;
                             this.$toggleLoading(false);
                         });
                         break;

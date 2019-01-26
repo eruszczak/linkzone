@@ -15,4 +15,5 @@ public interface ICommentResponseDto {
     Integer getUpvoted();
     Integer getUpvotedUser();
     Integer getUpvotedCount();
+    String getPostSlug();
 }

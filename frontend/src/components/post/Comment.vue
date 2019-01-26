@@ -15,7 +15,7 @@
                         <a class="button is-small is-white" @click="upvote"><b-icon :type="getUpvoteColor(item, true)" icon="chevron-up"></b-icon></a>
                         <b-tag type="is-white">{{item.upvotedCount || 0}}</b-tag>
                         <a class="button is-small is-white" @click="downvote"><b-icon :type="getUpvoteColor(item, false)" icon="chevron-down"></b-icon></a>
-                        <b-tooltip :label="$t('comments.reply')" type="is-light" size="is-small">
+                        <b-tooltip v-if="!readOnly" :label="$t('comments.reply')" type="is-light" size="is-small">
                             <a v-if="!noReply && !isLocked" class="button is-small ml-2 is-white" @click="item.addReply = !item.addReply">
                                 <b-icon size="is-small" type="is-info" icon="comment-multiple"></b-icon>
                             </a>
@@ -30,6 +30,7 @@
 
                     <br>
                     {{item.content}}
+                    <router-link :to="{name: 'postView', params: {postID: item.postId, slug: item.postSlug, name: item.groupName}}">Post #{{item.postTitle}}</router-link>
                 </p>
             </div>
             <b-notification v-if="!item.replies && !isInner" :closable="false">

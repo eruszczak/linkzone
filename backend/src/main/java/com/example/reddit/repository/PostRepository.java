@@ -81,8 +81,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Query(value = QUERY +
             " (SELECT COUNT(*) FROM comments c WHERE c.post_id = p.id) as commentCount," +
-            " pu.is_upvote as upvoted," +
-            " (SELECT pu.is_upvote FROM post_upvote pu WHERE pu.post_id = p.id AND pu.account_id = :accountId) as upvotedUser," +
+            " (SELECT pu.is_upvote FROM post_upvote pu WHERE pu.post_id = p.id AND pu.account_id = :accountId) as upvoted," +
             " (SELECT SUM(pu.is_upvote) FROM post_upvote pu WHERE pu.post_id = p.id) as upvotedCount" +
             " FROM posts p" +
             " JOIN accounts a ON a.id = p.account_id" +

@@ -90,7 +90,11 @@ export default class UserService {
     }
 
     getComments = (username, cb, cbError) => {
-        axios.get(`/users/${username}/comments/`).then(cb);
+        axios.get(`/users/${username}/comments/`).then(cb).catch(cbError);
+    };
+
+    getUpvotedComments = (username, cb, cbError) => {
+        axios.get(`/users/${username}/comments/upvoted/`).then(cb).catch(cbError);
     };
 
     isOwner(username) {

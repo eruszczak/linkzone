@@ -33,14 +33,14 @@ public class AccountResource extends ResourceSupport {
     }
 
     private void addLinks(String username) {
-        Pageable pageable = PageRequest.of(0, 25);
-        add(linkTo(methodOn(AccountRestController.class).detail(
-                username)).withSelfRel());
-        add(linkTo(methodOn(AccountCommentRestController.class).list(
-                username,
-                pageable)).withRel("comments"));
-        add(linkTo(methodOn(AccountGroupRestController.class).listGroupsSubscribedByUser(
-                username)).withRel("groups"));
+//        Pageable pageable = PageRequest.of(0, 25);
+//        add(linkTo(methodOn(AccountRestController.class).detail(
+//                username)).withSelfRel());
+//        add(linkTo(methodOn(AccountCommentRestController.class).list(
+//                username,
+//                pageable)).withRel("comments"));
+//        add(linkTo(methodOn(AccountGroupRestController.class).listGroupsSubscribedByUser(
+//                username)).withRel("groups"));
 //        add(linkTo(methodOn(AccountPostRestController.class).list(
 //                username, pageable)).withRel("posts"));
     }

@@ -12,6 +12,7 @@ import com.example.reddit.repository.CommentUpvoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -47,6 +48,10 @@ public class CommentService {
         Comment comment = mapToComment(replyComment, account, parentComment.getPost());
         comment.setParent(parentComment);
         return save(comment);
+    }
+
+    public Page<ICommentResponseDto> findUpvoted(Long userId, Long accountId, Pageable pageable) {
+        return commentRepository.findUpvoted(userId, accountId, pageable);
     }
 
     public Comment create(CommentCreate commentCreate, Post post, Account account) {
@@ -89,8 +94,8 @@ public class CommentService {
         return save(comment);
     }
 
-    public Page<Comment> findByAccountUsername(String username, Pageable pageable) {
-        return commentRepository.findByAccountUsername(username, pageable);
+    public Page<ICommentResponseDto> findByAccountUsername(String username, Long accountId, Pageable pageable) {
+        return commentRepository.findByAccount(username, accountId, pageable);
     }
 
     public List<Comment> findByPostId(Long id) {
