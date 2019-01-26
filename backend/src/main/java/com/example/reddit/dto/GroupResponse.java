@@ -5,6 +5,7 @@ import com.example.reddit.model.Account;
 import com.example.reddit.model.Group;
 
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,6 +59,9 @@ public class GroupResponse {
         logo = dto.getLogo();
         isDefault = dto.getIsDefault();
         postCount = dto.getPostCount() != null ? dto.getPostCount() : 0;
+        if (dto.getPostTypes() != null) {
+            postTypes = Arrays.stream(dto.getPostTypes().split(",")).map(PostType::valueOf).collect(Collectors.toList());
+        }
         this.groupStatus = dto.getGroupStatus();
     }
 

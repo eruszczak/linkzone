@@ -15,25 +15,27 @@ import java.util.Optional;
 
 public interface GroupRepository extends JpaRepository<Group, Long> {
 
-    String SElECT_PART = "SELECT g.id as id, g.name as name, g.description as description, g.banner_url as bannerUrl, g.created_at as createdAt, g.logo as logo, g.is_default as isDefault,";
+    String SElECT_PART = "SELECT g.id as id, g.name as name, g.description as description, g.banner_url as bannerUrl, g.created_at as createdAt, g.logo as logo, g.is_default as isDefault,\n";
     String COUNTS_PART = "(SELECT COUNT(*) FROM group_membership gm WHERE gm.group_id = g.id) as subscribers,\n" +
             "(SELECT COUNT(*) FROM group_membership gm WHERE gm.group_id = g.id AND gm.user_id = :requestUserId) as isSubbed\n";
 
-    @Query(value = SElECT_PART +
+    @Query(value = SElECT_PART + " x.postTypes as postTypes," +
             " (SELECT COUNT(*) FROM group_membership gm WHERE gm.group_id = g.id) as subscribers," +
             " (SELECT COUNT(*) FROM group_membership gm WHERE gm.group_id = g.id AND gm.user_id = :userId) as isSubbed" +
             " FROM group_tbl g" +
+            " LEFT JOIN (SELECT t.group_id, GROUP_CONCAT(t.post_type) AS postTypes FROM tbl_post_type t GROUP BY t.group_id) x ON x.group_id = g.id\n" +
             " WHERE lower(g.name) LIKE lower(:query)" +
             " ORDER BY subscribers DESC, isSubbed DESC LIMIT ?#{#pageable.offset},?#{#pageable.pageSize}",
             nativeQuery = true,
             countQuery = "SELECT COUNT(*) FROM group_tbl g WHERE lower(g.name) LIKE lower(:query)")
     Page<IGroupResponseDto> search(@Param("query") String query, @Param("userId") Long userId, @Param("pageable") Pageable pageable);
 
-    @Query(value = SElECT_PART +
+    @Query(value = SElECT_PART + " x.postTypes as postTypes," +
             " (SELECT COUNT(*) FROM posts p WHERE p.group_id = g.id) as postCount," +
             " (SELECT COUNT(*) FROM group_membership gm WHERE gm.group_id = g.id) as subscribers," +
             " (SELECT COUNT(*) FROM group_membership gm WHERE gm.group_id = g.id AND gm.user_id = :userId) as isSubbed" +
-            " FROM group_tbl g" +
+            " FROM group_tbl g\n" +
+            " LEFT JOIN (SELECT t.group_id, GROUP_CONCAT(t.post_type) AS postTypes FROM tbl_post_type t GROUP BY t.group_id) x ON x.group_id = g.id\n" +
             " WHERE lower(g.name) = lower(:query);",
             nativeQuery = true)
     Optional<IGroupResponseDto> findDtoByName(@Param("query") String query, @Param("userId") Long userId);

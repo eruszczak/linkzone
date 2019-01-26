@@ -114,9 +114,12 @@
                 }
             }
         },
+        // watch: {
+        //      groupPostTypes(newVal) {
+        //         this.selectedTab = TABS_REV[this.groupPostTypes[0]]
+        //      }
+        // },
         mounted() {
-                console.log(this.groupPostTypes, this.post)
-
             if (this.post) {
                 this.selectedTab = TABS_REV[this.post.type];
                 const form = this.getCurrentForm();
@@ -127,7 +130,6 @@
                 }
                 this.postLocked = this.post.locked;
             } else if (this.groupPostTypes) {
-                console.log('here')
                 this.selectedTab = TABS_REV[this.groupPostTypes[0]]
             }
         },
