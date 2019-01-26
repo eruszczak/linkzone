@@ -114,11 +114,6 @@
                 }
             }
         },
-        // watch: {
-        //      groupPostTypes(newVal) {
-        //         this.selectedTab = TABS_REV[this.groupPostTypes[0]]
-        //      }
-        // },
         mounted() {
             if (this.post) {
                 this.selectedTab = TABS_REV[this.post.type];

@@ -1,13 +1,10 @@
 <template>
-    <section>
+    <section style="color:black" @click="clicked" :style="{cursor: preventRouter || !link ? 'default': 'pointer'}">
         <small style="display: flex;flex-direction: row;">{{'posts.added-by' | t}} <router-link style="margin: 0 3px" :to="{name: 'userProfileView', params: {username: post.author}}">{{post.author}}</router-link> {{'posts.in' | t}} <span style="margin: 0 5px" class="image is-24x24"><img class="is-rounded" :src="$groupService.getLogoUrl({logo: post.groupLogo, name: post.groupName})"></span> <router-link :to="{name: 'groupDetailView', params: {name: post.groupName}}">{{post.groupName}}</router-link>, {{post.createdAt | since}}</small>
         <p class="title is-4" style="margin-top:15px">
-            <router-link v-if="link" :to="{name: 'postView', params: {name: post.groupName, postID: post.id, slug: post.slug}}">{{post.title}}</router-link>
+            <span v-if="post.type === POST_TYPES.LINK" @click="clicked2" style="cursor: pointer; color: #3273dc;">{{post.title}}</span>
             <span v-else>{{post.title}}</span>
         </p>
-        <!-- <h2 class="subtitle">
-            A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading
-        </h2> -->
         <div class="content ml-4">
             <div v-if="post.type === POST_TYPES.POST">
                 <vue-markdown :anchorAttributes="{target: '_blank', rel: 'nofollow'}" :source="post.content"></vue-markdown>
@@ -18,7 +15,7 @@
             <div v-else-if="post.type === POST_TYPES.LINK">
                 <image-fade v-if="checkIfImageUrl(post.content)" :src="post.content"></image-fade>
                 <iframe v-else-if="getYoutubeId(post.content)" width="100%" height="500px" :src="`//www.youtube.com/embed/${getYoutubeId(post.content)}`" frameborder="0" allowfullscreen></iframe>
-                <p v-else>{{post.content}}</p>
+                <!-- <p v-else>{{post.content}}</p> -->
             </div>
         </div>
         <a class="button is-small" @click="upvote"><b-icon :type="getUpvoteColor(post, true)" icon="arrow-up"></b-icon></a>
@@ -35,7 +32,7 @@
     import VueMarkdown from 'vue-markdown'
     import {checkIfImageUrl, getUpvoteColor, getYoutubeId} from "../../utils/utils";
     import ImageFade from '../includes/ImageFade'
-
+    import debounce from 'lodash/debounce'
 
     export default {
         name: "Post",
@@ -50,12 +47,10 @@
                 default: false
             },
         },
-        computed: {
-            
-        },
         data() {
             return {
-                POST_TYPES
+                POST_TYPES,
+                preventRouter: false
             }
         },
         methods: {
@@ -63,6 +58,7 @@
             checkIfImageUrl: checkIfImageUrl,
             getUpvoteColor: getUpvoteColor,
             upvote() {
+                this.preventRouter = true;
                 if (this.post.isUpvoted === 1) {
                     this.clear();
                     return;
@@ -70,9 +66,12 @@
                 this.$postService.upvote(this.post.id, ({data}) => {
                     this.post.isUpvoted = 1;
                     this.post.upvotedCount = data.counter;
+                    this.preventRouter = false;
                 });
             },
             downvote() {
+                console.log('downvote')
+                this.preventRouter = true;
                 if (this.post.isUpvoted === -1) {
                     this.clear();
                     return;
@@ -80,13 +79,34 @@
                 this.$postService.downvote(this.post.id, ({data}) => {
                     this.post.isUpvoted = -1;
                     this.post.upvotedCount = data.counter;
+                    this.preventRouter = false;
                 });
             },
             clear() {
                 this.$postService.clearVote(this.post.id, ({data}) => {
                     this.post.isUpvoted = null;
                     this.post.upvotedCount = data.counter;
+                    this.preventRouter = false;
                 });
+            },
+            clicked: debounce(function (text) {
+                this._clicked(text);
+            }, 500),
+            _clicked: function(e) {
+                if (this.preventRouter || !this.link) {
+                    e.preventDefault();
+                    return;
+                }
+                this.$router.push({name: 'postView', params: {name: this.post.groupName, postID: this.post.id, slug: this.post.slug}})
+            },
+            clicked2: function(e) {
+                if (this.preventRouter || !this.link) {
+                    e.preventDefault();
+                    return;
+                }
+                this.preventRouter = true;
+                Object.assign(document.createElement('a'), { target: '_blank', href: this.post.content}).click();
+                this.preventRouter = false;
             }
         }
     }
