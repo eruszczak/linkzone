@@ -12,7 +12,7 @@ public class ValidationErrorBuilder {
             errorResponse.addFieldError(err.getField(), err.getDefaultMessage());
         }
         for (final ObjectError err : errors.getGlobalErrors()) {
-            errorResponse.addError(err.getObjectName() + ": " + err.getDefaultMessage());
+            errorResponse.addError(err.getDefaultMessage());
         }
         return errorResponse;
     }

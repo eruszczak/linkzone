@@ -6,19 +6,23 @@ export const getPaginationFromResponse = response => {
         currentPage: response.number + 1,
     }
 };
+
 export const PAGINATION = {
     page: 'page',
     perPage: 'size'
 };
+
 export const buildPaginationQueryString = (page, perPage) => {
     page = page || 0;
-    perPage = perPage || 5;
+    perPage = perPage || 10;
     return `?${PAGINATION.page}=${page}&${PAGINATION.perPage}=${perPage}`;
 };
+
 export const getRelativeUrl = url => {
     const parts = getUrlParts(url);
     return parts.pathname + parts.search + parts.hash
 };
+
 export const getUrlParts = url => {
     let a = document.createElement('a');
     a.href = url;
