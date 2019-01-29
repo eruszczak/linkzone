@@ -25,7 +25,8 @@
                         <router-link :to="{name: 'registerView'}">{{'loginView.register' | t}}</router-link>
                     </p>
                     <br><br>
-                    <button class="button is-small" @click="form.usernameOrEmail = 'admin'; form.password = 'password'; login()">admin</button>
+
+                    <button v-for="username in users" :key="username" style="margin-right:5px" class="button is-small" @click="form.usernameOrEmail = username; form.password = 'password'; login()">{{username}}</button>
                 </div>
             </div>
         </div>
@@ -44,11 +45,15 @@
                     usernameOrEmail: '',
                     password: '',
                 },
-                triedToSubmit: false
+                triedToSubmit: false,
+                users: []
             }
         },
         created() {
             this.$toggleLoading(false);
+            this.$userService.getUsernames(({data}) => {
+                this.users = data;
+            })
         },
         methods: {
             login() {

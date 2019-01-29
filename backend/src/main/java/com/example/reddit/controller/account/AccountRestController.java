@@ -31,6 +31,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/users")
@@ -128,6 +130,12 @@ public class AccountRestController {
     @GetMapping(value = "/{username}/stats")
     public IAccountStatsDto stats(@PathVariable String username) {
         return accountService.calculateStats(accountService.findByUsername(username).getId());
+    }
+
+    @GetMapping(value = "/list")
+    public List<String> getUsernames() {
+        return accountService.findAll()
+                .stream().map(account -> account.getUsername()).collect(Collectors.toList());
     }
 
     @PutMapping(value = "/{username}")

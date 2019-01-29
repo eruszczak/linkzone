@@ -76,8 +76,8 @@
 
                     <div class="column is-8 is-offset-2">
                         <b-tabs v-model="activeTab2" size="is-small" position="is-centered" @change="changeSwitch">
-                            <b-tab-item :label="$t('profile.is-subscribed-false')" icon="checkbox-marked"></b-tab-item>
-                            <b-tab-item :label="$t('profile.is-subscribed-true')" icon="comment-check"></b-tab-item>
+                            <b-tab-item :label="$t('profile.is-subscribed-false')"></b-tab-item>
+                            <b-tab-item :label="$t('profile.is-subscribed-true')"></b-tab-item>
                         </b-tabs>
                         <group-list :groups="isSubscribedGroups ? subscribedGroups : groups"></group-list>
                     </div>

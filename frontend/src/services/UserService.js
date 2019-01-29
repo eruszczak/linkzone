@@ -54,6 +54,10 @@ export default class UserService {
         axios.post('/users/', data).then(cb).catch(cbError);
     };
 
+    getUsernames = (cb, cbError) => {
+        axios.get('/users/list/').then(cb).catch(cbError);
+    };
+
     checkUsername = (username, cb, cbError) => {
         axios.get(`/users/checkUsername/${username}/`).then(cb);
     };
