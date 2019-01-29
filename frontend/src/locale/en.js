@@ -49,10 +49,14 @@ export default {
         "upvoted-comments": "Upvoted comments",
         "posts": "Posts",
         "comments": "Comments",
+        "moderated-groups": "Moderated groups",
+        "administrated-groups": "Administrated groups",
         "groups": "Groups",
         "stat-posts": "Posts",
-        "stat-comments": "Komentarze",
-        "stat-points": "Points"
+        "stat-comments": "Comments",
+        "stat-points": "Points",
+        "is-subscribed-true": "Subscribed",
+        "is-subscribed-false": "Managed"
     },
     "posts": {
         "empty": "No posts found",
@@ -165,5 +169,6 @@ export default {
     "creator": "Creator",
     "mod": "Moderator",
     "group-default": "Default group",
-    "no_spaces": "Field cannot contain spaces"
+    "no_spaces": "Field cannot contain spaces",
+    "404": "Resource not found"
 }
