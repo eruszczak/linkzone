@@ -106,10 +106,7 @@
     import {getPaginationFromResponse} from '../../utils/utils';
     import SubToggler from './SubToggler';
     import Moderator from './Moderator'
-
-    const POST_TYPES = {
-        POST: 'POST', MEDIA: 'MEDIA', LINK: 'LINK'
-    };
+    import {POST_TYPES} from "../../services/PostService";
 
     export default {
         name: 'GroupDetailView',
@@ -123,7 +120,7 @@
                 group: null,
                 posts: [],
                 pagination: {},
-                POST_TYPES: POST_TYPES,
+                POST_TYPES,
                 admins: [],
                 mods: []
             }

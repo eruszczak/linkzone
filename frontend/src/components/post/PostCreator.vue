@@ -94,7 +94,7 @@
         data() {
             return {
                 POST_TYPES,
-                selectedTab: 0,
+                selectedTab: null,
                 triedToSubmit: false,
                 filename: null,
                 postLocked: false,
@@ -125,7 +125,14 @@
                 }
                 this.postLocked = this.post.locked;
             } else if (this.groupPostTypes) {
-                this.selectedTab = TABS_REV[this.groupPostTypes[0]]
+                for (const type of [POST_TYPES.POST, POST_TYPES.MEDIA, POST_TYPES.LINK]) {
+                    console.log(type, this.groupPostTypes)
+                    if (this.groupPostTypes.indexOf(type) > -1) {
+                        this.selectedTab = TABS_REV[type];
+                        break;
+                    }
+                }
+                // this.selectedTab = TABS_REV[this.groupPostTypes[0]]
             }
         },
         methods: {

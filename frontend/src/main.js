@@ -43,7 +43,7 @@ Vue.filter('since', str => moment(str).fromNow());
 Vue.filter('t', value => i18n.t(value));
 
 Vue.prototype.$translate = (val) => i18n.t(val);
-Vue.prototype.$toggleLoading = (val) => { store.commit('toggleLoading', val); scrollToTop() }
+Vue.prototype.$toggleLoading = (val) => { store.commit('toggleLoading', val); }
 Vue.prototype.$success = (msg, args) => { showToast(msg, 'is-success', args); }
 Vue.prototype.$danger = (msg, args) => { showToast(msg, 'is-danger', args); }
 Vue.prototype.$info = (msg, args) => { showToast(msg, 'is-info', args); }

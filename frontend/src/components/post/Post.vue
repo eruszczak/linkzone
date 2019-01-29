@@ -1,13 +1,14 @@
 <template>
-    <section style="color:black" @click.self="clicked" :style="{cursor: !link ? 'default': 'pointer'}">
+    <section style="color:black" @click="clicked" :style="{cursor: !link ? 'default': 'pointer'}">
         <small style="display: flex;flex-direction: row;">{{'posts.added-by' | t}} <router-link style="margin: 0 3px" :to="{name: 'userProfileView', params: {username: post.author}}">{{post.author}}</router-link> {{'posts.in' | t}} <span style="margin: 0 5px" class="image is-24x24"><img class="is-rounded" :src="$groupService.getLogoUrl({logo: post.groupLogo, name: post.groupName})"></span> <router-link :to="{name: 'groupDetailView', params: {name: post.groupName}}">{{post.groupName}}</router-link>, {{post.createdAt | since}}</small>
         <p class="title is-4" style="margin-top:15px">
             <span v-if="post.type === POST_TYPES.LINK" @click="openInTab(post.content)" style="cursor: pointer; color: #3273dc;">
                 {{post.title}}
-                <p @click="openInTab(post.content)" style="cursor: pointer; color: #3273dc;font-size: 12px;font-weight:normal;padding-top:5px">{{truncate(stripUrl(post.content), {length: 30})}}</p>
+                <p @click.stop="openInTab(post.content)" style="cursor: pointer; color: #3273dc;font-size: 12px;font-weight:normal;padding-top:5px">{{truncate(stripUrl(post.content), {length: 30})}}</p>
             </span>
             <span v-else>{{post.title}}</span>
         </p>
+        <hr/>
         <div class="content ml-4">
             <div v-if="post.type === POST_TYPES.POST">
                 <vue-markdown :anchorAttributes="{target: '_blank', rel: 'nofollow'}" :source="post.content"></vue-markdown>
@@ -20,9 +21,9 @@
                 <iframe v-else-if="getYoutubeId(post.content)" width="100%" height="500px" :src="`//www.youtube.com/embed/${getYoutubeId(post.content)}`" frameborder="0" allowfullscreen></iframe>
             </div>
         </div>
-        <a class="button is-small" @click="upvote"><b-icon :type="getUpvoteColor(post, true)" icon="arrow-up"></b-icon></a>
+        <a class="button is-small" @click.stop="upvote"><b-icon :type="getUpvoteColor(post, true)" icon="arrow-up"></b-icon></a>
         <b-tag type="is-white">{{post.upvotedCount || 0}}</b-tag>
-        <a class="button is-small" @click="downvote"><b-icon :type="getUpvoteColor(post, false)" icon="arrow-down"></b-icon></a>
+        <a class="button is-small" @click.stop="downvote"><b-icon :type="getUpvoteColor(post, false)" icon="arrow-down"></b-icon></a>
         <span class="ml-2" v-if="link"><span v-if="post.commentCount">{{post.commentCount}} {{'posts.comments'| t}}</span><span v-else>{{'comments.no-comments'|t}}</span></span>
     </section>
 </template>

@@ -171,5 +171,6 @@ export default {
     "creator": "Twórca",
     "mod": "Moderator",
     "group-default": "Grupa domyślna",
-    "no_spaces": "Pole nie może zawierać spacji"
+    "no_spaces": "Pole nie może zawierać spacji",
+    "404": "Zasób nieznaleziony"
 }

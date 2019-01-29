@@ -1,6 +1,7 @@
 import {store} from '../store/index'
 import axios from 'axios'
 import Vue from 'vue'
+import router from '../router';
 
 axios.interceptors.request.use((config) => {
     config.headers.common = {
@@ -20,6 +21,11 @@ axios.interceptors.response.use((response) => {
         Vue.prototype.$userService.forceLoginIfNotLoggedIn();
     } else if (response.status === 403) {
         Vue.prototype.$danger(Vue.prototype.$translate('forbidden'));
+    } else if (response.status === 404) {
+        if (response.data.errors && response.data.errors.indexOf("bad_credentials") === -1) {
+            router.replace('/');
+            Vue.prototype.$danger(Vue.prototype.$translate('404'));
+        }
     }
     return Promise.reject(response);
 });

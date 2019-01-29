@@ -228,7 +228,7 @@
             removeGroup() {
                 this.$groupService.delete(this.group.name, () => {
                     this.$router.push({path: '/'});
-                    this.$danger('removed-group');
+                    this.$danger('groups.removed-group');
                 });
             },
             handleFormDataLogo($event) {
