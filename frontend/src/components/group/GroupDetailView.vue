@@ -113,7 +113,7 @@
         props: ['name'],
         components: {Pagination, PostList, SubToggler, Moderator},
         mounted() {
-            this.init()
+            this.init();
         },
         data() {
             return {
@@ -127,7 +127,7 @@
         },
         watch: {
             '$route'(to, from) {
-                this.init()
+                this.init();
             },
         },
         methods: {

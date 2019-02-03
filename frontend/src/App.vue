@@ -55,6 +55,9 @@
         padding: 0!important;
     }
 
+    .link {
+        cursor: pointer; color: #3273dc;
+    }
 
     .fade-enter-active, .fade-leave-active {
         transition-duration: 0.3s;

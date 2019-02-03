@@ -4,7 +4,7 @@
             <nav class="breadcrumb" aria-label="breadcrumbs">
                 <ul>
                     <li><router-link :to="{name: 'groupDetailView', params: {name: post.groupName}}">{{post.groupName}}</router-link></li>
-                    <li class="is-active"><a href="#" aria-current="page">{{post.title}}</a></li>
+                    <li class="is-active"><a href="#" aria-current="page">{{truncate(post.title, {length: 30})}}</a></li>
                 </ul>
             </nav>
 
@@ -37,6 +37,7 @@
     import {checkIfImageUrl, getYoutubeId, prepareComment} from "../../utils/utils";
     import NewComment from './NewComment';
     import Moderator from '../group/Moderator';
+    import {truncate} from 'lodash';
 
     export default {
         name: 'PostView',
@@ -81,6 +82,7 @@
             this.loadMoreComments();
         },
         methods: {
+            truncate: truncate,
             checkIfImageUrl: checkIfImageUrl,
             getYoutubeId: getYoutubeId,
             confirmDelete() {

@@ -1,10 +1,13 @@
 <template>
     <section style="color:black" @click="clicked" :style="{cursor: !link ? 'default': 'pointer'}">
-        <small style="display: flex;flex-direction: row;">{{'posts.added-by' | t}} <router-link style="margin: 0 3px" :to="{name: 'userProfileView', params: {username: post.author}}">{{post.author}}</router-link> {{'posts.in' | t}} <span style="margin: 0 5px" class="image is-24x24"><img class="is-rounded" :src="$groupService.getLogoUrl({logo: post.groupLogo, name: post.groupName})"></span> <router-link :to="{name: 'groupDetailView', params: {name: post.groupName}}">{{post.groupName}}</router-link>, {{post.createdAt | since}}</small>
+        <small style="display: flex;flex-direction: row;">{{'posts.added-by' | t}}
+            <a @click.stop="$router.push({name: 'userProfileView', params: {username: post.author}})" style="margin: 0 3px">{{post.author}}</a>
+            {{'posts.in' | t}} <span style="margin: 0 5px" class="image is-24x24"><img class="is-rounded" :src="$groupService.getLogoUrl({logo: post.groupLogo, name: post.groupName})"></span>
+            <a @click.stop="$router.push({name: 'groupDetailView', params: {name: post.groupName}})">{{post.groupName}}</a>, {{post.createdAt | since}}</small>
         <p class="title is-4" style="margin-top:15px">
-            <span v-if="post.type === POST_TYPES.LINK" @click="openInTab(post.content)" style="cursor: pointer; color: #3273dc;">
-                {{post.title}}
-                <p @click.stop="openInTab(post.content)" style="cursor: pointer; color: #3273dc;font-size: 12px;font-weight:normal;padding-top:5px">{{truncate(stripUrl(post.content), {length: 30})}}</p>
+            <span v-if="post.type === POST_TYPES.LINK" @click="openInTab(post.content)" class="link">
+                {{post.title}}  
+                <p @click.stop="openInTab(post.content)" class="link" style="font-weight:normal;padding-top:5px">{{truncate(stripUrl(post.content), {length: 30})}}</p>
             </span>
             <span v-else>{{post.title}}</span>
         </p>

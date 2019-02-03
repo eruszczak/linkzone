@@ -14,7 +14,7 @@ export const PAGINATION = {
 
 export const buildPaginationQueryString = (page, perPage) => {
     page = page || 0;
-    perPage = perPage || 10;
+    perPage = perPage || 5;
     return `?${PAGINATION.page}=${page}&${PAGINATION.perPage}=${perPage}`;
 };
 

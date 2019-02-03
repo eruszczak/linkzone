@@ -31,7 +31,7 @@ const router = new Router({
         {name: 'groupDetailView', path: '/groups/:name', component: GroupDetailView, props: true},
         {name: 'groupEditView', path: '/groups/:name/update', component: GroupEditView, meta: {requiresAuth: true}, props: true},
         {name: 'postCreateView', path: '/add/post/:groupName?', component: PostCreateView, meta: {requiresAuth: true}, props: true},
-        {name: 'postView',path: '/groups/:name/:postID/:slug', component: PostView, props: true},
+        {name: 'postView', path: '/groups/:name/:postID/:slug', component: PostView, props: true},
         {name: 'postUpdateView',path: '/post/:id/update', component: PostUpdateView, meta: {requiresAuth: true}, props: true},
         {name: 'groupCreateView', path: '/add/group', meta: {requiresAuth: true}, component: GroupCreateView},
         {name: 'userProfileView', path: '/user/:username', component: UserProfileView, props: true},
