@@ -3,7 +3,6 @@ package com.example.reddit.permissions.checker;
 import com.example.reddit.model.Account;
 import com.example.reddit.permissions.RoleName;
 import org.springframework.security.core.GrantedAuthority;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public abstract class PermissionChecker {
 
@@ -14,7 +13,7 @@ public abstract class PermissionChecker {
     }
 
     public boolean canRead() {
-        throw new NotImplementedException();
+        throw new RuntimeException();
     }
 
     abstract public boolean canUpdate();

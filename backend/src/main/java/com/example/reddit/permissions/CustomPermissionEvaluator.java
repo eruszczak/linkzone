@@ -8,7 +8,6 @@ import com.example.reddit.permissions.checker.*;
 import com.example.reddit.security.UserPrincipal;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.Serializable;
 
@@ -32,7 +31,7 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
             case Permissions.MANAGE:
                 return permissionChecker.canManage();
         }
-        throw new NotImplementedException();
+        throw new RuntimeException();
     }
 
     @Override
@@ -61,6 +60,6 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
         } else if (object instanceof Account) {
             return new AccountPermissionChecker(account, (Account) object);
         }
-        throw new NotImplementedException();
+        throw new RuntimeException();
     }
 }
