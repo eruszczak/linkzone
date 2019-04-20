@@ -1,6 +1,6 @@
 .DS_Store
 node_modules
-/dist
+**/dist
 
 # local env files
 .env.local
@@ -29,6 +29,7 @@ yarn-error.log*
 /backend/.mvn/
 /backend/public/
 /backend/uploads/
+
 
 ### STS ###
 .apt_generated
