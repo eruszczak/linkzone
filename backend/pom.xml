@@ -3,12 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>pl.reryk</groupId>
-	<artifactId>linkzone</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<groupId>pl.reryk.linkzone</groupId>
+	<artifactId>backend</artifactId>
+	<version>0.1</version>
 	<packaging>jar</packaging>
-
-	<name>linkzone</name>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -21,7 +19,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-        <docker.image.prefix>reryk</docker.image.prefix>
     </properties>
 
 	<dependencies>
@@ -142,10 +139,11 @@
 			<artifactId>activation</artifactId>
 			<version>1.1.1</version>
 		</dependency>
-
     </dependencies>
 
 	<build>
+		<finalName>final</finalName>
+<!--		<finalName>${project.artifactId}:${project.version}</finalName>-->
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -157,18 +155,25 @@
 				<artifactId>dockerfile-maven-plugin</artifactId>
 				<version>1.4.9</version>
 				<configuration>
-					<repository>${docker.image.prefix}/${project.artifactId}</repository>
+					<repository>reryk/linkzone-backend</repository>
 					<tag>${project.version}</tag>
 				</configuration>
 				<executions>
 					<execution>
-						<id>default</id>
+						<id>install</id>
 						<phase>install</phase>
 						<goals>
 							<goal>build</goal>
-							<goal>push</goal>
+<!--							<goal>push</goal>-->
 						</goals>
 					</execution>
+<!--					<execution>-->
+<!--						<id>deploy</id>-->
+<!--						<phase>deploy</phase>-->
+<!--						<goals>-->
+<!--							<goal>push</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
 				</executions>
 			</plugin>
 			<plugin>

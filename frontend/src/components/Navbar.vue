@@ -61,7 +61,7 @@
             </div>
 
             <div class="navbar-end">
-                <a href="https://github.com/reryk/reddit-clone" target="_blank" class="navbar-item mr-2">
+                <a href="https://github.com/reryk/linkzone" target="_blank" class="navbar-item mr-2">
                     <b-icon icon="github-circle"></b-icon>
                 </a>
                 <div class="navbar-item has-dropdown is-hoverable" v-if="selectedLanguage">
