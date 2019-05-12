@@ -1,7 +1,7 @@
 server {
-    listen 3000;
-    server_name localhost;
-    root /home/eryk/Documents/linkzone/frontend/dist;
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    root /usr/share/nginx/html;
     client_max_body_size 4M;
 
     location /static/ {

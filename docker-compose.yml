@@ -1,19 +1,7 @@
 version: "3"
 services:
-#  nginx:
-#    container_name: some-nginx
-#    image: nginx:1.13
-#    restart: always
-#    ports:
-#      - 80:80
-#      - 443:443
-#    volumes:
-#      - ./nginx/conf.d:/etc/nginx/conf.d
-#    depends_on:
-#      - backend
-
   database:
-    container_name: mysql
+    container_name: linkzone-database-service
     image: mysql/mysql-server:5.7
     volumes:
       - /opt/mysql1:/var/lib/mysql
@@ -22,49 +10,35 @@ services:
       MYSQL_USER: root
       MYSQL_ROOT_PASSWORD: root
       MYSQL_ROOT_HOST: '%'
-    ports:
-      - "3306:3306"
-#    restart: always
-
-#  frontend:
-#    build: ./frontend
-#    working_dir: /app
-#    volumes:
-#      - ./app:/app
-#    ports:
-#      - 9000:80
-#    restart: always
-#    depends_on:
-#      - backend
-#    links:
-#      - backend
+    expose:
+      - 3306
 
   backend:
-    container_name: backend
-#    restart: always
-#    image: reryk/linkzone-backend:0.1
+    image: linkzone-backend-service:latest
+    container_name: linkzone-backend-service
     build: ./backend
-#    environment:
-#      VIRTUAL_HOST: api.linkzone.pl
-    #    working_dir: /app
-#    volumes:
-#      - ./backend/src:/app
-#      - ~/.m2:/root/.m2
+    volumes:
+      - ~/.m2:/root/.m2
     expose:
       - 8080
     ports:
       - 9001:8080
-#    command: mvn clean spring-boot:run
     depends_on:
       - database
     links:
       - database
 
-
-#volumes:
-#  db_data:
-
-#networks:
-#  default:
-#    external:
-#      name: nginx-proxy
+  frontend:
+    image: linkzone-frontend-service:latest
+    container_name: linkzone-frontend-service
+    build: ./frontend
+    working_dir: /app
+    volumes:
+      - ./app:/app
+    ports:
+      - 9000:80
+    restart: always
+    depends_on:
+      - backend
+    links:
+      - backend
