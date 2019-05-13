@@ -7,25 +7,17 @@ variables:
   SPRING_PROFILES_ACTIVE: gitlab-ci
 
 stages:
-#  - build
+  - build
   - test
 #  - deploy
 
-maven-test:
+maven-build:
   image: maven:3-jdk-8
   stage: build
-  script: "mvn test"
+  script: "mvn package -B"
   artifacts:
     paths:
       - target/*.jar
-
-#maven-build:
-#  image: maven:3-jdk-8
-#  stage: build
-#  script: "mvn package -B"
-#  artifacts:
-#    paths:
-#      - target/*.jar
 
 #build:
 #  stage: build
