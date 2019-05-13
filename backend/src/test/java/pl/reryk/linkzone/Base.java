@@ -1,5 +1,6 @@
 package pl.reryk.linkzone;
 
+import org.junit.Ignore;
 import pl.reryk.linkzone.dto.AccountCreate;
 import pl.reryk.linkzone.dto.CommentCreate;
 import pl.reryk.linkzone.dto.PostCreate;
@@ -35,6 +36,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration
 //@WebAppConfiguration
+@Ignore
 public class Base {
 
     protected static boolean setUpIsDone = false;

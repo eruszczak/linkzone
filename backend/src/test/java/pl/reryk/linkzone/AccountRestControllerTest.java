@@ -1,5 +1,6 @@
 package pl.reryk.linkzone;
 
+import org.junit.Ignore;
 import pl.reryk.linkzone.dto.AccountCreate;
 import pl.reryk.linkzone.exception.EmailTakenException;
 import pl.reryk.linkzone.exception.NoPermissionsException;
@@ -26,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 @WebAppConfiguration
+@Ignore
 public class AccountRestControllerTest extends Base {
 
     @Test

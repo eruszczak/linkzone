@@ -1,5 +1,6 @@
 package pl.reryk.linkzone;
 
+import org.junit.Ignore;
 import pl.reryk.linkzone.dto.GroupCreate;
 import pl.reryk.linkzone.exception.AlreadyExistsException;
 import pl.reryk.linkzone.exception.NotFoundException;
@@ -22,6 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 @WebAppConfiguration
+@Ignore
 public class GroupControllerTest extends Base {
 
     @Test

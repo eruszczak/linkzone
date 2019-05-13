@@ -1,5 +1,6 @@
 package pl.reryk.linkzone;
 
+import org.junit.Ignore;
 import pl.reryk.linkzone.dto.CommentCreate;
 import pl.reryk.linkzone.dto.PostCreate;
 import pl.reryk.linkzone.model.Account;
@@ -21,6 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
 @WebAppConfiguration
+@Ignore
 public class PermissionsTest extends Base {
 
     // GROUPS
