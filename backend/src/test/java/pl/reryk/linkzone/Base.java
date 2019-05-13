@@ -4,10 +4,7 @@ import org.junit.Ignore;
 import pl.reryk.linkzone.dto.AccountCreate;
 import pl.reryk.linkzone.dto.CommentCreate;
 import pl.reryk.linkzone.dto.PostCreate;
-import pl.reryk.linkzone.model.Account;
-import pl.reryk.linkzone.model.Comment;
-import pl.reryk.linkzone.model.Group;
-import pl.reryk.linkzone.model.Post;
+import pl.reryk.linkzone.model.*;
 import pl.reryk.linkzone.security.JwtTokenProvider;
 import com.jayway.jsonpath.JsonPath;
 import org.json.JSONObject;
@@ -36,7 +33,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration
 //@WebAppConfiguration
-@Ignore
+//@Ignore
 public class Base {
 
     protected static boolean setUpIsDone = false;
@@ -60,6 +57,7 @@ public class Base {
     protected MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),
             Charset.forName("utf8"));
+//    @Autowired
     protected MockMvc mockMvc;
     protected String token;
     @Autowired
@@ -104,7 +102,7 @@ public class Base {
         PostCreate postCreate = new PostCreate();
         postCreate.setTitle("weqeqw");
         postCreate.setContent("dasqweq");
-//        post = postService.create(postCreate, group, account);
+        post = postService.create(postCreate, group, account, PostType.POST);
 
         CommentCreate commentCreate = new CommentCreate();
         commentCreate.setContent("dseqwewq");
@@ -129,7 +127,7 @@ public class Base {
     }
 
     protected MvcResult login(JSONObject json) throws Exception {
-        return mockMvc.perform(post("/users" + "/login")
+        return mockMvc.perform(post("/api/users/login/")
                 .contentType(contentType)
                 .content(json.toString()))
                 .andExpect(status().isOk())

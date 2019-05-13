@@ -43,7 +43,7 @@ public class Application {
                            AccountRepository accountRepository,
                            PostUpvoteRepository postUpvoteRepository,
                            CommentUpvoteRepository commentUpvoteRepository,
-                           @Value("${spring.jpa.hibernate.ddl-auto}") String update) {
+                           @Value("${spring.jpa.hibernate.ddl-auto:none}") String update) {
         return (evt) -> {
             boolean runInit = !update.equals("update");
             if (runInit) {
