@@ -1,11 +1,5 @@
 package pl.reryk.linkzone;
 
-import org.junit.Ignore;
-import pl.reryk.linkzone.dto.AccountCreate;
-import pl.reryk.linkzone.dto.CommentCreate;
-import pl.reryk.linkzone.dto.PostCreate;
-import pl.reryk.linkzone.model.*;
-import pl.reryk.linkzone.security.JwtTokenProvider;
 import com.jayway.jsonpath.JsonPath;
 import org.json.JSONObject;
 import org.junit.After;
@@ -17,6 +11,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.context.WebApplicationContext;
+import pl.reryk.linkzone.dto.AccountCreate;
+import pl.reryk.linkzone.model.Account;
+import pl.reryk.linkzone.model.Comment;
+import pl.reryk.linkzone.model.Group;
+import pl.reryk.linkzone.model.Post;
+import pl.reryk.linkzone.security.JwtTokenProvider;
 import pl.reryk.linkzone.service.*;
 
 import java.io.UnsupportedEncodingException;
@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 //@ContextConfiguration
 //@WebAppConfiguration
 //@Ignore
-public class Base {
+public abstract class Base {
 
     protected static boolean setUpIsDone = false;
     protected final String userName = "admin11";
@@ -57,9 +57,12 @@ public class Base {
     protected MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(),
             Charset.forName("utf8"));
+
 //    @Autowired
     protected MockMvc mockMvc;
+
     protected String token;
+
     @Autowired
     protected AccountService accountService;
     @Autowired
@@ -96,19 +99,19 @@ public class Base {
         testGroup.setName(groupName);
         testGroup.setCreator(account);
 //        testGroup.addAdministrator(user3);
-        group = groupService.save(testGroup);
+//        group = groupService.save(testGroup);
         System.out.println("SETUP");
 
-        PostCreate postCreate = new PostCreate();
-        postCreate.setTitle("weqeqw");
-        postCreate.setContent("dasqweq");
-        post = postService.create(postCreate, group, account, PostType.POST);
+//        PostCreate postCreate = new PostCreate();
+//        postCreate.setTitle("weqeqw");
+//        postCreate.setContent("dasqweq");
+//        post = postService.create(postCreate, group, account, PostType.POST);
+//
+//        CommentCreate commentCreate = new CommentCreate();
+//        commentCreate.setContent("dseqwewq");
+//        comment = commentService.create(commentCreate, post, account);
 
-        CommentCreate commentCreate = new CommentCreate();
-        commentCreate.setContent("dseqwewq");
-        comment = commentService.create(commentCreate, post, account);
-
-//        runOnlyOnce();
+        runOnlyOnce();
     }
 
     @After

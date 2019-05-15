@@ -1,22 +1,7 @@
 package pl.reryk.linkzone.controller.account;
 
-import pl.reryk.linkzone.dto.*;
-import pl.reryk.linkzone.exception.*;
-import pl.reryk.linkzone.model.Account;
-import pl.reryk.linkzone.resource.AccountResource;
-import pl.reryk.linkzone.resource.AccountResourceAssembler;
-import pl.reryk.linkzone.security.CurrentUser;
-import pl.reryk.linkzone.security.JwtTokenProvider;
-import pl.reryk.linkzone.security.UserPrincipal;
-import pl.reryk.linkzone.service.AccountService;
-import pl.reryk.linkzone.service.FileStorageService;
-import pl.reryk.linkzone.utils.ModelMapper;
-import pl.reryk.linkzone.utils.MultipartFileValidator;
-import pl.reryk.linkzone.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.hateoas.PagedResources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,6 +13,17 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.reryk.linkzone.dto.*;
+import pl.reryk.linkzone.exception.*;
+import pl.reryk.linkzone.model.Account;
+import pl.reryk.linkzone.security.CurrentUser;
+import pl.reryk.linkzone.security.JwtTokenProvider;
+import pl.reryk.linkzone.security.UserPrincipal;
+import pl.reryk.linkzone.service.AccountService;
+import pl.reryk.linkzone.service.FileStorageService;
+import pl.reryk.linkzone.utils.ModelMapper;
+import pl.reryk.linkzone.utils.MultipartFileValidator;
+import pl.reryk.linkzone.utils.Utils;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -39,18 +35,15 @@ import java.util.stream.Collectors;
 public class AccountRestController {
 
     private final AccountService accountService;
-    private final AccountResourceAssembler accountResourceAssembler;
     private final JwtTokenProvider tokenProvider;
     private final AuthenticationManager authenticationManager;
     private final FileStorageService fileStorageService;
 
     @Autowired
     public AccountRestController(AccountService accountService,
-                                 AccountResourceAssembler accountResourceAssembler,
                                  JwtTokenProvider tokenProvider,
                                  AuthenticationManager authenticationManager, FileStorageService fileStorageService) {
         this.accountService = accountService;
-        this.accountResourceAssembler = accountResourceAssembler;
         this.tokenProvider = tokenProvider;
         this.authenticationManager = authenticationManager;
         this.fileStorageService = fileStorageService;
@@ -80,10 +73,8 @@ public class AccountRestController {
     }
 
     @GetMapping(value = "/")
-    public ResponseEntity<?> list(Pageable pageable, PagedResourcesAssembler<Account> pagedAssembler) {
-        PagedResources<AccountResource> pagedResources = pagedAssembler.toResource(
-                accountService.findAll(pageable), accountResourceAssembler);
-        return new ResponseEntity<>(pagedResources, HttpStatus.OK);
+    public ResponseEntity<?> list(Pageable pageable) {
+        return new ResponseEntity<>(accountService.findAll(pageable).map(AccountSummary::new), HttpStatus.OK);
     }
 
     @GetMapping(value = "/findExact")
@@ -107,7 +98,7 @@ public class AccountRestController {
         }
         Account account = accountService.create(accountCreate);
         AccountSummary accountSummary = ModelMapper.mapAccountToSummary(account);
-        return new ResponseEntity<>(new AccountResource(accountSummary), HttpStatus.CREATED);
+        return new ResponseEntity<>(accountSummary, HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/details")
