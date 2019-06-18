@@ -3,7 +3,7 @@ name: default
 
 steps:
   - name: frontend
-    image: node
+    image: node:10.16.0
     commands:
       - cd frontend
       - npm install
