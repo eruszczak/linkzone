@@ -1,0 +1,22 @@
+kind: pipeline
+name: default
+
+steps:
+  - name: frontend
+    image: node
+    commands:
+      - cd frontend
+      - npm install
+      - npm test
+    when:
+      branch:
+        - *
+
+  - name: backend
+    image: maven:3-jdk-8
+    commands:
+      - cd backend
+      - mvn package -B
+    when:
+      branch:
+        - *
