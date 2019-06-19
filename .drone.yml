@@ -7,6 +7,8 @@ steps:
     volumes:
       - name: cache
         path: /cache
+    commands:
+      - cd frontend
     settings:
       restore: true
       mount:
@@ -31,6 +33,8 @@ steps:
     volumes:
       - name: cache
         path: /cache
+    commands:
+      - cd frontend
     settings:
       rebuild: true
       mount:
