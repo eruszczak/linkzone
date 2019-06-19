@@ -11,26 +11,28 @@ steps:
       restore: true
       mount:
         - ./frontend/node_modules
-        - /root/.m2/repository
         - ./backend/.m2/repository
 
-      - name: frontend
-        image: node:10.16.0
-        commands:
-          - cd frontend
-          - npm install
-          - npm test
-          - npm run build
+
+
+  - name: frontend
+    image: node:10.16.0
+    commands:
+      - cd frontend
+      - npm install
+      - npm test
+      - npm run build
+
+
 
   - name: backend
     image: maven:3-jdk-11
-    #    environment:
-    #      M2_HOME: ./backend/.m2
-    #      MAVEN_HOME: ./backend/.m2
     commands:
       - cd backend
       #      - mvn help:evaluate -Dexpression=settings.localRepository | grep -v '\[INFO\]'
       - mvn package -B -Dmaven.repo.local=.m2/repository
+
+
 
   - name: rebuild-cache
     image: drillster/drone-volume-cache
@@ -41,9 +43,9 @@ steps:
       rebuild: true
       mount:
         - ./frontend/node_modules
-        - /root/.m2/repository
-        - /drone/.m2
         - ./backend/.m2/repository
+
+
 
 volumes:
   - name: cache
