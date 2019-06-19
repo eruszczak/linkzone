@@ -12,6 +12,7 @@ steps:
       mount:
         - ./frontend/node_modules
         - /root/.m2/repository
+        - /drone/.m2
 
   #  - name: frontend
   #    image: node:10.16.0
@@ -41,6 +42,7 @@ steps:
       mount:
         - ./frontend/node_modules
         - /root/.m2/repository
+        - /drone/.m2
 
 volumes:
   - name: cache
