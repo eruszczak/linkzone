@@ -21,7 +21,7 @@ steps:
       - cd frontend
       - npm install
       - npm test
-      - npm run build
+  #      - npm run build
 
 
 
@@ -30,7 +30,8 @@ steps:
     commands:
       - cd backend
       #      - mvn help:evaluate -Dexpression=settings.localRepository | grep -v '\[INFO\]'
-      - mvn package -B -Dmaven.repo.local=.m2/repository
+      #      - mvn package -B -Dmaven.repo.local=.m2/repository
+      - mvn test
 
 
 
@@ -45,11 +46,13 @@ steps:
         - ./frontend/node_modules
         - ./backend/.m2/repository
 
+
+
   - name: build-and-push-images
-    image: docker:18
+    image: compose:1.23.2
     commands:
       - docker-compose build
-      - docker-compose push
+#      - docker-compose push
 
 
 
