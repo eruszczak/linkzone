@@ -30,7 +30,7 @@ steps:
     commands:
       - cd backend
       #      - mvn help:evaluate -Dexpression=settings.localRepository | grep -v '\[INFO\]'
-      - mvn package -B
+      - mvn package -B -Dmaven.repo.local=/drone/.m2/repository
 
   - name: rebuild-cache
     image: drillster/drone-volume-cache
