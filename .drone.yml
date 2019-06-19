@@ -11,7 +11,7 @@ steps:
       restore: true
       mount:
         - ./frontend/node_modules
-        - /drone/.m2
+        - ./backend/.m2
 
   - name: frontend
     image: node:10.16.0
@@ -24,8 +24,8 @@ steps:
   - name: backend
     image: maven:3-jdk-11
     environment:
-      M2_HOME: /drone/.m2
-      MAVEN_HOME: /drone/.m2
+      M2_HOME: ./backend/.m2
+      MAVEN_HOME: ./backend/.m2
     commands:
       - cd backend
       - mvn package -B
@@ -39,7 +39,7 @@ steps:
       rebuild: true
       mount:
         - ./frontend/node_modules
-        - /drone/.m2
+        - ./backend/.m2
 
 volumes:
   - name: cache
