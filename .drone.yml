@@ -4,13 +4,13 @@ name: default
 steps:
   - name: restore-cache
     image: drillster/drone-volume-cache
+    volumes:
+      - name: cache
+        path: /cache
     settings:
       restore: true
       mount:
         - ./node_modules
-    volumes:
-      - name: cache
-        path: /cache
 
   - name: frontend
     image: node:10.16.0
@@ -28,15 +28,15 @@ steps:
 
   - name: rebuild-cache
     image: drillster/drone-volume-cache
+    volumes:
+      - name: cache
+        path: /cache
     settings:
       rebuild: true
       mount:
         - ./node_modules
-    volumes:
-      - name: cache
-        path: /cache
 
 volumes:
   - name: cache
     host:
-      path: /tmp/drone/cache
+      path: /tmp/cache
