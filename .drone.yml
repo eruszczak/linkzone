@@ -19,12 +19,13 @@ steps:
       - cd frontend
       - npm install
       - npm test
+  #      - npm run build
 
   - name: backend
     image: maven:3-jdk-11
     environment:
-      - M2_HOME=/drone/.m2
-      - MAVEN_HOME=/drone/.m2
+      - M2_HOME:/drone/.m2
+      - MAVEN_HOME:/drone/.m2
     commands:
       - cd backend
       - mvn package -B
