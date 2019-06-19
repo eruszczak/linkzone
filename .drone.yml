@@ -45,6 +45,12 @@ steps:
         - ./frontend/node_modules
         - ./backend/.m2/repository
 
+  - name: build-and-push-images
+    image: docker:18
+    commands:
+      - docker-compose build
+      - docker-compose push
+
 
 
 volumes:

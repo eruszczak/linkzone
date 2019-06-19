@@ -14,7 +14,7 @@ services:
       - 3306
 
   backend:
-    image: linkzone-backend-service:latest
+    image: reryk/linkzone-backend
     container_name: linkzone-backend-service
     build: ./backend
     volumes:
@@ -29,7 +29,7 @@ services:
       - database
 
   frontend:
-    image: linkzone-frontend-service:latest
+    image: reryk/linkzone-frontend
     container_name: linkzone-frontend-service
     build: ./frontend
     #    working_dir: /app
