@@ -11,7 +11,7 @@ steps:
       restore: true
       mount:
         - ./frontend/node_modules
-        - ./backend/.m2
+        - /root/.m2/repository
 
   #  - name: frontend
   #    image: node:10.16.0
@@ -29,6 +29,7 @@ steps:
     commands:
       - cd backend
       - mvn help:evaluate -Dexpression=settings.localRepository | grep -v '\[INFO\]'
+      - mvn package -B
 
   - name: rebuild-cache
     image: drillster/drone-volume-cache
@@ -39,7 +40,7 @@ steps:
       rebuild: true
       mount:
         - ./frontend/node_modules
-        - ./backend/.m2
+        - /root/.m2/repository
 
 volumes:
   - name: cache
