@@ -13,12 +13,12 @@ steps:
         - ./frontend/node_modules
         - ./backend/.m2
 
-  - name: frontend
-    image: node:10.16.0
-    commands:
-      - cd frontend
-      - npm install
-      - npm test
+  #  - name: frontend
+  #    image: node:10.16.0
+  #    commands:
+  #      - cd frontend
+  #      - npm install
+  #      - npm test
   #      - npm run build
 
   - name: backend
@@ -28,7 +28,7 @@ steps:
       MAVEN_HOME: ./backend/.m2
     commands:
       - cd backend
-      - mvn package -B
+      - mvn help:evaluate -Dexpression=settings.localRepository | grep -v '\[INFO\]'
 
   - name: rebuild-cache
     image: drillster/drone-volume-cache
