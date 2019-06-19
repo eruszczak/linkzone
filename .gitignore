@@ -20,7 +20,7 @@ yarn-error.log*
 *.sln
 *.sw*
 
-
+/backend/.m2
 
 
 
