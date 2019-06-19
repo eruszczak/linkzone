@@ -19,7 +19,6 @@ steps:
       - cd frontend
       - npm install
       - npm test
-  #      - npm run build
 
   - name: backend
     image: maven:3-jdk-11
