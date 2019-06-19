@@ -14,13 +14,13 @@ steps:
         - /root/.m2/repository
         - ./backend/.m2/repository
 
-  #  - name: frontend
-  #    image: node:10.16.0
-  #    commands:
-  #      - cd frontend
-  #      - npm install
-  #      - npm test
-  #      - npm run build
+      - name: frontend
+        image: node:10.16.0
+        commands:
+          - cd frontend
+          - npm install
+          - npm test
+          - npm run build
 
   - name: backend
     image: maven:3-jdk-11
