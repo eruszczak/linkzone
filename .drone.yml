@@ -60,9 +60,9 @@ steps:
 
   - name: build test image
     image: docker:18
-    #      volumes:
-    #        - name: docker_sock
-    #          path: /var/run/docker.sock
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
     commands:
       - cd frontend
       - docker build -t reryk/linkzone-frontend .
