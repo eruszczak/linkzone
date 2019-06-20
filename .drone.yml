@@ -63,9 +63,15 @@ steps:
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
+    environment:
+      USERNAME:
+        from_secret: username
+      PASSWORD:
+        from_secret: password
     commands:
       - cd frontend
       - docker build -t reryk/linkzone-frontend .
+      - printenv
       #        - docker build --no-cache -t reryk/linkzone-frontend
       - docker push reryk/linkzone-frontend
 
