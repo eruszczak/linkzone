@@ -58,7 +58,7 @@ steps:
 
 
 
-  - name: build test image
+  - name: build and push images
     image: docker:18
     volumes:
       - name: docker_sock
@@ -69,12 +69,14 @@ steps:
       PASSWORD:
         from_secret: password
     commands:
+      #      - printenv
+      - docker login -u $USERNAME -p $PASSWORD
       - cd frontend
       - docker build -t reryk/linkzone-frontend .
-      - printenv
-      - docker login -u $USERNAME -p $PASSWORD
-      #        - docker build --no-cache -t reryk/linkzone-frontend
       - docker push reryk/linkzone-frontend
+      - cd ../backend
+      - docker build -t reryk/linkzone-backend .
+      - docker push reryk/linkzone-backend
 
       #    - deploy:
       #      bash:
