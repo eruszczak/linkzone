@@ -72,7 +72,7 @@ steps:
       - cd frontend
       - docker build -t reryk/linkzone-frontend .
       - printenv
-      - docker login -u ${username} -p ${password}
+      - docker login -u $username -p $password
       #        - docker build --no-cache -t reryk/linkzone-frontend
       - docker push reryk/linkzone-frontend
 
