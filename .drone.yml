@@ -2,56 +2,57 @@ kind: pipeline
 name: default
 
 steps:
-  - name: restore-cache
-    image: drillster/drone-volume-cache
-    volumes:
-      - name: cache
-        path: /cache
-    settings:
-      restore: true
-      mount:
-        - ./frontend/node_modules
-        - ./backend/.m2/repository
-
-
-
-  - name: frontend
-    image: node:10.16.0
-    commands:
-      - cd frontend
-      - npm install
-      - npm test
-  #      - npm run build
-
-
-
-  - name: backend
-    image: maven:3-jdk-11
-    commands:
-      - cd backend
-      #      - mvn help:evaluate -Dexpression=settings.localRepository | grep -v '\[INFO\]'
-      #      - mvn package -B -Dmaven.repo.local=.m2/repository
-      - mvn test
-
-
-
-  - name: rebuild-cache
-    image: drillster/drone-volume-cache
-    volumes:
-      - name: cache
-        path: /cache
-    settings:
-      rebuild: true
-      mount:
-        - ./frontend/node_modules
-        - ./backend/.m2/repository
+  #  - name: restore-cache
+  #    image: drillster/drone-volume-cache
+  #    volumes:
+  #      - name: cache
+  #        path: /cache
+  #    settings:
+  #      restore: true
+  #      mount:
+  #        - ./frontend/node_modules
+  #        - ./backend/.m2/repository
+  #
+  #
+  #
+  #  - name: frontend
+  #    image: node:10.16.0
+  #    commands:
+  #      - cd frontend
+  #      - npm install
+  #      - npm test
+  #  #      - npm run build
+  #
+  #
+  #
+  #  - name: backend
+  #    image: maven:3-jdk-11
+  #    commands:
+  #      - cd backend
+  #      #      - mvn help:evaluate -Dexpression=settings.localRepository | grep -v '\[INFO\]'
+  #      #      - mvn package -B -Dmaven.repo.local=.m2/repository
+  #      - mvn test
+  #
+  #
+  #
+  #  - name: rebuild-cache
+  #    image: drillster/drone-volume-cache
+  #    volumes:
+  #      - name: cache
+  #        path: /cache
+  #    settings:
+  #      rebuild: true
+  #      mount:
+  #        - ./frontend/node_modules
+  #        - ./backend/.m2/repository
 
 
 
   - name: build-and-push-images
-    image: compose:1.23.2
+    image: compose:1.24.0
     commands:
-      - docker-compose build
+      #      - docker-compose build
+      - docker-compose --verbose pull
 #      - docker-compose push
 
 
