@@ -12,16 +12,16 @@ steps:
 
 
 
-  - name: restore-cache
-    image: drillster/drone-volume-cache
-    volumes:
-      - name: cache
-        path: /cache
-    settings:
-      restore: true
-      mount:
-        - ./frontend/node_modules
-        - ./backend/.m2/repository
+  #  - name: restore-cache
+  #    image: drillster/drone-volume-cache
+  #    volumes:
+  #      - name: cache
+  #        path: /cache
+  #    settings:
+  #      restore: true
+  #      mount:
+  #        - ./frontend/node_modules
+  #        - ./backend/.m2/repository
 
 
 
@@ -29,7 +29,7 @@ steps:
     image: node:10.16.0
     commands:
       - cd frontend
-      - npm install
+  #      - npm install
   #        - npm test
   #      - npm run build
 
@@ -45,16 +45,16 @@ steps:
 
 
 
-  - name: rebuild-cache
-    image: drillster/drone-volume-cache
-    volumes:
-      - name: cache
-        path: /cache
-    settings:
-      rebuild: true
-      mount:
-        - ./frontend/node_modules
-        - ./backend/.m2/repository
+  #  - name: rebuild-cache
+  #    image: drillster/drone-volume-cache
+  #    volumes:
+  #      - name: cache
+  #        path: /cache
+  #    settings:
+  #      rebuild: true
+  #      mount:
+  #        - ./frontend/node_modules
+  #        - ./backend/.m2/repository
 
 
 
@@ -95,3 +95,6 @@ volumes:
   - name: cache
     host:
       path: /tmp/cache
+  - name: docker_sock
+    host:
+      path: /var/run/docker.sock
