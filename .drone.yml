@@ -67,7 +67,7 @@ steps:
       - cd frontend
       - docker build -t reryk/linkzone-frontend .
       #        - docker build --no-cache -t reryk/linkzone-frontend
-      #        - docker push ORG/cookiecutter-python-tests:latest
+      - docker push reryk/linkzone-frontend
 
       #    - deploy:
       #      bash:
