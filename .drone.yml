@@ -2,58 +2,92 @@ kind: pipeline
 name: default
 
 steps:
-  #  - name: restore-cache
-  #    image: drillster/drone-volume-cache
-  #    volumes:
-  #      - name: cache
-  #        path: /cache
+  #  - name: docker
+  #    image: plugins/docker
   #    settings:
-  #      restore: true
-  #      mount:
-  #        - ./frontend/node_modules
-  #        - ./backend/.m2/repository
-  #
-  #
-  #
-  #  - name: frontend
-  #    image: node:10.16.0
-  #    commands:
-  #      - cd frontend
-  #      - npm install
-  #      - npm test
-  #  #      - npm run build
-  #
-  #
-  #
-  #  - name: backend
-  #    image: maven:3-jdk-11
-  #    commands:
-  #      - cd backend
-  #      #      - mvn help:evaluate -Dexpression=settings.localRepository | grep -v '\[INFO\]'
-  #      #      - mvn package -B -Dmaven.repo.local=.m2/repository
-  #      - mvn test
-  #
-  #
-  #
-  #  - name: rebuild-cache
-  #    image: drillster/drone-volume-cache
-  #    volumes:
-  #      - name: cache
-  #        path: /cache
-  #    settings:
-  #      rebuild: true
-  #      mount:
-  #        - ./frontend/node_modules
-  #        - ./backend/.m2/repository
+  #      username: kevinbacon
+  #      password: pa55word
+  #      repo: foo/bar
+  #      tags: latest
 
 
 
-  - name: build-and-push-images
-    image: compose:1.24.0
+  - name: restore-cache
+    image: drillster/drone-volume-cache
+    volumes:
+      - name: cache
+        path: /cache
+    settings:
+      restore: true
+      mount:
+        - ./frontend/node_modules
+        - ./backend/.m2/repository
+
+
+
+  - name: frontend
+    image: node:10.16.0
     commands:
+      - cd frontend
+      - npm install
+  #        - npm test
+  #      - npm run build
+
+
+
+  - name: backend
+    image: maven:3-jdk-11
+    commands:
+      - cd backend
+      #      - mvn help:evaluate -Dexpression=settings.localRepository | grep -v '\[INFO\]'
+      #      - mvn package -B -Dmaven.repo.local=.m2/repository
+  #        - mvn test
+
+
+
+  - name: rebuild-cache
+    image: drillster/drone-volume-cache
+    volumes:
+      - name: cache
+        path: /cache
+    settings:
+      rebuild: true
+      mount:
+        - ./frontend/node_modules
+        - ./backend/.m2/repository
+
+
+
+  - name: build test image
+    image: docker:18
+    #      volumes:
+    #        - name: docker_sock
+    #          path: /var/run/docker.sock
+    commands:
+      - cd frontend
+      - docker build -t reryk/linkzone-frontend .
+      #        - docker build --no-cache -t reryk/linkzone-frontend
+      #        - docker push ORG/cookiecutter-python-tests:latest
+
+      #    - deploy:
+      #      bash:
+      #        script:
+      #          - ./drone/deploy.sh
+
+
+      #  - name: build-and-push-images
+      #    image: compose:1.24.0
+      #    commands:
       #      - docker-compose build
-      - docker-compose --verbose pull
+#      - docker-compose --verbose pull
+#      - docker-compose --verbose pull
 #      - docker-compose push
+
+#  publish:
+#    image: plugins/docker
+#    repo: octocat/hello-world
+#    tags: [ 1, 1.1, latest ]
+#    registry: index.docker.io
 
 
 
