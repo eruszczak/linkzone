@@ -6,6 +6,10 @@ services:
     restart: always
     volumes:
       - /opt/mysql1:/var/lib/mysql
+    networks:
+      - internal
+    labels:
+      - traefik.enable=false
     environment:
       MYSQL_DATABASE: linkzone
       MYSQL_USER: root
@@ -19,6 +23,10 @@ services:
     container_name: linkzone-backend-service
     build: ./backend
     restart: always
+    networks:
+      - internal
+    labels:
+      - traefik.enable=false
     volumes:
       - ~/.m2:/root/.m2
     expose:
@@ -35,10 +43,16 @@ services:
     container_name: linkzone-frontend-service
     build: ./frontend
     restart: always
+    networks:
+      - web
+      - internal
     expose:
       - 3000
-    environment:
-      VIRTUAL_HOST: test.reryk.pl
+    labels:
+      - traefik.backend=frontend
+      - traefik.frontend.rule=Host:linkzone.reryk.pl
+      - traefik.docker.network=web
+      - traefik.port=80
 
     #    working_dir: /app
     #    volumes:
@@ -51,6 +65,7 @@ services:
 #      - backend
 
 networks:
-  default:
-    external:
-      name: nginx-proxy
+  web:
+    external: true
+  internal:
+    external: false
