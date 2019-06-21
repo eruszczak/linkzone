@@ -3,6 +3,7 @@ services:
   database:
     container_name: linkzone-database-service
     image: mysql/mysql-server:5.7
+    restart: always
     volumes:
       - /opt/mysql1:/var/lib/mysql
     environment:
@@ -17,6 +18,7 @@ services:
     image: linkzone-backend
     container_name: linkzone-backend-service
     build: ./backend
+    restart: always
     volumes:
       - ~/.m2:/root/.m2
     expose:
@@ -32,13 +34,18 @@ services:
     image: linkzone-frontend
     container_name: linkzone-frontend-service
     build: ./frontend
+    restart: always
     #    working_dir: /app
     #    volumes:
     #      - ./app:/app
     ports:
       - 3000:2999
-    #    restart: always
     depends_on:
       - backend
-    links:
-      - backend
+#    links:
+#      - backend
+
+networks:
+  default:
+    external:
+      name: nginx-proxy

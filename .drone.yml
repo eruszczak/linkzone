@@ -2,60 +2,55 @@ kind: pipeline
 name: default
 
 steps:
-  #  - name: docker
-  #    image: plugins/docker
-  #    settings:
-  #      username: kevinbacon
-  #      password: pa55word
-  #      repo: foo/bar
-  #      tags: latest
+  - name: docker
+    image: plugins/docker
+    settings:
+      username: kevinbacon
+      password: pa55word
+      repo: foo/bar
+      tags: latest
 
 
-
-  #  - name: restore-cache
-  #    image: drillster/drone-volume-cache
-  #    volumes:
-  #      - name: cache
-  #        path: /cache
-  #    settings:
-  #      restore: true
-  #      mount:
-  #        - ./frontend/node_modules
-  #        - ./backend/.m2/repository
-
+  - name: restore-cache
+    image: drillster/drone-volume-cache
+    volumes:
+      - name: cache
+        path: /cache
+    settings:
+      restore: true
+      mount:
+        - ./frontend/node_modules
+        - ./backend/.m2/repository
 
 
   - name: frontend
     image: node:10.16.0
     commands:
       - cd frontend
-  #      - npm install
-  #        - npm test
+        - npm install
+        - npm test
   #      - npm run build
-
 
 
   - name: backend
     image: maven:3-jdk-11
     commands:
       - cd backend
+      - mvn test
       #      - mvn help:evaluate -Dexpression=settings.localRepository | grep -v '\[INFO\]'
       #      - mvn package -B -Dmaven.repo.local=.m2/repository
-  #        - mvn test
 
 
-
-  #  - name: rebuild-cache
-  #    image: drillster/drone-volume-cache
-  #    volumes:
-  #      - name: cache
-  #        path: /cache
-  #    settings:
-  #      rebuild: true
-  #      mount:
-  #        - ./frontend/node_modules
-  #        - ./backend/.m2/repository
-
+  - name: rebuild-cache
+    image: drillster/drone-volume-cache
+    volumes:
+      - name: cache
+        path: /cache
+    settings:
+      rebuild: true
+      mount:
+        - ./frontend/node_modules
+        - ./backend/.m2/repository
 
 
   - name: build and push images
@@ -69,7 +64,6 @@ steps:
       PASSWORD:
         from_secret: password
     commands:
-      #      - printenv
       - docker login -u $USERNAME -p $PASSWORD
       - cd frontend
       - docker build -t reryk/linkzone-frontend .
@@ -77,27 +71,9 @@ steps:
       - cd ../backend
       - docker build -t reryk/linkzone-backend .
       - docker push reryk/linkzone-backend
-
-      #    - deploy:
-      #      bash:
-      #        script:
-      #          - ./drone/deploy.sh
-
-
-      #  - name: build-and-push-images
-      #    image: compose:1.24.0
-      #    commands:
-      #      - docker-compose build
-#      - docker-compose --verbose pull
-#      - docker-compose --verbose pull
-#      - docker-compose push
-
-#  publish:
-#    image: plugins/docker
-#    repo: octocat/hello-world
-#    tags: [ 1, 1.1, latest ]
-#    registry: index.docker.io
-
+    when:
+      branch:
+        - master
 
 
 volumes:
