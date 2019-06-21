@@ -15,7 +15,7 @@ module.exports = {
           changeOrigin: true
       }
       },
-      port: 2999
+      port: 80
     },
     css: {
   loaderOptions: {
