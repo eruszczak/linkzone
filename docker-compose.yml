@@ -47,7 +47,7 @@ services:
       - web
       - internal
     expose:
-      - 3000
+      - 8081
     labels:
       - traefik.backend=frontend
       - traefik.frontend.rule=Host:linkzone.reryk.pl
