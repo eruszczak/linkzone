@@ -1,15 +1,23 @@
 version: "3"
 services:
+  linkzone-frontend:
+    container_name: linkzone-frontend
+    image: reryk/linkzone-frontend
+    build: ./frontend
+    restart: always
+    networks:
+      - web
+    expose:
+      - 80
+
   database:
-    container_name: linkzone-database-service
+    container_name: linkzone-database
     image: mysql/mysql-server:5.7
     restart: always
     volumes:
       - /opt/mysql1:/var/lib/mysql
     networks:
       - internal
-    labels:
-      - traefik.enable=false
     environment:
       MYSQL_DATABASE: linkzone
       MYSQL_USER: root
@@ -18,51 +26,22 @@ services:
     expose:
       - 3306
 
-  backend:
+  linkzone-backend:
+    container_name: linkzone-backend
     image: linkzone-backend
-    container_name: linkzone-backend-service
     build: ./backend
     restart: always
     networks:
+      - web
       - internal
-    labels:
-      - traefik.enable=false
     volumes:
       - ~/.m2:/root/.m2
     expose:
       - 8080
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://database:3306/linkzone?useSSL=false
-    #    ports:
-    #      - 8080:8080
     depends_on:
       - database
-
-  frontend:
-    image: linkzone-frontend
-    container_name: linkzone-frontend-service
-    build: ./frontend
-    restart: always
-    networks:
-      - web
-      - internal
-    expose:
-      - 8081
-    labels:
-      - traefik.backend=frontend
-      - traefik.frontend.rule=Host:linkzone.reryk.pl
-      - traefik.docker.network=web
-      - traefik.port=80
-
-    #    working_dir: /app
-    #    volumes:
-    #      - ./app:/app
-    #    ports:
-    #      - 3000:2999
-    depends_on:
-      - backend
-#    links:
-#      - backend
 
 networks:
   web:
