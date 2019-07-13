@@ -2,13 +2,13 @@ module.exports = {
     devServer: {
       proxy: {
         '/api': {
-            target: 'http://backend:8080',
+            target: 'http://localhost:8080',
             // secure: false,
             // ws: true,
             changeOrigin: true
         },
         '/static': {
-            target: 'http://backend:8080',
+            target: 'http://localhost:8080',
           // pathRewrite: {
           //   '^/static': ''
           // },

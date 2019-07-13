@@ -1,14 +1,16 @@
 package pl.reryk.linkzone.security;
 
-import pl.reryk.linkzone.model.Account;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import pl.reryk.linkzone.model.Account;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+@Slf4j
 public class UserPrincipal implements UserDetails {
     private Long id;
 
@@ -37,7 +39,7 @@ public class UserPrincipal implements UserDetails {
 
     public static UserPrincipal create(Account account) {
         List<GrantedAuthority> authorities = account.getAuthorities();
-        System.out.println("Creating principal with roles: " + authorities.size() + " - " + authorities);
+        log.info("Creating UserPrincipal, username: {}, authorities: {}", account.getUsername(), authorities);
         return new UserPrincipal(
                 account.getId(),
                 account.getUsername(),

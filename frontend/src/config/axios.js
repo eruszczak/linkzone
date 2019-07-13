@@ -5,9 +5,11 @@ import router from '../router';
 
 axios.interceptors.request.use((config) => {
     config.headers.common = {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${store.getters.accessToken}`
+        'Content-Type': 'application/json'
     };
+    if (store.getters.accessToken) {
+        config.headers.common['Authorization'] = `Bearer ${store.getters.accessToken}`;
+    }
     config.url = `/api${config.url.startsWith('/') ? '' : '/'}${config.url}`;
     return config
 });
