@@ -1,12 +1,5 @@
 package pl.reryk.linkzone;
 
-import pl.reryk.linkzone.config.FileStorageProperties;
-import pl.reryk.linkzone.dto.AccountCreate;
-import pl.reryk.linkzone.permissions.RoleName;
-import pl.reryk.linkzone.repository.AccountRepository;
-import pl.reryk.linkzone.repository.CommentUpvoteRepository;
-import pl.reryk.linkzone.repository.PostUpvoteRepository;
-import pl.reryk.linkzone.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -15,7 +8,14 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import pl.reryk.linkzone.config.FileStorageProperties;
+import pl.reryk.linkzone.dto.AccountCreate;
 import pl.reryk.linkzone.model.Account;
+import pl.reryk.linkzone.permissions.RoleName;
+import pl.reryk.linkzone.repository.AccountRepository;
+import pl.reryk.linkzone.repository.CommentUpvoteRepository;
+import pl.reryk.linkzone.repository.PostUpvoteRepository;
+import pl.reryk.linkzone.security.JwtTokenProvider;
 import pl.reryk.linkzone.service.*;
 
 @SpringBootApplication
