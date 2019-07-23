@@ -1,7 +1,7 @@
 version: "3"
 services:
   linkzone-frontend:
-    container_name: linkzone-frontend
+    container_name: linkzone-frontend-container
     image: reryk/linkzone-frontend
     build: ./frontend
     restart: always
@@ -10,8 +10,8 @@ services:
     expose:
       - 80
 
-  database:
-    container_name: linkzone-database
+  linkzone-database:
+    container_name: linkzone-database-container
     image: mysql/mysql-server:5.7
     restart: always
     volumes:
@@ -27,8 +27,8 @@ services:
       - 3306
 
   linkzone-backend:
-    container_name: linkzone-backend
-    image: linkzone-backend
+    container_name: linkzone-backend-container
+    image: reryk/linkzone-backend
     build: ./backend
     restart: always
     networks:
@@ -39,9 +39,9 @@ services:
     expose:
       - 8080
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://database:3306/linkzone?useSSL=false
+      - SPRING_DATASOURCE_URL=jdbc:mysql://linkzone-database:3306/linkzone?useSSL=false
     depends_on:
-      - database
+      - linkzone-database
 
 networks:
   web:

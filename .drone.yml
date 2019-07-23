@@ -13,23 +13,21 @@ steps:
         - ./frontend/node_modules
         - ./backend/.m2/repository
 
-
   - name: frontend
     image: node:10.16.0
     commands:
-      - cd frontend
-        - npm install
-        - npm test
+  #      - cd frontend
+  #      - npm install
+  #      - npm test
   #      - npm run build
-
 
   - name: backend
     image: maven:3-jdk-11
     commands:
-      - cd backend
-      - mvn test
-      #      - mvn help:evaluate -Dexpression=settings.localRepository | grep -v '\[INFO\]'
-      #      - mvn package -B -Dmaven.repo.local=.m2/repository
+  #      - cd backend
+  #      - mvn test
+  #      - mvn help:evaluate -Dexpression=settings.localRepository | grep -v '\[INFO\]'
+  #      - mvn package -B -Dmaven.repo.local=.m2/repository
 
 
   - name: rebuild-cache
@@ -44,8 +42,8 @@ steps:
         - ./backend/.m2/repository
 
 
-  - name: build and push images
-    image: docker:18
+  - name: build images
+    image: tiangolo/docker-with-compose
     volumes:
       - name: docker_sock
         path: /var/run/docker.sock
@@ -56,12 +54,8 @@ steps:
         from_secret: password
     commands:
       - docker login -u $USERNAME -p $PASSWORD
-      - cd frontend
-      - docker build -t reryk/linkzone-frontend .
-      - docker push reryk/linkzone-frontend
-      - cd ../backend
-      - docker build -t reryk/linkzone-backend .
-      - docker push reryk/linkzone-backend
+      - docker-compose build
+      - docker-compose push
     when:
       branch:
         - master
