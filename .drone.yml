@@ -42,7 +42,7 @@ steps:
         - ./backend/.m2/repository
 
 
-  - name: build images
+  - name: docker-compose
     image: tiangolo/docker-with-compose
     volumes:
       - name: docker_sock
