@@ -1,0 +1,14 @@
+file:
+  upload-dir: ./public/static
+
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+
+security:
+  jwt:
+    secret: JWTSuperSec21312dasretKey
+    expirationInMs: 604800000
