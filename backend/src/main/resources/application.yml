@@ -1,0 +1,33 @@
+security:
+  jwt:
+    secret: JWTSuperSec21312dasretKey
+    expirationInMs: 604800000
+
+file:
+  upload-dir: ./public/static
+
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 3MB
+      max-request-size: 10MB
+  datasource:
+    url: jdbc:mysql://localhost:3306/linkzone?useSSL=false&serverTimezone=UTC
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+    initialization-mode: never
+  jpa:
+    #    database-platform: org.hibernate.dialect.MySQL5Dialect
+    hibernate:
+      dialect: org.hibernate.dialect.MySQL5Dialect
+      ddl-auto: update
+#  h2:
+#    console:
+#      enabled: true
+#      path: /h2-console
+
+
+server.port: 8080
