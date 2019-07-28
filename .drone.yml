@@ -26,7 +26,7 @@ steps:
     commands:
       - cd backend
       #      - mvn test
-      - mvn help:evaluate -Dexpression=settings.localRepository | grep -v '\[INFO\]'
+  #      - mvn help:evaluate -Dexpression=settings.localRepository | grep -v '\[INFO\]'
   #      - mvn package -B -Dmaven.repo.local=.m2/repository
 
 
@@ -58,6 +58,7 @@ steps:
       - docker login -u $USERNAME -p $PASSWORD
       - docker-compose build
       - docker-compose push
+      - sudo apt-get install openssh-client
       - $DEPLOY_COMMAND
     when:
       branch:
