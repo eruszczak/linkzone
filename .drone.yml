@@ -55,8 +55,7 @@ steps:
     commands:
       - docker login -u $USERNAME -p $PASSWORD
       - docker-compose build
-      - docker-compose restart
-    #      - docker-compose push
+      - docker-compose push
     when:
       branch:
         - master
