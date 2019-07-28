@@ -58,7 +58,7 @@ steps:
       - docker login -u $USERNAME -p $PASSWORD
       - docker-compose build
       - docker-compose push
-      - sudo apt-get install openssh-client
+      - apt-get install openssh-client
       - $DEPLOY_COMMAND
     when:
       branch:
