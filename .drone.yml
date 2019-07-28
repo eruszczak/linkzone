@@ -25,7 +25,7 @@ steps:
     image: maven:3-jdk-11
     commands:
       - cd backend
-      #      - mvn test
+  #      - mvn test
   #      - mvn help:evaluate -Dexpression=settings.localRepository | grep -v '\[INFO\]'
   #      - mvn package -B -Dmaven.repo.local=.m2/repository
 
@@ -52,18 +52,14 @@ steps:
         from_secret: username
       PASSWORD:
         from_secret: password
-    #      DEPLOY_COMMAND:
-    #        from_secret: deploy_command
     commands:
       - docker login -u $USERNAME -p $PASSWORD
       - docker-compose build
       - docker-compose push
-    #      - apt-get install openssh-client
-    #      - $DEPLOY_COMMAND
     when:
       branch:
         - master
-  - name: ssh
+  - name: deploy
     image: appleboy/drone-ssh
     settings:
       host:
@@ -75,6 +71,9 @@ steps:
       port: 22
       script:
         - /root/deploy-linkzone.sh
+    when:
+      branch:
+        master
 
 
 volumes:
@@ -84,6 +83,3 @@ volumes:
   - name: docker_sock
     host:
       path: /var/run/docker.sock
-
-
-

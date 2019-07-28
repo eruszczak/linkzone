@@ -99,7 +99,7 @@
                 <div class="navbar-item">
                     <div class="buttons">
                         <template v-if="!isAuthenticated">
-                            <router-link :to="{name: 'registerView'}" class="button is-primary">
+                            <router-link :to="{name: 'registerView'}" class="button is-info">
                                 <strong>{{'navbar.register' | t}}</strong>
                             </router-link>
                             <router-link :to="{name: 'loginView'}" class="button is-light">
