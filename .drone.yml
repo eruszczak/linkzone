@@ -27,7 +27,7 @@ steps:
       - cd backend
       #      - mvn test
       - mvn help:evaluate -Dexpression=settings.localRepository | grep -v '\[INFO\]'
-      - mvn package -B -Dmaven.repo.local=.m2/repository
+  #      - mvn package -B -Dmaven.repo.local=.m2/repository
 
 
   - name: rebuild-cache
@@ -52,10 +52,13 @@ steps:
         from_secret: username
       PASSWORD:
         from_secret: password
+      DEPLOY_COMMAND:
+        from_secret: deploy_command
     commands:
       - docker login -u $USERNAME -p $PASSWORD
       - docker-compose build
       - docker-compose push
+      - $DEPLOY_COMMAND
     when:
       branch:
         - master
