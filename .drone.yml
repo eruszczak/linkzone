@@ -52,17 +52,29 @@ steps:
         from_secret: username
       PASSWORD:
         from_secret: password
-      DEPLOY_COMMAND:
-        from_secret: deploy_command
+    #      DEPLOY_COMMAND:
+    #        from_secret: deploy_command
     commands:
       - docker login -u $USERNAME -p $PASSWORD
       - docker-compose build
       - docker-compose push
-      - apt-get install openssh-client
-      - $DEPLOY_COMMAND
+    #      - apt-get install openssh-client
+    #      - $DEPLOY_COMMAND
     when:
       branch:
         - master
+  - name: ssh
+    image: appleboy/drone-ssh
+    settings:
+      host:
+        from_secret: ssh_host
+      username:
+        from_secret: ssh_user
+      password:
+        from_secret: ssh_password
+      port: 22
+      script:
+        - /root/deploy-linkzone.sh
 
 
 volumes:
