@@ -36,10 +36,10 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             " JOIN accounts a ON a.id = p.account_id" +
             " JOIN group_tbl g ON g.id = p.group_id" +
             " WHERE g.name = :name" +
-            " ORDER BY p.created_at DESC LIMIT ?#{#pageable.offset},?#{#pageable.pageSize}",
+            " ORDER BY p.created_at DESC",
             countQuery = "SELECT COUNT(*) FROM posts p JOIN group_tbl g ON g.id = p.group_id WHERE g.name = :name",
             nativeQuery = true)
-    Page<IPostResponseDto> findByGroupName(@Param("name") String name, @Param("pageable") Pageable pageable, @Param("accountId") Long accountId);
+    Page<IPostResponseDto> findByGroupName(@Param("name") String name, Pageable pageable, @Param("accountId") Long accountId);
 
     @Query(value = QUERY +
             " (SELECT COUNT(*) FROM comments c WHERE c.post_id = p.id) as commentCount," +
@@ -49,10 +49,10 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             " JOIN accounts a ON a.id = p.account_id" +
             " JOIN group_tbl g ON g.id = p.group_id" +
             " WHERE a.username = :username" +
-            " ORDER BY p.created_at DESC LIMIT ?#{#pageable.offset},?#{#pageable.pageSize}",
+            " ORDER BY p.created_at DESC",
             countQuery = "SELECT count(*) FROM posts p JOIN accounts a ON a.id = p.account_id WHERE a.username = :username",
             nativeQuery = true)
-    Page<IPostResponseDto> findByAccountUsername(@Param("username") String username, @Param("accountId") Long accountId, @Param("pageable") Pageable pageable);
+    Page<IPostResponseDto> findByAccountUsername(@Param("username") String username, @Param("accountId") Long accountId, Pageable pageable);
 
     @Query(value = QUERY +
             " (SELECT COUNT(*) FROM comments c WHERE c.post_id = p.id) as commentCount," +
@@ -62,10 +62,10 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             " INNER JOIN group_membership gm ON gm.group_id = p.group_id AND gm.user_id = :accountId" +
             " JOIN accounts a ON a.id = p.account_id" +
             " JOIN group_tbl g ON g.id = p.group_id" +
-            " ORDER BY upvotedCount DESC, p.created_at DESC LIMIT ?#{#pageable.offset},?#{#pageable.pageSize}",
+            " ORDER BY upvotedCount DESC, p.created_at DESC",
             countQuery = "SELECT COUNT(*) FROM posts p INNER JOIN group_membership gm ON gm.group_id = p.group_id AND gm.user_id = :accountId",
             nativeQuery = true)
-    Page<IPostResponseDto> findTop(@Param("accountId") Long accountId, @Param("pageable") Pageable pageable);
+    Page<IPostResponseDto> findTop(@Param("accountId") Long accountId, Pageable pageable);
 
     @Query(value = QUERY +
             " (SELECT COUNT(*) FROM comments c WHERE c.post_id = p.id) as commentCount," +
@@ -73,10 +73,10 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             " FROM posts p" +
             " JOIN accounts a ON a.id = p.account_id" +
             " JOIN group_tbl g ON g.id = p.group_id AND g.is_default" +
-            " ORDER BY upvotedCount DESC, p.created_at DESC LIMIT ?#{#pageable.offset},?#{#pageable.pageSize}",
+            " ORDER BY upvotedCount DESC, p.created_at DESC",
             countQuery = "SELECT COUNT(*) FROM posts p JOIN group_tbl g ON g.id = p.group_id AND g.is_default",
             nativeQuery = true)
-    Page<IPostResponseDto> findTop(@Param("pageable") Pageable pageable);
+    Page<IPostResponseDto> findTop(Pageable pageable);
 
     @Query(value = QUERY +
             " (SELECT COUNT(*) FROM comments c WHERE c.post_id = p.id) as commentCount," +
@@ -87,8 +87,8 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             " JOIN group_tbl g ON g.id = p.group_id" +
             " JOIN post_upvote pu ON pu.post_id = p.id AND pu.account_id = :userId" +
             " WHERE pu.is_upvote = 1" +
-            " ORDER BY p.created_at DESC LIMIT ?#{#pageable.offset},?#{#pageable.pageSize}",
+            " ORDER BY p.created_at DESC",
             countQuery = "SELECT COUNT(*) FROM post_upvote pu WHERE pu.account_id = :userId AND pu.is_upvote = 1",
             nativeQuery = true)
-    Page<IPostResponseDto> findUpvoted(@Param("userId") Long userId, @Param("accountId") Long accountId, @Param("pageable") Pageable pageable);
+    Page<IPostResponseDto> findUpvoted(@Param("userId") Long userId, @Param("accountId") Long accountId, Pageable pageable);
 }

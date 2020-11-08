@@ -21,10 +21,10 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
             " JOIN group_tbl g ON g.id=p.group_id" +
             " JOIN accounts a ON a.id=c.account_id" +
             " WHERE a.username = :username" +
-            " ORDER BY c.created_at DESC LIMIT ?#{#pageable.offset},?#{#pageable.pageSize}",
+            " ORDER BY c.created_at DESC",
             countQuery = "SELECT count(*) FROM comments c JOIN accounts a ON a.id = p.account_id WHERE a.username = :username",
             nativeQuery = true)
-    Page<ICommentResponseDto> findByAccount(@Param("username") String username,  @Param("accountId") Long accountId, @Param("pageable") Pageable pageable);
+    Page<ICommentResponseDto> findByAccount(@Param("username") String username,  @Param("accountId") Long accountId, Pageable pageable);
 
     Page<Comment> findByPostIdAndParentIsNullOrderByCreatedAtDesc(Long id, Pageable pageable);
 
@@ -36,10 +36,10 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
             " JOIN group_tbl g ON g.id=p.group_id" +
             " JOIN accounts a ON a.id=c.account_id" +
             " WHERE p.id = :id" +
-            " ORDER BY IF(c.parent_id IS NULL, c.id, c.parent_id), c.id, c.created_at ASC, ?#{#pageable}",
+            " ORDER BY IF(c.parent_id IS NULL, c.id, c.parent_id), c.id, c.created_at ASC",
             countQuery = "SELECT COUNT(*) FROM comments c JOIN posts p ON p.id=c.post_id WHERE p.id=:id",
             nativeQuery = true)
-    Page<ICommentResponseDto> findByPostIdWithReplies(@Param("id") Long id,  @Param("accountId") Long accountId, @Param("pageable") Pageable pageable);
+    Page<ICommentResponseDto> findByPostIdWithReplies(@Param("id") Long id,  @Param("accountId") Long accountId, Pageable pageable);
 
     @Query(value = QUERY +
             " (SELECT cu.is_upvote FROM comment_upvote cu WHERE cu.comment_id = c.id AND cu.account_id = :accountId) as upvoted," +
@@ -50,10 +50,10 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
             " JOIN accounts a ON a.id=c.account_id" +
             " JOIN comment_upvote cu ON cu.comment_id = c.id AND cu.account_id = :userId" +
             " WHERE cu.is_upvote = 1" +
-            " ORDER BY c.created_at DESC LIMIT ?#{#pageable.offset},?#{#pageable.pageSize}",
+            " ORDER BY c.created_at DESC",
             countQuery = "SELECT COUNT(*) FROM comment_upvote cu WHERE cu.account_id = :userId AND cu.is_upvote = 1",
             nativeQuery = true)
-    Page<ICommentResponseDto> findUpvoted(@Param("userId") Long userId, @Param("accountId") Long accountId, @Param("pageable") Pageable pageable);
+    Page<ICommentResponseDto> findUpvoted(@Param("userId") Long userId, @Param("accountId") Long accountId,  Pageable pageable);
 
     List<Comment> findByPostIdAndParentIsNullOrderByCreatedAtDesc(Long id);
 

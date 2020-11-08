@@ -24,11 +24,6 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
             " FROM accounts a WHERE a.id = :userId", nativeQuery = true)
     IAccountStatsDto calculateStats(@Param("userId") Long userId);
 
-//    @Query("SELECT COUNT(a.id) FROM Account a")
-//    long countUsers();
-//    @Query(value = "SELECT * FROM accounts WHERE username = ?1", nativeQuery = true)
-//    Account findByUsername(String username);
-
     @Modifying
     @Transactional
     @Query("update Account a set a.avatar = :avatar where a.id = :userId")

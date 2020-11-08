@@ -25,10 +25,10 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
             " FROM group_tbl g" +
             " LEFT JOIN (SELECT t.group_id, GROUP_CONCAT(t.post_type) AS postTypes FROM tbl_post_type t GROUP BY t.group_id) x ON x.group_id = g.id\n" +
             " WHERE lower(g.name) LIKE lower(:query)" +
-            " ORDER BY subscribers DESC, isSubbed DESC LIMIT ?#{#pageable.offset},?#{#pageable.pageSize}",
+            " ORDER BY subscribers DESC, isSubbed DESC",
             nativeQuery = true,
             countQuery = "SELECT COUNT(*) FROM group_tbl g WHERE lower(g.name) LIKE lower(:query)")
-    Page<IGroupResponseDto> search(@Param("query") String query, @Param("userId") Long userId, @Param("pageable") Pageable pageable);
+    Page<IGroupResponseDto> search(@Param("query") String query, @Param("userId") Long userId, Pageable pageable);
 
     @Query(value = SElECT_PART + " x.postTypes as postTypes," +
             " (SELECT COUNT(*) FROM posts p WHERE p.group_id = g.id) as postCount," +
