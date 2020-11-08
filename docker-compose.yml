@@ -1,50 +1,51 @@
 version: "3"
 services:
   linkzone-frontend:
-    container_name: linkzone-frontend-container
-    image: reryk/linkzone-frontend
     build: ./frontend
+    image: linkzone-frontend
+    container_name: linkzone-frontend-container
     restart: always
-    networks:
-      - web
-    expose:
-      - 80
+    environment:
+      - PROXY_TARGET=http://linkzone-backend-container:8080
+    ports:
+      - 8080:80
+      - 3001:3000
+    depends_on:
+      - linkzone-backend
 
-  linkzone-database:
-    container_name: linkzone-database-container
-    image: mysql/mysql-server:5.7
+  linkzone-backend:
+    build: ./backend
+    image: linkzone-backend
+    container_name: linkzone-backend-container
     restart: always
     volumes:
-      - /opt/mysql1:/var/lib/mysql
-    networks:
-      - internal
+      - ~/.m2:/root/.m2
+    ports:
+      - 8081:8080
+    expose:
+      - 8080
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://linkzone-database:3306/linkzone?useSSL=false
+      - SERVER_PORT=8080
+    depends_on:
+      - linkzone-database
+
+  linkzone-database:
+    image: mysql/mysql-server:5.7
+    container_name: linkzone-database-container
+    restart: always
+    volumes:
+      - db_data:/var/lib/mysql
     environment:
       MYSQL_DATABASE: linkzone
       MYSQL_USER: root
       MYSQL_ROOT_PASSWORD: root
       MYSQL_ROOT_HOST: '%'
+    ports:
+      - 3306:3306
     expose:
       - 3306
 
-  linkzone-backend:
-    container_name: linkzone-backend-container
-    image: reryk/linkzone-backend
-    build: ./backend
-    restart: always
-    networks:
-      - web
-      - internal
-    volumes:
-      - ~/.m2:/root/.m2
-    expose:
-      - 8080
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://linkzone-database:3306/linkzone?useSSL=false
-    depends_on:
-      - linkzone-database
 
-networks:
-  web:
-    external: true
-  internal:
-    external: false
+volumes:
+  db_data: {}
