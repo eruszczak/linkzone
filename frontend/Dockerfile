@@ -1,26 +1,22 @@
-#FROM node:10
-#COPY ./ /app
-#WORKDIR /app
-#RUN npm install && npm run build
-#
-#FROM nginx
-#RUN mkdir /app
-#COPY --from=0 /app/dist /app
-#COPY nginx.conf /etc/nginx/nginx.conf
-
-
-FROM node:10
+FROM node:10 as build-stage
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm install -g http-server
 RUN npm run build
-#CMD [ "http-server", "dist", "-p", "8001"]
-ENTRYPOINT ["npm", "run", "serve"]
 
-# production stage, the second stage is responsible for serving such artifact using NGINX.
-#FROM nginx:stable-alpine as production-stage
-#COPY --from=build-stage /app/dist /usr/share/nginx/html
-#EXPOSE 80
-#CMD ["nginx", "-g", "daemon off;"]
+FROM nginx:stable-alpine as production-stage
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+COPY --from=build-stage /app/nginx.conf /etc/nginx/nginx.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+
+
+#FROM node:10 as build-stage
+#WORKDIR /app
+#COPY package*.json ./
+#RUN npm install
+#COPY . .
+#RUN npm install -g http-server
+#RUN npm run build
+#ENTRYPOINT ["npm", "run", "serve"]

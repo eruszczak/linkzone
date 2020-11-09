@@ -10,8 +10,6 @@ services:
     ports:
       - 8080:80
       - 3001:3000
-    depends_on:
-      - linkzone-backend
 
   linkzone-backend:
     build: ./backend
