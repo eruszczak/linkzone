@@ -29,7 +29,7 @@ export default class GroupService {
     };
 
     getLogoUrl(group) {
-        return group.logo ? `/static/${group.logo}` : `https://api.adorable.io/avatar/50/${group.name}`;
+        return group.logo ? `/static/${group.logo}` : `/group.png`;
     }
 
     uploadBanner = (groupName, form, cb, cbError) => {

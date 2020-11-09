@@ -90,7 +90,7 @@ export default class UserService {
     };
 
     getDefaultAvatar(username) {
-        return `https://api.adorable.io/avatar/100/${username}`;
+        return `/avatar.png`;
     }
 
     getComments = (username, cb, cbError) => {
