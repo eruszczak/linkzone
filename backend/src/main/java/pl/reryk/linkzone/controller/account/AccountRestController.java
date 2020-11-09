@@ -123,12 +123,6 @@ public class AccountRestController {
         return accountService.calculateStats(accountService.findByUsername(username).getId());
     }
 
-    @GetMapping(value = "/list")
-    public List<String> getUsernames() {
-        return accountService.findAll()
-                .stream().map(account -> account.getUsername()).collect(Collectors.toList());
-    }
-
     @PutMapping(value = "/{username}")
     public ResponseEntity<?> update(@PathVariable String username,
                                     @Valid @RequestBody AccountUpdate accountUpdate,
@@ -165,7 +159,7 @@ public class AccountRestController {
                 .path(fileName)
                 .toUriString();
 
-        fileStorageService.removeFile(currentUser.getAccount().getAvatar());
+        fileStorageService.removeFile(currentUser.getAccount().getAvatar()); //
 
         return detail(currentUser.getUsername());
     }

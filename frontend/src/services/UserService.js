@@ -54,10 +54,6 @@ export default class UserService {
         axios.post('/users/', data).then(cb).catch(cbError);
     };
 
-    getUsernames = (cb, cbError) => {
-        axios.get('/users/list/').then(cb).catch(cbError);
-    };
-
     checkUsername = (username, cb, cbError) => {
         axios.get(`/users/checkUsername/${username}/`).then(cb);
     };
@@ -152,7 +148,7 @@ export default class UserService {
     }
 
     getAvatarUrl(user) {
-        return user.avatar ? `/static/${user.avatar}` : this.getDefaultAvatar(user.username);
+        return user.avatar ? "https://linkzone.s3.eu-central-1.amazonaws.com/" + user.avatar : this.getDefaultAvatar(user.username);
     }
 
     getUsername = () => {

@@ -28,4 +28,11 @@ spring:
     hibernate:
       ddl-auto: update
 
+amazonProperties:
+  endpointUrl: https://linkzone.s3.eu-central-1.amazonaws.com
+  accessKey: AKIAVWGJK2SMRSUKFRVQ
+  secretKey: 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
+  bucketName: linkzone
+  region: eu-central-1
+
 server.port: 8080

@@ -1,5 +1,6 @@
 package pl.reryk.linkzone.dto;
 
+import org.apache.commons.lang3.StringUtils;
 import pl.reryk.linkzone.model.Account;
 
 import java.time.Instant;
@@ -25,7 +26,9 @@ public class AccountDetails {
         email = account.getEmail();
         username = account.getUsername();
         tagline = account.getTagline();
-        avatar = account.getAvatar();
+        if (StringUtils.isNotBlank(account.getAvatar())) {
+            avatar = "https://linkzone.s3.eu-central-1.amazonaws.com/" + account.getAvatar();
+        }
         createdAt = account.getCreatedAt();
         isAdmin = account.isAdmin();
     }

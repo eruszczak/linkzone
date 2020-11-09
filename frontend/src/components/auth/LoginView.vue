@@ -51,9 +51,6 @@
         },
         created() {
             this.$toggleLoading(false);
-            this.$userService.getUsernames(({data}) => {
-                this.users = data;
-            })
         },
         methods: {
             login() {
