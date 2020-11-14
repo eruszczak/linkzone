@@ -3,9 +3,6 @@ security:
     secret: JWTSuperSec21312dasretKey
     expirationInMs: 604800000
 
-file:
-  upload-dir: ./public/static
-
 spring:
   servlet:
     multipart:
