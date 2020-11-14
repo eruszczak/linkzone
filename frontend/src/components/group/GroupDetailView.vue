@@ -1,7 +1,7 @@
 <template>
     <section class="section is-fullwidth" v-if="group">
         <div style="position: relative;">
-            <div v-if="group.bannerUrl" :style="`background-image: url('/static/${group.bannerUrl}'); background-size: cover; background-position: center; height: 200px;`"></div>
+            <div v-if="group.bannerUrl" :style="`background-image: url('${$groupService.getBannerUrl(group)}'); background-size: cover; background-position: center; height: 200px;`"></div>
             <div v-else style="height: 100px; background-color: grey"></div>
 
             <div style="position: absolute" :style="{'bottom': group.bannerUrl ? '50px': '15px'}">

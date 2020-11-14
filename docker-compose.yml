@@ -16,8 +16,6 @@ services:
     image: linkzone-backend
     container_name: linkzone-backend-container
     restart: always
-    volumes:
-      - ~/.m2:/root/.m2
     ports:
       - 8081:8080
     expose:
