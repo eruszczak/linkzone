@@ -6,10 +6,10 @@ services:
     container_name: linkzone-frontend-container
     restart: always
     environment:
+      - VIRTUAL_HOST=linkzone.eryk.io
       - PROXY_TARGET=http://linkzone-backend-container:8080
-    ports:
-      - 8080:80
-#      - 3001:3000
+    expose:
+      - 80
 
   linkzone-backend:
     build: ./backend
@@ -39,3 +39,8 @@ services:
       MYSQL_ROOT_HOST: '%'
     expose:
       - 3306
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
