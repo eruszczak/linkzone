@@ -54,3 +54,5 @@ yarn-error.log*
 /nbdist/
 /.nb-gradle/
 **/logs
+
+.env*

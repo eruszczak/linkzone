@@ -1,0 +1,43 @@
+version: "3"
+services:
+  linkzone-frontend:
+    build: ./frontend
+    image: ${DOCKER_REGISTRY}linkzone-frontend
+    container_name: linkzone-frontend
+    restart: unless-stopped
+    env_file:
+      - .env.frontend
+    expose:
+      - 80
+
+  linkzone-backend:
+    build: ./backend
+    image: ${DOCKER_REGISTRY}linkzone-backend
+    container_name: linkzone-backend
+    restart: unless-stopped
+    expose:
+      - 8080
+    env_file:
+      - .env.backend
+    depends_on:
+      - linkzone-database
+
+  linkzone-database:
+    image: mysql/mysql-server:5.7
+    container_name: linkzone-database
+    restart: unless-stopped
+    env_file:
+      - .env.db
+    volumes:
+      - linkzone_data:/var/lib/mysql
+    expose:
+      - 3306
+
+volumes:
+  linkzone_data:
+    external: true
+
+networks:
+  default:
+    external:
+      name: nginx-proxy
