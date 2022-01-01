@@ -1,8 +1,8 @@
 # 330 MB
 FROM maven:3.5-jdk-8-alpine as target
 
-RUN addgroup -S spring && adduser -S spring -G spring
-USER spring:spring
+# RUN addgroup -S spring && adduser -S spring -G spring
+# USER spring:spring
 
 WORKDIR /app
 COPY pom.xml .
