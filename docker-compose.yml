@@ -9,6 +9,8 @@ services:
       - .env.frontend
     expose:
       - 80
+    ports:
+      - '10002:80' # for local dev
 
   linkzone-backend:
     build: ./backend
