@@ -28,9 +28,6 @@
                     <b-input v-validate="'required'" name="username" icon="account" v-model="form.username" :placeholder="$t('')"></b-input>
                 </b-field>
 
-                <b-field :type="{'is-danger': triedToSubmit && errors.has('email')}" :message="triedToSubmit ? errors.first('email') : null">
-                    <b-input v-validate="'required|email'" name="email" icon="email" v-model="form.email" :placeholder="$t('registerView.email')"></b-input>
-                </b-field>
                 <b-field>
                     <b-input name="tagline" icon="text" type="text" v-model="form.tagline" :placeholder="$t('account.tagline')"></b-input>
                 </b-field>

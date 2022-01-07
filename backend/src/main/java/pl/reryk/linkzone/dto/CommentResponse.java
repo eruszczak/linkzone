@@ -1,5 +1,6 @@
 package pl.reryk.linkzone.dto;
 
+import org.apache.commons.lang3.StringUtils;
 import pl.reryk.linkzone.model.Account;
 import pl.reryk.linkzone.model.Comment;
 import lombok.Getter;
@@ -67,6 +68,10 @@ public class CommentResponse {
         public CommentCreator(String username, String avatar) {
             this.username = username;
             this.avatar = avatar;
+        }
+
+        private String getAvatar() {
+            return StringUtils.isBlank(this.avatar) ? "/avatar.png" : this.avatar;
         }
     }
 }
