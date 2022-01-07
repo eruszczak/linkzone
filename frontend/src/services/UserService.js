@@ -85,10 +85,6 @@ export default class UserService {
         axios.get(url).then(cb).catch(cbError);
     };
 
-    getDefaultAvatar(username) {
-        return `/avatar.png`;
-    }
-
     getComments = (username, cb, cbError) => {
         axios.get(`/users/${username}/comments/`).then(cb).catch(cbError);
     };
@@ -148,7 +144,7 @@ export default class UserService {
     }
 
     getAvatarUrl(user) {
-        return user.avatar ? "https://linkzone.s3.eu-central-1.amazonaws.com/" + user.avatar : this.getDefaultAvatar(user.username);
+        return user.avatar;
     }
 
     getUsername = () => {

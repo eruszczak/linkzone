@@ -19,7 +19,6 @@ public class AccountUpdate implements Password {
     @NotNull
     private String username;
 
-    @NotBlank
     @Size(max = AccountConstants.EMAIL_LENGTH)
     @Email
     private String email;

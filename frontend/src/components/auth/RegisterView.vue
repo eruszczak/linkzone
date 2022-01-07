@@ -16,14 +16,11 @@
                         <b-field :type="{'is-danger': triedToSubmit && errors.has('username')}" :message="triedToSubmit ? errors.first('username') : null">
                             <b-input v-validate="{required: true, min: 3, max: 50}" icon="account" name="username" v-model="form.username" :placeholder="$t('registerView.username')"></b-input>
                         </b-field>
-                        <b-field :type="{'is-danger': triedToSubmit && errors.has('email')}" :message="triedToSubmit ? errors.first('email') : null">
-                            <b-input v-validate="{ required: true, email: true, min: 3, max: 50 }" name="email" icon="email" v-model="form.email" :placeholder="$t('registerView.email')"></b-input>
-                        </b-field>
                         <b-field :type="{'is-danger': triedToSubmit && errors.has('password')}" :message="triedToSubmit ? errors.first('password') : null">
-                            <b-input v-validate="{ required: true, min: 6, max: 50 }" name="password" icon="lock" type="password" ref="password" v-model="form.password" :placeholder="$t('registerView.password')"></b-input>
+                            <b-input v-validate="{ required: true, min: 3, max: 50 }" name="password" icon="lock" type="password" ref="password" v-model="form.password" :placeholder="$t('registerView.password')"></b-input>
                         </b-field>
                         <b-field :type="{'is-danger': triedToSubmit && errors.has('password-confirm')}" :message="triedToSubmit ? errors.first('password-confirm') : null">
-                            <b-input v-validate="{ required: true, min: 6, max: 50, confirmed: 'password' }" name="password-confirm" icon="lock" type="password" v-model="form.passwordConfirm" :placeholder="$t('registerView.password-confirm')"></b-input>
+                            <b-input v-validate="{ required: true, min: 3, max: 50, confirmed: 'password' }" name="password-confirm" icon="lock" type="password" v-model="form.passwordConfirm" :placeholder="$t('registerView.password-confirm')"></b-input>
                         </b-field>
                         <div class="field">
                             <b-checkbox v-model="form.loginOnSuccess">
@@ -49,16 +46,15 @@
         data() {
             return {
                 form: {
-                    username: 'user3',
-                    email: 'user@gmail.com',
-                    password: 'password',
-                    passwordConfirm: 'password',
+                    username: '',
+                    email: '',
+                    password: '',
+                    passwordConfirm: '',
                     loginOnSuccess: true,
                     valid: false,
                 },
                 triedToSubmit: false,
-                serverErrors: [],
-                passwordValidator: { required: true, min: 6, max: 50 }
+                serverErrors: []
             }
         },
         created() {
@@ -81,7 +77,7 @@
                 this.$userService.register(this.form, ({data}) => {
                     this.$success('registerView.success');
                     if (this.form.loginOnSuccess) {
-                        this.$userService.authenticate(this.form.email, this.form.password, () => {
+                        this.$userService.authenticate(this.form.username, this.form.password, () => {
                             this.$toggleLoading(false);
                             this.$info('logged-in');
                             this.goToProfile();

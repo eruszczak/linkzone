@@ -31,12 +31,14 @@ services:
     env_file:
       - .env.db
     volumes:
-      - linkzone_data:/var/lib/mysql
+      - linkzone_db:/var/lib/mysql
+#    ports:
+#      - '3306:3306'
     expose:
       - 3306
 
 volumes:
-  linkzone_data:
+  linkzone_db:
     external: true
 
 networks:

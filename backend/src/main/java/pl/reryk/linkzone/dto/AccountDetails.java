@@ -26,9 +26,7 @@ public class AccountDetails {
         email = account.getEmail();
         username = account.getUsername();
         tagline = account.getTagline();
-        if (StringUtils.isNotBlank(account.getAvatar())) {
-            avatar = "https://linkzone.s3.eu-central-1.amazonaws.com/" + account.getAvatar();
-        }
+        avatar = StringUtils.isBlank(account.getAvatar()) ? "/avatar.png" : account.getAvatar();
         createdAt = account.getCreatedAt();
         isAdmin = account.isAdmin();
     }

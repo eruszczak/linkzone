@@ -32,7 +32,7 @@ public class FileStorageService {
             amazonClient.getS3client()
                     .putObject(new PutObjectRequest(amazonClient.getBucketName(), fileName, file)
                             .withCannedAcl(CannedAccessControlList.PublicRead));
-            return fileName;
+            return amazonClient.getEndpointUrl() + "/" + fileName;
         } catch (IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
         }

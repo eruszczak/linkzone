@@ -1,6 +1,6 @@
 security:
   jwt:
-    secret: JWTSuperSec21312dasretKey
+    secret: secret
     expirationInMs: 604800000
 
 spring:
@@ -26,10 +26,10 @@ spring:
       ddl-auto: update
 
 amazonProperties:
-  endpointUrl: https://linkzone.s3.eu-central-1.amazonaws.com
-  accessKey: AKIAVWGJK2SMRSUKFRVQ
-  secretKey: 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
-  bucketName: linkzone
-  region: eu-central-1
+  endpointUrl: ${S3_ENDPOINT_URL}
+  accessKey: ${S3_ACCESS_KEY}
+  secretKey: ${S3_SECRET_KEY}
+  bucketName: ${S3_BUCKET_NAME}
+  region: ${S3_REGION}
 
 server.port: 8080

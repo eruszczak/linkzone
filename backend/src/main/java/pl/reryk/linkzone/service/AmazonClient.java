@@ -41,4 +41,6 @@ public class AmazonClient {
     public String getBucketName() {
         return bucketName;
     }
+
+    public String getEndpointUrl() { return endpointUrl; }
 }

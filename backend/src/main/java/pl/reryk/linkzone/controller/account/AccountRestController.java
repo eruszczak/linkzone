@@ -92,7 +92,7 @@ public class AccountRestController {
             @Valid @RequestBody AccountCreate accountCreate,
             Errors errors) {
         validateUsername(accountCreate.getUsername());
-        validateEmail(accountCreate.getEmail());
+//        validateEmail(accountCreate.getEmail());
         if (errors.hasErrors()) {
             throw new ValidationErrorException(errors);
         }
@@ -135,7 +135,7 @@ public class AccountRestController {
             validateUsername(accountUpdate.getUsername());
         }
         if (!account.getEmail().equals(accountUpdate.getEmail())) {
-            validateEmail(accountUpdate.getEmail());
+//            validateEmail(accountUpdate.getEmail());
         }
         if (errors.hasErrors()) {
             throw new ValidationErrorException(errors);

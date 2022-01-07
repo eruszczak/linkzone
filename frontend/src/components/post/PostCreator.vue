@@ -24,7 +24,7 @@
                     <b-field :type="{'is-danger': triedToSubmit && errors.has('media.title')}" :message="triedToSubmit ? errors.first('media.title') : null">
                         <b-input v-validate="'required'" name="title" icon="account" v-model="formMedia.title" :placeholder="$t('posts.title')" data-vv-scope="media"></b-input>
                     </b-field>
-                    <img :src="`/static/${filename}`" style="max-width:150px;max-height:150px" v-if="filename">
+                    <img :src="`${filename}`" style="max-width:150px;max-height:150px" v-if="filename">
                     <file-input :max-height="4000" :max-width="4000" :max-size="2000" @formData="handleImageUpload" :show-error="triedToSubmit"></file-input>
                 </div>
             </b-tab-item>

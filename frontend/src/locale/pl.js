@@ -15,7 +15,7 @@ export default {
     "loginView": {
         "header": "Logowanie",
         "hint": "Zaloguj się, aby kontynuować",
-        "name": "Nazwa użytkownika/Email",
+        "name": "Nazwa użytkownika",
         "password": "Hasło",
         "login": "Zaloguj się",
         "register": "Nie masz konta? Zarejestruj się"

@@ -1,5 +1,6 @@
 package pl.reryk.linkzone.dto;
 
+import org.apache.commons.lang3.StringUtils;
 import pl.reryk.linkzone.model.PostType;
 import pl.reryk.linkzone.model.Account;
 import pl.reryk.linkzone.model.Group;
@@ -56,7 +57,7 @@ public class GroupResponse {
         bannerUrl = dto.getBannerUrl();
         isSubbed = dto.getIsSubbed() > 0;
         subscribers = dto.getSubscribers();
-        logo = dto.getLogo();
+        logo = StringUtils.isBlank(dto.getLogo()) ? "/group.png" : dto.getLogo();
         isDefault = dto.getIsDefault();
         postCount = dto.getPostCount() != null ? dto.getPostCount() : 0;
         if (dto.getPostTypes() != null) {

@@ -1,5 +1,6 @@
 package pl.reryk.linkzone.dto;
 
+import org.apache.commons.lang3.StringUtils;
 import pl.reryk.linkzone.model.PostType;
 import pl.reryk.linkzone.model.Account;
 import pl.reryk.linkzone.model.Post;
@@ -47,7 +48,7 @@ public class PostResponse {
         upvotedCount = dto.getUpvotedCount();
         commentCount = dto.getCommentCount();
         createdAt = dto.getCreatedAt();
-        groupLogo = dto.getGroupLogo();
+        groupLogo = StringUtils.isBlank(dto.getGroupLogo()) ? "/group.png" : dto.getGroupLogo();
     }
 
     public PostResponse(IPostResponseDto dto, Account requestUser) {

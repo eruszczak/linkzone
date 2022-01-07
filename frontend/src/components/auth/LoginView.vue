@@ -12,6 +12,9 @@
                     </div>
                 </div>
                 <div class="column is-6 is-offset-3">
+                    <div class="notification">
+                      Demo account - test/test
+                    </div>
                     <div class="box">
                         <b-field :type="{'is-danger': triedToSubmit && errors.has('name')}" :message="triedToSubmit ? errors.first('name') : null">
                             <b-input v-validate="'required'" name="name" icon="account" v-model="form.usernameOrEmail" :placeholder="$t('loginView.name')"></b-input>
@@ -42,8 +45,8 @@
             return {
                 serverErrors: [],
                 form: {
-                    usernameOrEmail: '',
-                    password: '',
+                    usernameOrEmail: 'test',
+                    password: 'test',
                 },
                 triedToSubmit: false,
                 users: []

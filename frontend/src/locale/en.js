@@ -15,7 +15,7 @@ export default {
     "loginView": {
         "header": "Log in",
         "hint": "To continue, log in",
-        "name": "Username/Email",
+        "name": "Username",
         "password": "Password",
         "login": "Login",
         "register": "Sign up"
@@ -119,7 +119,7 @@ export default {
         "show-banner": "Upload banner",
         "added-group": "Group created",
         "no-group-selected": "No group picked",
-        "moderator": "You are group moderator. You can update, remove posts or comments in this group",
+        "moderator": "You are a group moderator. You can update, remove posts or comments in this group",
         "default-group": "Default group.",
         "default-group-hint": "New users are automatically subbed to default groups"
     },

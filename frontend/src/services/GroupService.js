@@ -29,11 +29,11 @@ export default class GroupService {
     };
 
     getLogoUrl(group) {
-        return group.logo ? 'https://linkzone.s3.eu-central-1.amazonaws.com/' + group.logo : `/group.png`;
+        return group.logo;
     }
 
     getBannerUrl(group) {
-        return 'https://linkzone.s3.eu-central-1.amazonaws.com/' + group.bannerUrl;
+        return group.bannerUrl;
     }
 
     uploadBanner = (groupName, form, cb, cbError) => {

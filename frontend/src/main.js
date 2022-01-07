@@ -19,13 +19,13 @@ Vue.use(VeeValidate);
 Vue.use(Buefy);
 Vue.use(VueI18n);
 
-const locale = localStorage.getItem(LOCAL_STORAGE_LOCALE_KEY) || 'pl';
+const locale = localStorage.getItem(LOCAL_STORAGE_LOCALE_KEY) || 'en';
 moment.locale(locale);
 
 const i18n = new VueI18n({
     locale: locale,
     messages,
-    fallbackLocale: 'pl',
+    fallbackLocale: 'en',
 });
 
 Vue.config.productionTip = false;

@@ -30,10 +30,8 @@ public class Account extends DateAudit {
     @Size(min = AccountConstants.USERNAME_MIN_LENGTH, max = AccountConstants.USERNAME_MAX_LENGTH)
     private String username;
 
-    @NotBlank
     @Size(max = AccountConstants.EMAIL_LENGTH)
     @Email
-    @Column(unique = true)
     private String email;
 
     private boolean isActive = true;
