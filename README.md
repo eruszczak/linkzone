@@ -2,6 +2,8 @@
 
 
 # About
+https://linkzone.eryk.io
+
 In 2018 I wanted to learn Java and Spring Boot so I created the Linkzone. It's a social media app, similar to Reddit, where you can create discussion groups.
 
 # Tech stack
