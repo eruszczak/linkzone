@@ -85,6 +85,9 @@ public class AccountService {
     }
 
     public Account findById(Long id) {
+        if (id == null) {
+            return null;
+        }
         return accountRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id.toString()));
     }

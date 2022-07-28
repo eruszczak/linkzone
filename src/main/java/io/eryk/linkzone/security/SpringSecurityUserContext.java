@@ -20,7 +20,7 @@ public class SpringSecurityUserContext implements UserContext {
         if (!authentication.getPrincipal().equals("anonymousUser")) {
             result = ((UserPrincipal) authentication.getPrincipal()).getId();
         }
-        log.info("UserContext is: {}", result);
+        log.debug("UserContext is: {}", result);
         return result;
     }
 }

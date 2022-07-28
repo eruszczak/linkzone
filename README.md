@@ -34,11 +34,9 @@
 2. **[Backend]** Run the backend at localhost:8080 - run `io.eryk.linkzone.Application` with `-Dspring.profiles.active=local`
 3. **[Frontend]** Run dev server at localhost:3000:
 ```
-./mvnw frontend-maven-plugin:
-
 cd frontend
 npm install
-npm serve
+npm run serve
 ```
 
 # Preview

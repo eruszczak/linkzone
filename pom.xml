@@ -25,6 +25,7 @@
 		<aws-java-sdk.version>1.12.266</aws-java-sdk.version>
 		<frontend-maven-plugin.version>1.12.1</frontend-maven-plugin.version>
 		<frontend-maven-plugin.nodeVersion>v10.24.1</frontend-maven-plugin.nodeVersion>
+		<maven-release-plugin.version>3.0.0-M6</maven-release-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -183,6 +184,15 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>${maven-release-plugin.version}</version>
+				<configuration>
+					<scmCommentPrefix>[skip ci] [maven-release-plugin]</scmCommentPrefix>
+					<tagNameFormat>@{project.version}</tagNameFormat>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
