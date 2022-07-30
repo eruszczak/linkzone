@@ -1,5 +1,4 @@
-#FROM amazoncorretto:18-alpine-jdk
-FROM openjdk:18-jre-alpine
+FROM amazoncorretto:18-alpine-jdk
 RUN addgroup -S spring && adduser -S spring -G spring
 USER spring:spring
 WORKDIR /app

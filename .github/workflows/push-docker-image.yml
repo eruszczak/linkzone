@@ -2,32 +2,21 @@ name: Push Docker Image
 
 on:
   push:
-    branches: [ master ]
-
-
-env:
-  DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}/
-  DOCKER_CLIENT_TIMEOUT: 180
-  COMPOSE_HTTP_TIMEOUT: 180
+    branches: [ dev ]
 
 
 jobs:
   build_and_push:
     runs-on: ubuntu-latest
     steps:
-    - name: Login to Registry
-      uses: docker/login-action@v1
-      with:
-        registry: ${{ secrets.DOCKER_REGISTRY }}
-        username: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
-        password: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+      - uses: actions/checkout@v2
+        with:
+          ref: dev
 
-    - uses: actions/checkout@v2
-      with:
-        ref: master
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: '18'
 
-    - name: Build images
-      run: docker-compose build
-      
-    - name: Push images
-      run: docker-compose push
+      - name: Run the Maven verify phase
+        run: mvn -v && echo $JAVA_HOME && mvn --batch-mode verify
