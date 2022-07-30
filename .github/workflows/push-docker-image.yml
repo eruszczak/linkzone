@@ -4,6 +4,10 @@ on:
   push:
     branches: [ dev ]
 
+env:
+  NEXUS_HOST: ${{ secrets.NEXUS_HOST }}
+  NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+  NEXUS_USER: ${{ secrets.NEXUS_USER }}
 
 jobs:
   build_and_push:
@@ -18,5 +22,5 @@ jobs:
           distribution: 'corretto'
           java-version: '18'
 
-      - name: Run the Maven verify phase
-        run: mvn -v && echo $JAVA_HOME && mvn --batch-mode verify
+      - name: Deploy
+        run: mvn deploy -X --errors
