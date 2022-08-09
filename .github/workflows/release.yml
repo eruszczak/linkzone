@@ -51,7 +51,9 @@ jobs:
         run: mvn --batch-mode --errors release:perform
 
       - name: Debug
-        run: ls -all target/
+        run: |
+          ls -all
+          ls -all target/
 
       - name: Login to Docker Registry
         uses: docker/login-action@v2
