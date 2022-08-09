@@ -8,9 +8,14 @@ on:
     branches: [ dev ]
 
 env:
-  #  NEXUS_HOST: ${{ secrets.NEXUS_HOST }}
-  NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
   NEXUS_USER: ${{ secrets.NEXUS_USER }}
+  NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+  GITHUB_USERNAME: erykio
+  GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  DOCKER_REGISTRY: ${{ secrets.DOCKER_REGISTRY }}
+  DOCKER_REGISTRY_USERNAME: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
+  DOCKER_REGISTRY_PASSWORD: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+  IMAGE_NAME: ${{ secrets.DOCKER_REGISTRY }}/linkzone
 
 jobs:
   release:
@@ -28,8 +33,34 @@ jobs:
           git config user.email "actions@github.com"
           git config user.name "GitHub Actions"
 
-      - name: Release
-        run: mvn --batch-mode --errors release:prepare release:perform
+      - name: Prepare release
+        run: mvn --batch-mode --errors release:prepare
+
+      - name: Read SCM tag
+        id: scm_tag
+        uses: christian-draeger/read-properties@1.0.1
+        with:
+          path: 'release.properties'
+          property: 'scm.tag'
+
+      - name: Print a new tag
+        run: echo ${{ steps.scm_tag.outputs.value }}
+
+      - name: Perform release
+        run: mvn --batch-mode --errors release:perform
+
+      - name: Login to Docker Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.DOCKER_REGISTRY }}
+          username: ${{ env.DOCKER_REGISTRY_USERNAME }}
+          password: ${{ env.DOCKER_REGISTRY_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: ${{ env.IMAGE_1 }}, ${{ env.IMAGE_2 }}
         env:
-          GITHUB_USERNAME: erykio
-          GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          IMAGE_1: ${{ env.IMAGE_NAME }}:${{ steps.scm_tag.outputs.value }}
+          IMAGE_2: ${{ env.IMAGE_NAME }}:latest

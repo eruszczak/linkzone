@@ -39,12 +39,10 @@
         <repository>
             <id>nexus-releases</id>
             <url>https://nexus3.eryk.io/repository/maven-releases/</url>
-            <!--			<url>${env.NEXUS_HOST}/repository/maven-releases/</url>-->
         </repository>
         <snapshotRepository>
             <id>nexus-snapshots</id>
             <url>https://nexus3.eryk.io/repository/maven-releases/</url>
-            <!--			<url>${env.NEXUS_HOST}/repository/maven-snapshots/</url>-->
         </snapshotRepository>
     </distributionManagement>
 
@@ -201,7 +199,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <!--							putting dist in the resources (instead of the target dir) makes so that it works during development -->
+                            <!--this makes it work during development -->
                             <outputDirectory>src/main/resources/public</outputDirectory>
                             <resources>
                                 <resource>
