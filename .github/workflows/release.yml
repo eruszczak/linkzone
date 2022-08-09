@@ -1,9 +1,6 @@
-name: Push Docker Image
+name: Release
 
-#on: [workflow_dispatch]
-on:
-  push:
-    branches: [ dev ]
+on: [workflow_dispatch]
 
 env:
   #  NEXUS_HOST: ${{ secrets.NEXUS_HOST }}
@@ -28,8 +25,10 @@ jobs:
 
       - name: Prepare release
         run: mvn --batch-mode --errors release:prepare
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Read value from Properties-file
+      - name: Read SCM tag
         id: scm_tag
         uses: christian-draeger/read-properties@1.0.1
         with:
