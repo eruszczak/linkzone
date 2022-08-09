@@ -27,4 +27,4 @@ jobs:
         run: mvn --batch-mode --errors release:prepare release:perform
 
       - name: Create Github Release
-        run: echo ""
+        run: echo "get ID of created tag and create a release for it"
