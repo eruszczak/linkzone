@@ -26,6 +26,7 @@
 		<frontend-maven-plugin.nodeVersion>v10.24.1</frontend-maven-plugin.nodeVersion>
 		<maven-release-plugin.version>3.0.0-M6</maven-release-plugin.version>
 		<modelmapper.version>3.1.0</modelmapper.version>
+		<project.scm.id>scm-server</project.scm.id>
 	</properties>
 
 	<scm>
