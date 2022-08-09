@@ -50,18 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//            .antMatchers(HttpMethod.POST, "/login", "/register").anonymous()
-//            .antMatchers(HttpMethod.GET).permitAll()
-//            .antMatchers("/admin/**").hasRole("ADMIN")
-//            .anyRequest().authenticated();
         http
                 .cors()
                 .and()
@@ -74,24 +64,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-//                    .antMatchers("/",
-//                            "/favicon.ico",
-//                            "/**/*.png",
-//                            "/**/*.gif",
-//                            "/**/*.svg",
-//                            "/**/*.jpg",
-//                            "/**/*.html",
-//                            "/**/*.css",
-//                            "/**/*.js")
-//                        .permitAll()
                 .antMatchers(HttpMethod.POST,
                         "/api/users/login/",
                         "/api/users/")
                 .permitAll()
-//                    .antMatchers("/api/user/checkUsernameAvailability", "/api/user/checkEmailAvailability")
-//                        .permitAll()
                 .antMatchers(HttpMethod.GET)
                 .permitAll()
+//                .antMatchers("/api/**")
+//                .authenticated()
                 .anyRequest()
                 .authenticated();
 

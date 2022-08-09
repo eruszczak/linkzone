@@ -196,16 +196,17 @@
 				<artifactId>maven-resources-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>copy-frontend-resources</id>
+						<id>copy-vue.js-resources</id>
 						<phase>generate-resources</phase>
 						<goals>
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.directory}/classes/public</outputDirectory>
+<!--							putting dist in the resources (instead of the target dir) makes so that it works during development -->
+							<outputDirectory>src/main/resources/public</outputDirectory>
 							<resources>
 								<resource>
-									<directory>${project.basedir}/frontend/dist</directory>
+									<directory>frontend/dist</directory>
 								</resource>
 							</resources>
 						</configuration>
