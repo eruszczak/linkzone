@@ -1,6 +1,7 @@
 name: Release
 
-on: [workflow_dispatch]
+on:
+  workflow_dispatch
 
 env:
   #  NEXUS_HOST: ${{ secrets.NEXUS_HOST }}
