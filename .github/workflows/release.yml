@@ -28,24 +28,8 @@ jobs:
           git config user.email "actions@github.com"
           git config user.name "GitHub Actions"
 
-      - name: Prepare release
-        run: mvn --batch-mode --errors release:prepare
+      - name: Release
+        run: mvn --batch-mode --errors release:prepare release:perform
         env:
           GITHUB_USERNAME: erykio
           GITHUB_ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Read SCM tag
-        id: scm_tag
-        uses: christian-draeger/read-properties@1.0.1
-        with:
-          path: 'release.properties'
-          property: 'scm.tag'
-
-      - name: Print a new tag
-        run: echo ${{ steps.scm_tag.outputs.value }}
-
-      - name: Perform release
-        run: mvn --batch-mode --errors release:perform
-
-      - name: Create Github Release
-        run: echo "get ID of created tag and create a release for it"
