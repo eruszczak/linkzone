@@ -3,7 +3,7 @@ name: Push Docker Image
 on: [workflow_dispatch]
 
 env:
-#  NEXUS_HOST: ${{ secrets.NEXUS_HOST }}
+  #  NEXUS_HOST: ${{ secrets.NEXUS_HOST }}
   NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
   NEXUS_USER: ${{ secrets.NEXUS_USER }}
 
@@ -23,8 +23,21 @@ jobs:
           git config user.email "actions@github.com"
           git config user.name "GitHub Actions"
 
-      - name: Release
-        run: mvn --batch-mode --errors release:prepare release:perform
+      - name: Prepare release
+        run: mvn --batch-mode --errors release:prepare
+
+      - name: Read value from Properties-file
+        id: scm_tag
+        uses: christian-draeger/read-properties@1.0.1
+        with:
+          path: 'release.properties'
+          property: 'scm.tag'
+
+      - name: Print a new tag
+        run: echo ${{ steps.scm_tag.outputs.value }}
+
+      - name: Perform release
+        run: mvn --batch-mode --errors release:perform
 
       - name: Create Github Release
         run: echo "get ID of created tag and create a release for it"
