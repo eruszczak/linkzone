@@ -10,7 +10,7 @@
 
 	<groupId>io.eryk.linkzone</groupId>
 	<artifactId>linkzone</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>linkzone</name>
 	<description>Linkzone App</description>
@@ -30,7 +30,7 @@
 
 	<scm>
 		<developerConnection>scm:git:git@github.com:erykio/linkzone.git</developerConnection>
-	  <tag>0.0.1</tag>
+	  <tag>HEAD</tag>
   </scm>
 
 	<distributionManagement>
