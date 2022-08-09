@@ -59,16 +59,15 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String authToken) {
         SecretKey key = Keys.hmacShaKeyFor(tokenProperties.getSecret().getBytes(StandardCharsets.UTF_8));
-        log.info("Validating token: {}", authToken);
+        log.debug("Validating token: {}", authToken);
         try {
 
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(authToken);
 
             //OK, we can trust this JWT
-            log.info("Token is valid");
+            log.debug("Token is valid");
             return true;
         } catch (JwtException e) {
-
             //don't trust the JWT!
             log.error("Token not valid", e);
         }

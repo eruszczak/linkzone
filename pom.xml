@@ -26,6 +26,7 @@
 		<frontend-maven-plugin.version>1.12.1</frontend-maven-plugin.version>
 		<frontend-maven-plugin.nodeVersion>v10.24.1</frontend-maven-plugin.nodeVersion>
 		<maven-release-plugin.version>3.0.0-M6</maven-release-plugin.version>
+		<modelmapper.version>3.1.0</modelmapper.version>
 	</properties>
 
 	<scm>
@@ -36,10 +37,12 @@
 		<repository>
 			<id>nexus-releases</id>
 			<url>https://nexus3.eryk.io/repository/maven-releases/</url>
+<!--			<url>${env.NEXUS_HOST}/repository/maven-releases/</url>-->
 		</repository>
 		<snapshotRepository>
 			<id>nexus-snapshots</id>
-			<url>https://nexus3.eryk.io/repository/maven-snapshots/</url>
+			<url>https://nexus3.eryk.io/repository/maven-releases/</url>
+<!--			<url>${env.NEXUS_HOST}/repository/maven-snapshots/</url>-->
 		</snapshotRepository>
 	</distributionManagement>
 
@@ -52,12 +55,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-hateoas</artifactId>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-devtools</artifactId>-->
-<!--			<scope>runtime</scope>-->
-<!--			<optional>true</optional>-->
-<!--		</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
@@ -97,7 +94,7 @@
 		<dependency>
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>
-			<version>3.1.0</version>
+			<version>${modelmapper.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.slugify</groupId>

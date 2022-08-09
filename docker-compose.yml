@@ -1,12 +1,13 @@
 version: "3"
 services:
-  linkzone-db:
+  linkzone-database:
     image: mysql/mysql-server:8.0
     container_name: linkzone-db
     restart: unless-stopped
     environment:
       - MYSQL_DATABASE=linkzone
-      - MYSQL_USER=root
+      - MYSQL_USER=linkzone
+      - MYSQL_PASSWORD=linkzone
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_ROOT_HOST=%
     volumes:

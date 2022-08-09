@@ -1,19 +1,15 @@
 spring:
-  devtools:
-    restart:
-      enabled: true
   application:
     name: Linkzone
   servlet:
     multipart:
       enabled: true
-      file-size-threshold: 2KB
-      max-file-size: 3MB
-      max-request-size: 10MB
+      max-file-size: ${MAX_FILE_SIZE:-1}
+      max-request-size: ${MAX_REQUEST_SIZE:-1}
   datasource:
-    url: jdbc:mysql://localhost:3306/linkzone
-    username: root
-    password: root
+    url: ${SPRING_DATA_SOURCE_URL}
+    username: ${SPRING_DATA_SOURCE_USERNAME}
+    password: ${SPRING_DATA_SOURCE_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
     initialization-mode: never
   jpa:
@@ -30,7 +26,7 @@ server:
 
 security:
   jwt:
-    secret: sFyQEbNwpp43XvZBNMFj8GBr8Jr266rSA6VgTgZ9aT4= # Generate using JwtTokenProvider::generateEncodedJwtSecret
+    secret: ${SECURITY_JWT_SECRET} # Generate using JwtTokenProvider::generateEncodedJwtSecret
     expirationInMs: 604800000 # 604800000 ms = 7 days
 
 amazonProperties:
@@ -39,8 +35,3 @@ amazonProperties:
   secretKey: ${S3_SECRET_KEY}
   bucketName: ${S3_BUCKET_NAME}
   region: ${S3_REGION}
-
-logging:
-  level:
-    io:
-      eryk: TRACE

@@ -23,7 +23,7 @@ yarn-error.log*
 
 /backend/.m2
 
-
+src/main/resources/public
 
 /backend/target/
 /backend/static/

@@ -39,7 +39,7 @@ public class UserPrincipal implements UserDetails {
 
     public static UserPrincipal create(Account account) {
         List<GrantedAuthority> authorities = account.getAuthorities();
-        log.info("Creating UserPrincipal, username: {}, authorities: {}", account.getUsername(), authorities);
+        log.debug("Creating UserPrincipal, username: {}, authorities: {}", account.getUsername(), authorities);
         return new UserPrincipal(
                 account.getId(),
                 account.getUsername(),

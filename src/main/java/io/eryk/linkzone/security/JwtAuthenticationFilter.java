@@ -35,9 +35,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     userDetails, null, userDetails.getAuthorities());
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            log.info("Authentication has been set");
+            log.debug("Authentication has been set");
         } else {
-            log.info("User not authenticated");
+            log.debug("User not authenticated");
         }
         filterChain.doFilter(request, response);
     }
