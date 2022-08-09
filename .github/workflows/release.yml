@@ -1,6 +1,9 @@
 name: Push Docker Image
 
-on: [workflow_dispatch]
+#on: [workflow_dispatch]
+on:
+  push:
+    branches: [ dev ]
 
 env:
   #  NEXUS_HOST: ${{ secrets.NEXUS_HOST }}
