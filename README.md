@@ -31,7 +31,12 @@
 
 # Local development
 1. **[Database]** Run the database at localhost:3306 - `docker-compose up`
-2. **[Backend]** Run the backend at localhost:8080 - run `io.eryk.linkzone.Application` with `-Dspring.profiles.active=local`
+2. **[Backend]**
+   - Fill out `.env.template`
+   - Install EnvFile IDEA plugin that allows you to set environment variables for your run configurations
+   - Configure run configuration
+     - enable EnvFile plugin and configure it to set environment from the `.env.template` file
+   - Run the backend at localhost:8080 - run `io.eryk.linkzone.Application`
 3. **[Frontend]** Run dev server at localhost:3000:
 ```
 cd frontend
