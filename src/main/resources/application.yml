@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: Linkzone
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: ${MAX_FILE_SIZE:-1}
+      max-request-size: ${MAX_REQUEST_SIZE:-1}
+  datasource:
+    url: ${SPRING_DATA_SOURCE_URL}
+    username: ${SPRING_DATA_SOURCE_USERNAME}
+    password: ${SPRING_DATA_SOURCE_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    initialization-mode: never
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+
+server:
+  port: 8080
+
+security:
+  jwt:
+    secret: ${SECURITY_JWT_SECRET} # Generate using JwtTokenProvider::generateEncodedJwtSecret
+    expirationInMs: 604800000 # 604800000 ms = 7 days
+
+amazonProperties:
+  endpointUrl: ${S3_ENDPOINT_URL}
+  accessKey: ${S3_ACCESS_KEY}
+  secretKey: ${S3_SECRET_KEY}
+  bucketName: ${S3_BUCKET_NAME}
+  region: ${S3_REGION}

@@ -1,6 +1,8 @@
 .DS_Store
-node_modules
+**/node_modules
 **/dist
+**/node
+**/target
 
 # local env files
 .env.local
@@ -12,7 +14,6 @@ yarn-debug.log*
 yarn-error.log*
 
 # Editor directories and files
-.idea
 .vscode
 *.suo
 *.ntvs*
@@ -22,7 +23,7 @@ yarn-error.log*
 
 /backend/.m2
 
-
+src/main/resources/public
 
 /backend/target/
 /backend/static/
@@ -54,3 +55,5 @@ yarn-error.log*
 /nbdist/
 /.nb-gradle/
 **/logs
+
+/logs

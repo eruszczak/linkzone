@@ -65,7 +65,7 @@ function scrollToTop (speed = 500) {
     var stepAmount = topOffset;
     speed && (stepAmount = (topOffset * stepTime)/speed);
     scrollAnimationStep(topOffset, stepAmount);
-};
+}
 
 function showToast (msg, type, args) {
     if (!msg) {

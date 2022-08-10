@@ -1,22 +1,22 @@
 module.exports = {
     devServer: {
+      port: 3000,
       proxy: {
         '/api': {
-            target: process.env.DEV_SERVER_PROXY_TARGET || 'http://localhost:8080',
+            target: 'http://localhost:8080',
             changeOrigin: true
         },
         '/static': {
-            target: process.env.DEV_SERVER_PROXY_TARGET || 'http://localhost:8080',
-          changeOrigin: true
+            target: 'http://localhost:8080',
+            changeOrigin: true
+        }
       }
-      },
-      port: 3000
     },
     css: {
-  loaderOptions: {
-    sass: {
+      loaderOptions: {
+        sass: {
+        }
+      }
     }
-  }
-}
 };
 
