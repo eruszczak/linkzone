@@ -1,11 +1,11 @@
 name: Release
 
-#on:
-#  workflow_dispatch
-
 on:
-  push:
-    branches: [ dev ]
+  workflow_dispatch
+
+#on:
+#  push:
+#    branches: [ dev ]
 
 env:
   NEXUS_USER: ${{ secrets.NEXUS_USER }}
