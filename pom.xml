@@ -10,7 +10,7 @@
 
     <groupId>io.eryk.linkzone</groupId>
     <artifactId>linkzone</artifactId>
-    <version>0.0.12-SNAPSHOT</version>
+    <version>0.0.13-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>linkzone</name>
     <description>Linkzone App</description>
