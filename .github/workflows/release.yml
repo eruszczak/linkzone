@@ -69,7 +69,7 @@ jobs:
         with:
           context: . # use 'Path context' instead of default 'Git context' so '/target' folder is visible
           push: true
-          tags: ${{ env.IMAGE_1 }}, ${{ env.IMAGE_2 }}
+          tags: nexus3.eryk.io/linkzone:latest
         env:
           IMAGE_1: ${{ env.IMAGE_NAME }}:${{ steps.scm_tag.outputs.value }}
           IMAGE_2: ${{ env.IMAGE_NAME }}:latest
