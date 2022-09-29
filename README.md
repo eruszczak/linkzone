@@ -1,7 +1,7 @@
 [![Release](https://github.com/erykio/linkzone/actions/workflows/release.yml/badge.svg)](https://github.com/erykio/linkzone/actions/workflows/release.yml)
 
 # About
-[**Linkzone**](https://linkzone.eryk.io) is a social media app, similar to Reddit, where you can create discussion groups.
+**Linkzone** is a social media app, similar to Reddit, where you can create discussion groups.
 
 ### Features
 * create discussion groups
